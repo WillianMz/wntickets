@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +16,8 @@ import { TicketOpenComponent } from './ticket-open/ticket-open.component';
   ],
   imports: [
     CommonModule,
-    TicketRoutingModule
+    TicketRoutingModule,
+    SharedModule
   ]
 })
 export class TicketModule { }

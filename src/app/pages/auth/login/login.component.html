@@ -33,12 +33,13 @@
 </div>
  -->
 
-<div class="bg-dark text-secondary ">
 
-  <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+<div class="bg-dark">
+
+  <div class="container col-xl-10 col-xxl-8 px-4">
     <div class="row align-items-center g-lg-5 py-5">
 
-      <div class="col-lg-7 text-center text-lg-start">
+      <div class="col-lg-7 text-center text-lg-start  text-white">
         <h1 class="display-4 fw-bold lh-1 mb-3">WN Tickets</h1>
         <p class="col-lg-10 fs-4">
           Bem vindo ao WNTickets. Um sistema para gerenciamento de bugs de software e solicitação de chamados de TI.
@@ -47,7 +48,7 @@
         <br>
         <br>
         <div class="text">
-          <h4>2021 © Loglabs Software Ltda.</h4>
+          <h4>2021 © Pantanal Sistemas Ltda.</h4>
         </div>
       </div>
 
@@ -72,17 +73,20 @@
             </label>
           </div>
 
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+          <button class="w-100 btn btn-lg btn-primary" routerLink="/auth/login">Entrar</button>
           <hr class="my-4">
-          <!-- <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small> -->
+
           <small class="text-muted">Não tem uma conta? </small><a href="#">Crie uma!</a>
           <br>
-          <small class="text-muted">Esqueceu a senha? </small><a href="#">Recuperar minha conta!</a>
+          <small class="text-muted">Esqueceu a senha? </small><a routerLink="/auth/recover">Recuperar minha conta!</a>
         </form>
       </div>
     </div>
+    <!-- <div class="row align-items-center  py-4">
+      <div class=" text-center text-lg-start  text-white">
+        a
+      </div>
+    </div> -->
   </div>
 
 </div>
-
-

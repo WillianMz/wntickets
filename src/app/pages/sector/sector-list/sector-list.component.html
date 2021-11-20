@@ -1,4 +1,4 @@
-<app-navbar titlePage="Setores"></app-navbar>
+<app-navbar></app-navbar>
 
 <div class="container">
 
@@ -51,7 +51,9 @@
   <div class="pt-2 row">
     <div class="col-12">
       <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" *ngFor="let s of sectors">
+        <a class="list-group-item list-group-item-action d-flex gap-3 py-3"
+           *ngFor="let s of sectors"
+           [routerLink]="['edit',s.id]">
           <img src="https://github.com/twbs.png" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
 
           <div class="d-flex gap-2 w-100 justify-content-between">
