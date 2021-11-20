@@ -13,11 +13,11 @@ const routes: Routes = [
   },
   {
     path: 'companies',
-    loadChildren: () => import('./pages/companies/companies.module').then(m => m.CompaniesModule)
+    loadChildren: () => import('./pages/company/company.module').then(m => m.CompanyModule)
   },
   {
-    path: 'dashbord',
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'sectors',

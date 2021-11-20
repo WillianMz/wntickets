@@ -1,17 +1,19 @@
+import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigurationComponent } from './configuration/configuration.component';
-import { UserConfigComponent } from './user-config/user-config.component';
 
+import { SettingsRoutingModule } from './settings-routing.module';
+import { ConfigurationFormComponent } from './configuration-form/configuration-form.component';
 
 
 @NgModule({
   declarations: [
-    ConfigurationComponent,
-    UserConfigComponent
+    ConfigurationFormComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SettingsRoutingModule,
+    SharedModule
   ]
 })
 export class SettingsModule { }
