@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Isector } from 'src/app/models/isector';
 import { SectorService } from 'src/app/services/sector.service';
 
@@ -14,9 +15,13 @@ export class SectorListComponent implements OnInit {
   sectorId: number;
   success: boolean;
   message: string;
+  modalRef?: BsModalRef;
+  pag : number = 1 ;
+  contador : number = 5;
 
   constructor(
-    private sectorService: SectorService
+    private sectorService: SectorService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -29,5 +34,9 @@ export class SectorListComponent implements OnInit {
         this.sectors = respose;
       }
     );
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }
