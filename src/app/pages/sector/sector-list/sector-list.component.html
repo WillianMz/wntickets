@@ -41,24 +41,71 @@
 
   <hr>
 
+  <!-- <div class="row pt-2">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of sectors | paginate: { itemsPerPage: contador, currentPage: pag }" >
+            <td>
+              <img src="https://github.com/twbs.png" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
+              <a [routerLink]="['/sectors/categories']" [queryParams]="{sector: s.id}">
+                {{s.nome}}
+              </a>
+            </td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button class="btn btn-sm btn-outline-warning" [routerLink]="['edit', s.id]">
+                  <i class="bi bi-pencil-square"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-outline-danger" [routerLink]="['edit', s.id]">
+                  <i class="bi bi-x-square"></i> Excluír
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-secondary" role="alert" *ngIf="!sectors?.length">
+        Nenhum registro encontrado!
+      </div>
+
+    </div>
+
+  </div> -->
+
   <div class="pt-2 row">
     <div class="col-12">
-
       <div class="list-group">
 
-        <a class="list-group-item list-group-item-action d-flex gap-3 py-3"
-           *ngFor="let s of sectors | paginate: { itemsPerPage: contador, currentPage: pag }"
-           [routerLink]="['edit',s.id]">
-          <img src="https://github.com/twbs.png" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
+        <div class="list-group-item list-group-item-action d-flex gap-3 py-3" *ngFor="let s of sectors | paginate: { itemsPerPage: contador, currentPage: pag }">
 
+          <img src="{{s.img || '../../../../../../assets/logo.png'}}" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
           <div class="d-flex gap-2 w-100 justify-content-between">
-            <div>
+            <a class="link" [routerLink]="['/sectors/categories']" [queryParams]="{sector: s.id}">
               <h6 class="mb-0">{{s.nome}}</h6>
+            </a>
+
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-sm btn-outline-warning" [routerLink]="['edit', s.id]">
+                <i class="bi bi-pencil-square"></i> Editar
+              </button>
+              <button class="btn btn-sm btn-outline-danger" [routerLink]="['edit', s.id]">
+                <i class="bi bi-x-square"></i> Excluír
+              </button>
             </div>
-            <!-- <small class="opacity-50 text-nowrap">{{s.ativo}}</small> -->
           </div>
-        </a>
+        </div>
       </div>
+
+      <app-alert-nada-exibir *ngIf="!sectors?.length"></app-alert-nada-exibir>
+
     </div>
   </div>
 
@@ -72,53 +119,7 @@
     </pagination-controls>
   </div>
 
-  <!-- <div class="alert alert-secondary" role="alert">
-    Nenhum registro encontrado!
-  </div> -->
-
-  <!-- <div class="row">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let s of sectors">
-            <td>{{s.id}}</td>
-            <td>{{s.nome}}</td>
-            <td>
-              <div class="btn-group">
-                <button class="btn btn-primary btn-sm">Editar</button>
-                <button class="btn btn-primary btn-sm">Excluir</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link">Voltar</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Avançar</a>
-          </li>
-        </ul>
-      </nav>
-
-    </div>
-  </div> -->
-
 </div>
-
 
 <ng-template #createNewSector>
   <div class="modal-header">
@@ -128,6 +129,6 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-sector-form></app-sector-form>
+    <app-sector-form [navbarVisible]="false" [titleFormVisible]="false"></app-sector-form>
   </div>
 </ng-template>

@@ -3,13 +3,13 @@
 <div class="container">
 
   <section class="row">
-    <h1 class="col-12 mb-3" style="font-size: 3em;">Categorias</h1>
+    <h3 class="col-12 mb-3" >{{titlePagina}}</h3>
   </section>
 
   <div class="row">
     <div class="col">
       <div class="btn-group">
-        <!-- <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewSector)">Adicionar</button> -->
+        <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewCategory)">Adicionar</button>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
       <form class="text-center">
         <div class="form-group">
           <select class="form-select" aria-label="Default select example">
-            <option selected>Procurar por</option>
+            <option selected>Por Setor</option>
             <option value="2">Que contenha</option>
           </select>
         </div>
@@ -43,6 +43,36 @@
 
   <div class="pt-2 row">
     <div class="col-12">
+      <div class="list-group">
+
+        <div class="list-group-item list-group-item-action d-flex gap-3 py-3" *ngFor="let cat of categories | paginate: { itemsPerPage: contador, currentPage: pag }">
+
+          <img src="{{cat.img || '../../../../../../assets/logo.png'}}" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <a class="link" [routerLink]="['/sectors/categories']" [queryParams]="{sector: cat.id}">
+              <h6 class="mb-0">{{cat.nome}}</h6>
+            </a>
+
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-sm btn-outline-warning" [routerLink]="['edit', cat.id]">
+                <i class="bi bi-pencil-square"></i> Editar
+              </button>
+              <button class="btn btn-sm btn-outline-danger" [routerLink]="['edit', cat.id]">
+                <i class="bi bi-x-square"></i> Excluír
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-alert-nada-exibir *ngIf="!categories?.length"></app-alert-nada-exibir>
+
+    </div>
+  </div>
+
+
+  <!-- <div class="pt-2 row">
+    <div class="col-12">
 
       <div class="list-group">
 
@@ -55,12 +85,14 @@
             <div>
               <h6 class="mb-0">{{s.nome}}</h6>
             </div>
-            <!-- <small class="opacity-50 text-nowrap">{{s.ativo}}</small> -->
           </div>
         </a>
       </div>
+
+      <app-alert-nada-exibir *ngIf="!categories?.length"></app-alert-nada-exibir>
+
     </div>
-  </div>
+  </div> -->
 
   <div class="text-center pt-2">
     <pagination-controls
@@ -79,3 +111,15 @@
 
 
 </div>
+
+<ng-template #createNewCategory>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Nova categoria</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-sector-form></app-sector-form>
+  </div>
+</ng-template>

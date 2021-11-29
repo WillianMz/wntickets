@@ -5,12 +5,16 @@ import { MenuComponent } from './menu/menu.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { AlertNadaExibirComponent } from './alert-nada-exibir/alert-nada-exibir.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     MenuComponent,
-    SidebarComponent
+    SidebarComponent,
+    AlertNadaExibirComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +24,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   exports: [
     NavbarComponent,
     MenuComponent,
-    SidebarComponent
+    SidebarComponent,
+    AlertNadaExibirComponent,
+    FooterComponent
   ]
 })
 export class SharedModule { }

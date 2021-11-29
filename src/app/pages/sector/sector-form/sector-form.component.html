@@ -1,24 +1,28 @@
-<!-- <app-navbar titlePage="Novo setor"></app-navbar> -->
+<app-navbar titlePage="Novo setor" *ngIf="navbarVisible"></app-navbar>
 
 <div class="pt-2 container">
+
+  <div class="row" *ngIf="titleFormVisible">
+    <h3>{{titleForm}}</h3>
+  </div>
 
   <div class="row">
 
     <div class="col-sm-12">
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" placeholder="Nome">
-        <label for="floatingInput">Nome</label>
-      </div>
 
-      <!-- <div class="btn-group align-right">
-        <button class="btn btn-success">Salvar</button>
-        <button class="btn btn-danger">Cancelar</button>
-      </div> -->
+      <form [formGroup]="sectorForm">
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
+          <label for="floatingInput">Nome</label>
+        </div>
+
+      </form>
 
       <div class="row">
         <div class="col">
           <div class="btn-group d-flex">
-            <button type="button" class="btn btn-outline-primary">Salvar</button>
+            <button type="button" class="btn btn-outline-primary" (click)="save()">Salvar</button>
           </div>
         </div>
       </div>

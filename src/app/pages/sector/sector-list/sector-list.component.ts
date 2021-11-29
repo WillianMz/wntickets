@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Isector } from 'src/app/models/isector';
 import { SectorService } from 'src/app/services/sector.service';
@@ -21,7 +22,8 @@ export class SectorListComponent implements OnInit {
 
   constructor(
     private sectorService: SectorService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -39,4 +41,9 @@ export class SectorListComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+
+  goCategories(sectorId: string){
+    this.router.navigate(['sectors/categories'], {queryParams: { sector: sectorId}});
+  }
+
 }

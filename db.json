@@ -66,33 +66,24 @@
   ],
   "setor": [
     {
-      "nome": "Administrativo - ADM",
+      "nome": "Administrativo",
       "id": 1
     },
     {
-      "empresaId": 1,
-      "empresaNome": "WN Software",
-      "id": 2,
       "nome": "Financeiro",
-      "ativo": true
+      "id": 2
     },
     {
-      "empresaId": 1,
-      "empresaNome": "WN Software",
-      "id": 3,
       "nome": "Comercial",
-      "ativo": true
+      "id": 3
     },
     {
       "nome": "Desenvolvimento",
       "id": 4
     },
     {
-      "empresaId": 1,
-      "empresaNome": "WN Software",
-      "id": 5,
-      "nome": "Suporte",
-      "ativo": true
+      "nome": "Suporte ao Cliente",
+      "id": 5
     },
     {
       "empresaId": 1,
@@ -146,6 +137,26 @@
     {
       "nome": "321321",
       "id": 16
+    },
+    {
+      "nome": "Administrativo",
+      "id": 17
+    },
+    {
+      "nome": "Administrativo",
+      "id": 18
+    },
+    {
+      "nome": "Administrativo",
+      "id": 19
+    },
+    {
+      "nome": "Administrativo - ADM2",
+      "id": 20
+    },
+    {
+      "nome": "654651",
+      "id": 21
     }
   ],
   "categorias": [

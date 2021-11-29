@@ -9,7 +9,9 @@ const routes: Routes = [
   { path: '', component:  SectorListComponent },
   { path: 'new', component: SectorFormComponent },
   { path: 'edit/:id', component: SectorFormComponent },
+
   { path: 'categories', component: CategoryListComponent },
+  { path: ':idSector/categories', component: CategoryListComponent },
   { path: 'category/new', component: CategoryFormComponent },
   { path: 'category/:id/edit', component: CategoryFormComponent }
 ];

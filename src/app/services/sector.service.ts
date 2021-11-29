@@ -27,7 +27,8 @@ export class SectorService extends BaseService {
 
   getAll(): Observable<Isector[]>{
     //return this.http.get<Isector[]>(`${environment.api}/Setor`).pipe(map(this.extractData), catchError(this.serviceError));
-    return this.http.get<Isector[]>(`${environment.api}/Setor`);
+    return this.http.get<Isector[]>(`${environment.api}/Setor`)
+      .pipe(map(this.extractData), catchError(this.serviceError));
   }
 
   getById(id: number): Observable<Isector>{

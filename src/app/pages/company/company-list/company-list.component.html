@@ -7,6 +7,14 @@
   </section>
 
   <div class="row">
+    <div class="col">
+      <div class="btn-group">
+        <button type="button" class="btn btn-outline-primary">Adicionar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-2 pt-2">
       <form class="text-center">
         <div class="form-group">
@@ -33,7 +41,7 @@
 
   <hr>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col d-grid">
       <div class="btn-group">
         <button class="btn btn-outline-secondary" routerLink="new">Novo</button>
@@ -43,12 +51,10 @@
     </div>
   </div>
 
-  <hr>
+  <hr> -->
 
   <!-- fazer um componente para reaproveitar o codigo nas demais paginas de listagens -->
-  <div class="alert alert-secondary" role="alert">
-    Nenhum registro encontrado!
-  </div>
+  <app-alert-nada-exibir></app-alert-nada-exibir>
 
   <div class="row">
 
@@ -60,44 +66,39 @@
             <th scope="col">Razão Social</th>
             <th scope="col">Nome Fantasia</th>
             <th scope="col">Cidade</th>
-            <!-- <th scope="col">Status Pedido</th>
-            <th scope="col">Valor</th>
-            <th scope="col">Inscrição</th>
-            <th scope="col">Data Expiração</th> -->
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>#24554</td>
-            <td>WN Sistemas de Informação Ltda</td>
+            <td>
+              <a href="">WN Sistemas de Informação Ltda</a>
+            </td>
             <td>WN Software</td>
             <td>Nova Veneza -SC</td>
-            <!-- <td>
-              <h4><span class="badge badge-success">Aprovado</span></h4>
-            </td>
-            <td>Gratuito</td>
-            <td>
-              <h4><span class="badge badge-success">Ativa</span></h4>
-            </td>
-            <td>
-              07/10/2022 </td> -->
           </tr>
 
           <tr>
             <td>#24554</td>
-            <td>Logaritma Tecnologia Ltda.</td>
+            <td>
+              <a href="">Logaritma Tecnologia Ltda.</a>
+            </td>
             <td>Loglabs Brasil</td>
             <td>Nova Veneza -SC</td>
           </tr>
           <tr>
             <td>#24554</td>
-            <td>Sensor Sistemas Ltda-ME</td>
+            <td>
+              <a href="">Sensor Sistemas Ltda-ME</a>
+            </td>
             <td>SENSOR Software</td>
             <td>Nova Veneza -SC</td>
           </tr>
           <tr>
             <td>#24554</td>
-            <td>Invent Assessoria Ltda.</td>
+            <td>
+              <a href="">Invent Assessoria Ltda.</a>
+            </td>
             <td>Invent Contagem de Estoques</td>
             <td>Nova Veneza -SC</td>
           </tr>
