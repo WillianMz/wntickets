@@ -14,6 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'companies',
+    component: AdminLayoutComponent,
     loadChildren: () => import('./pages/company/company.module').then(m => m.CompanyModule)
   },
   {
@@ -23,18 +24,22 @@ const routes: Routes = [
   },
   {
     path: 'sectors',
+    component: AdminLayoutComponent,
     loadChildren: () => import('./pages/sector/sector.module').then(m => m.SectorModule)
   },
   {
     path: 'settings',
+    component: AdminLayoutComponent,
     loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule)
   },
   {
     path: 'tickets',
+    component: AdminLayoutComponent,
     loadChildren: () => import('./pages/ticket/ticket.module').then(m => m.TicketModule)
   },
   {
     path: 'users',
+    component: AdminLayoutComponent,
     loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule)
   }
 ];

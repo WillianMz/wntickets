@@ -1,27 +1,60 @@
+<nav class="bd-subnavbar py-2" aria-label="Secondary navigation">
+  <div class="container-xxl d-flex align-items-md-center">
+    <form class="bd-search position-relative me-auto">
+      <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;"><input
+          type="search" class="form-control ds-input" id="search-input" placeholder="Search docs..."
+          aria-label="Search docs for..." autocomplete="off" data-bd-docs-version="5.1" spellcheck="false"
+          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0"
+          style="position: relative; vertical-align: top;" dir="auto">
 
-  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Dropdown
-      </a>
-      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <span class="ds-dropdown-menu"
+          style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;" role="listbox"
+          id="algolia-autocomplete-listbox-0">
+          <div class="ds-dataset-1"></div>
+        </span>
+      </span>
+    </form>
+
+    <div class="dropdown ms-3">
+      <button class="btn btn-bd-light dropdown-toggle" id="bd-versions" data-bs-toggle="dropdown" aria-expanded="false"
+        data-bs-display="static">
+        <span class="d-none d-lg-inline">Bootstrap</span> v5.1
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-versions">
+        <li><a class="dropdown-item current" aria-current="true" href="/docs/5.1/">Latest (5.1.x)</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="https://getbootstrap.com/docs/4.6/">v4.6.x</a></li>
+        <li><a class="dropdown-item" href="https://getbootstrap.com/docs/3.4/">v3.4.1</a></li>
+        <li><a class="dropdown-item" href="https://getbootstrap.com/2.3.2/">v2.3.2</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="/docs/versions/">All versions</a></li>
       </ul>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled">Disabled</a>
-    </li>
-  </ul>
-  <form class="d-flex">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success" type="submit">Search</button>
-  </form>
+    </div>
+
+
+    <button class="btn bd-sidebar-toggle d-md-none py-0 px-1 ms-3 order-3 collapsed" type="button"
+      data-bs-toggle="collapse" data-bs-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false"
+      aria-label="Toggle docs navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" fill="currentColor"
+        viewBox="0 0 16 16">
+        <title>Expand</title>
+        <path fill-rule="evenodd"
+          d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z">
+        </path>
+      </svg>
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-collapse" fill="currentColor"
+        viewBox="0 0 16 16">
+        <title>Collapse</title>
+        <path fill-rule="evenodd"
+          d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z">
+        </path>
+      </svg>
+
+    </button>
+  </div>
+</nav>
