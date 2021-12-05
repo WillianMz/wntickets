@@ -1,3 +1,4 @@
+import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
+    component: AdminLayoutComponent,
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
   },
   {
