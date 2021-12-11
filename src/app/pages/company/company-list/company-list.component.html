@@ -1,21 +1,33 @@
-<!-- <app-navbar></app-navbar> -->
+<div class="sticky-top ">
+  <app-navbar></app-navbar>
+  <nav class="nav nav-underline" aria-label="Secondary navigation">
+    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+    <a class="nav-link" href="#">
+      Friends
+      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
+    </a>
+    <a class="nav-link" href="#">Explore</a>
+    <a class="nav-link" href="#">Suggestions</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+  </nav>
+</div>
 
 <div class="container">
 
   <section class="row">
-    <h1 class="col-12 mb-3" style="font-size: 3em;">Empresas</h1>
+    <h2 class="col-12">Empresas</h2>
   </section>
 
-  <div class="row">
-    <div class="col">
-      <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary">Adicionar</button>
-      </div>
-    </div>
+  <div class="row pt-2" *ngIf="false">
+    <app-alert-nada-exibir></app-alert-nada-exibir>
   </div>
 
-  <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-2 pt-2">
+  <div class="row pb-2">
+    <div class="col-sm-12 col-md-6 col-lg-2 pt-1">
       <form class="text-center">
         <div class="form-group">
           <select class="form-select" aria-label="Default select example">
@@ -26,7 +38,7 @@
       </form>
     </div>
 
-    <div class="col-sm-12 col-md-6 col-lg-6 pt-2">
+    <div class="col-sm-12 col-md-6 col-lg-6 pt-1">
       <form class="text-center">
         <div class="form-group">
           <input class="form-control" placeholder="Pesquisar">
@@ -34,79 +46,171 @@
       </form>
     </div>
 
-    <div class="col-sm-12 col-md-12 col-lg-4 pt-2 d-grid">
+    <div class="col-sm-12 col-md-12 col-lg-4 pt-1 d-grid">
       <button class="btn btn-primary">Buscar</button>
     </div>
   </div>
 
-  <hr>
-
-  <!-- <div class="row">
-    <div class="col d-grid">
-      <div class="btn-group">
-        <button class="btn btn-outline-secondary" routerLink="new">Novo</button>
-        <button class="btn btn-outline-secondary">Exportar</button>
-        <button class="btn btn-outline-secondary">Filtrar</button>
+  <div class="card">
+    <div class="card-header">
+      <div class="row" *ngIf="true">
+        <div class="col">
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary">Adicionar</button>
+            <button type="button" class="btn btn-outline-primary">Adicionar</button>
+            <button type="button" class="btn btn-outline-primary">Adicionar</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <hr> -->
+    <div class="card-body">
+      <!-- <h5 class="card-title">Special title treatment</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a> -->
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Razão Social</th>
+              <th scope="col">Nome Fantasia</th>
+              <th scope="col">Cidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">WN Sistemas de Informação Ltda</a>
+              </td>
+              <td>WN Software</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
 
-  <!-- fazer um componente para reaproveitar o codigo nas demais paginas de listagens -->
-  <app-alert-nada-exibir></app-alert-nada-exibir>
-
-  <div class="row">
-
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Razão Social</th>
-            <th scope="col">Nome Fantasia</th>
-            <th scope="col">Cidade</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>#24554</td>
-            <td>
-              <a href="">WN Sistemas de Informação Ltda</a>
-            </td>
-            <td>WN Software</td>
-            <td>Nova Veneza -SC</td>
-          </tr>
-
-          <tr>
-            <td>#24554</td>
-            <td>
-              <a href="">Logaritma Tecnologia Ltda.</a>
-            </td>
-            <td>Loglabs Brasil</td>
-            <td>Nova Veneza -SC</td>
-          </tr>
-          <tr>
-            <td>#24554</td>
-            <td>
-              <a href="">Sensor Sistemas Ltda-ME</a>
-            </td>
-            <td>SENSOR Software</td>
-            <td>Nova Veneza -SC</td>
-          </tr>
-          <tr>
-            <td>#24554</td>
-            <td>
-              <a href="">Invent Assessoria Ltda.</a>
-            </td>
-            <td>Invent Contagem de Estoques</td>
-            <td>Nova Veneza -SC</td>
-          </tr>
-        </tbody>
-      </table>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Logaritma Tecnologia Ltda.</a>
+              </td>
+              <td>Loglabs Brasil</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Sensor Sistemas Ltda-ME</a>
+              </td>
+              <td>SENSOR Software</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+            <tr>
+              <td>#24554</td>
+              <td>
+                <a href="">Invent Assessoria Ltda.</a>
+              </td>
+              <td>Invent Contagem de Estoques</td>
+              <td>Nova Veneza -SC</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
   </div>
+
+  <br>
+  <br>
+  <br>
 
 </div>

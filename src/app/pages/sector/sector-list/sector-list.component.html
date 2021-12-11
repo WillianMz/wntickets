@@ -1,12 +1,31 @@
-<!-- <app-navbar></app-navbar> -->
+<div class="sticky-top ">
+  <app-navbar></app-navbar>
+  <!-- <nav class="nav nav-underline" aria-label="Secondary navigation" style="background-color: white">
+    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+    <a class="nav-link" href="#">
+      Pendentes
+      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
+    </a>
+    <a class="nav-link" href="#">
+      Finalizados
+      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
+    </a>
+    <a class="nav-link" href="#">Suggestions</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+  </nav> -->
+</div>
+
 
 <div class="container">
-
   <section class="row">
-    <h1 class="col-12 mb-3" style="font-size: 3em;">Setores</h1>
+    <h2 class="col-12">Setores</h2>
   </section>
 
-  <div class="row">
+  <div class="row pt-2" *ngIf="true">
     <div class="col">
       <div class="btn-group">
         <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewSector)">Adicionar</button>
@@ -14,8 +33,8 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-2 pt-2">
+  <div class="row pb-2">
+    <div class="col-sm-12 col-md-6 col-lg-2 pt-1">
       <form class="text-center">
         <div class="form-group">
           <select class="form-select" aria-label="Default select example">
@@ -26,7 +45,7 @@
       </form>
     </div>
 
-    <div class="col-sm-12 col-md-6 col-lg-6 pt-2">
+    <div class="col-sm-12 col-md-6 col-lg-6 pt-1">
       <form class="text-center">
         <div class="form-group">
           <input class="form-control" placeholder="Pesquisar">
@@ -34,57 +53,21 @@
       </form>
     </div>
 
-    <div class="col-sm-12 col-md-12 col-lg-4 pt-2 d-grid">
+    <div class="col-sm-12 col-md-12 col-lg-4 pt-1 d-grid">
       <button class="btn btn-primary">Buscar</button>
     </div>
   </div>
 
-  <hr>
-
-  <!-- <div class="row pt-2">
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Nome</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let s of sectors | paginate: { itemsPerPage: contador, currentPage: pag }" >
-            <td>
-              <img src="https://github.com/twbs.png" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
-              <a [routerLink]="['/sectors/categories']" [queryParams]="{sector: s.id}">
-                {{s.nome}}
-              </a>
-            </td>
-            <td class="text-end">
-              <div class="btn-group">
-                <button class="btn btn-sm btn-outline-warning" [routerLink]="['edit', s.id]">
-                  <i class="bi bi-pencil-square"></i> Editar
-                </button>
-                <button class="btn btn-sm btn-outline-danger" [routerLink]="['edit', s.id]">
-                  <i class="bi bi-x-square"></i> Excluír
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="alert alert-secondary" role="alert" *ngIf="!sectors?.length">
-        Nenhum registro encontrado!
-      </div>
-
-    </div>
-
-  </div> -->
+  <div class="row pt-2" *ngIf="false">
+    <app-alert-nada-exibir></app-alert-nada-exibir>
+  </div>
 
   <div class="pt-2 row">
-    <div class="col-12">
+    <div class="pt-1 col-12">
       <div class="list-group">
 
-        <div class="list-group-item list-group-item-action d-flex gap-3 py-3" *ngFor="let s of sectors | paginate: { itemsPerPage: contador, currentPage: pag }">
+        <div class="list-group-item list-group-item-action d-flex gap-3 py-3"
+            *ngFor="let s of sectors | paginate: { itemsPerPage: contador, currentPage: pag }">
 
           <img src="{{s.img || '../../../../../../assets/logo.png'}}" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
           <div class="d-flex gap-2 w-100 justify-content-between">
@@ -105,7 +88,6 @@
       </div>
 
       <app-alert-nada-exibir *ngIf="!sectors?.length"></app-alert-nada-exibir>
-
     </div>
   </div>
 

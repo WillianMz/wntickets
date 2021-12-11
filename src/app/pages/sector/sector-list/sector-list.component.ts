@@ -18,7 +18,7 @@ export class SectorListComponent implements OnInit {
   message: string;
   modalRef?: BsModalRef;
   pag : number = 1 ;
-  contador : number = 5;
+  contador : number = 4;
 
   constructor(
     private sectorService: SectorService,
