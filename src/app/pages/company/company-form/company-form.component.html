@@ -1,67 +1,102 @@
-<!-- "cnpj": "string",
-"razaoSocial": "string",
-"nomeFantasia": "string",
-"email": "string" -->
-
-<!-- <app-navbar></app-navbar> -->
+<app-navbar></app-navbar>
 
 <div class="container">
 
+  <div class="row">
+    <div class="pt-2 row" *ngIf="true">
+      <div class="col">
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" (click)="return()">Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <section class="pt-2 row">
-    <h3 class="col-12 mb-3">Nova empresa</h3>
+    <h3 class="col-12 mb-3">{{titlePage}}</h3>
   </section>
-  <form class="needs-validation" novalidate="">
+  <form [formGroup]="companyForm">
     <div class="row g-3">
 
       <div class="col-md-6 col-lg-12">
+        <div class="row">
 
-        <div class="row g-3">
-
+          <!-- CNPJ -->
           <div class="col-sm-3">
             <label for="lastName" class="form-label">CNPJ</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="lastName" placeholder="07.637.620/0001-85" value=""
-                required="">
+              <input type="text" class="form-control" id="cnpj" placeholder="00.000.000/0000-00" formControlName="cnpj">
               <button class="btn btn-outline-secondary" type="button">Validar</button>
+            </div>
+            <!-- validacao -->
+            <div class="text-danger" *ngIf="cnpj?.errors">
+              <div *ngIf="cnpj?.errors?.required && (cnpj?.dirty || cnpj?.touched)">Informe o CNPJ</div>
+              <div *ngIf="cnpj?.errors?.minlength && (cnpj?.dirty || cnpj?.touched)">
+                CNPJ deve conter no mínimo {{cnpj?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="cnpj?.errors?.maxlength && (cnpj?.dirty || cnpj?.touched)">
+                CNPJ deve conter no máximo {{cnpj?.errors?.maxlength.requiredLength}} caracteres</div>
             </div>
           </div>
 
           <!-- RAZAO SOCIAL -->
           <div class="col-sm-9">
             <label for="firstName" class="form-label">Razão Social</label>
-            <input type="text" class="form-control" id="firstName" placeholder="H2 TECNOLOGIA LTDA" value=""
-              required="">
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input type="text" class="form-control" id="razaoSocial" value="" formControlName="razaoSocial">
+            <!-- validacao -->
+            <div class="text-danger" *ngIf="razaoSocial?.errors">
+              <div *ngIf="razaoSocial?.errors?.required && (razaoSocial?.dirty || razaoSocial?.touched)">Informe a Razão
+                Social</div>
+              <div *ngIf="razaoSocial?.errors?.minlength && (razaoSocial?.dirty || razaoSocial?.touched)">
+                A Razão Social deve conter no mínimo {{razaoSocial?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="razaoSocial?.errors?.maxlength && (razaoSocial?.dirty || razaoSocial?.touched)">
+                A Razão Social deve conter no máximo {{razaoSocial?.errors?.maxlength.requiredLength}} caracteres</div>
             </div>
           </div>
 
           <!-- NOME FANTASIA -->
           <div class="col-sm-6">
             <label for="firstName" class="form-label">Nome Fantasia</label>
-            <input type="text" class="form-control" id="firstName" placeholder="H2 Software" value="" required="">
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input type="text" class="form-control" id="nomeFantasia" value="" formControlName="nomeFantasia">
+            <!-- validacao -->
+            <div class="text-danger" *ngIf="nomeFantasia?.errors">
+              <div *ngIf="nomeFantasia?.errors?.required && (nomeFantasia?.dirty || nomeFantasia?.touched)">Informe o
+                Nome Fantasia</div>
+              <div *ngIf="nomeFantasia?.errors?.minlength && (nomeFantasia?.dirty || nomeFantasia?.touched)">
+                Nome Fantasia deve conter no mínimo {{nomeFantasia?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="nomeFantasia?.errors?.maxlength && (nomeFantasia?.dirty || nomeFantasia?.touched)">
+                Nome Fantasia deve conter no máximo {{nomeFantasia?.errors?.maxlength.requiredLength}} caracteres</div>
             </div>
           </div>
 
           <!-- EMAIL-->
           <div class="col-sm-6">
             <label for="firstName" class="form-label">Email</label>
-            <input type="text" class="form-control" id="firstName" placeholder="suporte@h2software.com.br" value=""
-              required="">
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <div class="input-group has-validation">
+              <span class="input-group-text" id="inputGroupPrepend">@</span>
+              <input type="text" class="form-control" id="email" aria-describedby="inputGroupPrepend"
+                formControlName="email">
+            </div>
+            <!-- validacao -->
+            <div class="text-danger" *ngIf="email?.errors">
+              <div *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe o Email</div>
+              <div *ngIf="email?.errors?.minlength && (email?.dirty || email?.touched)">
+                Email deve conter no mínimo {{email?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="email?.errors?.maxlength && (email?.dirty || email?.touched)">
+                Email deve conter no máximo {{email?.errors?.maxlength.requiredLength}} caracteres</div>
             </div>
           </div>
+
         </div>
-
       </div>
+
     </div>
+    <!-- <hr> -->
 
-    <hr>
-
-    <div class="row">
+    <!-- <div class="row">
       <h5>Endereço</h5>
 
       <div class="col-md-3 col-lg-3">
@@ -109,9 +144,6 @@
             </div>
           </div>
 
-
-
-          <!-- RAZAO SOCIAL -->
           <div class="col-sm-1">
             <label for="firstName" class="form-label">Número</label>
             <input type="text" class="form-control" id="firstName" placeholder="404" value="" required="">
@@ -136,23 +168,15 @@
             </div>
           </div>
 
-
-
-
-
-
-
         </div>
-
       </div>
-
-    </div>
+    </div> -->
 
     <div class="row">
       <div class="pt-2 row" *ngIf="true">
         <div class="col">
           <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary">Salvar</button>
+            <button type="button" class="btn btn-outline-primary" (click)="save()">Salvar</button>
             <button type="button" class="btn btn-outline-primary">Cancelar</button>
           </div>
         </div>

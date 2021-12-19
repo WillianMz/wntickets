@@ -3,5 +3,6 @@ export interface Icompany {
   nome?: string;
   fantasia?: string;
   cnpj?: string;
+  email?: string;
   ativa: boolean;
 }
