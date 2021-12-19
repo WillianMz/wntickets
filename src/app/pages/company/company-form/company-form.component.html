@@ -1,45 +1,163 @@
-<app-navbar></app-navbar>
+<!-- "cnpj": "string",
+"razaoSocial": "string",
+"nomeFantasia": "string",
+"email": "string" -->
+
+<!-- <app-navbar></app-navbar> -->
 
 <div class="container">
 
-  <div class="row">
-    <div class="col mt-3">
-      <div class="btn-group">
-        <button class="btn btn-outline-secondary" routerLink="/companies">
-          <i class="bi bi-arrow-left"></i> Voltar
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <section class="row">
-    <h1 class="col-12 mb-3">Nova empresa</h1>
+  <section class="pt-2 row">
+    <h3 class="col-12 mb-3">Nova empresa</h3>
   </section>
+  <form class="needs-validation" novalidate="">
+    <div class="row g-3">
 
+      <div class="col-md-6 col-lg-12">
 
-  <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-2 pt-2">
-      <div class="form-group">
-        <label for=""></label>
-        <input class="form-control" placeholder="Pesquisar">
+        <div class="row g-3">
+
+          <div class="col-sm-3">
+            <label for="lastName" class="form-label">CNPJ</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="lastName" placeholder="07.637.620/0001-85" value=""
+                required="">
+              <button class="btn btn-outline-secondary" type="button">Validar</button>
+            </div>
+          </div>
+
+          <!-- RAZAO SOCIAL -->
+          <div class="col-sm-9">
+            <label for="firstName" class="form-label">Razão Social</label>
+            <input type="text" class="form-control" id="firstName" placeholder="H2 TECNOLOGIA LTDA" value=""
+              required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <!-- NOME FANTASIA -->
+          <div class="col-sm-6">
+            <label for="firstName" class="form-label">Nome Fantasia</label>
+            <input type="text" class="form-control" id="firstName" placeholder="H2 Software" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <!-- EMAIL-->
+          <div class="col-sm-6">
+            <label for="firstName" class="form-label">Email</label>
+            <input type="text" class="form-control" id="firstName" placeholder="suporte@h2software.com.br" value=""
+              required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="col-sm-12 col-md-6 col-lg-2 pt-2">
-      <div class="form-group">
-        <input class="form-control" placeholder="Pesquisar">
+
+    <hr>
+
+    <div class="row">
+      <h5>Endereço</h5>
+
+      <div class="col-md-3 col-lg-3">
+        <label for="lastName" class="form-label">CEP</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="lastName" placeholder="88865-000" value="" required="">
+          <button class="btn btn-outline-secondary" type="button">Buscar</button>
+        </div>
+      </div>
+
+      <div class="pt-2 col-md-6 col-lg-12">
+
+        <div class="row">
+
+          <div class="col-sm-4">
+            <label for="firstName" class="form-label">País</label>
+            <input type="text" class="form-control" id="firstName" placeholder="BRASIL" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <label for="firstName" class="form-label">Estado</label>
+            <input type="text" class="form-control" id="firstName" placeholder="SANTA CATARINA" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <label for="firstName" class="form-label">Cidade</label>
+            <input type="text" class="form-control" id="firstName" placeholder="BLUMENAU" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+
+          <div class="col-sm-12">
+            <label for="firstName" class="form-label">Logradouro</label>
+            <input type="text" class="form-control" id="firstName" placeholder="404" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+
+
+          <!-- RAZAO SOCIAL -->
+          <div class="col-sm-1">
+            <label for="firstName" class="form-label">Número</label>
+            <input type="text" class="form-control" id="firstName" placeholder="404" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <div class="col-sm-5">
+            <label for="firstName" class="form-label">Complemento</label>
+            <input type="text" class="form-control" id="firstName" placeholder="SALA 02" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="firstName" class="form-label">Bairro</label>
+            <input type="text" class="form-control" id="firstName" placeholder="CENTRO" value="" required="">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="pt-2 row" *ngIf="true">
+        <div class="col">
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary">Salvar</button>
+            <button type="button" class="btn btn-outline-primary">Cancelar</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-
-
-  <!-- <div class="row">
-    <div class="col">
-      <div class="btn-group">
-        <button class="btn btn-outline-success" routerLink="/companies">Salvar</button>
-        <button class="btn btn-outline-danger" routerLink="/companies">Cancelar</button>
-      </div>
-    </div>
-  </div> -->
+  </form>
 
 </div>

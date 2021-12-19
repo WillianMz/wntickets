@@ -1,6 +1,6 @@
 <div class="sticky-top ">
   <app-navbar></app-navbar>
-  <nav class="nav nav-underline" aria-label="Secondary navigation">
+  <!-- <nav class="nav nav-underline" aria-label="Secondary navigation">
     <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
     <a class="nav-link" href="#">
       Friends
@@ -13,7 +13,7 @@
     <a class="nav-link" href="#">Link</a>
     <a class="nav-link" href="#">Link</a>
     <a class="nav-link" href="#">Link</a>
-  </nav>
+  </nav> -->
 </div>
 
 <div class="container">
@@ -56,7 +56,7 @@
       <div class="row" *ngIf="true">
         <div class="col">
           <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary">Adicionar</button>
+            <button type="button" class="btn btn-outline-primary" (click)="newCompany()">Adicionar</button>
             <button type="button" class="btn btn-outline-primary">Adicionar</button>
             <button type="button" class="btn btn-outline-primary">Adicionar</button>
           </div>
