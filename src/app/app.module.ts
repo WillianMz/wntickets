@@ -1,3 +1,4 @@
+import { CnpjPipe } from './pipes/cnpj.pipe';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -8,13 +9,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    CnpjPipe
   ],
   imports: [
     BrowserModule,
@@ -24,6 +28,8 @@ import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.compone
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
 
     ModalModule.forRoot()
   ],

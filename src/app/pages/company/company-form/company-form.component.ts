@@ -1,5 +1,6 @@
+import { CompanyService } from './../../../services/company.service';
 import { Icompany } from './../../../models/icompany';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -12,10 +13,15 @@ export class CompanyFormComponent implements OnInit {
 
   titlePage: string;
   companyId: number;
+  company: Icompany;
   companyForm: FormGroup;
+  success: string;
+  message: string;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private companyService: CompanyService,
+    private activatedRoute: ActivatedRoute
   ) {
     let company = {
       nome: '',
@@ -28,7 +34,16 @@ export class CompanyFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titlePage = 'Nova empresa';
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if(id){
+      this.companyId = parseInt(id);
+      this.loadCompany(this.companyId);
+      this.titlePage = 'Editar empresa';
+    }
+    else{
+      this.titlePage = 'Nova empresa';
+    }
   }
 
   return(){
@@ -38,16 +53,31 @@ export class CompanyFormComponent implements OnInit {
   save() {
     const newCompany: Icompany = {...this.companyForm.value, id: this.companyId }
     console.log(newCompany);
+
+    this.companyService.save(newCompany).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        console.log(this.success);
+        console.log(this.message);
+        this.return();
+      },
+      error: (error) => {
+        console.log(error);
+        alert(error);
+      }
+    }
+    )
   }
 
   startForm(company: Icompany){
     this.companyForm = new FormGroup({
-      razaoSocial: new FormControl(company.nome, [
+      razaoSocial: new FormControl(company.razaoSocial, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(150)
       ]),
-      nomeFantasia: new FormControl(company.fantasia, [
+      nomeFantasia: new FormControl(company.nomeFantasia, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(150)
@@ -61,8 +91,25 @@ export class CompanyFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(150)
+      ]),
+      ativa: new FormControl(company.ativa, [
+        Validators.required
       ])
     });
+  }
+
+  private loadCompany(idCompany: number) {
+    this.companyService.getById(idCompany).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        this.company = response['dados'];
+        this.startForm(this.company);
+      },
+      error: (error) => {
+        alert(error);
+      }
+    })
   }
 
   get razaoSocial() {

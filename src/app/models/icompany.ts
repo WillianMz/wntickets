@@ -1,7 +1,7 @@
 export interface Icompany {
   id?: number;
-  nome?: string;
-  fantasia?: string;
+  razaoSocial?: string;
+  nomeFantasia?: string;
   cnpj?: string;
   email?: string;
   ativa: boolean;

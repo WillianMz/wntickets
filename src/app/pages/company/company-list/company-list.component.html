@@ -1,19 +1,5 @@
 <div class="sticky-top ">
   <app-navbar></app-navbar>
-  <!-- <nav class="nav nav-underline" aria-label="Secondary navigation">
-    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-    <a class="nav-link" href="#">
-      Friends
-      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-    </a>
-    <a class="nav-link" href="#">Explore</a>
-    <a class="nav-link" href="#">Suggestions</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-  </nav> -->
 </div>
 
 <div class="container">
@@ -22,8 +8,12 @@
     <h2 class="col-12">Empresas</h2>
   </section>
 
-  <div class="row pt-2" *ngIf="false">
-    <app-alert-nada-exibir></app-alert-nada-exibir>
+  <div class="row pt-2" *ngIf="true">
+    <div class="col">
+      <div class="btn-group">
+        <button type="button" class="btn btn-outline-primary" (click)="newCompany()">Adicionar</button>
+      </div>
+    </div>
   </div>
 
   <div class="row pb-2">
@@ -51,166 +41,83 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="row" *ngIf="true">
-        <div class="col">
-          <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary" (click)="newCompany()">Adicionar</button>
-            <button type="button" class="btn btn-outline-primary">Adicionar</button>
-            <button type="button" class="btn btn-outline-primary">Adicionar</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="row pt-2" *ngIf="!companies?.length">
+    <app-alert-nada-exibir></app-alert-nada-exibir>
+  </div>
 
-    <div class="card-body">
-      <!-- <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a> -->
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Razão Social</th>
-              <th scope="col">Nome Fantasia</th>
-              <th scope="col">Cidade</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">WN Sistemas de Informação Ltda</a>
-              </td>
-              <td>WN Software</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Logaritma Tecnologia Ltda.</a>
-              </td>
-              <td>Loglabs Brasil</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Sensor Sistemas Ltda-ME</a>
-              </td>
-              <td>SENSOR Software</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-            <tr>
-              <td>#24554</td>
-              <td>
-                <a href="">Invent Assessoria Ltda.</a>
-              </td>
-              <td>Invent Contagem de Estoques</td>
-              <td>Nova Veneza -SC</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="card-footer text-muted">
-      2 days ago
+  <div class="row pt-2">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover" *ngIf="companies?.length">
+        <thead class="thead-light">
+          <th scope="col">Opções</th>
+          <th scope="col">ID</th>
+          <th scope="col">Razão Social</th>
+          <th scope="col">Nome Fantasia</th>
+          <th scope="col">Email</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let company of companies | paginate: { itemsPerPage: contador, currentPage: pag }">
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary"
+                        popover="Ver Perfil"
+                        triggers="mouseenter:mouseleave"
+                        [routerLink]="[company.id]">
+                        <i class="bi bi-building"></i> Perfil
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-warning"
+                        popover="Editar empresa"
+                        triggers="mouseenter:mouseleave"
+                        [routerLink]="[company.id, 'edit']">
+                  <i class="bi bi-pencil-square"></i> Editar
+                </button>
+                <!-- <button type="button" class="btn btn-sm btn-outline-danger"
+                        popover="Excluír empresa"
+                        triggers="mouseenter:mouseleave"
+                        (click)="delete()">
+                  <i class="bi bi-x-lg"></i>
+                </button> -->
+                <button class="btn btn-sm btn-outline-danger" *ngIf="company.ativa==true" (click)="delete(company)">
+                  <i class="bi bi-x-lg"></i>
+                  Desativar
+                </button>
+                <button class="btn btn-sm btn-outline-success" *ngIf="company.ativa==false" (click)="ativar(company)">
+                  <i class="bi bi-check-lg"></i>
+                  Ativar
+                </button>
+              </div>
+            </td>
+            <td>{{company.id}}</td>
+            <td>
+              <a href="">{{company.razaoSocial}}</a>
+            </td>
+            <td>{{company.nomeFantasia}}</td>
+            <td>{{company.email}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          {{message}}
+        </tfoot>
+      </table>
     </div>
   </div>
 
-  <br>
-  <br>
-  <br>
+  <div class="text-center pt-2">
+    <pagination-controls
+      (pageChange)="pag = $event"
+      [responsive]="true"
+      [autoHide]="true"
+      previousLabel="Voltar"
+      nextLabel="Avançar">
+    </pagination-controls>
+  </div>
 
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" >Yes</button>
+    <button type="button" class="btn btn-primary" >No</button>
+  </div>
+</ng-template>
