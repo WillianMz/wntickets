@@ -4,5 +4,6 @@ export interface Icompany {
   nomeFantasia?: string;
   cnpj?: string;
   email?: string;
-  ativa: boolean;
+  ativa?: boolean;
+  nickname?: string;
 }

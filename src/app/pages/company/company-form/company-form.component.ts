@@ -28,7 +28,8 @@ export class CompanyFormComponent implements OnInit {
       fantasia: '',
       cnpj: '',
       email: '',
-      ativa: true
+      ativa: true,
+      nickname: ''
     };
     this.startForm(company);
   }
@@ -94,6 +95,11 @@ export class CompanyFormComponent implements OnInit {
       ]),
       ativa: new FormControl(company.ativa, [
         Validators.required
+      ]),
+      nickname: new FormControl(company.nickname, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20)
       ])
     });
   }
@@ -126,6 +132,10 @@ export class CompanyFormComponent implements OnInit {
 
   get cnpj(){
     return this.companyForm.get('cnpj');
+  }
+
+  get nickname() {
+    return this.companyForm.get('nickname');
   }
 
 }

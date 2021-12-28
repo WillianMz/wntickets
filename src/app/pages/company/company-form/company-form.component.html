@@ -90,6 +90,26 @@
             </div>
           </div>
 
+          <!-- NICKNAME -->
+          <div class="col-sm-6">
+            <label for="firstName" class="form-label">Nickname</label>
+            <div class="input-group has-validation">
+              <!-- <span class="input-group-text" id="inputGroupPrepend">@</span> -->
+              <input type="text" class="form-control" id="nickname" aria-describedby="inputGroupPrepend"
+                formControlName="nickname">
+            </div>
+            <!-- validacao -->
+            <div class="text-danger" *ngIf="nickname?.errors">
+              <div *ngIf="nickname?.errors?.required && (nickname?.dirty || nickname?.touched)">
+                Informe um Nickname para esta empresa</div>
+              <div *ngIf="nickname?.errors?.minlength && (nickname?.dirty || nickname?.touched)">
+                O Nickname deve conter no mínimo {{nickname?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="nickname?.errors?.maxlength && (nickname?.dirty || email?.touched)">
+                O Nickname deve conter no máximo {{nickname?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
