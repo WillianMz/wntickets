@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-alert-nada-exibir',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./alert-nada-exibir.component.css']
 })
 export class AlertNadaExibirComponent implements OnInit {
+
+  @Input() mensagem: string;
+  @Input() color: string;
 
   constructor() { }
 

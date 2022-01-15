@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { DashboardFormComponent } from './dashboard-form/dashboard-form.component';
 
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { DashboardFormComponent } from './dashboard-form/dashboard-form.componen
   imports: [
     CommonModule,
     HomeRoutingModule,
-    SharedModule
+    SharedModule,
+    TableModule
   ]
 })
 export class HomeModule { }

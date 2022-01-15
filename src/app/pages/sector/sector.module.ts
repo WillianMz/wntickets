@@ -10,6 +10,8 @@ import { SectorListComponent } from './sector-list/sector-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { TableModule } from 'ngx-easy-table';
+
 @NgModule({
   declarations: [
     CategoryFormComponent,
@@ -23,7 +25,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReactiveFormsModule,
     SectorRoutingModule,
     SharedModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    TableModule
   ]
 })
 export class SectorModule { }

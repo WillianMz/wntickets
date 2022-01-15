@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AlertNadaExibirComponent } from './alert-nada-exibir/alert-nada-exibir.component';
 import { FooterComponent } from './footer/footer.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { FooterComponent } from './footer/footer.component';
     MenuComponent,
     SidebarComponent,
     AlertNadaExibirComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { FooterComponent } from './footer/footer.component';
     MenuComponent,
     SidebarComponent,
     AlertNadaExibirComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ]
 })
 export class SharedModule { }

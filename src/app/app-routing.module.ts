@@ -1,11 +1,16 @@
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: '404',
     pathMatch: 'full'
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
   },
   {
     path: 'auth',

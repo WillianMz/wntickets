@@ -6,7 +6,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 
-
 @NgModule({
   declarations: [
     LoginComponent,
