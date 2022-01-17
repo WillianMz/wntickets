@@ -11,6 +11,7 @@ import { HistoricFormComponent } from './historic-form/historic-form.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     CommonModule,
     TicketRoutingModule,
     SharedModule,
-    TabsModule
+    TabsModule,
+    TableModule
   ]
 })
 export class TicketModule { }

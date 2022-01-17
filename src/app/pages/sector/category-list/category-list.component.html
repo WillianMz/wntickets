@@ -1,31 +1,14 @@
 <div class="sticky-top ">
   <app-navbar></app-navbar>
-  <!-- <nav class="nav nav-underline" aria-label="Secondary navigation" style="background-color: white">
-    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-    <a class="nav-link" href="#">
-      Pendentes
-      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-    </a>
-    <a class="nav-link" href="#">
-      Finalizados
-      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-    </a>
-    <a class="nav-link" href="#">Suggestions</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-  </nav> -->
 </div>
 
 <div class="container">
 
-  <section class="row">
+  <!-- <section class="row">
     <h3 class="col-12 mb-3" >{{titlePagina}}</h3>
-  </section>
+  </section> -->
 
-  <div class="row pb-2">
+  <!-- <div class="row pb-2">
     <div class="col-sm-12 col-md-6 col-lg-2 pt-1">
       <form class="text-center">
         <div class="form-group">
@@ -48,21 +31,21 @@
     <div class="col-sm-12 col-md-12 col-lg-4 pt-1 d-grid">
       <button class="btn btn-primary">Buscar</button>
     </div>
-  </div>
+  </div> -->
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col">
       <div class="btn-group">
         <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewCategory)">Adicionar</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="row pt-2" *ngIf="true">
+  <!-- <div class="row pt-2" *ngIf="true">
     <app-alert-nada-exibir></app-alert-nada-exibir>
-  </div>
+  </div> -->
 
-  <div class="pt-2 row">
+  <!-- <div class="pt-2 row">
     <div class="col-12">
       <div class="list-group">
 
@@ -98,7 +81,7 @@
       previousLabel="Voltar"
       nextLabel="Avançar">
     </pagination-controls>
-  </div>
+  </div> -->
 
 </div>
 
@@ -113,3 +96,52 @@
     <app-sector-form></app-sector-form>
   </div>
 </ng-template>
+
+
+<div class="container">
+
+  <div class="">
+    <div class=" col-12">
+      <div class="jumbotron">
+        <h1 class="display-6">{{titlePagina}}</h1>
+      </div>
+      <div class="mb-2" >
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewCategory)">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-2">
+    <div class="column col-12">
+      <ngx-table
+        [data]="categories"
+        [configuration]="configuration"
+        [columns]="columns">
+
+
+        <ng-template let-row>
+          <td>
+            <div class="font-small">{{ row.id }}</div>
+          </td>
+          <td>
+            <span class="font-small">{{ row.nome }}</span>
+          </td>
+          <td>
+            <div class="btn-group">
+              <!-- <button class="btn btn-outline-primary btn-sm">Tickets</button> -->
+              <button class="btn btn-outline-primary btn-sm">Tickets</button>
+              <button class="btn btn-outline-warning btn-sm">Editar</button>
+            </div>
+          </td>
+        </ng-template>
+
+
+      </ngx-table>
+    </div>
+
+  </div>
+
+
+</div>

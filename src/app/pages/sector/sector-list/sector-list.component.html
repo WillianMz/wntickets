@@ -126,7 +126,6 @@
       <div class="mb-2" >
         <div class="btn-group">
           <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewSector)">Adicionar</button>
-          <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewSector)">Adicionar</button>
         </div>
       </div>
     </div>
@@ -149,8 +148,8 @@
           </td>
           <td>
             <div class="btn-group">
-              <button class="btn btn-outline-primary btn-sm">Tickets</button>
-              <button class="btn btn-outline-primary btn-sm">Categorias</button>
+              <!-- <button class="btn btn-outline-primary btn-sm">Tickets</button> -->
+              <button class="btn btn-outline-primary btn-sm" (click)="goCategories(row.id)">Categorias</button>
               <button class="btn btn-outline-warning btn-sm">Editar</button>
             </div>
           </td>

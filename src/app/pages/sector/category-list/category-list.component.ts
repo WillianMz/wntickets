@@ -6,6 +6,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ActivatedRoute } from '@angular/router';
 
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
@@ -13,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CategoryListComponent implements OnInit {
 
-  titlePagina: string = 'Categorias';
+  titlePagina: string;
   idSector: number;
   sector: Isector;
   categories: Icategory[];
@@ -25,6 +27,9 @@ export class CategoryListComponent implements OnInit {
   pag : number = 1 ;
   contador : number = 5;
 
+  public configuration: Config;
+  public columns: Columns[];
+
   constructor(
     private sectorService: SectorService,
     private categoryService: CategoryService,
@@ -33,6 +38,19 @@ export class CategoryListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.searchEnabled = false;
+    this.configuration.fixedColumnWidth = false;
+    //this.configuration.isLoading = true;
+    this.configuration.rows = 5;
+    // ... etc.
+    this.columns = [
+      { key: 'id', title: 'Id' },
+      { key: 'nome', title: 'Nome da categoria' },
+      { key: 'isActive', title: 'Editar'}
+    ];
+
+
     this.activatedRoute.queryParams.subscribe(
       params => {
         console.log(params);
@@ -44,9 +62,11 @@ export class CategoryListComponent implements OnInit {
 
     if(this.idSector){
       this.filterBySector(this.idSector);
+      this.titlePagina = 'Categorias do setor';
     }
     else{
       this.listAll();
+      this.titlePagina = 'Categorias';
     }
   }
 
@@ -68,7 +88,6 @@ export class CategoryListComponent implements OnInit {
       (response) => {
         this.categories = response;
         console.log(this.categories);
-        this.titlePagina = 'Categorias do setor';
       }
     );
   }
