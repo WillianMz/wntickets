@@ -25,7 +25,6 @@ export class SectorListComponent implements OnInit {
   public configuration: Config;
   public columns: Columns[];
 
-
   constructor(
     private sectorService: SectorService,
     private modalService: BsModalService,
@@ -33,13 +32,10 @@ export class SectorListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listAll();
-
-
     this.configuration = { ...DefaultConfig };
-    this.configuration.searchEnabled = false;
+    this.configuration.searchEnabled = true;
     this.configuration.fixedColumnWidth = false;
-    //this.configuration.isLoading = true;
+    this.configuration.selectRow = true;
     this.configuration.rows = 5;
     // ... etc.
     this.columns = [
@@ -47,15 +43,26 @@ export class SectorListComponent implements OnInit {
       { key: 'nome', title: 'Nome do setor' },
       { key: 'isActive', title: 'Editar'}
     ];
+
+    this.listAll();
   }
 
   listAll(){
-    this.sectorService.getAll().subscribe(
-      (respose) => {
-        this.sectors = respose;
-        console.log(this.sectors);
-      }
-    );
+    setTimeout(() => {
+      this.sectorService.getAll().subscribe({
+        next: (respose) => {
+          this.success = respose['sucesso'];
+          this.message = respose['mensagem'];
+          this.sectors = respose['objeto'];
+        },
+        error : (error) => {
+          console.log(error);
+        },
+        complete: () => {
+          //this.configuration.isLoading = false;
+        }
+      });
+    }, 1000);
   }
 
   openModal(template: TemplateRef<any>) {

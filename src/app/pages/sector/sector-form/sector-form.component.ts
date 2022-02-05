@@ -42,7 +42,8 @@ export class SectorFormComponent implements OnInit {
       this.loadSector(this.sectorID);
     }
     else{
-      this.loadSector(this.sectorID);
+      this.titleForm = "Novo setor";
+      this.titleFormVisible = true;
     }
   }
 
@@ -51,7 +52,7 @@ export class SectorFormComponent implements OnInit {
       nome: new FormControl(isector.nome, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(150)
+        Validators.maxLength(40)
       ])
     });
   }
@@ -59,16 +60,14 @@ export class SectorFormComponent implements OnInit {
   save(){
     const sector = {...this.sectorForm.value, id: this.sectorID};
     console.log(sector);
-    this.sectorService.save(sector).subscribe(
-      (response )=> {
-        console.log(response);
+    this.sectorService.save(sector).subscribe({
+      next: (response) => {
         this.router.navigate(['/sectors']);
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-        this.router.navigate(['/sectors']);
       }
-    );
+    });
   }
 
   private loadSector(idSector: number){

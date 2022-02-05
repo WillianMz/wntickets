@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './../../shared/shared.module';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SectorRoutingModule } from './sector-routing.module';
@@ -27,6 +27,7 @@ import { TableModule } from 'ngx-easy-table';
     SharedModule,
     NgxPaginationModule,
     TableModule
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SectorModule { }
