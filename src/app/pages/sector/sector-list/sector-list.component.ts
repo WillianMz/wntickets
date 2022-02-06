@@ -47,23 +47,36 @@ export class SectorListComponent implements OnInit {
     this.listAll();
   }
 
-  listAll(){
-    setTimeout(() => {
+  listAll(): void{
+    /* setTimeout(() => {
       this.sectorService.getAll().subscribe({
         next: (respose) => {
-          this.success = respose['sucesso'];
-          this.message = respose['mensagem'];
-          this.sectors = respose['objeto'];
+          this.success = respose.sucesso;
+          this.message = respose.mensagem;
+          this.sectors = respose.objeto;
+
+          console.log(respose);
+          console.log(this.message);
         },
         error : (error) => {
+          this.sectors = [];
           console.log(error);
         },
         complete: () => {
           //this.configuration.isLoading = false;
         }
       });
-    }, 1000);
+    }, 1000); */
+
+    this.sectorService.getAll().subscribe(response =>
+      this.sectors = response.objeto,
+      error => {
+        console.log(error);
+      }
+    );
+
   }
+
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);

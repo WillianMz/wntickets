@@ -1,19 +1,26 @@
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Isector } from '../models/isector';
 import { BaseService } from './base.service';
 import { catchError, map } from 'rxjs/operators';
+import { Result } from '../models/Result';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SectorService extends BaseService {
+export class SectorService {
 
-  constructor(private http: HttpClient) {
-    super();
+  constructor(private http: HttpClient) {}
+
+  private handleError<T>(operacao: string, result?: T){
+    return (error: any): Observable<T> => {
+      console.log(error);
+      return of(result as T);
+    }
   }
+
 
   save(isector: Isector){
     if(isector.id){
@@ -25,17 +32,13 @@ export class SectorService extends BaseService {
     }
   }
 
-  getAll(): Observable<Isector[]>{
-    //return this.http.get<Isector[]>(`${environment.api}/Setor`).pipe(map(this.extractData), catchError(this.serviceError));
-    return this.http.get<Isector[]>(`${environment.api}/Setor`)
-      .pipe(map(this.extractData),
-      catchError(this.serviceError));
-
+  getAll(): Observable<Result>{
+    return this.http.get<Result>(`${environment.api}/Setor`)
+    .pipe(catchError(this.handleError<Result>('getAll')));
   }
 
   getById(id: number): Observable<Isector>{
-    return this.http.get<Isector>(`${environment.api}/setor/${id}`)
-    .pipe(map(this.extractData), catchError(this.serviceError));
+    return this.http.get<Isector>(`${environment.api}/setor/${id}`);
   }
 
   private create(isector: Isector){
