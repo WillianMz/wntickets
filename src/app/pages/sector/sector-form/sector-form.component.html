@@ -1,4 +1,4 @@
-<app-navbar titlePage="Novo setor" *ngIf="navbarVisible"></app-navbar>
+<app-navbar titlePage="Novo setor" *ngIf="!navbarVisible"></app-navbar>
 
 <div class="pt-2 container">
 
@@ -47,8 +47,17 @@
         </div>
       </div>
 
+      <!-- MOSTRAR NOTIFICACOES DO BACKEND -->
+      <div class="row mt-2" *ngIf="erros?.length">
+        <div class="alert alert-danger" role="alert">
+          <h5>{{message}}</h5>
+          <ul *ngFor="let e of erros">
+            <li><strong>{{e.key}}</strong> - {{e.message}}</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
 
   </div>
-
 </div>

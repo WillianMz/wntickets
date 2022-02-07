@@ -3,9 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Isector } from '../models/isector';
-import { BaseService } from './base.service';
-import { catchError, map } from 'rxjs/operators';
-import { Result } from '../models/Result';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +18,6 @@ export class SectorService {
     }
   }
 
-
   save(isector: Isector){
     if(isector.id){
       console.log(isector);
@@ -32,24 +28,40 @@ export class SectorService {
     }
   }
 
-  getAll(): Observable<Result>{
-    return this.http.get<Result>(`${environment.api}/Setor`)
-    .pipe(catchError(this.handleError<Result>('getAll')));
-  }
-
-  getById(id: number): Observable<Isector>{
-    return this.http.get<Isector>(`${environment.api}/setor/${id}`);
-  }
-
   private create(isector: Isector){
-    /* return this.http.post(`${environment.api}/setor`, isector, this.getHeaderJson())
-                    .pipe(map(this.extractData), catchError(this.serviceError)); */
-    return this.http.post(`${environment.api}/Setor`, isector);
+    return this.http.post(`${environment.api}/setor`, isector);
   }
 
   private update(isector: Isector){
-    /* return this.http.put(`${environment.api}/setor`, isector, this.getHeaderJson())
-                    .pipe(map(this.extractData), catchError(this.serviceError)); */
-    return this.http.put(`${environment.api}/Setor/${isector.id}`, isector);
+    return this.http.put(`${environment.api}/setor`, isector);
+  }
+
+  getAll(): Observable<Isector[]>{
+    return this.http.get<Isector[]>(`${environment.api}/setor`)
+    //.pipe(catchError(this.handleError<Result>('getAll')));
+  }
+
+  delete(id: number){
+    return this.http.delete(`${environment.api}/setor/${id}`);
+  }
+
+  getById(id: number): Observable<Isector>{
+    return this.http.get(`${environment.api}/setor/${id}`);
+  }
+
+  disable(id: number){
+    return this.http.put(`${environment.api}/setor/${id}/inativar`, null);
+  }
+
+  enable(id: number) {
+    return this.http.put(`${environment.api}/setor/${id}/ativar`, null);
+  }
+
+  disabled(): Observable<Isector[]>{
+    return this.http.get<Isector[]>(`${environment.api}/setor/desativados`);
+  }
+
+  getByName(nome: string): Observable<Isector[]> {
+    return this.http.get<Isector[]>(`${environment.api}/setor/${nome}`);
   }
 }

@@ -11,6 +11,7 @@ import { CategoryListComponent } from './category-list/category-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { TableModule } from 'ngx-easy-table';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TableModule } from 'ngx-easy-table';
     SectorRoutingModule,
     SharedModule,
     NgxPaginationModule,
-    TableModule
+    TableModule,
+    TooltipModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
