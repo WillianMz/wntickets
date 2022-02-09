@@ -1,5 +1,3 @@
-import { FiltroAvancado } from './../../../models/filtroAvancado';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -24,7 +22,8 @@ export class SectorListComponent implements OnInit {
   modalRef?: BsModalRef;
   pag : number = 1 ;
   contador : number = 10;
-  somenteDesativados: boolean;
+  sectorsDisabled: boolean;
+  sectorName: string;
 
   public configuration: Config;
   public columns: Columns[];
@@ -42,8 +41,8 @@ export class SectorListComponent implements OnInit {
   }
 
   public saveFilter(){
-    console.log(this.somenteDesativados);
-    if(this.somenteDesativados){
+    console.log(this.sectorsDisabled);
+    if(this.sectorsDisabled){
       this.listDisabled();
       console.log('SOMENTE SETORES DESATIVADOS');
     }
@@ -59,7 +58,7 @@ export class SectorListComponent implements OnInit {
   }
 
   public listAll(): void{
-    if(this.somenteDesativados){
+    if(this.sectorsDisabled){
       this.listDisabled();
       console.log('SOMENTE SETORES DESATIVADOS');
     }
@@ -133,14 +132,22 @@ export class SectorListComponent implements OnInit {
     })
   }
 
-  public listByName(nome: string): void{
-    setTimeout(() => {
-      this.sectorService.getByName(nome).subscribe(response => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        this.sectors = response['objeto'];
-      })
-    }, 2000);
+  public listByName(): void{
+
+    this.sectorName = this.sectorName.trim().toUpperCase();
+
+    if(this.sectorName === "" || this.sectorName == undefined){
+      window.alert('Digite algo no campo de pesquisa!');
+    }
+    else{
+      setTimeout(() => {
+        this.sectorService.getByName(this.sectorName).subscribe(response => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.sectors = response['objeto'];
+        })
+      }, 2000);
+    }
   }
 
   public listDisabled(): void{

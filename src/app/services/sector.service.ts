@@ -36,32 +36,32 @@ export class SectorService {
     return this.http.put(`${environment.api}/setor`, isector);
   }
 
-  getAll(): Observable<Isector[]>{
+  public getAll(): Observable<Isector[]>{
     return this.http.get<Isector[]>(`${environment.api}/setor`)
     //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 
-  delete(id: number){
+  public delete(id: number){
     return this.http.delete(`${environment.api}/setor/${id}`);
   }
 
-  getById(id: number): Observable<Isector>{
+  public getById(id: number): Observable<Isector>{
     return this.http.get(`${environment.api}/setor/${id}`);
   }
 
-  disable(id: number){
+  public disable(id: number){
     return this.http.put(`${environment.api}/setor/${id}/inativar`, null);
   }
 
-  enable(id: number) {
+  public enable(id: number) {
     return this.http.put(`${environment.api}/setor/${id}/ativar`, null);
   }
 
-  disabled(): Observable<Isector[]>{
+  public disabled(): Observable<Isector[]>{
     return this.http.get<Isector[]>(`${environment.api}/setor/desativados`);
   }
 
-  getByName(nome: string): Observable<Isector[]> {
-    return this.http.get<Isector[]>(`${environment.api}/setor/${nome}`);
+  public getByName(nome: string): Observable<Isector[]> {
+    return this.http.get<Isector[]>(`${environment.api}/setor/procurar/${nome}`);
   }
 }

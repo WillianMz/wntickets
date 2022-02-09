@@ -2,10 +2,9 @@
   <app-navbar></app-navbar>
 </div>
 
-
 <div class="container">
   <div class="row pt-2" *ngIf="false">
-    <app-alert-nada-exibir [mensagem]="'EM DESENVOLVIMENTO'"[color]="'alert-danger'"></app-alert-nada-exibir>
+    <app-alert-nada-exibir [mensagem]="'EM DESENVOLVIMENTO'" [color]="'alert-danger'"></app-alert-nada-exibir>
   </div>
 </div>
 
@@ -20,7 +19,7 @@
 
     <ul class="list-group">
       <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="true" [(ngModel)]="somenteDesativados" >
+        <input class="form-check-input me-1" type="checkbox" value="true" [(ngModel)]="sectorsDisabled">
         Somente desativados
       </label>
     </ul>
@@ -44,8 +43,8 @@
   <div class="row mt-2">
     <div class="col-xs-6 col-sm-12 col-lg-6">
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Pesquisar por" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+        <input type="text" class="form-control" placeholder="Procurar setores por nome" aria-label="Search sector by name" aria-describedby="button-addon2" [(ngModel)]="sectorName">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="listByName()">
           <i class="bi bi-search"></i> Procurar
         </button>
       </div>
@@ -53,35 +52,32 @@
   </div>
 
   <div class="row" *ngIf="true">
-    <div class="col-xs-6 col-sm-12 col-lg-6">
-      <div class="btn-group">
-         <button type="button" class="btn btn-outline-primary" (click)="new()">
-          <i class="bi bi-plus-square"></i> Adicionar
-        </button>
-         <button type="button" class="btn btn-outline-primary" (click)="listAll()">
-          <i class="bi bi-arrow-clockwise"></i> Atualizar
-        </button>
-         <button type="button" class="btn btn-outline-primary" (click)="alert()">
-          <i class="bi bi-check2-square"></i> Selecionar
-        </button>
-         <button type="button" class="btn btn-outline-primary" (click)="alert()">
-          <i class="bi bi-printer"></i> Imprimir
-        </button>
-        <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
-          <i class="bi bi-filter"></i> Filtro
-        </button>
-       </div>
+    <div class="col-12">
+      <div class="col-xs-6 col-sm-12 col-lg-6">
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" (click)="new()">
+            <i class="bi bi-plus-square"></i> Adicionar
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="listAll()">
+            <i class="bi bi-arrow-clockwise"></i> Atualizar
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="alert()">
+            <i class="bi bi-check2-square"></i> Selecionar
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="alert()">
+            <i class="bi bi-printer"></i> Imprimir
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
+            <i class="bi bi-filter"></i> Filtro
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="colq mt-2" *ngIf="sectors?.length">
-    <div class="column col-12">
-      <ngx-table
-        [data]="sectors"
-        [configuration]="configuration"
-        [columns]="columns">
-
-
+  <div class="row mt-2" *ngIf="sectors?.length">
+    <div class="col-12">
+      <ngx-table [data]="sectors" [configuration]="configuration" [columns]="columns">
         <ng-template let-row>
           <td>
             <div class="font-small">{{ row.id }}</div>
@@ -91,7 +87,8 @@
           </td>
           <td>
             <div class="btn-group">
-              <button class="btn btn-outline-primary btn-sm" tooltip="Ver categorias deste setor" (click)="goCategories(row.id)">
+              <button class="btn btn-outline-primary btn-sm" tooltip="Ver categorias deste setor"
+                (click)="goCategories(row.id)">
                 <i class="bi bi-search"></i> Categorias
               </button>
               <button class="btn btn-outline-warning btn-sm" tooltip="Editar" (click)="edit(row.id)">
@@ -100,26 +97,22 @@
               <button class="btn btn-outline-danger btn-sm" tooltip="Excluír" (click)="delete(row.id)">
                 <i class="bi bi-trash"></i>
               </button>
-              <button class="btn btn-outline-success btn-sm" tooltip="Ativar setor" (click)="enable(row.id)" *ngIf="row.ativo == false">
+              <button class="btn btn-outline-success btn-sm" tooltip="Ativar setor" (click)="enable(row.id)"
+                *ngIf="row.ativo == false">
                 <i class="bi bi-toggle2-on"></i>
               </button>
-              <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar setor" (click)="disable(row.id)" *ngIf="row.ativo == true">
+              <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar setor" (click)="disable(row.id)"
+                *ngIf="row.ativo == true">
                 <i class="bi bi-toggle2-off"></i>
               </button>
             </div>
           </td>
         </ng-template>
-
-
       </ngx-table>
     </div>
-
   </div>
 
   <div class="row pt-2" *ngIf="!sectors?.length">
-    <app-alert-nada-exibir [mensagem]="'Nenhum setor encontrado!'"[color]="'alert-secondary'"></app-alert-nada-exibir>
+    <app-alert-nada-exibir [mensagem]="'Nenhum setor encontrado!'" [color]="'alert-secondary'"></app-alert-nada-exibir>
   </div>
-
-
 </div>
-

@@ -75,11 +75,11 @@ export class SectorFormComponent implements OnInit {
       },
       error: (response) => {
         console.log(response);
-        this.success = response.error['sucesso']
+        this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
 
-        this.showError(this.message, 'Ocorreu um erro!')
+        this.showError(this.message, 'Ocorreu um erro!');
         //window.alert(this.message);
         console.log(this.success);
         console.log(this.message);

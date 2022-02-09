@@ -4,7 +4,7 @@ import { CategoryService } from './../../../services/category.service';
 import { Icategory } from './../../../models/icategory';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 
@@ -15,7 +15,7 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 })
 export class CategoryListComponent implements OnInit {
 
-  titlePagina: string;
+  titlePage: string;
   idSector: number;
   sector: Isector;
   categories: Icategory[];
@@ -24,9 +24,7 @@ export class CategoryListComponent implements OnInit {
   success: boolean;
   message: string;
   modalRef?: BsModalRef;
-  pag : number = 1 ;
-  contador : number = 5;
-
+  categoryDisabled: boolean;
   public configuration: Config;
   public columns: Columns[];
 
@@ -34,62 +32,161 @@ export class CategoryListComponent implements OnInit {
     private sectorService: SectorService,
     private categoryService: CategoryService,
     private modalService: BsModalService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.configuration = { ...DefaultConfig };
-    this.configuration.searchEnabled = false;
-    this.configuration.fixedColumnWidth = false;
-    //this.configuration.isLoading = true;
-    this.configuration.rows = 5;
-    // ... etc.
-    this.columns = [
-      { key: 'id', title: 'Id' },
-      { key: 'nome', title: 'Nome da categoria' },
-      { key: 'isActive', title: 'Editar'}
-    ];
-
+    this.titlePage = "Categorias";
+    this.configGrid();
 
     this.activatedRoute.queryParams.subscribe(
       params => {
-        console.log(params);
-        this.filterBySector(params.sector);
-        this.idSector = parseInt(params.sector, 10);
-        console.log(this.idSector);
+        this.sectorId = parseInt(params.sector);
       }
     );
 
-    if(this.idSector){
-      this.filterBySector(this.idSector);
-      this.titlePagina = 'Categorias do setor';
-    }
-    else{
-      this.listAll();
-      this.titlePagina = 'Categorias';
-    }
+    this.list();
   }
 
-  listAll(){
-    this.categoryService.getAll().subscribe(
-      (respose) => {
-        this.categories = respose;
-      }
-    );
+  public alert(){
+    window.alert('Funcionalidade não disponível!');
   }
 
-  openModal(template: TemplateRef<any>) {
+  public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  private filterBySector(idSector: number){
-    console.log('filtro por setor');
-    this.categoryService.getBySector(idSector).subscribe(
-      (response) => {
-        this.categories = response;
-        console.log(this.categories);
+  public new(){
+    this.router.navigate(['/sectors/category/new']);
+  }
+
+  public edit(categoryId: string){
+    this.router.navigate([`/${categoryId}/edit`]);
+  }
+
+  public filter(){
+    if(this.sectorId && this.categoryDisabled){
+      this.listBySector(this.sectorId, false);
+    }
+
+    if(this.categoryDisabled){
+      this.listDisabled();
+    }
+    else{
+      this.list();
+    }
+
+    this.modalRef?.hide();
+  }
+
+
+  public list(): void{
+    if(this.sectorId){
+      this.titlePage = "Categorias do setor"
+      this.listBySector(this.sectorId, true);
+    }
+    else{
+      this.titlePage = "Categorias";
+      this.listAll();
+    }
+  }
+
+  public delete(id: string){
+    let categId = parseInt(id);
+    this.categoryService.delete(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.filter();
+        }
       }
-    );
+    })
+  }
+
+  public enable(id: string){
+    let categId = parseInt(id);
+    this.categoryService.enable(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.filter();
+        }
+      }
+    })
+  }
+
+  public disable(id: string){
+    let categId = parseInt(id);
+    this.categoryService.disable(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.filter();
+        }
+      }
+    })
+  }
+
+  public listAll(){
+    setTimeout(() => {
+      this.categoryService.getAll().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+        }
+      })
+    }, 2000);
+  }
+
+  public listDisabled(){
+    setTimeout(() => {
+      this.categoryService.getDisable().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+        }
+      })
+    }, 2000);
+  }
+
+  public listBySector(sectorId: number, disable: boolean){
+    setTimeout(() => {
+      this.categoryService.getBySector(sectorId, disable).subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+        }
+      })
+    }, 2000);
+  }
+
+  public search(){
+
+  }
+
+  private configGrid(): void {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.searchEnabled = true;
+    this.configuration.fixedColumnWidth = false;
+    this.configuration.selectRow = true;
+    this.configuration.rows = 5;
+    //colunas
+    this.columns = [
+      { key: 'id', title: 'Id' },
+      { key: 'nome', title: 'Nome do setor' },
+      { key: 'setor', title: 'Setor' },
+      { key: 'isActive', title: 'Opções'}
+    ];
   }
 
 }
