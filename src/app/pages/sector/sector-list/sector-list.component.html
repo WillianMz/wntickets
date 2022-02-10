@@ -43,8 +43,8 @@
   <div class="row mt-2">
     <div class="col-xs-6 col-sm-12 col-lg-6">
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Procurar setores por nome" aria-label="Search sector by name" aria-describedby="button-addon2" [(ngModel)]="sectorName">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="listByName()">
+        <input type="text" class="form-control" placeholder="Digite aqui o que deseja procurar..." [(ngModel)]="sectorName">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()" *ngIf="sectorName?.length">
           <i class="bi bi-search"></i> Procurar
         </button>
       </div>
@@ -58,7 +58,7 @@
           <button type="button" class="btn btn-outline-primary" (click)="new()">
             <i class="bi bi-plus-square"></i> Adicionar
           </button>
-          <button type="button" class="btn btn-outline-primary" (click)="listAll()">
+          <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
             <i class="bi bi-arrow-clockwise"></i> Atualizar
           </button>
           <button type="button" class="btn btn-outline-primary" (click)="alert()">

@@ -5,6 +5,8 @@ import { Isector } from 'src/app/models/isector';
 import { SectorService } from 'src/app/services/sector.service';
 
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { ErroServidor } from 'src/app/models/erroServidor';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sector-list',
@@ -15,15 +17,15 @@ export class SectorListComponent implements OnInit {
 
   titlePage: string;
   sectors: Isector[];
+  sectorsCopy: Isector[];
   sector: Isector;
   sectorId: number;
   success: boolean;
   message: string;
   modalRef?: BsModalRef;
-  pag : number = 1 ;
-  contador : number = 10;
   sectorsDisabled: boolean;
   sectorName: string;
+  erros: ErroServidor[];
 
   public configuration: Config;
   public columns: Columns[];
@@ -31,8 +33,9 @@ export class SectorListComponent implements OnInit {
   constructor(
     private sectorService: SectorService,
     private modalService: BsModalService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.titlePage = "Setores";
@@ -40,38 +43,136 @@ export class SectorListComponent implements OnInit {
     this.listAll();
   }
 
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
+  }
+
+  private showMessage(message: string, title?: string){
+    this.toastr.info(message, title);
+  }
+
+  private configGrid(){
+    this.configuration = { ...DefaultConfig };
+    this.configuration.searchEnabled = true;
+    this.configuration.fixedColumnWidth = false;
+    this.configuration.selectRow = true;
+    this.configuration.rows = 5;
+    //colunas
+    this.columns = [
+      { key: 'id', title: 'Id' },
+      { key: 'nome', title: 'Nome do setor' },
+      { key: 'isActive', title: 'Editar'}
+    ];
+  }
+
+  private listAll() {
+    setTimeout(() => {
+      this.sectorService.getAll().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+
+          //IMPLEMENTAR UMA BLOCO DE CODIGO PARA DIMINUIR
+          //A REPETIÇÃO NOS DEMAIS COMANDOS DE CONSULTA A SEGUIR
+          if(this.success == true) {
+            this.sectors = response['objeto'];
+            this.sectorsCopy = this.sectors;
+            this.titlePage = "Setores";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.sectors = [];
+            this.sectorsCopy = [];
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+        }
+      })
+    }, 2000);
+  }
+
+  private listByName(name: string) {
+    setTimeout(() => {
+      this.sectorService.getByName(name).subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+
+          if(this.success == true) {
+            this.sectors = response['objeto'];
+            this.sectorsCopy = this.sectors;
+            this.titlePage = "Setores";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.sectors = [];
+            this.sectorsCopy = [];
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+        }
+      })
+    }, 2000);
+  }
+
+  private listDisabled() {
+    setTimeout(() => {
+      this.sectorService.disabled().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+
+          if(this.success == true) {
+            this.sectors = response['objeto'];
+            this.sectorsCopy = this.sectors;
+            this.titlePage = "Setores";
+            this.showMessage(this.message);
+          }
+          else {
+            this.message = response['mensagem'];
+            this.sectors = [];
+            this.sectorsCopy = [];
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+        }
+      })
+    }, 2000);
+  }
+
   public saveFilter(){
     console.log(this.sectorsDisabled);
+    this.sectorName = "";
     if(this.sectorsDisabled){
-      this.listDisabled();
-      console.log('SOMENTE SETORES DESATIVADOS');
+      this.listDisabled();//lista setores desativados
     }
     else{
-      this.listAll();
-      console.log('SOMENTE SETORES ATIVOS');
+      this.listAll();//lista todos os setores ativos
     }
+
     this.modalRef?.hide();
   }
 
-  public alert(){
-    window.alert('Funcionalidade não disponível!');
+  public search(){
+    this.listByName(this.sectorName);
   }
 
-  public listAll(): void{
-    if(this.sectorsDisabled){
-      this.listDisabled();
-      console.log('SOMENTE SETORES DESATIVADOS');
-    }
-    else{
-      setTimeout(() => {
-        this.sectorService.getAll().subscribe(response => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.sectors = response['objeto'];
-          this.titlePage = "Setores";
-        })
-      }, 2000);
-    }
+  public alert(){
+    //window.alert('Funcionalidade não disponível!');
+    this.showMessage('Funcionalidade em desenvolvimento!', 'ATENÇÃO');
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -88,6 +189,20 @@ export class SectorListComponent implements OnInit {
 
   public edit(sectorId: string){
     this.router.navigate([`sectors/${sectorId}/edit`]);
+  }
+
+  public enable(id: string){
+    let sectorId = parseInt(id);
+    this.sectorService.enable(sectorId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.listAll();
+        }
+      }
+    })
   }
 
   public delete(id: string){
@@ -116,65 +231,5 @@ export class SectorListComponent implements OnInit {
         }
       }
     })
-  }
-
-  public enable(id: string){
-    let sectorId = parseInt(id);
-    this.sectorService.enable(sectorId).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-
-        if(this.success == true){
-          this.listAll();
-        }
-      }
-    })
-  }
-
-  public listByName(): void{
-
-    this.sectorName = this.sectorName.trim().toUpperCase();
-
-    if(this.sectorName === "" || this.sectorName == undefined){
-      window.alert('Digite algo no campo de pesquisa!');
-    }
-    else{
-      setTimeout(() => {
-        this.sectorService.getByName(this.sectorName).subscribe(response => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.sectors = response['objeto'];
-        })
-      }, 2000);
-    }
-  }
-
-  public listDisabled(): void{
-    setTimeout(() => {
-      this.sectorService.disabled().subscribe(response => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        this.sectors = response['objeto'];
-
-        if(this.success == true){
-          this.titlePage = "Setores desativados";
-        }
-      })
-    }, 2000);
-  }
-
-  private configGrid(){
-    this.configuration = { ...DefaultConfig };
-    this.configuration.searchEnabled = true;
-    this.configuration.fixedColumnWidth = false;
-    this.configuration.selectRow = true;
-    this.configuration.rows = 5;
-    //colunas
-    this.columns = [
-      { key: 'id', title: 'Id' },
-      { key: 'nome', title: 'Nome do setor' },
-      { key: 'isActive', title: 'Editar'}
-    ];
   }
 }

@@ -1,3 +1,4 @@
+import { ErroServidor } from './../../../models/erroServidor';
 import { SectorService } from 'src/app/services/sector.service';
 import { Isector } from 'src/app/models/isector';
 import { CategoryService } from './../../../services/category.service';
@@ -7,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-list',
@@ -25,15 +27,18 @@ export class CategoryListComponent implements OnInit {
   message: string;
   modalRef?: BsModalRef;
   categoryDisabled: boolean;
+  categoryName: string;
+  erros: ErroServidor[];
+
   public configuration: Config;
   public columns: Columns[];
 
   constructor(
-    private sectorService: SectorService,
     private categoryService: CategoryService,
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -49,129 +54,16 @@ export class CategoryListComponent implements OnInit {
     this.list();
   }
 
-  public alert(){
-    window.alert('Funcionalidade não disponível!');
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
   }
 
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
   }
 
-  public new(){
-    this.router.navigate(['/sectors/category/new']);
-  }
-
-  public edit(categoryId: string){
-    this.router.navigate([`/${categoryId}/edit`]);
-  }
-
-  public filter(){
-    if(this.sectorId && this.categoryDisabled){
-      this.listBySector(this.sectorId, false);
-    }
-
-    if(this.categoryDisabled){
-      this.listDisabled();
-    }
-    else{
-      this.list();
-    }
-
-    this.modalRef?.hide();
-  }
-
-
-  public list(): void{
-    if(this.sectorId){
-      this.titlePage = "Categorias do setor"
-      this.listBySector(this.sectorId, true);
-    }
-    else{
-      this.titlePage = "Categorias";
-      this.listAll();
-    }
-  }
-
-  public delete(id: string){
-    let categId = parseInt(id);
-    this.categoryService.delete(categId).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-
-        if(this.success == true){
-          this.filter();
-        }
-      }
-    })
-  }
-
-  public enable(id: string){
-    let categId = parseInt(id);
-    this.categoryService.enable(categId).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-
-        if(this.success == true){
-          this.filter();
-        }
-      }
-    })
-  }
-
-  public disable(id: string){
-    let categId = parseInt(id);
-    this.categoryService.disable(categId).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-
-        if(this.success == true){
-          this.filter();
-        }
-      }
-    })
-  }
-
-  public listAll(){
-    setTimeout(() => {
-      this.categoryService.getAll().subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.categories = response['objeto'];
-        }
-      })
-    }, 2000);
-  }
-
-  public listDisabled(){
-    setTimeout(() => {
-      this.categoryService.getDisable().subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.categories = response['objeto'];
-        }
-      })
-    }, 2000);
-  }
-
-  public listBySector(sectorId: number, disable: boolean){
-    setTimeout(() => {
-      this.categoryService.getBySector(sectorId, disable).subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.categories = response['objeto'];
-        }
-      })
-    }, 2000);
-  }
-
-  public search(){
-
+  private showMessage(message: string, title?: string){
+    this.toastr.info(message, title);
   }
 
   private configGrid(): void {
@@ -189,4 +81,206 @@ export class CategoryListComponent implements OnInit {
     ];
   }
 
+  private listAll(){
+    setTimeout(() => {
+      this.categoryService.getAll().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  public listDisabled(){
+    setTimeout(() => {
+      this.categoryService.getDisable().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias desativadas";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  public listBySector(sectorId: number, disable: boolean){
+    setTimeout(() => {
+      this.categoryService.getBySector(sectorId, disable).subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  public listByName(name: string){
+    setTimeout(() => {
+      this.categoryService.getByName(name).subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  private list(): void{
+    if(this.sectorId){
+      this.titlePage = "Categorias do setor"
+      this.listBySector(this.sectorId, true);
+    }
+    else{
+      this.titlePage = "Categorias";
+      this.listAll();
+    }
+  }
+
+  public saveFilter() {
+    this.categoryName = "";
+
+    if(this.sectorId && this.categoryDisabled){
+      this.listBySector(this.sectorId, false);
+    }
+
+    if(this.categoryDisabled){
+      this.listDisabled();
+    }
+    else{
+      this.list();
+    }
+
+    this.modalRef?.hide();
+  }
+
+  public search() {
+    this.listByName(this.categoryName);
+  }
+
+  public alert(){
+    window.alert('Funcionalidade não disponível!');
+  }
+
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  public new(){
+    this.router.navigate(['/sectors/category/new'], {queryParams: { sector: this.sectorId}});
+    console.log(this.sectorId);
+  }
+
+  public edit(categoryId: string){
+    this.router.navigate([`/${categoryId}/edit`]);
+  }
+
+  public delete(id: string){
+    let categId = parseInt(id);
+    this.categoryService.delete(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.list();
+        }
+      }
+    })
+  }
+
+  public enable(id: string){
+    let categId = parseInt(id);
+    this.categoryService.enable(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.list();
+        }
+      }
+    })
+  }
+
+  public disable(id: string){
+    let categId = parseInt(id);
+    this.categoryService.disable(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.list();
+        }
+      }
+    })
+  }
 }
