@@ -2,7 +2,7 @@
 
 <div class="pt-2 container">
 
-  <div class="row" *ngIf="titleFormVisible">
+  <div class="row" *ngIf="!titleFormVisible">
     <h3>{{titleForm}}</h3>
   </div>
 
@@ -25,17 +25,26 @@
         <div class="form-floating mb-3">
           <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
           <label for="floatingInput">Nome</label>
+
+          <!-- validacao -->
+          <div class="text-danger" *ngIf="nome?.errors">
+            <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o Nome do setor</div>
+            <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
+              Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
+            </div>
+            <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
+              Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres</div>
+          </div>
         </div>
 
-        <!-- validacao -->
-        <div class="text-danger" *ngIf="nome?.errors">
-          <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o Nome do setor</div>
-          <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
-            Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
-          </div>
-          <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
-            Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres</div>
+        <div >
+          <select class="form-select" >
+            <option *ngFor="let s of sectors" value="{{s.id}}">{{s.nome}}</option>
+          </select>
         </div>
+
+
+
 
       </form>
 

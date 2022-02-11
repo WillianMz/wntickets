@@ -82,7 +82,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   private listAll(){
-    setTimeout(() => {
+    //setTimeout(() => {
       this.categoryService.getAll().subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -91,7 +91,6 @@ export class CategoryListComponent implements OnInit {
 
           if(this.success == true) {
             this.categories = response['objeto'];
-            this.titlePage = "Categorias";
           }
           else {
             this.message = response['mensagem'];
@@ -106,11 +105,11 @@ export class CategoryListComponent implements OnInit {
           this.showError(this.message, 'Ocorreu um erro');
         }
       })
-    }, 2000);
+    //}, 2000);
   }
 
   public listDisabled(){
-    setTimeout(() => {
+    //setTimeout(() => {
       this.categoryService.getDisable().subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -134,11 +133,11 @@ export class CategoryListComponent implements OnInit {
           this.showError(this.message, 'Ocorreu um erro');
         }
       })
-    }, 2000);
+    //}, 2000);
   }
 
   public listBySector(sectorId: number, disable: boolean){
-    setTimeout(() => {
+    //setTimeout(() => {
       this.categoryService.getBySector(sectorId, disable).subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -147,7 +146,6 @@ export class CategoryListComponent implements OnInit {
 
           if(this.success == true) {
             this.categories = response['objeto'];
-            this.titlePage = "Categorias";
           }
           else {
             this.message = response['mensagem'];
@@ -162,11 +160,11 @@ export class CategoryListComponent implements OnInit {
           this.showError(this.message, 'Ocorreu um erro');
         }
       })
-    }, 2000);
+    //}, 2000);
   }
 
   public listByName(name: string){
-    setTimeout(() => {
+    //setTimeout(() => {
       this.categoryService.getByName(name).subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -175,7 +173,6 @@ export class CategoryListComponent implements OnInit {
 
           if(this.success == true) {
             this.categories = response['objeto'];
-            this.titlePage = "Categorias";
           }
           else {
             this.message = response['mensagem'];
@@ -190,17 +187,19 @@ export class CategoryListComponent implements OnInit {
           this.showError(this.message, 'Ocorreu um erro');
         }
       })
-    }, 2000);
+    //}, 2000);
   }
 
   private list(): void{
     if(this.sectorId){
       this.titlePage = "Categorias do setor"
       this.listBySector(this.sectorId, true);
+      console.log('categoria por setor');
     }
     else{
       this.titlePage = "Categorias";
       this.listAll();
+      console.log('todas as categorias');
     }
   }
 
@@ -239,7 +238,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public edit(categoryId: string){
-    this.router.navigate([`/${categoryId}/edit`]);
+    this.router.navigate([`/sectors/category/${categoryId}/edit`], { queryParams: {category: categoryId}});
   }
 
   public delete(id: string){
