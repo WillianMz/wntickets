@@ -6,18 +6,18 @@ import { TicketRoutingModule } from './ticket-routing.module';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { TicketOpenComponent } from './ticket-open/ticket-open.component';
-import { TicketListColComponent } from './ticket-list-col/ticket-list-col.component';
 import { CommentsComponent } from './comments/comments.component';
 import { HistoricFormComponent } from './historic-form/historic-form.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
   declarations: [
     TicketFormComponent,
     TicketListComponent,
     TicketOpenComponent,
-    TicketListColComponent,
     CommentsComponent,
     HistoricFormComponent,
     AttachmentsComponent
@@ -25,7 +25,9 @@ import { AttachmentsComponent } from './attachments/attachments.component';
   imports: [
     CommonModule,
     TicketRoutingModule,
-    SharedModule
+    SharedModule,
+    TabsModule,
+    TableModule
   ]
 })
 export class TicketModule { }

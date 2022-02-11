@@ -1,10 +1,14 @@
+import { ErroServidor } from './../../../models/erroServidor';
 import { SectorService } from 'src/app/services/sector.service';
 import { Isector } from 'src/app/models/isector';
 import { CategoryService } from './../../../services/category.service';
 import { Icategory } from './../../../models/icategory';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-list',
@@ -13,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CategoryListComponent implements OnInit {
 
-  titlePagina: string = 'Categorias';
+  titlePage: string;
   idSector: number;
   sector: Isector;
   categories: Icategory[];
@@ -22,55 +26,261 @@ export class CategoryListComponent implements OnInit {
   success: boolean;
   message: string;
   modalRef?: BsModalRef;
-  pag : number = 1 ;
-  contador : number = 5;
+  categoryDisabled: boolean;
+  categoryName: string;
+  erros: ErroServidor[];
+
+  public configuration: Config;
+  public columns: Columns[];
 
   constructor(
-    private sectorService: SectorService,
     private categoryService: CategoryService,
     private modalService: BsModalService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
+    this.titlePage = "Categorias";
+    this.configGrid();
+
     this.activatedRoute.queryParams.subscribe(
       params => {
-        console.log(params);
-        this.filterBySector(params.sector);
-        this.idSector = parseInt(params.sector, 10);
-        console.log(this.idSector);
+        this.sectorId = parseInt(params.sector);
       }
     );
 
-    if(this.idSector){
-      this.filterBySector(this.idSector);
+    this.list();
+  }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
+  }
+
+  private showMessage(message: string, title?: string){
+    this.toastr.info(message, title);
+  }
+
+  private configGrid(): void {
+    this.configuration = { ...DefaultConfig };
+    this.configuration.searchEnabled = true;
+    this.configuration.fixedColumnWidth = false;
+    this.configuration.selectRow = true;
+    this.configuration.rows = 5;
+    //colunas
+    this.columns = [
+      { key: 'id', title: 'Id' },
+      { key: 'nome', title: 'Nome do setor' },
+      { key: 'setor', title: 'Setor' },
+      { key: 'isActive', title: 'Opções'}
+    ];
+  }
+
+  private listAll(){
+    setTimeout(() => {
+      this.categoryService.getAll().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  public listDisabled(){
+    setTimeout(() => {
+      this.categoryService.getDisable().subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias desativadas";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  public listBySector(sectorId: number, disable: boolean){
+    setTimeout(() => {
+      this.categoryService.getBySector(sectorId, disable).subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  public listByName(name: string){
+    setTimeout(() => {
+      this.categoryService.getByName(name).subscribe({
+        next: (response) => {
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.categories = response['objeto'];
+
+          if(this.success == true) {
+            this.categories = response['objeto'];
+            this.titlePage = "Categorias";
+          }
+          else {
+            this.message = response['mensagem'];
+            this.categories = [];
+            this.showMessage(this.message);
+          }
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.showError(this.message, 'Ocorreu um erro');
+        }
+      })
+    }, 2000);
+  }
+
+  private list(): void{
+    if(this.sectorId){
+      this.titlePage = "Categorias do setor"
+      this.listBySector(this.sectorId, true);
     }
     else{
+      this.titlePage = "Categorias";
       this.listAll();
     }
   }
 
-  listAll(){
-    this.categoryService.getAll().subscribe(
-      (respose) => {
-        this.categories = respose;
-      }
-    );
+  public saveFilter() {
+    this.categoryName = "";
+
+    if(this.sectorId && this.categoryDisabled){
+      this.listBySector(this.sectorId, false);
+    }
+
+    if(this.categoryDisabled){
+      this.listDisabled();
+    }
+    else{
+      this.list();
+    }
+
+    this.modalRef?.hide();
   }
 
-  openModal(template: TemplateRef<any>) {
+  public search() {
+    this.listByName(this.categoryName);
+  }
+
+  public alert(){
+    window.alert('Funcionalidade não disponível!');
+  }
+
+  public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  private filterBySector(idSector: number){
-    console.log('filtro por setor');
-    this.categoryService.getBySector(idSector).subscribe(
-      (response) => {
-        this.categories = response;
-        console.log(this.categories);
-        this.titlePagina = 'Categorias do setor';
-      }
-    );
+  public new(){
+    this.router.navigate(['/sectors/category/new'], {queryParams: { sector: this.sectorId}});
+    console.log(this.sectorId);
   }
 
+  public edit(categoryId: string){
+    this.router.navigate([`/${categoryId}/edit`]);
+  }
+
+  public delete(id: string){
+    let categId = parseInt(id);
+    this.categoryService.delete(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.list();
+        }
+      }
+    })
+  }
+
+  public enable(id: string){
+    let categId = parseInt(id);
+    this.categoryService.enable(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.list();
+        }
+      }
+    })
+  }
+
+  public disable(id: string){
+    let categId = parseInt(id);
+    this.categoryService.disable(categId).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success == true){
+          this.list();
+        }
+      }
+    })
+  }
 }

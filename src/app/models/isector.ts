@@ -1,6 +1,7 @@
+import { Icategory } from './icategory';
 export interface Isector {
   id?: number;
   nome?: string;
   ativo?: boolean;
-  img?: string;
+  categorias?: Icategory[];
 }

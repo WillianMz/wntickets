@@ -1,116 +1,118 @@
 <div class="sticky-top ">
   <app-navbar></app-navbar>
-  <!-- <nav class="nav nav-underline" aria-label="Secondary navigation" style="background-color: white">
-    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-    <a class="nav-link" href="#">
-      Pendentes
-      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-    </a>
-    <a class="nav-link" href="#">
-      Finalizados
-      <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-    </a>
-    <a class="nav-link" href="#">Suggestions</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-  </nav> -->
 </div>
-
 
 <div class="container">
-  <section class="row">
-    <h2 class="col-12">Setores</h2>
-  </section>
-
-  <div class="row pt-2" *ngIf="true">
-    <div class="col">
-      <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary" (click)="openModal(createNewSector)">Adicionar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="row pb-2">
-    <div class="col-sm-12 col-md-6 col-lg-2 pt-1">
-      <form class="text-center">
-        <div class="form-group">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Procurar por</option>
-            <option value="2">Que contenha</option>
-          </select>
-        </div>
-      </form>
-    </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-6 pt-1">
-      <form class="text-center">
-        <div class="form-group">
-          <input class="form-control" placeholder="Pesquisar">
-        </div>
-      </form>
-    </div>
-
-    <div class="col-sm-12 col-md-12 col-lg-4 pt-1 d-grid">
-      <button class="btn btn-primary">Buscar</button>
-    </div>
-  </div>
-
   <div class="row pt-2" *ngIf="false">
-    <app-alert-nada-exibir></app-alert-nada-exibir>
+    <app-alert-nada-exibir [mensagem]="'EM DESENVOLVIMENTO'" [color]="'alert-danger'"></app-alert-nada-exibir>
   </div>
-
-  <div class="pt-2 row">
-    <div class="pt-1 col-12">
-      <div class="list-group">
-
-        <div class="list-group-item list-group-item-action d-flex gap-3 py-3"
-            *ngFor="let s of sectors | paginate: { itemsPerPage: contador, currentPage: pag }">
-
-          <img src="{{s.img || '../../../../../../assets/logo.png'}}" alt="" width="32" height="32" class="rounded-circle flex-shrink-o">
-          <div class="d-flex gap-2 w-100 justify-content-between">
-            <a class="link" [routerLink]="['/sectors/categories']" [queryParams]="{sector: s.id}">
-              <h6 class="mb-0">{{s.nome}}</h6>
-            </a>
-
-            <div class="btn-group btn-group-sm">
-              <button class="btn btn-sm btn-outline-warning" [routerLink]="['edit', s.id]">
-                <i class="bi bi-pencil-square"></i> Editar
-              </button>
-              <button class="btn btn-sm btn-outline-danger" [routerLink]="['edit', s.id]">
-                <i class="bi bi-x-square"></i> Excluír
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <app-alert-nada-exibir *ngIf="!sectors?.length"></app-alert-nada-exibir>
-    </div>
-  </div>
-
-  <div class="text-center pt-2">
-    <pagination-controls
-      (pageChange)="pag = $event"
-      [responsive]="true"
-      [autoHide]="true"
-      previousLabel="Voltar"
-      nextLabel="Avançar">
-    </pagination-controls>
-  </div>
-
 </div>
 
-<ng-template #createNewSector>
+<ng-template #filtroPesquisa>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Novo Setor</h4>
+    <h4 class="modal-title pull-left">Filtros</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <app-sector-form [navbarVisible]="false" [titleFormVisible]="false"></app-sector-form>
+
+    <ul class="list-group">
+      <label class="list-group-item">
+        <input class="form-check-input me-1" type="checkbox" value="true" [(ngModel)]="sectorsDisabled">
+        Somente desativados
+      </label>
+    </ul>
+
+    <div class="row mt-2">
+      <button class="btn btn-primary" (click)="saveFilter()">Aplicar</button>
+    </div>
+
   </div>
 </ng-template>
+
+
+<div class="container">
+
+  <div class="row mt-2">
+    <div class="col-12">
+      <h2>{{titlePage}}</h2>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-xs-6 col-sm-12 col-lg-6">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Digite aqui o que deseja procurar..." [(ngModel)]="sectorName">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()" *ngIf="sectorName?.length">
+          <i class="bi bi-search"></i> Procurar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="true">
+    <div class="col-12">
+      <div class="col-xs-6 col-sm-12 col-lg-6">
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" (click)="new()">
+            <i class="bi bi-plus-square"></i> Adicionar
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
+            <i class="bi bi-arrow-clockwise"></i> Atualizar
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="alert()">
+            <i class="bi bi-check2-square"></i> Selecionar
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="alert()">
+            <i class="bi bi-printer"></i> Imprimir
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
+            <i class="bi bi-filter"></i> Filtro
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2" *ngIf="sectors?.length">
+    <div class="col-12">
+      <ngx-table [data]="sectors" [configuration]="configuration" [columns]="columns">
+        <ng-template let-row>
+          <td>
+            <div class="font-small">{{ row.id }}</div>
+          </td>
+          <td>
+            <span class="font-small">{{ row.nome }}</span>
+          </td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-outline-primary btn-sm" tooltip="Ver categorias deste setor"
+                (click)="goCategories(row.id)">
+                <i class="bi bi-search"></i> Categorias
+              </button>
+              <button class="btn btn-outline-warning btn-sm" tooltip="Editar" (click)="edit(row.id)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-sm" tooltip="Excluír" (click)="delete(row.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+              <button class="btn btn-outline-success btn-sm" tooltip="Ativar setor" (click)="enable(row.id)"
+                *ngIf="row.ativo == false">
+                <i class="bi bi-toggle2-on"></i>
+              </button>
+              <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar setor" (click)="disable(row.id)"
+                *ngIf="row.ativo == true">
+                <i class="bi bi-toggle2-off"></i>
+              </button>
+            </div>
+          </td>
+        </ng-template>
+      </ngx-table>
+    </div>
+  </div>
+
+  <div class="row pt-2" *ngIf="!sectors?.length">
+    <app-alert-nada-exibir [mensagem]="'Nenhum setor encontrado!'" [color]="'alert-secondary'"></app-alert-nada-exibir>
+  </div>
+</div>
