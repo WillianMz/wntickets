@@ -48,6 +48,7 @@ export class CategoryListComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(
       params => {
         this.sectorId = parseInt(params.sector);
+        console.log(`SETOR: ${this.sectorId}`);
       }
     );
 
@@ -82,112 +83,104 @@ export class CategoryListComponent implements OnInit {
   }
 
   private listAll(){
-    //setTimeout(() => {
-      this.categoryService.getAll().subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.categories = response['objeto'];
+    this.categoryService.getAll().subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        this.categories = response['objeto'];
 
-          if(this.success == true) {
-            this.categories = response['objeto'];
-          }
-          else {
-            this.message = response['mensagem'];
-            this.categories = [];
-            this.showMessage(this.message);
-          }
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.showError(this.message, 'Ocorreu um erro');
+        if(this.success == true) {
+          this.categories = response['objeto'];
         }
-      })
-    //}, 2000);
+        else {
+          this.message = response['mensagem'];
+          this.categories = [];
+          this.showMessage(this.message);
+        }
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.showError(this.message, 'Ocorreu um erro');
+      }
+    })
   }
 
   public listDisabled(){
-    //setTimeout(() => {
-      this.categoryService.getDisable().subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.categories = response['objeto'];
+    this.categoryService.getDisable().subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        this.categories = response['objeto'];
 
-          if(this.success == true) {
-            this.categories = response['objeto'];
-            this.titlePage = "Categorias desativadas";
-          }
-          else {
-            this.message = response['mensagem'];
-            this.categories = [];
-            this.showMessage(this.message);
-          }
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.showError(this.message, 'Ocorreu um erro');
+        if(this.success == true) {
+          this.categories = response['objeto'];
+          this.titlePage = "Categorias desativadas";
         }
-      })
-    //}, 2000);
+        else {
+          this.message = response['mensagem'];
+          this.categories = [];
+          this.showMessage(this.message);
+        }
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.showError(this.message, 'Ocorreu um erro');
+      }
+    })
   }
 
-  public listBySector(sectorId: number, disable: boolean){
-    //setTimeout(() => {
-      this.categoryService.getBySector(sectorId, disable).subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.categories = response['objeto'];
+  public listBySector(sectorId: number, disable: boolean) {
+    this.categoryService.getBySector(sectorId, disable).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        this.categories = response['objeto'];
 
-          if(this.success == true) {
-            this.categories = response['objeto'];
-          }
-          else {
-            this.message = response['mensagem'];
-            this.categories = [];
-            this.showMessage(this.message);
-          }
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.showError(this.message, 'Ocorreu um erro');
+        if(this.success == true) {
+          this.categories = response['objeto'];
         }
-      })
-    //}, 2000);
+        else {
+          this.message = response['mensagem'];
+          this.categories = [];
+          this.showMessage(this.message);
+        }
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.showError(this.message, 'Ocorreu um erro');
+      }
+    })
   }
 
-  public listByName(name: string){
-    //setTimeout(() => {
-      this.categoryService.getByName(name).subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.categories = response['objeto'];
+  public listByName(name: string) {
+    this.categoryService.getByName(name).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        this.categories = response['objeto'];
 
-          if(this.success == true) {
-            this.categories = response['objeto'];
-          }
-          else {
-            this.message = response['mensagem'];
-            this.categories = [];
-            this.showMessage(this.message);
-          }
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.showError(this.message, 'Ocorreu um erro');
+        if(this.success == true) {
+          this.categories = response['objeto'];
         }
-      })
-    //}, 2000);
+        else {
+          this.message = response['mensagem'];
+          this.categories = [];
+          this.showMessage(this.message);
+        }
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.showError(this.message, 'Ocorreu um erro');
+      }
+    })
   }
 
   private list(): void{
@@ -238,7 +231,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public edit(categoryId: string){
-    this.router.navigate([`/sectors/category/${categoryId}/edit`], { queryParams: {category: categoryId}});
+    this.router.navigate([`/sectors/category/${categoryId}/edit`]);
   }
 
   public delete(id: string){
@@ -249,6 +242,7 @@ export class CategoryListComponent implements OnInit {
         this.message = response['mensagem'];
 
         if(this.success == true){
+          this.showSuccess(this.message);
           this.list();
         }
       }
@@ -263,6 +257,7 @@ export class CategoryListComponent implements OnInit {
         this.message = response['mensagem'];
 
         if(this.success == true){
+          this.showSuccess(this.message);
           this.list();
         }
       }

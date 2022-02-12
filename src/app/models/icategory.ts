@@ -3,7 +3,7 @@ export interface Icategory {
   id?: number;
   nome?: string;
   ativa?: boolean;
-  sectorID: number;
+  setorId: number;
   img?: string;
   sector?: Isector;
 }

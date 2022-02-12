@@ -9,7 +9,7 @@
   <div class="row mt-2">
     <div class="mb-2" >
       <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary" [routerLink]="['/sectors']">
+        <button type="button" class="btn btn-outline-primary" [routerLink]="['/sectors/categories']">
           <i class="bi bi-arrow-left"></i> Voltar
         </button>
       </div>
@@ -38,8 +38,8 @@
         </div>
 
         <div >
-          <select class="form-select" >
-            <option *ngFor="let s of sectors" value="{{s.id}}">{{s.nome}}</option>
+          <select class="form-select" formControlName="setorId" *ngIf="exibirSectors">
+            <option *ngFor="let s of sectors" [value]="s.id">{{s.nome}}</option>
           </select>
         </div>
 
@@ -51,7 +51,7 @@
       <div class="row mt-2">
         <div class="col">
           <div class="btn-group d-flex">
-            <button type="button" class="btn btn-outline-primary" [disabled]="!categForm.valid" (click)="save()">Salvar</button>
+            <button type="button" class="btn btn-outline-primary" [disabled]="!categForm.valid" (click)="createCategory()">Salvar</button>
           </div>
         </div>
       </div>

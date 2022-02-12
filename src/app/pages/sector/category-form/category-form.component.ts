@@ -27,7 +27,7 @@ export class CategoryFormComponent implements OnInit {
   message: string;
   success: boolean;
   erros: ErroServidor[];
-  exibirSector: boolean = true;
+  exibirSectors: boolean = true;
 
   constructor(
     private sectorService: SectorService,
@@ -38,7 +38,7 @@ export class CategoryFormComponent implements OnInit {
   ) {
     let category = {
       nome: '',
-      sectorID: 0
+      setorId: 0
     };
 
     this.startForm(category);
@@ -48,38 +48,77 @@ export class CategoryFormComponent implements OnInit {
     return this.categForm.get('nome');
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(
-      params => {
-        this.sectorId = parseInt(params.sector);
-        this.categoryId = parseInt(params.category);
-      }
-    );
+  get setor(){
+    return this.categForm.get('setorId');
+  }
+
+  ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id){
+      this.categoryId = parseInt(id);
+      console.log('PASSOU AQUI 1');
+    }
+    else {
+      this.activatedRoute.queryParams.subscribe(
+        params => {
+          this.sectorId = parseInt(params.sector);
+        }
+      );
+      console.log('PASSOU AQUI 2');
+    }
 
     if(this.categoryId){
       this.listSectors();
       this.titleForm = "Editando registro";
       this.loadCategory(this.categoryId);
+      console.log('CONFIGURANDO FORMULARIO');
     }
     else {
       this.titleForm = "Nova categoria";
+      this.exibirSectors = false;
+      //this.listSectors();
     }
 
   }
 
-  public save() {
+  public createCategory(){
     let categ: Icategory;
-    categ = {...this.categForm.value, setorID: this.sectorId};
-    console.log(categ);
 
-    this.categoryService.save(categ).subscribe({
+    if(this.categoryId){
+      categ = {
+        id: this.categoryId,
+        nome: this.nome?.value,
+        setorId: this.setor?.value
+      }
+    }
+    else {
+      categ = {
+        id: this.categoryId,
+        nome: this.nome?.value,
+        setorId: this.sectorId
+      }
+    }
+
+    this.save(categ);
+  }
+
+  public save(category: Icategory) {
+    /* let categ: Icategory;
+    //categ = {...this.categForm.value, id: this.categoryId, setorId: this.sectorId};
+    categ = {
+      id: this.categoryId,
+      nome: this.nome?.value,
+      setorId: this.sectorId
+    } */
+
+    this.categoryService.save(category).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
         this.message = response['mensagem'];
 
         if(this.success == true){
-          this.showSuccess(this.message, 'Nova categoria');
-          this.router.navigate(['/sectors/categories'],  {queryParams: { sector: this.sectorId}});
+          this.showSuccess(this.message);
+          this.router.navigate(['/sectors/categories'],  {queryParams: { sector: category.setorId}});
         }
         else {
           this.showError(this.message);
@@ -96,7 +135,8 @@ export class CategoryFormComponent implements OnInit {
   }
 
   private loadCategory(categId: number) {
-    setTimeout(() => {
+    //setTimeout(() => {
+      console.log('CARREGANDO CATEGORIA');
       this.categoryService.getById(categId).subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -107,9 +147,12 @@ export class CategoryFormComponent implements OnInit {
             console.log(this.category);
             this.startForm(this.category);
           }
+        },
+        error: (response) => {
+          window.alert(response);
         }
       })
-    }, 1000);
+    //}, 1000);
   }
 
   private listSectors(){
@@ -128,8 +171,12 @@ export class CategoryFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(40)
+      ]),
+      setorId: new FormControl(category.setorId, [
+        Validators.required
       ])
     });
+    //console.log(this.categForm.value);
   }
 
   private showSuccess(message: string, title?: string){
