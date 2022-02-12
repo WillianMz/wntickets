@@ -1,3 +1,4 @@
+import { SectorService } from './../../../services/sector.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from './../../../services/category.service';
@@ -5,6 +6,7 @@ import { ErroServidor } from './../../../models/erroServidor';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Icategory } from './../../../models/icategory';
 import { Component, Input, OnInit } from '@angular/core';
+import { Isector } from 'src/app/models/isector';
 
 @Component({
   selector: 'app-category-form',
@@ -20,50 +22,103 @@ export class CategoryFormComponent implements OnInit {
 
   titleForm: string;
   category: Icategory;
+  sectors: Isector[];
   categForm: FormGroup;
   message: string;
   success: boolean;
   erros: ErroServidor[];
+  exibirSectors: boolean = true;
 
   constructor(
+    private sectorService: SectorService,
     private categoryService: CategoryService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService
-  ) { }
+  ) {
+    let category = {
+      nome: '',
+      setorId: 0
+    };
+
+    this.startForm(category);
+   }
 
   get nome() {
     return this.categForm.get('nome');
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(
-      params => {
-        this.sectorId = parseInt(params.sector);
-        this.categoryId = parseInt(params.category);
-      }
-    );
+  get setor(){
+    return this.categForm.get('setorId');
+  }
+
+  ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id){
+      this.categoryId = parseInt(id);
+      console.log('PASSOU AQUI 1');
+    }
+    else {
+      this.activatedRoute.queryParams.subscribe(
+        params => {
+          this.sectorId = parseInt(params.sector);
+        }
+      );
+      console.log('PASSOU AQUI 2');
+    }
 
     if(this.categoryId){
+      this.listSectors();
       this.titleForm = "Editando registro";
       this.loadCategory(this.categoryId);
+      console.log('CONFIGURANDO FORMULARIO');
     }
     else {
       this.titleForm = "Nova categoria";
+      this.exibirSectors = false;
+      //this.listSectors();
     }
 
   }
 
-  public save() {
-    const category = {...this.categForm.value};
+  public createCategory(){
+    let categ: Icategory;
+
+    if(this.categoryId){
+      categ = {
+        id: this.categoryId,
+        nome: this.nome?.value,
+        setorId: this.setor?.value
+      }
+    }
+    else {
+      categ = {
+        id: this.categoryId,
+        nome: this.nome?.value,
+        setorId: this.sectorId
+      }
+    }
+
+    this.save(categ);
+  }
+
+  public save(category: Icategory) {
+    /* let categ: Icategory;
+    //categ = {...this.categForm.value, id: this.categoryId, setorId: this.sectorId};
+    categ = {
+      id: this.categoryId,
+      nome: this.nome?.value,
+      setorId: this.sectorId
+    } */
+
     this.categoryService.save(category).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
         this.message = response['mensagem'];
 
         if(this.success == true){
-          this.showSuccess(this.message, 'Nova categoria');
-          this.router.navigate(['categories']);
+          this.showSuccess(this.message);
+          this.router.navigate(['/sectors/categories'],  {queryParams: { sector: category.setorId}});
         }
         else {
           this.showError(this.message);
@@ -80,7 +135,8 @@ export class CategoryFormComponent implements OnInit {
   }
 
   private loadCategory(categId: number) {
-    setTimeout(() => {
+    //setTimeout(() => {
+      console.log('CARREGANDO CATEGORIA');
       this.categoryService.getById(categId).subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -88,11 +144,25 @@ export class CategoryFormComponent implements OnInit {
 
           if(this.success == true){
             this.category = response['objeto'];
+            console.log(this.category);
             this.startForm(this.category);
           }
+        },
+        error: (response) => {
+          window.alert(response);
         }
       })
-    }, 1000);
+    //}, 1000);
+  }
+
+  private listSectors(){
+    //setTimeout(() => {
+      this.sectorService.getAll().subscribe({
+        next: (response) => {
+          this.sectors = response['objeto'];
+        }
+      })
+    //}, 1000);
   }
 
   private startForm(category: Icategory) {
@@ -101,8 +171,12 @@ export class CategoryFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(40)
+      ]),
+      setorId: new FormControl(category.setorId, [
+        Validators.required
       ])
     });
+    //console.log(this.categForm.value);
   }
 
   private showSuccess(message: string, title?: string){

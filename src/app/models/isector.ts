@@ -3,5 +3,5 @@ export interface Isector {
   id?: number;
   nome?: string;
   ativo?: boolean;
-  categorias?: Icategory[];
+  //categorias?: Icategory[];
 }

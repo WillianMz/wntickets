@@ -70,7 +70,7 @@ export class SectorListComponent implements OnInit {
   }
 
   private listAll() {
-    setTimeout(() => {
+    //setTimeout(() => {
       this.sectorService.getAll().subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -95,11 +95,11 @@ export class SectorListComponent implements OnInit {
           this.erros = response.error['objeto'];
         }
       })
-    }, 2000);
+    //}, 2000);
   }
 
   private listByName(name: string) {
-    setTimeout(() => {
+    //setTimeout(() => {
       this.sectorService.getByName(name).subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -122,11 +122,11 @@ export class SectorListComponent implements OnInit {
           this.erros = response.error['objeto'];
         }
       })
-    }, 2000);
+    //}, 2000);
   }
 
   private listDisabled() {
-    setTimeout(() => {
+    //setTimeout(() => {
       this.sectorService.disabled().subscribe({
         next: (response) => {
           this.success = response['sucesso'];
@@ -150,7 +150,7 @@ export class SectorListComponent implements OnInit {
           this.erros = response.error['objeto'];
         }
       })
-    }, 2000);
+    //}, 2000);
   }
 
   public saveFilter(){

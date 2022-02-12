@@ -62,7 +62,7 @@ export class CategoryService {
   }
 
   public getByName(nome: string): Observable<Icategory[]>{
-    return this.http.get<Icategory[]>(`${environment.api}/categoria/${nome}`);
+    return this.http.get<Icategory[]>(`${environment.api}/categoria/procurar/${nome}`);
   }
 
 }
