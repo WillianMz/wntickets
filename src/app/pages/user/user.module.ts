@@ -6,16 +6,23 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 
+import { TableModule } from 'ngx-easy-table';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { MyAccoutComponent } from './my-accout/my-accout.component';
+
 
 @NgModule({
   declarations: [
     UserFormComponent,
-    UserListComponent
+    UserListComponent,
+    MyAccoutComponent
   ],
   imports: [
     CommonModule,
     UserRoutingModule,
-    SharedModule
+    SharedModule,
+    TableModule,
+    TooltipModule
   ]
 })
 export class UserModule { }
