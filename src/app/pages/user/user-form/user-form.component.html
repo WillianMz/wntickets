@@ -1,125 +1,74 @@
-<app-navbar></app-navbar>
-
 <div class="container">
-
-
-
-  <br><br><br><br><br><br>
-
   <div class="row">
-    <div class="col-md-3">
-      <ul class="mm_nav mm_nav-pills mm_nav-stacked">
-        <li class="active"><a title="Dados Pessoais" href="/minha-conta/dados-pessoais">Dados Pessoais</a></li>
-        <li><a title="Endereço" href="/minha-conta/dados-contato">Dados de Contato</a></li>
-        <li><a title="E-mail" href="/minha-conta/alterar-email">E-mail</a></li>
-        <li><a title="Senha" href="/minha-conta/trocar-minha-senha">Senha</a></li>
-      </ul>
-    </div>
-    <div class="col-md-9">
-      <link rel="stylesheet" href="/lib/datepicker/gijgo.min.css">
-
-      <h3>Alguns dados são apenas leitura.</h3>
-      <hr>
-      <div class="alert alert-info">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h5>Você pode alterar o seu nome apenas uma única vez!</h5>
-      </div>
-      <div class="row" style="padding-top: 15px">
-        <div class="col-md-5">
-          <form method="post" action="/minha-conta/dados-pessoais">
-            <h4>Dados Pessoais</h4>
-            <hr>
-            <div class="form-group">
-              <label for="Nome">Nome Completo - Será usado no certificado</label>
-              <div>
-                <input class="form-control" type="text" data-val="true" data-val-required="Preencha o campo nome"
-                  id="Nome" name="Nome" value="Willian Mazzorana">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="Documento">Documento</label>
-              <div>
-                <input class="form-control" disabled="" type="text" id="Documento" name="Documento" value="03571485173">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="DataNascimento">Data de Nascimento</label>
-              <div>
-                <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group"><input
-                    data-mask="00/00/0000" value="06/07/1998" type="text" data-val="true"
-                    pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" data-val-pattern="ERRO" required=""
-                    data-val-required="Preencha a Data de Nascimento" placeholder="dd/mm/aaaa" name="DataNascimento"
-                    id="DataNascimento" class="form-control date" autocomplete="off" maxlength="10" data-type="datepicker"
-                    data-guid="05663081-f58f-1315-c0d5-51f42cb03179" data-datepicker="true" role="input"
-                    day="1998-6-6"><span class="input-group-append" role="right-icon"><button
-                      class="btn btn-outline-secondary border-left-0" type="button"><i class="fas fa-calendar-alt"
-                        aria-hidden="true"></i></button></span></div>
-              </div>
-            </div>
-            <br>
-            <h4>Oportunidades de emprego</h4>
-            <hr>
-            <div class="form-group">
-              <div>
-                <input type="checkbox" data-val="true"
-                  data-val-required="The Deseja receber ofertas de emprego? field is required." id="AceitaVagasEmprego"
-                  name="AceitaVagasEmprego" value="true"> &nbsp;<label for="AceitaVagasEmprego">Eu desejo receber ofertas
-                  de vagas por e-mail</label>
-                <br><small style="cursor: pointer" data-toggle="modal" data-target="#modalExemplo">Saiba mais sobre como
-                  lhe indicaremos novas oportunidades</small>
-              </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-entrar" type="submit">Atualizar</button>
-            </div>
-            <input name="__RequestVerificationToken" type="hidden"
-              value="CfDJ8MgON50oKZJGpQ6QZqv0K-XghYHLrrOSdOBzal8HV2CYs7eI1MRCtmw5HC8eCY7MvzQ-sOPLueCJ0IauGYy3g53kt7A4Lhw0b1YPXCo8fDaGEkDpQQZBg-5eQ5I_kZAQI3ZmmBs3V2zDxWm6LWrucIfm2TuPSEhHyHos6xc3V-ZqqLYDtEiZ0BuyENN7svuPaA"><input
-              name="AceitaVagasEmprego" type="hidden" value="false">
-          </form>
-        </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-5">
-          <br>
-          <div class="form-group">
-            <label>Para trocar sua imagem crie uma conta no <a title="Trocar minha foto" href="https://gravatar.com"
-                target="_blank">Gravatar</a>.</label>
-            <br><br>
-            <div>
-              <img style="width: 150px;height: 150px;border-radius: 100px;"
-                src="https://s.gravatar.com/avatar/d513cf4200260cecfcb8fa7540c71867?d=mm&amp;s=200" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">RECEBA OFERTAS DE EMPREGO</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div style="color: #777777" class="modal-body">
-              Nós trabalhamos em parceria com diversas empresas no mercado e recebemos oportunidades de emprego que serão
-              repassadas
-              a você sem nenhum custo ou comprometimento.<br><br>
-              As vagas serão enviadas a você conforme o perfil dos cursos que realizou.<br>
-              Ex: Se você realizou treinamentos em ASP.NET Core então receberá oportunidades para trabalhar com esta
-              tecnologia.<br><br>
-              Em breve você terá acesso a um painel onde poderá preencher mais informações profissionais para nos ajudar a
-              lhe indicar vagas
-              mais alinhadas com o seu perfil.
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Ok entendi!</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="col-md-6 section_container" style="margin: 0 auto;">
+  <form id="registrar" autocomplete="off" method="post" action="/nova-conta">
+  <input type="hidden" name="token" id="token">
+  <h1>Seja bem vindo!</h1>
+  <h2 class="home_slider_subtitle">Pronto para decolar na sua carreira?</h2>
+  <hr><br>
+  <div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12">
+  <div class="form-group">
+  <label style="font-size: 16px" for="Nome">Nome Completo - Será utilizado em seu certificado</label>
+  <input placeholder="Nome Completo - Utilize Maiúsculas e Minúsculas" autocomplete="off" class="form-control" type="text" data-val="true" data-val-required="Preencha o campo nome" id="Nome" name="Nome" value="">
+  <span class="text-danger field-validation-valid" data-valmsg-for="Nome" data-valmsg-replace="true"></span>
   </div>
-
-</div>
+  </div>
+  </div>
+  <div class="form-group">
+  <label style="font-size: 16px" for="Email">E-mail</label>
+  <input placeholder="Ex: email@email.com" autocomplete="off" class="form-control" type="email" data-val="true" data-val-email="O endereço informado não é válido" data-val-required="Preencha o campo E-mail" id="Email" name="Email" value="">
+  <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+  </div>
+  <div class="form-group">
+  <label style="font-size: 16px" id="lblDocumento">CPF</label>&nbsp;&nbsp;
+  <input type="hidden" value="True" data-val="true" data-val-required="The ForaDoBrasil field is required." id="ForaDoBrasil" name="ForaDoBrasil">
+  <br>
+  <input id="documento" onkeypress="if (!window.__cfRLUnblockHandlers) return false; onlynumber(event)" maxlength="11" placeholder="Apenas números" autocomplete="off" class="form-control" type="text" data-val="true" data-val-required="Preencha o campo Documento" name="Documento" value="">
+  <input type="checkbox" id="estrangeiro" onchange="if (!window.__cfRLUnblockHandlers) return false; tamanhoDocumento()" data-val="true" data-val-required="The Estrangeiro field is required." name="Estrangeiro" value="true">
+  <label for="estrangeiro" style="font-size: 12px">Sou estrangeiro</label>
+  <span class="text-danger field-validation-valid" data-valmsg-for="Documento" data-valmsg-replace="true"></span>
+  </div>
+  <div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-6">
+  <div class="form-group">
+  <label style="font-size: 16px" for="Password">Senha</label>
+  <input autocomplete="off" class="form-control" type="password" data-val="true" data-val-length="A senha deve possuir no mínimo 6 e no máximo 100 caracteres" data-val-length-max="100" data-val-length-min="6" data-val-required="Preencha o campo Senha" id="Password" maxlength="100" name="Password">
+  <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+  </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-6">
+  <div class="form-group">
+  <label style="font-size: 16px" for="ConfirmPassword">Confirme a Senha</label>
+  <input autocomplete="off" class="form-control" type="password" data-val="true" data-val-equalto="As senhas informadas não se coincidem" data-val-equalto-other="*.Password" data-val-required="Preencha o campo Confirmação de Senha" id="ConfirmPassword" name="ConfirmPassword">
+  <span class="text-danger field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+  </div>
+  </div>
+  </div>
+  <hr>
+  <div class="row">
+  <div class="col-xs-12 col-md-12">
+  <button type="submit" class="btn btn-primary btn-block btn-lg g-recaptcha" id="recaptcha">
+  Registrar
+  </button> &nbsp;&nbsp;
+  </div>
+  <div class="col-lg-12">
+  <div class="form-group text-center">
+  <div id="da036220-7b50-4e5c-b878-f7b91f55ac19" class="g-recaptcha" data-sitekey="6LeSBc8bAAAAAK-DMscZVdzVPECbNgO4OB41UKHu"><div style="width: 304px; height: 78px;"><div><iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LeSBc8bAAAAAK-DMscZVdzVPECbNgO4OB41UKHu&amp;co=aHR0cHM6Ly9kZXNlbnZvbHZlZG9yLmlvOjQ0Mw..&amp;hl=en&amp;v=BycHQdSIhzR_1EcOLw2mOzYQ&amp;theme=light&amp;size=normal&amp;cb=kfaxsuwm77hg" width="304" height="78" role="presentation" name="a-kl3qbtjqh8us" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div>
+  <script type="text/javascript">
+    function _da036220_7b50_4e5c_b878_f7b91f55ac19() {
+      if (typeof grecaptcha !== 'undefined')
+        grecaptcha.render('da036220-7b50-4e5c-b878-f7b91f55ac19', {
+          'sitekey' : '6LeSBc8bAAAAAK-DMscZVdzVPECbNgO4OB41UKHu',
+          'theme' : 'light',
+                                })
+    }
+  </script>
+  <script async="" src="https://www.google.com/recaptcha/api.js?onload=_da036220_7b50_4e5c_b878_f7b91f55ac19&amp;render=explicit&amp;hl=en" defer="" type="text/javascript"></script>
+  </div>
+  </div>
+  </div>
+  <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LQKAtOnsuRDkmJTskoakCh1M10UEiP4Z-76LLggR7hP0mmgYiJ53tUDqRK57g_N6vwDeYTQqDDVPtMT81OovXXiEgcG9ENovC5sTSHGdRYL-2WIKqS7UxEKPG6qiuS2wNpDuVVvymR3YJ36CnHtFzk"><input name="Estrangeiro" type="hidden" value="false"></form>
+  </div>
+  </div>
+  </div>
