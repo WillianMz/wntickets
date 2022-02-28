@@ -71,15 +71,16 @@ export class UserListComponent implements OnInit {
       next: (response) => {
         this.success = response['sucesso']        ;
         this.message = response['mensagem'];
+        this.users = response;
 
-        if(this.success == true) {
+        /* if(this.success == true) {
           this.users = response['objeto'];
           this.titlePage = 'Usuários';
         }
         else {
           this.message = response['mensagem'];
           this.users = [];
-        }
+        } */
       },
       error: (response) => {
         this.success = response.error['sucesso'];

@@ -3,6 +3,6 @@ export class UsuarioDTO {
   public Nome?: string;
   public Sobrenome?: string;
   public Email?: string;
-  public Tipo?: number;
+  public TipoUsuario?: number;
   public Ativo?: boolean;
 }

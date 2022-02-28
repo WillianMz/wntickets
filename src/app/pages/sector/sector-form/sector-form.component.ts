@@ -99,7 +99,7 @@ export class SectorFormComponent implements OnInit {
   private loadSector(idSector: number){
     this.sectorService.getById(idSector).subscribe(
       (response) => {
-        this.sector = response['objeto'];
+        this.sector = response;
         this.startForm(this.sector);
         console.log(this.sector);
       }

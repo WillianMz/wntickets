@@ -87,16 +87,16 @@ export class CategoryListComponent implements OnInit {
       next: (response) => {
         this.success = response['sucesso'];
         this.message = response['mensagem'];
-        this.categories = response['objeto'];
+        this.categories = response;
 
-        if(this.success == true) {
+        /* if(this.success == true) {
           this.categories = response['objeto'];
         }
         else {
           this.message = response['mensagem'];
           this.categories = [];
           this.showMessage(this.message);
-        }
+        } */
       },
       error: (response) => {
         this.success = response.error['sucesso'];
@@ -138,16 +138,16 @@ export class CategoryListComponent implements OnInit {
       next: (response) => {
         this.success = response['sucesso'];
         this.message = response['mensagem'];
-        this.categories = response['objeto'];
+        this.categories = response;
 
-        if(this.success == true) {
+        /* if(this.success == true) {
           this.categories = response['objeto'];
         }
         else {
           this.message = response['mensagem'];
           this.categories = [];
           this.showMessage(this.message);
-        }
+        } */
       },
       error: (response) => {
         this.success = response.error['sucesso'];
