@@ -52,6 +52,7 @@ export class UserListComponent implements OnInit {
   private configGrid(){
     this.configuration = { ...DefaultConfig };
     this.configuration.searchEnabled = true;
+    this.configuration.resizeColumn = true;
     this.configuration.fixedColumnWidth = false;
     this.configuration.selectRow = true;
     this.configuration.rows = 5;
@@ -71,15 +72,17 @@ export class UserListComponent implements OnInit {
       next: (response) => {
         this.success = response['sucesso']        ;
         this.message = response['mensagem'];
+        this.users = response;
+        this.titlePage = 'Todos os usuários';
 
-        if(this.success == true) {
+        /* if(this.success == true) {
           this.users = response['objeto'];
           this.titlePage = 'Usuários';
         }
         else {
           this.message = response['mensagem'];
           this.users = [];
-        }
+        } */
       },
       error: (response) => {
         this.success = response.error['sucesso'];

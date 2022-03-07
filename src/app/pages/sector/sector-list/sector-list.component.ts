@@ -76,9 +76,13 @@ export class SectorListComponent implements OnInit {
           this.success = response['sucesso'];
           this.message = response['mensagem'];
 
+          this.sectors = response;
+          this.sectorsCopy = this.sectors;
+          this.titlePage = "Setores";
+
           //IMPLEMENTAR UMA BLOCO DE CODIGO PARA DIMINUIR
           //A REPETIÇÃO NOS DEMAIS COMANDOS DE CONSULTA A SEGUIR
-          if(this.success == true) {
+          /* if(this.success == true) {
             this.sectors = response['objeto'];
             this.sectorsCopy = this.sectors;
             this.titlePage = "Setores";
@@ -87,7 +91,7 @@ export class SectorListComponent implements OnInit {
             this.message = response['mensagem'];
             this.sectors = [];
             this.sectorsCopy = [];
-          }
+          } */
         },
         error: (response) => {
           this.success = response.error['sucesso'];
@@ -104,8 +108,9 @@ export class SectorListComponent implements OnInit {
         next: (response) => {
           this.success = response['sucesso'];
           this.message = response['mensagem'];
+          this.sectors = response;
 
-          if(this.success == true) {
+          /* if(this.success == true) {
             this.sectors = response['objeto'];
             this.sectorsCopy = this.sectors;
             this.titlePage = "Setores";
@@ -114,7 +119,7 @@ export class SectorListComponent implements OnInit {
             this.message = response['mensagem'];
             this.sectors = [];
             this.sectorsCopy = [];
-          }
+          } */
         },
         error: (response) => {
           this.success = response.error['sucesso'];
@@ -131,8 +136,9 @@ export class SectorListComponent implements OnInit {
         next: (response) => {
           this.success = response['sucesso'];
           this.message = response['mensagem'];
+          this.sectors = response;
 
-          if(this.success == true) {
+          /* if(this.success == true) {
             this.sectors = response['objeto'];
             this.sectorsCopy = this.sectors;
             this.titlePage = "Setores";
@@ -142,7 +148,7 @@ export class SectorListComponent implements OnInit {
             this.message = response['mensagem'];
             this.sectors = [];
             this.sectorsCopy = [];
-          }
+          } */
         },
         error: (response) => {
           this.success = response.error['sucesso'];

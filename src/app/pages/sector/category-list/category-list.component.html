@@ -85,15 +85,22 @@
             <span class="font-small">{{ row.nome }}</span>
           </td>
           <td>
-            <span class="font-small">{{ row.sectorName || "NÃO DISPONÍVEL!"}}</span>
+            <span class="font-small">{{ row.setorNome || "NÃO DISPONÍVEL!"}}</span>
           </td>
           <td>
             <div class="btn-group">
-              <button class="btn btn-outline-warning btn-sm" tooltip="Editar" (click)="edit(row.id)">
-                <i class="bi bi-pencil"></i>
+              <button class="btn btn-outline-secondary btn-sm" tooltip="Criar um novo ticket" (click)="newTicket()
+              ">
+                <i class="bi bi-ticket"></i>
+                Novo ticket
               </button>
-              <button class="btn btn-outline-danger btn-sm" tooltip="Excluír" (click)="delete(row.id)">
+              <button class="btn btn-outline-warning btn-sm" tooltip="Editar categoria selecionada" (click)="edit(row.id)">
+                <i class="bi bi-pencil"></i>
+                Editar
+              </button>
+              <button class="btn btn-outline-danger btn-sm" tooltip="Excluír categoria selecionada" (click)="delete(row.id)">
                 <i class="bi bi-trash"></i>
+                Remover
               </button>
               <button class="btn btn-outline-success btn-sm" tooltip="Ativar categoria" (click)="enable(row.id)"
                 *ngIf="row.ativa == false">

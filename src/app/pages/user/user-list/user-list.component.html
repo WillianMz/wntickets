@@ -89,7 +89,7 @@
             <span class="font-small">{{row.email}}</span>
           </td>
           <td>
-            <span class="font-small">{{row.tipo}}</span>
+            <span class="font-small">{{row.tipoUsuario}}</span>
           </td>
           <td>
             <span class="font-small">{{row.login || "**********"}} </span>
@@ -102,10 +102,10 @@
               <button class="btn btn-outline-danger btn-sm" tooltip="Excluír">
                 <i class="bi bi-trash"></i>
               </button>
-              <button class="btn btn-outline-success btn-sm" tooltip="Ativar setor" *ngIf="row.ativo == false">
+              <button class="btn btn-outline-success btn-sm" tooltip="Ativar" *ngIf="row.ativo == false">
                 <i class="bi bi-toggle2-on"></i>
               </button>
-              <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar setor" *ngIf="row.ativo == true">
+              <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar" *ngIf="row.ativo == true">
                 <i class="bi bi-toggle2-off"></i>
               </button>
             </div>

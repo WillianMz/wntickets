@@ -117,7 +117,7 @@
 
   <div class="columns mt-2">
     <div class="column col-12">
-      <ngx-table
+      <!-- <ngx-table
         [data]="tickets"
         [configuration]="configuration"
         [columns]="columns">
@@ -128,17 +128,28 @@
             <div class="font-small">{{ row.id }}</div>
           </td>
           <td>
-            <span class="font-small">{{ row.nome }}</span>
+            <span class="font-small">{{ row.assunto }}</span>
+          </td>
+          <td>
+            <span class="font-small">{{ row.criador }}</span>
+          </td>
+          <td>
+            <span class="font-small">{{ row.dataAbertura }}</span>
+          </td>
+          <td>
+            <span class="font-small">{{ row.statusAtual }}</span>
           </td>
           <td>
             <div class="btn-group">
-              <button class="btn btn-outline-warning btn-sm">Editar</button>
+              <button class="btn btn-outline-warning btn-sm">Detalhes</button>
             </div>
           </td>
         </ng-template>
 
 
-      </ngx-table>
+      </ngx-table> -->
+
+      <ngx-table [data]="tickets" [configuration]="configuration" [columns]="columns"> </ngx-table>
     </div>
 
   </div>

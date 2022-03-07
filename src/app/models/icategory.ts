@@ -5,5 +5,6 @@ export interface Icategory {
   ativa?: boolean;
   setorId: number;
   img?: string;
+  setorNome?: string;
   sector?: Isector;
 }
