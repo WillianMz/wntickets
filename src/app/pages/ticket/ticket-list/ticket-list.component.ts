@@ -21,8 +21,6 @@ export class TicketListComponent implements OnInit {
   success: boolean;
   message: string;
 
-
-
   public configuration: Config;
   public columns: Columns[];
 
@@ -45,7 +43,7 @@ export class TicketListComponent implements OnInit {
       { key: 'assunto', title: 'Assunto'},
       { key: 'criador', title: 'Criador'},
       { key: 'dataAbertura', title: 'Dt.Abertura'},
-      { key: 'status', title: 'Status'},
+      { key: 'statusAtual', title: 'Status'},
       /* { key: 'prioridade', title: 'Prioridade'}, */
       /* { key: 'setor', title: 'Setor'}, */
       /* { key: 'dataFechamento', title: 'Dt.Fechamento'}, */
@@ -58,6 +56,7 @@ export class TicketListComponent implements OnInit {
   newTicket(){
     this.router.navigate(['/tickets/new']);
   }
+
 
 
   private listAll() {

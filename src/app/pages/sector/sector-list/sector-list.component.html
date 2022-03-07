@@ -89,13 +89,16 @@
             <div class="btn-group">
               <button class="btn btn-outline-primary btn-sm" tooltip="Ver categorias deste setor"
                 (click)="goCategories(row.id)">
-                <i class="bi bi-search"></i> Categorias
+                <i class="bi bi-search"></i>
+                Categorias
               </button>
-              <button class="btn btn-outline-warning btn-sm" tooltip="Editar" (click)="edit(row.id)">
+              <button class="btn btn-outline-warning btn-sm" tooltip="Editar setor selecionado" (click)="edit(row.id)">
                 <i class="bi bi-pencil"></i>
+                Editar
               </button>
-              <button class="btn btn-outline-danger btn-sm" tooltip="Excluír" (click)="delete(row.id)">
+              <button class="btn btn-outline-danger btn-sm" tooltip="Excluír setor selecionado" (click)="delete(row.id)">
                 <i class="bi bi-trash"></i>
+                Remover
               </button>
               <button class="btn btn-outline-success btn-sm" tooltip="Ativar setor" (click)="enable(row.id)"
                 *ngIf="row.ativo == false">
