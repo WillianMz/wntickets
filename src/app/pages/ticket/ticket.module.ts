@@ -1,5 +1,5 @@
 import { SharedModule } from './../../shared/shared.module';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TicketRoutingModule } from './ticket-routing.module';
@@ -12,6 +12,7 @@ import { AttachmentsComponent } from './attachments/attachments.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { TableModule } from 'ngx-easy-table';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,9 +26,12 @@ import { TableModule } from 'ngx-easy-table';
   imports: [
     CommonModule,
     TicketRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     SharedModule,
     TabsModule,
     TableModule
-  ]
+  ],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TicketModule { }
