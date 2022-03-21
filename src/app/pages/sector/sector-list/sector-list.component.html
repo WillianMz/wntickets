@@ -19,7 +19,7 @@
 
     <ul class="list-group">
       <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="true" [(ngModel)]="sectorsDisabled">
+        <input class="form-check-input me-1" type="checkbox" value="true" [(ngModel)]="filterDisabledSectors">
         Somente desativados
       </label>
     </ul>
@@ -61,14 +61,17 @@
           <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
             <i class="bi bi-arrow-clockwise"></i> Atualizar
           </button>
-          <button type="button" class="btn btn-outline-primary" (click)="alert()">
+          <!-- <button type="button" class="btn btn-outline-primary" (click)="alert()">
             <i class="bi bi-check2-square"></i> Selecionar
           </button>
           <button type="button" class="btn btn-outline-primary" (click)="alert()">
             <i class="bi bi-printer"></i> Imprimir
-          </button>
+          </button> -->
           <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
             <i class="bi bi-filter"></i> Filtro
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="cleanFilters()">
+            <i class="bi bi-filter"></i> Limpar filtros
           </button>
         </div>
       </div>
@@ -103,10 +106,12 @@
               <button class="btn btn-outline-success btn-sm" tooltip="Ativar setor" (click)="enable(row.id)"
                 *ngIf="row.ativo == false">
                 <i class="bi bi-toggle2-on"></i>
+                Ativar
               </button>
               <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar setor" (click)="disable(row.id)"
                 *ngIf="row.ativo == true">
                 <i class="bi bi-toggle2-off"></i>
+                Desativar
               </button>
             </div>
           </td>
@@ -116,6 +121,6 @@
   </div>
 
   <div class="row pt-2" *ngIf="!sectors?.length">
-    <app-alert-nada-exibir [mensagem]="'Nenhum setor encontrado!'" [color]="'alert-secondary'"></app-alert-nada-exibir>
+    <app-alert [mensagem]="'Nenhum setor encontrado!'" [color]="'alert-secondary'"></app-alert>
   </div>
 </div>

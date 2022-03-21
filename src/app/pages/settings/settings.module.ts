@@ -1,4 +1,4 @@
-import { SharedModule } from './../../shared/shared.module';
+import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { ConfigurationFormComponent } from './configuration-form/configuration-f
   imports: [
     CommonModule,
     SettingsRoutingModule,
-    SharedModule
+    ComponentsModule
   ]
 })
 export class SettingsModule { }

@@ -1,5 +1,5 @@
+import { ComponentsModule } from './../../components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from './../../shared/shared.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -25,7 +25,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     FormsModule,
     ReactiveFormsModule,
     SectorRoutingModule,
-    SharedModule,
+    ComponentsModule,
     NgxPaginationModule,
     TableModule,
     TooltipModule

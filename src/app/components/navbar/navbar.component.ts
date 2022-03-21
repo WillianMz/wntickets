@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.titlePage = "WN Tickets"
+    this.titlePage = "Tickets";
   }
 
 }

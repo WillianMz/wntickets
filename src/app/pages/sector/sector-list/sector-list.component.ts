@@ -1,3 +1,4 @@
+import { NotificationService } from './../../../services/notification.service';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -6,7 +7,8 @@ import { SectorService } from 'src/app/services/sector.service';
 
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ErroServidor } from 'src/app/models/erroServidor';
-import { ToastrService } from 'ngx-toastr';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sector-list',
@@ -23,7 +25,7 @@ export class SectorListComponent implements OnInit {
   success: boolean;
   message: string;
   modalRef?: BsModalRef;
-  sectorsDisabled: boolean;
+  filterDisabledSectors: boolean;
   sectorName: string;
   erros: ErroServidor[];
 
@@ -34,25 +36,13 @@ export class SectorListComponent implements OnInit {
     private sectorService: SectorService,
     private modalService: BsModalService,
     private router: Router,
-    private toastr: ToastrService
+    private notification: NotificationService
   ) { }
 
   ngOnInit(): void {
     this.titlePage = "Setores";
     this.configGrid();
     this.listAll();
-  }
-
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
-  }
-
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
-  }
-
-  private showMessage(message: string, title?: string){
-    this.toastr.info(message, title);
   }
 
   private configGrid(){
@@ -70,99 +60,77 @@ export class SectorListComponent implements OnInit {
   }
 
   private listAll() {
-    //setTimeout(() => {
+    Swal.fire({
+      title: 'aguarde...',
+      text: 'Carregando dados',
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading(), 100
+      }
+    }).then((result) => {
       this.sectorService.getAll().subscribe({
         next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-
           this.sectors = response;
           this.sectorsCopy = this.sectors;
           this.titlePage = "Setores";
-
-          //IMPLEMENTAR UMA BLOCO DE CODIGO PARA DIMINUIR
-          //A REPETIÇÃO NOS DEMAIS COMANDOS DE CONSULTA A SEGUIR
-          /* if(this.success == true) {
-            this.sectors = response['objeto'];
-            this.sectorsCopy = this.sectors;
-            this.titlePage = "Setores";
-          }
-          else {
-            this.message = response['mensagem'];
-            this.sectors = [];
-            this.sectorsCopy = [];
-          } */
         },
         error: (response) => {
           this.success = response.error['sucesso'];
           this.message = response.error['mensagem'];
           this.erros = response.error['objeto'];
+          this.notification.showError(this.message);
         }
-      })
-    //}, 2000);
+      });
+    });
+
+
+
+    /* this.sectorService.getAll().subscribe({
+      next: (response) => {
+        this.sectors = response;
+        this.sectorsCopy = this.sectors;
+        this.titlePage = "Setores";
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError(this.message);
+      }
+    }); */
   }
 
   private listByName(name: string) {
-    //setTimeout(() => {
-      this.sectorService.getByName(name).subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.sectors = response;
-
-          /* if(this.success == true) {
-            this.sectors = response['objeto'];
-            this.sectorsCopy = this.sectors;
-            this.titlePage = "Setores";
-          }
-          else {
-            this.message = response['mensagem'];
-            this.sectors = [];
-            this.sectorsCopy = [];
-          } */
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-        }
-      })
-    //}, 2000);
+    this.sectorService.getByName(name).subscribe({
+      next: (response) => {
+        this.sectors = response;
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+      }
+    });
   }
 
   private listDisabled() {
-    //setTimeout(() => {
-      this.sectorService.disabled().subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-          this.message = response['mensagem'];
-          this.sectors = response;
-
-          /* if(this.success == true) {
-            this.sectors = response['objeto'];
-            this.sectorsCopy = this.sectors;
-            this.titlePage = "Setores";
-            this.showMessage(this.message);
-          }
-          else {
-            this.message = response['mensagem'];
-            this.sectors = [];
-            this.sectorsCopy = [];
-          } */
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-        }
-      })
-    //}, 2000);
+    this.sectorService.disabled().subscribe({
+      next: (response) => {
+        this.sectors = response;
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+      }
+    });
   }
 
   public saveFilter(){
-    console.log(this.sectorsDisabled);
+    console.log(this.filterDisabledSectors);
     this.sectorName = "";
-    if(this.sectorsDisabled){
+    if(this.filterDisabledSectors){
       this.listDisabled();//lista setores desativados
     }
     else{
@@ -177,8 +145,12 @@ export class SectorListComponent implements OnInit {
   }
 
   public alert(){
-    //window.alert('Funcionalidade não disponível!');
-    this.showMessage('Funcionalidade em desenvolvimento!', 'ATENÇÃO');
+    this.notification.showInfo('Funcionalidade em desenvolvimento!', 'ATENÇÃO');
+  }
+
+  public cleanFilters(){
+    this.filterDisabledSectors = false;
+    this.listAll();
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -198,44 +170,92 @@ export class SectorListComponent implements OnInit {
   }
 
   public enable(id: string){
-    let sectorId = parseInt(id);
-    this.sectorService.enable(sectorId).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
+    Swal.fire({
+      title:'Ativar o setor?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if(result.value) {
+        let sectorId = parseInt(id);
+        this.sectorService.enable(sectorId).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
 
-        if(this.success == true){
-          this.listAll();
-        }
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listAll();
+            }
+            else{
+              Swal.fire('teste', this.message,'error');
+            }
+          }
+        });
       }
-    })
+    });
   }
 
   public delete(id: string){
-    let sectorId = parseInt(id);
-    this.sectorService.delete(sectorId).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
+    Swal.fire({
+      title:'Confirmar exclusão do setor?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if(result.value) {
+        let sectorId = parseInt(id);
+        this.sectorService.delete(sectorId).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
 
-        if(this.success == true){
-          this.listAll();
-        }
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listAll();
+            }
+            else{
+              Swal.fire('teste', this.message,'error');
+            }
+          }
+        });
       }
-    })
+    });
   }
 
   public disable(id: string){
-    let sectorId = parseInt(id);
-    this.sectorService.disable(sectorId).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
+    Swal.fire({
+      title:'Desativar setor?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if(result.value){
+        let sectorId = parseInt(id);
+        this.sectorService.disable(sectorId).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
 
-        if(this.success == true){
-          this.listAll();
-        }
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listAll();
+            }
+            else{
+              Swal.fire('', this.message,'error');
+            }
+          }
+        });
       }
-    })
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { SharedModule } from './../../shared/shared.module';
+import { ComponentsModule } from './../../components/components.module';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -14,9 +14,8 @@ import { TableModule } from 'ngx-easy-table';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    SharedModule,
     TableModule,
-    SharedModule
+    ComponentsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

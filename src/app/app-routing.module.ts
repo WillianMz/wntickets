@@ -1,6 +1,6 @@
-import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotfoundComponent } from './components/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -8,7 +8,7 @@ const routes: Routes = [
     redirectTo: '404',
     pathMatch: 'full'
   },
-  { path: '404', component: NotFoundComponent },
+  { path: '404', component: NotfoundComponent },
   { path: 'auth', loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule) },
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
   { path: 'sectors', loadChildren: () => import('./pages/sector/sector.module').then(m => m.SectorModule) },

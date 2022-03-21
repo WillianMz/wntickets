@@ -1,5 +1,5 @@
+import { ComponentsModule } from './../../components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from './../../shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -21,7 +21,7 @@ import { ActivateUserComponent } from './activate-user/activate-user.component';
     FormsModule,
     ReactiveFormsModule,
     AuthRoutingModule,
-    SharedModule
+    ComponentsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
