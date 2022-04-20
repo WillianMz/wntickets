@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-category-list',
@@ -28,6 +29,7 @@ export class CategoryListComponent implements OnInit {
   erros: ErroServidor[];
   //variaveis de filtro
   filterDisabledCategory: boolean;
+  filterDisabledCategoryAll: boolean;
 
   public configuration: Config;
   public columns: Columns[];
@@ -37,11 +39,11 @@ export class CategoryListComponent implements OnInit {
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.titlePage = "Categorias";
     this.configGrid();
 
     this.activatedRoute.queryParams.subscribe(
@@ -63,95 +65,104 @@ export class CategoryListComponent implements OnInit {
     this.columns = [
       { key: 'id', title: 'Id' },
       { key: 'nome', title: 'Descrição' },
-      //{ key: 'setor', title: 'Setor' },
       { key: 'isActive', title: 'Opções'}
     ];
   }
 
-  /* private listAll(){
+  private listAll(){
+    this.spinner.show();
     this.categoryService.getAll().subscribe({
       next: (response) => {
         this.categories = response;
-        this.titlePage = 'Todas as categorias';
+        this.spinner.hide();
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
         this.notification.showError(this.message, 'Erro');
+        this.spinner.hide();
       }
     })
-  } */
+  }
 
   public listDisabled(){
+    this.spinner.show();
     this.categoryService.getDisable().subscribe({
       next: (response) => {
-        this.titlePage = "Categorias desativadas";
         this.categories = response;
+        this.spinner.hide();
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
         this.notification.showError(this.message, 'Erro');
+        this.spinner.hide();
       }
     })
   }
 
   public listBySector(sectorId: number, disable: boolean) {
+    this.spinner.show();
     this.categoryService.getBySector(sectorId, disable).subscribe({
       next: (response) => {
         this.categories = response;
+        this.spinner.hide();
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
         this.notification.showError(this.message, 'Erro');
+        this.spinner.hide();
       }
     })
   }
 
   public listByName(name: string) {
+    this.spinner.show();
     this.categoryService.getByName(name).subscribe({
       next: (response) => {
         this.categories = response;
+        this.spinner.hide();
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
         this.notification.showError(this.message, 'Erro');
+        this.spinner.hide();
       }
     });
   }
 
-  private list(): void{
+  private list(){
+    //filtra categorias pelo id do setor via parametro da URL
     if(this.sectorId){
-      this.titlePage = "Categorias do setor"
+      this.titlePage = "Categorias do setor";
       this.listBySector(this.sectorId, true);
+
+      if(this.sectorId && this.filterDisabledCategory == true){
+        this.titlePage = "Categorias desativadas do setor";
+        this.listBySector(this.sectorId, false);
+      }
     }
     else{
-      this.titlePage = "Categorias";
-      //this.listAll();
-      this.categories = [];
+      //lista todas as categorias independente do setor
+      this.titlePage = "Todas as categorias";
+      this.listAll();
+
+      if(this.filterDisabledCategory == true){
+        this.titlePage = "Categorias desativadas";
+        this.listDisabled();
+      }
     }
   }
 
   public saveFilter() {
     this.categoryName = "";
-
-    if(this.sectorId && this.filterDisabledCategory){
-      this.listBySector(this.sectorId, false);
-    }
-
-    if(this.filterDisabledCategory){
-      this.listDisabled();
-    }
-    else{
-      this.list();
-    }
-
+    this.list();
     this.modalRef?.hide();
   }
 
@@ -168,8 +179,8 @@ export class CategoryListComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  public newTicket(){
-    this.router.navigate(['/tickets/new']);
+  public newTicket(categoryId: string){
+    this.router.navigate(['/tickets/new'], {queryParams: {sector: this.sectorId, category: categoryId}});
   }
 
   public new(){

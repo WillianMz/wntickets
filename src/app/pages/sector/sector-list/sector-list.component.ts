@@ -9,6 +9,7 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ErroServidor } from 'src/app/models/erroServidor';
 
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-sector-list',
@@ -36,13 +37,13 @@ export class SectorListComponent implements OnInit {
     private sectorService: SectorService,
     private modalService: BsModalService,
     private router: Router,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.titlePage = "Setores";
     this.configGrid();
-    this.listAll();
+    this.list();
   }
 
   private configGrid(){
@@ -59,84 +60,72 @@ export class SectorListComponent implements OnInit {
     ];
   }
 
+  private list() {
+    if(this.filterDisabledSectors){
+      this.titlePage = "Setores desativados";
+      this.listDisabled();//lista setores desativados
+    }
+    else{
+      this.titlePage = "Setores";
+      this.listAll();//lista todos os setores ativos
+    }
+  }
+
   private listAll() {
-    Swal.fire({
-      title: 'aguarde...',
-      text: 'Carregando dados',
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: () => {
-        Swal.showLoading(), 100
-      }
-    }).then((result) => {
-      this.sectorService.getAll().subscribe({
-        next: (response) => {
-          this.sectors = response;
-          this.sectorsCopy = this.sectors;
-          this.titlePage = "Setores";
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.notification.showError(this.message);
-        }
-      });
-    });
+    this.spinner.show();
 
-
-
-    /* this.sectorService.getAll().subscribe({
+    this.sectorService.getAll().subscribe({
       next: (response) => {
         this.sectors = response;
         this.sectorsCopy = this.sectors;
         this.titlePage = "Setores";
+        this.spinner.hide();
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
-        this.notification.showError(this.message);
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
       }
-    }); */
+    });
   }
 
   private listByName(name: string) {
+    this.spinner.show();
     this.sectorService.getByName(name).subscribe({
       next: (response) => {
         this.sectors = response;
+        this.spinner.hide();
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+        this.spinner.hide();
       }
     });
   }
 
   private listDisabled() {
+    this.spinner.show();
     this.sectorService.disabled().subscribe({
       next: (response) => {
         this.sectors = response;
+        this.spinner.hide();
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+        this.spinner.hide();
       }
     });
   }
 
   public saveFilter(){
-    console.log(this.filterDisabledSectors);
     this.sectorName = "";
-    if(this.filterDisabledSectors){
-      this.listDisabled();//lista setores desativados
-    }
-    else{
-      this.listAll();//lista todos os setores ativos
-    }
-
+    this.list();
     this.modalRef?.hide();
   }
 
@@ -180,6 +169,7 @@ export class SectorListComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then(result => {
       if(result.value) {
+        this.spinner.show();
         let sectorId = parseInt(id);
         this.sectorService.enable(sectorId).subscribe({
           next: (response) => {
@@ -188,13 +178,18 @@ export class SectorListComponent implements OnInit {
 
             if(this.success == true){
               this.notification.showSuccess(this.message);
-              this.listAll();
+              this.list();
+              this.spinner.hide();
             }
             else{
               Swal.fire('teste', this.message,'error');
             }
+          },
+          error: () => {
+            this.spinner.hide();
           }
         });
+
       }
     });
   }
@@ -210,7 +205,9 @@ export class SectorListComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then(result => {
       if(result.value) {
+        this.spinner.show();
         let sectorId = parseInt(id);
+        this.spinner.show();
         this.sectorService.delete(sectorId).subscribe({
           next: (response) => {
             this.success = response['sucesso'];
@@ -218,11 +215,14 @@ export class SectorListComponent implements OnInit {
 
             if(this.success == true){
               this.notification.showSuccess(this.message);
-              this.listAll();
+              this.list();
             }
             else{
               Swal.fire('teste', this.message,'error');
             }
+          },
+          error: () => {
+            this.spinner.hide();
           }
         });
       }
@@ -240,6 +240,7 @@ export class SectorListComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then(result => {
       if(result.value){
+        this.spinner.show();
         let sectorId = parseInt(id);
         this.sectorService.disable(sectorId).subscribe({
           next: (response) => {
@@ -248,11 +249,14 @@ export class SectorListComponent implements OnInit {
 
             if(this.success == true){
               this.notification.showSuccess(this.message);
-              this.listAll();
+              this.list();
             }
             else{
               Swal.fire('', this.message,'error');
             }
+          },
+          error: () => {
+            this.spinner.hide();
           }
         });
       }

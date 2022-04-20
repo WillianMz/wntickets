@@ -1,3 +1,4 @@
+<app-load [text]="'obtendo dados...'"></app-load>
 
 <div class="container">
   <div class="row pt-2" *ngIf="false">
@@ -17,7 +18,7 @@
     <ul class="list-group">
       <label class="list-group-item">
         <input class="form-check-input me-1" type="checkbox" value="true" [(ngModel)]="filterDisabledCategory">
-        Categorias desativados
+        Somente desativadas
       </label>
     </ul>
 
@@ -78,12 +79,9 @@
           <td>
             <span class="font-small">{{ row.nome }}</span>
           </td>
-          <!-- <td>
-            <span class="font-small">{{ row.setorNome || "NÃO DISPONÍVEL!"}}</span>
-          </td> -->
           <td>
             <div class="btn-group">
-              <button class="btn btn-outline-secondary btn-sm" tooltip="Criar um novo ticket" (click)="newTicket()
+              <button class="btn btn-outline-secondary btn-sm" tooltip="Criar um novo ticket" (click)="newTicket(row.id)
               ">
                 <i class="bi bi-ticket"></i>
                 Novo ticket

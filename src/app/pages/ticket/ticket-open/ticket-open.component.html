@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
 
-    <h2>TITULO</h2>
+    <h2>NOVO TICKET</h2>
 
     <!-- Dados do ticket -->
     <div class="col-12">
@@ -31,19 +31,6 @@
             </div>
           </div>
 
-          <!-- DESCRICAO DO PROBLEMA -->
-          <div class="col-12">
-            <label for="username" class="form-label">Descrição do problema</label>
-            <div class="input-group ">
-              <!-- <span class="input-group-text">@</span> -->
-              <textarea type="text" class="form-control" id="descricao" formControlName="descricao" placeholder="Descrição do problema"
-                required=""></textarea>
-              <div class="invalid-feedback">
-                Your username is required.
-              </div>
-            </div>
-          </div>
-
           <!-- STATUS -->
           <div class="col-sm-4" *ngIf="selectStatus">
             <label for="lastName" class="form-label">Status</label>
@@ -68,8 +55,24 @@
             </div>
           </div>
 
+          <!-- ASSUNTO -->
+          <div class="col-12">
+            <label>Assunto</label>
+            <input type="text" class="form-control" id="assunto" formControlName="assunto"  placeholder="Assunto">
+          </div>
 
-
+          <!-- DESCRICAO DO PROBLEMA -->
+          <div class="col-12">
+            <label for="username" class="form-label">Descrição do problema</label>
+            <div class="input-group ">
+              <!-- <span class="input-group-text">@</span> -->
+              <textarea type="text" class="form-control" id="descricao" formControlName="descricao" placeholder="Descrição do problema"
+                required=""></textarea>
+              <div class="invalid-feedback">
+                Your username is required.
+              </div>
+            </div>
+          </div>
 
         </div>
         <!-- <hr class="my-4"> -->

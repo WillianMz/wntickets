@@ -19,14 +19,14 @@ export class TicketOpenComponent implements OnInit {
   categories: CategoryModel[];
   sectorId: number;
   ticketForm: FormGroup;
-  selectStatus: boolean = false;
-  selectPriority: boolean = false;
+  selectStatus: boolean = true;
+  selectPriority: boolean = true;
 
   constructor(
     private setorService: SectorService,
     private categService: CategoryService,
     private ticketService: TicketService
-  ) { 
+  ) {
     let ticket = {setorId:0, categoriaId:0, criadorId:0, assunto:'', descricao:''};
     this.startForm(ticket);
   }
@@ -37,6 +37,10 @@ export class TicketOpenComponent implements OnInit {
 
   get category(){
     return this.ticketForm.get('categoria');
+  }
+
+  get title(){
+    return this.ticketForm.get('assunto');
   }
 
   get description(){
