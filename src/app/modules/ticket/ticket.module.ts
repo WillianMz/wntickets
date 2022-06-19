@@ -9,6 +9,7 @@ import { TicketCancelComponent } from './ticket-cancel/ticket-cancel.component';
 import { TicketFinalizeComponent } from './ticket-finalize/ticket-finalize.component';
 import { TicketAttachmentsComponent } from './ticket-attachments/ticket-attachments.component';
 import { TicketCommentsComponent } from './ticket-comments/ticket-comments.component';
+import { TicketFormComponent } from './ticket-form/ticket-form.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { TicketCommentsComponent } from './ticket-comments/ticket-comments.compo
     TicketCancelComponent,
     TicketFinalizeComponent,
     TicketAttachmentsComponent,
-    TicketCommentsComponent
+    TicketCommentsComponent,
+    TicketFormComponent
   ],
   imports: [
     CommonModule,
