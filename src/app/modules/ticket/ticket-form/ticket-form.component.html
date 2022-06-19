@@ -1,1 +1,180 @@
-<p>ticket-form works!</p>
+<div class="sticky-top ">
+  <app-navbar titlePage="Tickets Pendentes"></app-navbar>
+</div>
+
+<div class="container">
+  <section class="pt-2 row">
+    <h3 class="col-12 mb-3">#399 - CADASTRO DE NOVOS SETORES</h3>
+  </section>
+
+  <div class="pt-2 pb-2 row" *ngIf="false">
+    <div class="col-12">
+      <div class="btn-group">
+        <button type="button" class="btn btn-outline-primary">Criar novo tiket</button>
+        <button type="button" class="btn btn-outline-primary">Editar</button>
+        <button type="button" class="btn btn-outline-primary">Histórico</button>
+        <button type="button" class="btn btn-outline-primary">Comentários</button>
+        <button type="button" class="btn btn-outline-primary">Anexos</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-5">
+    <div class="col-md-5 col-lg-4 order-md-last">
+      <ul class="list-group mb-3">
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" >Novo ticket</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-warning btn-lg" type="submit">Editar</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-danger btn-lg" type="submit" (click)="goComments()">Comentários</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="goAttachments()">Anexos</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Histórico</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Finalizar</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Cancelar</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-7 col-lg-8">
+      <form class="needs-validation" novalidate="">
+        <div class="row g-3">
+
+          <!-- DESCRICAO DO PROBLEMA -->
+          <div class="col-12">
+            <label for="username" class="form-label">Descrição</label>
+            <div class="input-group ">
+              <!-- <span class="input-group-text">@</span> -->
+              <textarea type="text" class="form-control" id="username" placeholder="Descrição do problema"
+                required="" disabled="true"></textarea>
+              <div class="invalid-feedback">
+                Your username is required.
+              </div>
+            </div>
+          </div>
+
+          <!-- CRIADOR DO TICKET -->
+          <div class="col-sm-12">
+            <label for="lastName" class="form-label">Criado por</label>
+            <input type="text" class="form-control" id="lastName"
+              placeholder="SENSOR SISTEMAS DE INFORMAÇÃO LTDA - WN SISTEMAS" value="" required="" disabled="true">
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <!-- DATA ABERTURA -->
+          <div class="col-sm-4">
+            <label for="firstName" class="form-label">Data de abertura</label>
+            <input type="text" class="form-control" id="firstName" placeholder="09/12/2021" value="" required="" disabled="true">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <!-- STATUS -->
+          <div class="col-sm-4">
+            <label for="lastName" class="form-label">Status</label>
+            <select class="form-select" id="country" required="" disabled="true">
+              <option value="">Selecione...</option>
+              <option>Option 1</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+
+          <!-- PRIORIDADE -->
+          <div class="col-sm-4">
+            <label for="lastName" class="form-label">Prioridade</label>
+            <select class="form-select" id="country" required="" disabled="true">
+              <option value="">Selecione...</option>
+              <option>Option 1</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+
+          <!-- SETOR -->
+          <div class="col-sm-6">
+            <label for="lastName" class="form-label">Setor</label>
+            <select class="form-select" id="country" required="" disabled="true">
+              <option value="">Selecione...</option>
+              <option>Option 1</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+
+          <!-- CATEGORIA -->
+          <div class="col-sm-6">
+            <label for="lastName" class="form-label">Categoria</label>
+            <select class="form-select" id="country" required="" disabled="true">
+              <option value="">Selecione...</option>
+              <option>Option 1</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+
+          <!-- DATA FECHAMENTO -->
+          <div class="col-sm-4">
+            <label for="firstName" class="form-label">Data de fechamento</label>
+            <input type="text" class="form-control" id="firstName" placeholder="NAO INFOMAADO" value="" required="" disabled="true">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <!-- TEMPO GASTO -->
+          <div class="col-sm-4">
+            <label for="firstName" class="form-label">Tempo gasto</label>
+            <input type="text" class="form-control" id="firstName" placeholder="NÃO DISPONÍVEL" value="" required="" disabled="true">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <!-- SOLUÇÃO DO PROBLEMA -->
+          <div class="col-sm-12">
+            <label for="firstName" class="form-label">Solução aplicada</label>
+            <input type="text" class="form-control" id="firstName"
+              placeholder="Link: https://artigos.wnsoftware.com.br/artigo/502" value="" required="" disabled="true">
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+        </div>
+        <hr class="my-4">
+      </form>
+    </div>
+  </div>
+
+</div>

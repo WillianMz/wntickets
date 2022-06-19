@@ -1,11 +1,11 @@
-import { AlterarSenhaDTO } from './../models/user/alterarSenhaDTO';
+import { AlterarSenhaModel } from './../models/user/alterarSenhaModel';
+import { UsuarioModel } from './../models/user/usuarioModel';
+import { EditarUsuarioModel } from './../models/user/editarUsuarioModel';
+import { NovoUsuarioModel } from './../models/user/novoUsuarioModel';
 import { Observable } from 'rxjs';
-import { EditarUsuarioDTO } from './../models/user/editarUsuarioDTO';
 import { environment } from './../../environments/environment.prod';
-import { NovoUsuarioDTO } from './../models/user/novoUsuarioDTO';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UsuarioDTO } from '../models/user/usuarioDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -18,23 +18,23 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  public create(usuario: NovoUsuarioDTO) {
+  public create(usuario: NovoUsuarioModel) {
     return this.http.post(`${this.url}`, usuario);
   }
 
-  public update(usuario: EditarUsuarioDTO) {
+  public update(usuario: EditarUsuarioModel) {
     return this.http.put(`${this.url}`, usuario);
   }
 
-  public getAll(): Observable<UsuarioDTO[]> {
-    return this.http.get<UsuarioDTO[]>(this.url);
+  public getAll(): Observable<UsuarioModel[]> {
+    return this.http.get<UsuarioModel[]>(this.url);
   }
 
   public delete(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
 
-  public password(alterarSenha: AlterarSenhaDTO) {
+  public password(alterarSenha: AlterarSenhaModel) {
     return this.http.put(`${this.url}/password`, alterarSenha);
   }
 
@@ -50,16 +50,16 @@ export class UserService {
     return this.http.get(`${this.url}/checkemail/${email}`);
   }
 
-  public getDesativados(): Observable<UsuarioDTO[]> {
-    return this.http.get<UsuarioDTO[]>(`${this.url}/disable`);
+  public getDesativados(): Observable<UsuarioModel[]> {
+    return this.http.get<UsuarioModel[]>(`${this.url}/disable`);
   }
 
-  public getDetail(id: number): Observable<UsuarioDTO> {
-    return this.http.get<UsuarioDTO>(`${this.url}/${id}/details`);
+  public getDetail(id: number): Observable<UsuarioModel> {
+    return this.http.get<UsuarioModel>(`${this.url}/${id}/details`);
   }
 
-  public getById(id: number): Observable<UsuarioDTO> {
-    return this.http.get<UsuarioDTO>(`${this.url}/${id}`);
+  public getById(id: number): Observable<UsuarioModel> {
+    return this.http.get<UsuarioModel>(`${this.url}/${id}`);
   }
 
 }

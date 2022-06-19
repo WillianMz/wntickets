@@ -1,4 +1,6 @@
-import { NgModule } from '@angular/core';
+import { ComponentsModule } from './../../components/components.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
@@ -13,7 +15,11 @@ import { UserAccountComponent } from './user-account/user-account.component';
   ],
   imports: [
     CommonModule,
-    UserRoutingModule
-  ]
+    UserRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ComponentsModule
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UserModule { }

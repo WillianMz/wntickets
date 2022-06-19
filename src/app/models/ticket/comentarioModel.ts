@@ -1,7 +1,8 @@
 export class ComentarioModel {
-  Id?: number;
-  Descricao?: string;
-  CriadoEm?: string;
-  TicketId?: string;
-  UsuarioId?: string;
+ public Id?: number;
+ public Descricao?: string;
+ public CriadoEm?: string;
+ public TicketId?: string;
+ public UsuarioId?: string;
+ public Usuario?: string;
 }

@@ -1,1 +1,23 @@
-<p>ticket-list works!</p>
+
+<div class="container">
+
+  <div class="columns">
+    <div class="column col-12">
+      <div class="jumbotron">
+        <h1 class="display-4">Tickets</h1>
+      </div>
+      <div class="mb-2" >
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" (click)="newTicket()">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns mt-2">
+    <div class="column col-12">
+      <ngx-table [data]="tickets" [configuration]="configuration" [columns]="columns"> </ngx-table>
+    </div>
+  </div>
+
+</div>

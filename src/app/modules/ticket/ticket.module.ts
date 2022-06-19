@@ -1,4 +1,6 @@
-import { NgModule } from '@angular/core';
+import { ComponentsModule } from './../../components/components.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TicketRoutingModule } from './ticket-routing.module';
@@ -25,7 +27,11 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
   ],
   imports: [
     CommonModule,
-    TicketRoutingModule
-  ]
+    TicketRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ComponentsModule
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class TicketModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ticket-form',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  goHistoric(){
+    this.router.navigate(['tickets/1/historic']);
+  }
+
+  goComments(){
+    this.router.navigate(['tickets/1/comments']);
+  }
+
+  goAttachments(){
+    this.router.navigate(['tickets/1/attachments']);
   }
 
 }
