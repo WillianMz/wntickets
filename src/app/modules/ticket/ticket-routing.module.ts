@@ -10,15 +10,15 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-  {path:'', component: TicketListComponent},
-  {path:'new', component: OpenTicketComponent},
-  {path:'edit/:id', component: TicketFormComponent},
-  {path:'detail', component: TicketFormComponent},
-  {path:'attachments', component: TicketAttachmentsComponent},
-  {path:'cancel', component: TicketCancelComponent},
-  {path:'comments', component: TicketCommentsComponent},
-  {path:'finalize', component: TicketFinalizeComponent},
-  {path:'history', component: TicketHistoryComponent}
+  { path:'', component: TicketListComponent },
+  { path:'new', component: OpenTicketComponent },
+  { path:'edit/:id', component: TicketFormComponent },
+  { path:'detail', component: TicketFormComponent },
+  { path:'attachments', component: TicketAttachmentsComponent },
+  { path:'cancel', component: TicketCancelComponent },
+  { path:'comments', component: TicketCommentsComponent },
+  { path:'finalize', component: TicketFinalizeComponent },
+  { path:'history', component: TicketHistoryComponent }
 ];
 
 @NgModule({

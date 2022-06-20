@@ -5,4 +5,5 @@ export class UsuarioModel {
   public Email?: string;
   public Ativo?: boolean;
   public Tipo?: string;
+  public token?: string;
 }

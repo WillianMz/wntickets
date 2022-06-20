@@ -36,6 +36,7 @@ export class UserListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.titlePage = 'Usuários';
     this.configGrid();
     this.listAll();
   }
