@@ -1,4 +1,4 @@
-import { AuthService } from './../../../services/auth.service';
+
 import { Router } from '@angular/router';
 import { LoginModel } from './../../../models/auth/loginModel';
 import { ErroServidor } from './../../../models/erroServidor';
@@ -19,7 +19,6 @@ export class AuthLoginComponent implements OnInit {
   erros: ErroServidor[];
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private notification: NotificationService
   ) {
@@ -38,20 +37,6 @@ export class AuthLoginComponent implements OnInit {
     return this.loginForm.get('senha');
   }
 
-  login(){
-
-    if(this.email && this.senha){
-      const userLogin = new LoginModel();
-      userLogin.Email = this.email.value;
-      userLogin.Senha = this.senha.value;
-      this.authService.login(userLogin).subscribe(
-        (response) => {
-          console.log(response);
-        }
-      )
-
-    }
-  }
 
   private startForm(login: LoginModel) {
     this.loginForm = new FormGroup({
