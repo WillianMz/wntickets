@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ToastrService } from 'ngx-toastr';
 import { TicketModel } from 'src/app/models/ticket/ticketModel';
@@ -25,7 +24,6 @@ export class TicketListComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private modalService: BsModalService,
     private router: Router,
     private toastr: ToastrService
   ) { }

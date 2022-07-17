@@ -1,14 +1,13 @@
 import { CategoriaModel } from './../../../models/sector/categoriaModel';
 import { SetorModel } from './../../../models/sector/setorModel';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { CategoryService } from 'src/app/services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import Swal from 'sweetalert2';
+/* import Swal from 'sweetalert2'; */
 
 @Component({
   selector: 'app-category-list',
@@ -24,7 +23,6 @@ export class CategoryListComponent implements OnInit {
   sectorId: number;
   success: boolean;
   message: string;
-  modalRef?: BsModalRef;
   categoryName: string;
   erros: ErroServidor[];
   //variaveis de filtro
@@ -36,7 +34,6 @@ export class CategoryListComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private notification: NotificationService,
@@ -163,7 +160,7 @@ export class CategoryListComponent implements OnInit {
   public saveFilter() {
     this.categoryName = "";
     this.list();
-    this.modalRef?.hide();
+    //this.modalRef?.hide();
   }
 
   public cleanFilters(){
@@ -176,7 +173,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    //this.modalRef = this.modalService.show(template);
   }
 
   public newTicket(categoryId: string){
@@ -192,7 +189,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public delete(id: string){
-    Swal.fire({
+    /* Swal.fire({
       title:'Excluír categoria?',
       icon: 'question',
       showCancelButton: true,
@@ -215,11 +212,11 @@ export class CategoryListComponent implements OnInit {
           }
         });
       }
-    });
+    }); */
   }
 
   public enable(id: string){
-    Swal.fire({
+    /* Swal.fire({
       title:'Ativar categoria?',
       icon: 'question',
       showCancelButton: true,
@@ -242,11 +239,11 @@ export class CategoryListComponent implements OnInit {
           }
         });
       }
-    });
+    }); */
   }
 
   public disable(id: string){
-    Swal.fire({
+    /* Swal.fire({
       title:'Desativar categoria?',
       icon: 'question',
       showCancelButton: true,
@@ -269,6 +266,6 @@ export class CategoryListComponent implements OnInit {
           }
         });
       }
-    });
+    }); */
   }
 }

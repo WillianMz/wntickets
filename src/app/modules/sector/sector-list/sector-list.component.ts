@@ -1,13 +1,11 @@
 import { SetorModel } from './../../../models/sector/setorModel';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { SectorService } from 'src/app/services/sector.service';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sector-list',
@@ -23,7 +21,6 @@ export class SectorListComponent implements OnInit {
   sectorId: number;
   success: boolean;
   message: string;
-  modalRef?: BsModalRef;
   filterDisabledSectors: boolean;
   sectorName: string;
   erros: ErroServidor[];
@@ -33,7 +30,6 @@ export class SectorListComponent implements OnInit {
 
   constructor(
     private sectorService: SectorService,
-    private modalService: BsModalService,
     private router: Router,
     private notification: NotificationService,
     private spinner: NgxSpinnerService
@@ -124,7 +120,7 @@ export class SectorListComponent implements OnInit {
   public saveFilter(){
     this.sectorName = "";
     this.list();
-    this.modalRef?.hide();
+    //this.modalRef?.hide();
   }
 
   public search(){
@@ -141,7 +137,7 @@ export class SectorListComponent implements OnInit {
   }
 
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    //this.modalRef = this.modalService.show(template);
   }
 
   public goCategories(sectorId: string){
@@ -157,7 +153,7 @@ export class SectorListComponent implements OnInit {
   }
 
   public enable(id: string){
-    Swal.fire({
+    /* Swal.fire({
       title:'Ativar o setor?',
       icon: 'question',
       showCancelButton: true,
@@ -189,11 +185,11 @@ export class SectorListComponent implements OnInit {
         });
 
       }
-    });
+    }); */
   }
 
   public delete(id: string){
-    Swal.fire({
+    /* Swal.fire({
       title:'Confirmar exclusão do setor?',
       icon: 'question',
       showCancelButton: true,
@@ -224,11 +220,11 @@ export class SectorListComponent implements OnInit {
           }
         });
       }
-    });
+    }); */
   }
 
   public disable(id: string){
-    Swal.fire({
+    /* Swal.fire({
       title:'Desativar setor?',
       icon: 'question',
       showCancelButton: true,
@@ -258,7 +254,7 @@ export class SectorListComponent implements OnInit {
           }
         });
       }
-    });
+    }); */
   }
 
 }

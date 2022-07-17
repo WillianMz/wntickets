@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ToastrService } from 'ngx-toastr';
 import { ErroServidor } from 'src/app/models/erroServidor';
@@ -20,8 +19,6 @@ export class UserListComponent implements OnInit {
   success: boolean;
   message: string;
   erros: ErroServidor[];
-  modalRef?: BsModalRef;
-
   //filtros
   filterDisabled: boolean;
 
@@ -30,7 +27,6 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private modalService: BsModalService,
     private router: Router,
     private toastr: ToastrService
   ) { }
@@ -46,7 +42,7 @@ export class UserListComponent implements OnInit {
   }
 
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    //this.modalRef = this.modalService.show(template);
   }
 
 
