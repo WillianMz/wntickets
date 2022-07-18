@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="col-md-10 mx-auto col-lg-5 pt-5">
+    <form class="p-4 p-md-5 border rounded-3 bg-light" [formGroup]="loginForm">
+
+      <h1 class="h3 mb-3 fw-normal">Bem vindo!</h1>
+
+      <!-- EMAIL -->
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="email" formControlName="email"  placeholder="name@example.com">
+        <label for="floatingInput">Usuário</label>
+      </div>
+
+      <!-- validacao Email-->
+      <div class="text-danger" *ngIf="email?.errors">
+        <ul>
+          <li *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">Email inválido</li>
+          <li *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe seu Email</li>
+          <li *ngIf="email?.errors?.minlength && (email?.dirty || email?.touched)">Tamanho de Email inválido</li>
+          <li *ngIf="email?.errors?.maxlength && (email?.dirty || email?.touched)">Tamanho de Email inválido</li>
+        </ul>
+      </div>
+
+      <!-- PWD -->
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="senha" formControlName="senha" placeholder="Password">
+        <label for="floatingPassword">Senha</label>
+      </div>
+
+      <!-- validacao senha -->
+      <div class="text-danger" *ngIf="senha?.errors">
+        <ul>
+          <li *ngIf="senha?.errors?.required && (senha?.dirty || senha?.touched)">Informe sua senha</li>
+          <li *ngIf="senha?.errors?.minlength && (senha?.dirty || senha?.touched)">Tamanho de senha inválido</li>
+          <li *ngIf="senha?.errors?.maxlength && (senha?.dirty || senha?.touched)">Tamanho de senha inválido</li>
+        </ul>
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" [disabled]="!loginForm.valid">Entrar</button>
+      <hr class="my-4">
+
+      <small class="text-muted">Não tem uma conta? </small>
+      <a routerLink="/auth/register">Crie uma!</a>
+      <br>
+      <small class="text-muted">Esqueceu a senha? </small>
+      <a routerLink="/auth/recover">Recuperar minha conta!</a>
+      <br>
+      <small class="text-muted">Ativar usuário? </small>
+      <a routerLink="/auth/activate">Ativar conta de usuário!</a>
+
+    </form>
+  </div>
+</div>
