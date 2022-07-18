@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+@import "~ngx-popperjs/css/theme-dark.css";
+
 /*easy-table*/
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
 @import "~ngx-easy-table/style.css";
