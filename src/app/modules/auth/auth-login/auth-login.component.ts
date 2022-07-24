@@ -37,6 +37,9 @@ export class AuthLoginComponent implements OnInit {
     return this.loginForm.get('senha');
   }
 
+  login(){
+    this.router.navigate(['/home']);
+  }
 
   private startForm(login: LoginModel) {
     this.loginForm = new FormGroup({
