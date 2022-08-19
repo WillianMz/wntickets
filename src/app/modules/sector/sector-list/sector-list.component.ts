@@ -60,7 +60,7 @@ export class SectorListComponent implements OnInit {
       this.listDisabled();//lista setores desativados
     }
     else{
-      this.titlePage = "Setores";
+      this.titlePage = "Laboratórios";
       this.listAll();//lista todos os setores ativos
     }
   }
@@ -141,15 +141,15 @@ export class SectorListComponent implements OnInit {
   }
 
   public goCategories(sectorId: string){
-    this.router.navigate(['sectors/categories'], {queryParams: { sector: sectorId}});
+    this.router.navigate(['labs/categories'], {queryParams: { sector: sectorId}});
   }
 
   public new(){
-    this.router.navigate(['sectors/new']);
+    this.router.navigate(['labs/new']);
   }
 
   public edit(sectorId: string){
-    this.router.navigate([`sectors/${sectorId}/edit`]);
+    this.router.navigate([`labs/${sectorId}/edit`]);
   }
 
   public enable(id: string){

@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxPopperjsModule } from 'ngx-popperjs';
 import { AdminComponent } from './layouts/admin/admin.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

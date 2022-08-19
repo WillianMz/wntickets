@@ -24,7 +24,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     HomeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
