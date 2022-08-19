@@ -1,4 +1,4 @@
-<app-navbar titlePage="Novo setor" *ngIf="!navbarVisible"></app-navbar>
+<!-- <app-navbar titlePage="Novo setor" *ngIf="!navbarVisible"></app-navbar> -->
 
 <div class="pt-2 container">
 
@@ -6,7 +6,7 @@
     <h3>{{titleForm}}</h3>
   </div>
 
-  <div class="row mt-2">
+  <!-- <div class="row mt-2">
     <div class="mb-2" >
       <div class="btn-group">
         <button type="button" class="btn btn-outline-primary" [routerLink]="['/sectors']">
@@ -14,7 +14,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="row">
 
@@ -36,6 +36,13 @@
           <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
             Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres</div>
         </div>
+
+        <!-- <div class="col-12">
+          <label for="lastName" class="form-label">Equipe</label>
+          <select class="form-select" id="setor" formControlName="setor" required="">
+            <option >Selecione</option>
+          </select>
+        </div> -->
 
       </form>
 

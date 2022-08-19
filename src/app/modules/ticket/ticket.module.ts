@@ -13,6 +13,9 @@ import { TicketAttachmentsComponent } from './ticket-attachments/ticket-attachme
 import { TicketCommentsComponent } from './ticket-comments/ticket-comments.component';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 
+import { TableModule } from 'ngx-easy-table';
+import { TicketFilterComponent } from './ticket-filter/ticket-filter.component';
+
 
 @NgModule({
   declarations: [
@@ -23,14 +26,16 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
     TicketFinalizeComponent,
     TicketAttachmentsComponent,
     TicketCommentsComponent,
-    TicketFormComponent
+    TicketFormComponent,
+    TicketFilterComponent
   ],
   imports: [
     CommonModule,
     TicketRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
+    TableModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

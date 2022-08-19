@@ -46,7 +46,7 @@ export class SectorFormComponent implements OnInit {
       this.loadSector(this.sectorID);
     }
     else{
-      this.titleForm = "Novo setor";
+      this.titleForm = "Novo laboratório";
       this.titleFormVisible = true;
     }
   }
