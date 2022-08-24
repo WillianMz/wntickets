@@ -54,7 +54,7 @@ export class CategoryService {
   }
 
   public getBySector(sectorId: number, enable: boolean): Observable<CategoriaModel[]>{
-    return this.http.get<CategoriaModel[]>(`${environment.api}/categoria/${sectorId}/${enable}`);
+    return this.http.get<CategoriaModel[]>(`${environment.api}/Categoria/setor/${sectorId}/ativa/${enable}`);
   }
 
   public getBySectorAndName(sectorId: number, nome: string, enable?: boolean): Observable<CategoriaModel[]>{

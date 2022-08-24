@@ -55,14 +55,15 @@ export class SectorListComponent implements OnInit {
   }
 
   private list() {
-    if(this.filterDisabledSectors){
+    /* if(this.filterDisabledSectors){
       this.titlePage = "Setores desativados";
       this.listDisabled();//lista setores desativados
     }
     else{
       this.titlePage = "Laboratórios";
       this.listAll();//lista todos os setores ativos
-    }
+    } */
+    this.listAll();
   }
 
   private listAll() {
@@ -71,6 +72,7 @@ export class SectorListComponent implements OnInit {
     this.sectorService.getAll().subscribe({
       next: (response) => {
         this.sectors = response;
+        console.log(this.sectors);
         this.sectorsCopy = this.sectors;
         this.titlePage = "Setores";
         this.spinner.hide();

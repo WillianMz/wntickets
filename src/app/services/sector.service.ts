@@ -37,7 +37,7 @@ export class SectorService {
   }
 
   public getAll(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/setor`)
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor/ativo/true`)
     //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 

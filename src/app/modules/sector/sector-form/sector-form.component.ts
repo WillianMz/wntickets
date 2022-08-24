@@ -69,7 +69,7 @@ export class SectorFormComponent implements OnInit {
         this.success = response['sucesso'];
         this.message = response['mensagem'];
         this.showSuccess(this.message);
-        this.router.navigate(['/sectors']);
+        this.router.navigate(['/labs']);
       },
       error: (response) => {
         console.log(response);
