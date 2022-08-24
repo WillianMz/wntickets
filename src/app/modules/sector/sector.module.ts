@@ -8,6 +8,7 @@ import { SectorListComponent } from './sector-list/sector-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { TableModule } from 'ngx-easy-table';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     SectorRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
+    TableModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
