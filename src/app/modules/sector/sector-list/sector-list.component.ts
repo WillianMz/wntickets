@@ -151,7 +151,7 @@ export class SectorListComponent implements OnInit {
   }
 
   public edit(sectorId: string){
-    this.router.navigate([`labs/${sectorId}/edit`]);
+    this.router.navigate([`labs/edit/${sectorId}`]);
   }
 
   public enable(id: string){
