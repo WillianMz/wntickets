@@ -48,8 +48,8 @@ export class SectorListComponent implements OnInit {
     this.configuration.rows = 5;
     //colunas
     this.columns = [
-      { key: 'id', title: 'Id' },
-      { key: 'nome', title: 'Nome do setor' },
+      { key: 'id', title: 'Código' },
+      { key: 'nome', title: 'Nome' },
       { key: 'isActive', title: 'Editar'}
     ];
   }
@@ -87,9 +87,9 @@ export class SectorListComponent implements OnInit {
     });
   }
 
-  private listByName(name: string) {
+  private listByNome(name: string) {
     this.spinner.show();
-    this.sectorService.getByName(name).subscribe({
+    this.sectorService.getByNome(name).subscribe({
       next: (response) => {
         this.sectors = response;
         this.spinner.hide();
@@ -126,7 +126,7 @@ export class SectorListComponent implements OnInit {
   }
 
   public search(){
-    this.listByName(this.sectorName);
+    this.listByNome(this.sectorName);
   }
 
   public alert(){
@@ -191,6 +191,34 @@ export class SectorListComponent implements OnInit {
   }
 
   public delete(id: string){
+
+    this.spinner.show();
+
+    this.sectorService.delete(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.list();
+      },
+      // error: (HttpErrorResponse) => {
+      //   this.notification.showError('Erro ao excluir equipamento');
+      //   this.spinner.hide();
+      // },
+      error: (response) => {
+        console.log(response);
+        if (response.status != 405) {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.notification.showError('Erro');
+          this.spinner.hide();
+        }else {
+          this.notification.showError('Erro ao excluir equipamento');
+          this.spinner.hide();
+        }
+        
+      }
+    });
+
     /* Swal.fire({
       title:'Confirmar exclusão do setor?',
       icon: 'question',

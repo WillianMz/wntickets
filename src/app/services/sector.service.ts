@@ -38,8 +38,6 @@ export class SectorService {
 
   public getAll(): Observable<SetorModel[]>{
     return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=true`)
-    //return this.http.get<SetorModel[]>(`${environment.api}/Setor/ativo/true`)
-    //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 
   public delete(id: number){
@@ -62,7 +60,7 @@ export class SectorService {
     return this.http.get<SetorModel[]>(`${environment.api}/setor/desativados`);
   }
 
-  public getByName(nome: string): Observable<SetorModel[]> {
-    return this.http.get<SetorModel[]>(`${environment.api}/setor/procurar/${nome}`);
+  public getByNome(nome: string): Observable<SetorModel[]> {
+    return this.http.get<SetorModel[]>(`${environment.api}/setor/GetByNome?nome=${nome}`);
   }
 }

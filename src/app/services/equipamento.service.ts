@@ -37,7 +37,7 @@ export class EquipamentoService {
   }
 
   public getAll(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento`)
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=true`)
     //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 
@@ -62,6 +62,6 @@ export class EquipamentoService {
   }
 
   public getByName(nome: string): Observable<EquipamentoModel[]> {
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento/procurar/${nome}`);
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/GetByName?nome=${nome}`);
   }
 }

@@ -32,6 +32,7 @@ export class SectorFormComponent implements OnInit {
   ) {
     const sector = { Nome: '' };
     this.startForm(sector);
+    //console.log(sector)
    }
 
   get nome() {
@@ -40,7 +41,6 @@ export class SectorFormComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-
     if(id){
       this.sectorID = parseInt(id);
       this.loadSector(this.sectorID);
@@ -49,6 +49,7 @@ export class SectorFormComponent implements OnInit {
       this.titleForm = "Novo laboratório";
       this.titleFormVisible = true;
     }
+    console.log(id)
   }
 
   startForm(isector: SetorModel) {
@@ -59,6 +60,7 @@ export class SectorFormComponent implements OnInit {
         Validators.maxLength(40)
       ])
     });
+    //console.log(isector);
   }
 
   save(){
