@@ -57,14 +57,14 @@
             <i class="bi bi-plus-square"></i> Adicionar
           </button>
           <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
-            <i class="bi bi-arrow-clockwise"></i> Atualizar
+            <i class="bi bi-filter"></i> Setores Ativos
           </button>
           <!-- <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
             <i class="bi bi-filter"></i> Filtro
-          </button>
-          <button type="button" class="btn btn-outline-primary" (click)="cleanFilters()">
-            <i class="bi bi-filter"></i> Limpar filtros
           </button> -->
+          <button type="button" class="btn btn-outline-primary" (click)="setInativos()">
+            <i class="bi bi-filter"></i> Setores Inativos
+          </button>
         </div>
       </div>
     </div>
@@ -80,6 +80,9 @@
           <td>
             <span class="font-small">{{ row.nome }}</span>
           </td>
+<!--           <td>
+            <span class="font-small">{{ row.ativo }}</span>
+          </td> -->
           <td>
             <div class="btn-group">
 <!--               <button class="btn btn-outline-primary btn-sm" tooltip="Ver categorias deste setor"

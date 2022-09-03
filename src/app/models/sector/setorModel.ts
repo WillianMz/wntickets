@@ -1,5 +1,5 @@
 export class SetorModel {
-  public Id?: number;
-  public Nome?: string;
-  public Ativo?: boolean
+  public id?: number;
+  public nome?: string;
+  public ativo?: boolean
 }

@@ -45,7 +45,7 @@ export class EquipListComponent implements OnInit {
     this.configuration.searchEnabled = true;
     this.configuration.fixedColumnWidth = false;
     this.configuration.selectRow = true;
-    this.configuration.rows = 5;
+    this.configuration.rows = 10;
     //colunas
     this.columns = [
       { key: 'id', title: 'Código' },

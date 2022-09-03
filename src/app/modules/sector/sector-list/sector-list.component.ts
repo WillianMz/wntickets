@@ -45,12 +45,12 @@ export class SectorListComponent implements OnInit {
     this.configuration.searchEnabled = true;
     this.configuration.fixedColumnWidth = false;
     this.configuration.selectRow = true;
-    this.configuration.rows = 5;
+    this.configuration.rows = 10;
     //colunas
     this.columns = [
       { key: 'id', title: 'Código' },
-      { key: 'nome', title: 'Nome' },
-      { key: 'isActive', title: 'Editar'}
+      { key: 'nome', title: 'Nome' }/* ,
+      { key: 'isActive', title: 'Editar'} */
     ];
   }
 
@@ -103,7 +103,7 @@ export class SectorListComponent implements OnInit {
     });
   }
 
-  private listDisabled() {
+/*   private listDisabled() {
     this.spinner.show();
     this.sectorService.disabled().subscribe({
       next: (response) => {
@@ -114,6 +114,36 @@ export class SectorListComponent implements OnInit {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+        this.spinner.hide();
+      }
+    });
+  } */
+
+  public setInativos(){
+    this.sectorName = "";
+    this.listInativo();
+  }
+
+  private listInativo() {
+    this.listDisabled();
+  }
+
+  private listDisabled() {
+    this.spinner.show();
+
+    this.sectorService.disabled().subscribe({
+      next: (response) => {
+        this.sectors = response;
+        console.log(this.sectors);
+        this.sectorsCopy = this.sectors;
+        this.titlePage = "Setores";
+        this.spinner.hide();
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
         this.spinner.hide();
       }
     });

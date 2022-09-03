@@ -30,7 +30,7 @@ export class SectorFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    const sector = { Nome: '' };
+    const sector = { nome: '' };
     this.startForm(sector);
     //console.log(sector)
    }
@@ -49,15 +49,16 @@ export class SectorFormComponent implements OnInit {
       this.titleForm = "Novo laboratório";
       this.titleFormVisible = true;
     }
-    console.log(id)
   }
 
   startForm(isector: SetorModel) {
     this.sectorForm = new FormGroup({
-      nome: new FormControl(isector.Nome, [
+      nome: new FormControl(isector.nome, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40)
+      ]),
+      ativo: new FormControl(isector.ativo, [
       ])
     });
     //console.log(isector);

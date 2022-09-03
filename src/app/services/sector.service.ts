@@ -19,7 +19,7 @@ export class SectorService {
   }
 
   save(setor: SetorModel){
-    if(setor.Id){
+    if(setor.id){
       console.log(setor);
       return this.update(setor);
     }
@@ -57,7 +57,7 @@ export class SectorService {
   }
 
   public disabled(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/setor/desativados`);
+    return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=false`);
   }
 
   public getByNome(nome: string): Observable<SetorModel[]> {
