@@ -19,7 +19,7 @@ export class SectorService {
   }
 
   save(setor: SetorModel){
-    if(setor.Id){
+    if(setor.id){
       console.log(setor);
       return this.update(setor);
     }
@@ -37,8 +37,7 @@ export class SectorService {
   }
 
   public getAll(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor/ativo/true`)
-    //.pipe(catchError(this.handleError<Result>('getAll')));
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=true`)
   }
 
   public delete(id: number){
@@ -58,10 +57,10 @@ export class SectorService {
   }
 
   public disabled(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/setor/desativados`);
+    return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=false`);
   }
 
-  public getByName(nome: string): Observable<SetorModel[]> {
-    return this.http.get<SetorModel[]>(`${environment.api}/setor/procurar/${nome}`);
+  public getByNome(nome: string): Observable<SetorModel[]> {
+    return this.http.get<SetorModel[]>(`${environment.api}/setor/GetByNome?nome=${nome}`);
   }
 }

@@ -30,8 +30,9 @@ export class SectorFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    const sector = { Nome: '' };
+    const sector = { nome: '' };
     this.startForm(sector);
+    //console.log(sector)
    }
 
   get nome() {
@@ -40,7 +41,6 @@ export class SectorFormComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-
     if(id){
       this.sectorID = parseInt(id);
       this.loadSector(this.sectorID);
@@ -53,12 +53,15 @@ export class SectorFormComponent implements OnInit {
 
   startForm(isector: SetorModel) {
     this.sectorForm = new FormGroup({
-      nome: new FormControl(isector.Nome, [
+      nome: new FormControl(isector.nome, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40)
+      ]),
+      ativo: new FormControl(isector.ativo, [
       ])
     });
+    //console.log(isector);
   }
 
   save(){

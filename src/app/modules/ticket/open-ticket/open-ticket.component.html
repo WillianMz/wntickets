@@ -12,7 +12,7 @@
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Setor</label>
             <select class="form-select" id="setor" formControlName="setor" required="">
-              <option (click)="loadCategories()" [value]="s.Id" *ngFor="let s of sectors">{{s.Nome}}</option>
+              <option (click)="loadCategories()" [value]="s.id" *ngFor="let s of sectors">{{s.nome}}</option>
             </select>
 
             <div class="invalid-feedback">
