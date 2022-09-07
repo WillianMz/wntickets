@@ -27,9 +27,19 @@
           <label for="floatingInput">Nome</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" formControlName="ativo"  placeholder="Ativo">
+          <input type="text" class="form-control" formControlName="ativo"  placeholder="ativo">
           <label for="floatingInput">Ativo</label>
         </div>
+        <div class="form-floating mb-3">
+          <div class="form-control">
+            <input type="checkbox" >
+            <label for="floatingInput">Ativo</label>
+          </div>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar setor">
+          <i class="bi bi-toggle2-off"></i>
+          Desativar
+        </button>
 
         <!-- validacao -->
         <div class="text-danger" *ngIf="nome?.errors">
@@ -61,9 +71,9 @@
       <!-- MOSTRAR NOTIFICACOES DO BACKEND -->
       <div class="row mt-2" *ngIf="erros?.length">
         <div class="alert alert-danger" role="alert">
-          <h5>{{message}}</h5>
+          <h5>{{ message }}</h5>
           <ul *ngFor="let e of erros">
-            <li><strong>{{e.key}}</strong> - {{e.message}}</li>
+            <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
           </ul>
         </div>
       </div>

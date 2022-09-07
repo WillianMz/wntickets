@@ -36,12 +36,12 @@ export class SectorService {
     return this.http.put(`${environment.api}/setor`, isector);
   }
 
-  public getAll(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=true`)
-  }
-
   public delete(id: number){
     return this.http.delete(`${environment.api}/setor/${id}`);
+  }
+
+  public getAll(): Observable<SetorModel[]>{
+    return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=true`)
   }
 
   public getById(id: number): Observable<SetorModel>{
@@ -58,6 +58,10 @@ export class SectorService {
 
   public disabled(): Observable<SetorModel[]>{
     return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=false`);
+  }
+
+  public enabled(): Observable<SetorModel[]>{
+    return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=true`);
   }
 
   public getByNome(nome: string): Observable<SetorModel[]> {

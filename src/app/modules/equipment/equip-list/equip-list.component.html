@@ -34,7 +34,7 @@
 
   <div class="row mt-2">
     <div class="col-12">
-      <h2>{{titlePage}}</h2>
+      <h2>{{ titlePage }}</h2>
     </div>
   </div>
 
@@ -59,6 +59,12 @@
           <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
             <i class="bi bi-arrow-clockwise"></i> Atualizar
           </button>
+          <button type="button" class="btn btn-outline-primary" (click)="setAtivos()">
+            <i class="bi bi-filter"></i> Equipamentos Ativos
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="setInativos()">
+            <i class="bi bi-filter"></i> Equipamentos Inativos
+          </button>
           <!-- <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
             <i class="bi bi-filter"></i> Filtro
           </button>
@@ -81,7 +87,7 @@
             <span class="font-small">{{ row.nome }}</span>
           </td>
           <td>
-            <span class="font-small">{{ row.numserial }}</span>
+            <span class="font-small">{{ row.numSerial }}</span>
           </td>
           <td>
             <div class="btn-group">

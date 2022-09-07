@@ -19,7 +19,7 @@ export class EquipamentoService {
   }
 
   save(equipamento: EquipamentoModel){
-    if(equipamento.Id){
+    if(equipamento.id){
       console.log(equipamento);
       return this.update(equipamento);
     }
@@ -32,17 +32,17 @@ export class EquipamentoService {
     return this.http.post(`${environment.api}/equipamento`, equipamento);
   }
 
-  private update(iequipamento: EquipamentoModel){
-    return this.http.put(`${environment.api}/equipamento`, iequipamento);
-  }
-
-  public getAll(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=true`)
-    //.pipe(catchError(this.handleError<Result>('getAll')));
+  private update(iequip: EquipamentoModel){
+    return this.http.put(`${environment.api}/equipamento`, iequip);
   }
 
   public delete(id: number){
     return this.http.delete(`${environment.api}/equipamento/${id}`);
+  }
+  
+  public getAll(): Observable<EquipamentoModel[]>{
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento?ativo=true`)
+    //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 
   public getById(id: number): Observable<EquipamentoModel>{
@@ -58,10 +58,14 @@ export class EquipamentoService {
   }
 
   public disabled(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento/desativados`);
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento?ativo=false`);
+  }
+
+  public enabled(): Observable<EquipamentoModel[]>{
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento?ativo=true`);
   }
 
   public getByName(nome: string): Observable<EquipamentoModel[]> {
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/GetByName?nome=${nome}`);
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento/GetByName?nome=${nome}`);
   }
 }

@@ -64,7 +64,7 @@
       "ativa": true
     }
   ],
-  "setor": [
+  "Setor": [
     {
       "nome": "Administrativo",
       "id": 1
@@ -300,5 +300,49 @@
   ],
   "contatos": [],
   "tickets": [],
-  "calls": []
+  "calls": [],
+  "equipamento": [
+    {
+      "id": 1,
+      "ativo": true,
+      "codInterno": "123",
+      "tipoId": 1,
+      "tipoDescricao": "COMPUTADOR",
+      "setorId": 1,
+      "setorNome": "LAB01",
+      "nome": "PC-01",
+      "descricao": "COMPUTADOR DE TESTE",
+      "fabricante": "PC BRASIL LTDA",
+      "marca": "RODATUDO",
+      "modelo": "AAAAAAAAAA",
+      "numSerial": "32132A1SDF",
+      "anoFabricacao": 2019,
+      "dtCompra": "01/09/2020",
+      "valorCompra": "123,69",
+      "anotacoes": null,
+      "foto": null,
+      "motivoBaixa": null
+    },
+    {
+      "id": 2,
+      "ativo": true,
+      "codInterno": "12",
+      "tipoId": 1,
+      "tipoDescricao": "COMPUTADOR",
+      "setorId": 1,
+      "setorNome": "LAB01",
+      "nome": "PC-02",
+      "descricao": "COMPUTADOR DE TESTE",
+      "fabricante": "PC BRASIL LTDA",
+      "marca": "RODATUDO",
+      "modelo": "AAAAAAAAAA",
+      "numSerial": "32132A1SDF",
+      "anoFabricacao": 2019,
+      "dtCompra": "01/09/2020",
+      "valorCompra": "123,69",
+      "anotacoes": null,
+      "foto": null,
+      "motivoBaixa": null
+    }
+  ]
 }

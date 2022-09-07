@@ -50,8 +50,8 @@ export class EquipListComponent implements OnInit {
     this.columns = [
       { key: 'id', title: 'Código' },
       { key: 'nome', title: 'Nome' },
-      { key: 'numserial', title: 'Nº serial' },
-      { key: 'isActive', title: 'Editar'}
+      { key: 'numserial', title: 'Nº serial' }/* ,
+      { key: 'isActive', title: 'Editar'} */
     ];
   }
 
@@ -96,7 +96,7 @@ export class EquipListComponent implements OnInit {
     });
   }
 
-  private listDisabled() {
+/*   private listDisabled() {
     this.spinner.show();
     this.equipamentoService.disabled().subscribe({
       next: (response) => {
@@ -107,6 +107,66 @@ export class EquipListComponent implements OnInit {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+        this.spinner.hide();
+      }
+    });
+  } */
+
+  public setInativos(){
+    this.equipmentName = "";
+    this.listInativo();
+  }
+
+  private listInativo() {
+    this.listDisabled();
+  }
+
+  private listDisabled() {
+    this.spinner.show();
+
+    this.equipamentoService.disabled().subscribe({
+      next: (response) => {
+        this.equipments = response;
+        console.log(this.equipments);
+        this.equipmentsCopy = this.equipments;
+        this.titlePage = "Equipamentos";
+        this.spinner.hide();
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
+      }
+    });
+  }
+
+  public setAtivos(){
+    this.equipmentName = "";
+    this.listAtivo();
+  }
+
+  private listAtivo() {
+    this.listEnabled();
+  }
+
+  private listEnabled() {
+    this.spinner.show();
+
+    this.equipamentoService.enabled().subscribe({
+      next: (response) => {
+        this.equipments = response;
+        console.log(this.equipments);
+        this.equipmentsCopy = this.equipments;
+        this.titlePage = "Equipamentos";
+        this.spinner.hide();
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
         this.spinner.hide();
       }
     });
@@ -167,7 +227,7 @@ export class EquipListComponent implements OnInit {
           this.notification.showError('Erro');
           this.spinner.hide();
         }else {
-          this.notification.showError('Erro ao excluir equipamento');
+          this.notification.showError('Erro ao excluir o equipamento');
           this.spinner.hide();
         }
         
