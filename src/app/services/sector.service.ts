@@ -29,42 +29,42 @@ export class SectorService {
   }
 
   private create(setor: SetorModel){
-    return this.http.post(`${environment.api}/setor`, setor);
+    return this.http.post(`${environment.api}/Setor`, setor);
   }
 
   private update(isector: SetorModel){
-    return this.http.put(`${environment.api}/setor`, isector);
+    return this.http.put(`${environment.api}/Setor`, isector);
   }
 
   public delete(id: number){
-    return this.http.delete(`${environment.api}/setor/${id}`);
+    return this.http.delete(`${environment.api}/Setor/${id}`);
   }
 
   public getAll(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=true`)
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=true`)
   }
 
   public getById(id: number): Observable<SetorModel>{
-    return this.http.get(`${environment.api}/setor/${id}`);
+    return this.http.get(`${environment.api}/Setor/${id}`);
   }
 
   public disable(id: number){
-    return this.http.put(`${environment.api}/setor/${id}/inativar`, null);
+    return this.http.put(`${environment.api}/Setor/${id}/inativar`, null);
   }
 
   public enable(id: number) {
-    return this.http.put(`${environment.api}/setor/${id}/ativar`, null);
+    return this.http.put(`${environment.api}/Setor/${id}/ativar`, null);
   }
 
   public disabled(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=false`);
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=false`);
   }
 
   public enabled(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/setor?ativo=true`);
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=true`);
   }
 
   public getByNome(nome: string): Observable<SetorModel[]> {
-    return this.http.get<SetorModel[]>(`${environment.api}/setor/GetByNome?nome=${nome}`);
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor/GetByNome?nome=${nome}`);
   }
 }

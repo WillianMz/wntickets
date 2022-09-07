@@ -29,43 +29,43 @@ export class EquipamentoService {
   }
 
   private create(equipamento: EquipamentoModel){
-    return this.http.post(`${environment.api}/equipamento`, equipamento);
+    return this.http.post(`${environment.api}/Equipamento`, equipamento);
   }
 
   private update(iequip: EquipamentoModel){
-    return this.http.put(`${environment.api}/equipamento`, iequip);
+    return this.http.put(`${environment.api}/Equipamento`, iequip);
   }
 
   public delete(id: number){
-    return this.http.delete(`${environment.api}/equipamento/${id}`);
+    return this.http.delete(`${environment.api}/Equipamento/${id}`);
   }
   
   public getAll(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento?ativo=true`)
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=true`)
     //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 
   public getById(id: number): Observable<EquipamentoModel>{
-    return this.http.get(`${environment.api}/equipamento/${id}`);
+    return this.http.get(`${environment.api}/Equipamento/${id}`);
   }
 
   public disable(id: number){
-    return this.http.put(`${environment.api}/equipamento/${id}/inativar`, null);
+    return this.http.put(`${environment.api}/Equipamento/${id}/inativar`, null);
   }
 
   public enable(id: number) {
-    return this.http.put(`${environment.api}/equipamento/${id}/ativar`, null);
+    return this.http.put(`${environment.api}/Equipamento/${id}/ativar`, null);
   }
 
   public disabled(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento?ativo=false`);
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=false`);
   }
 
   public enabled(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento?ativo=true`);
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=true`);
   }
 
   public getByName(nome: string): Observable<EquipamentoModel[]> {
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/equipamento/GetByName?nome=${nome}`);
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/GetByName?nome=${nome}`);
   }
 }
