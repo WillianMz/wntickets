@@ -20,17 +20,13 @@
             <label for="floatingInput">Nome</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="ativo"  placeholder="ativo">
-            <label for="floatingInput">Ativo</label>
-          </div>
-          <div class="form-floating mb-3">
             <div class="form-control">
-              <input type="checkbox" >
+              <input type="checkbox" formControlName="ativo"  placeholder="ativo">
               <label for="floatingInput">Ativo</label>
             </div>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="codInterno"  placeholder="codInterno">
+            <input type="number" class="form-control" formControlName="codInterno"  placeholder="codInterno">
             <label for="floatingInput">Código Interno</label>
           </div>
           <div class="form-floating mb-3">
@@ -38,15 +34,15 @@
             <label for="floatingInput">Tipo ID</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="tipo"  placeholder="tipo">
-            <label for="floatingInput">Tipo</label>
+            <input type="text" class="form-control" formControlName="tipoDescricao"  placeholder="tipoDescricao">
+            <label for="floatingInput">Tipo Descrição</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="setorId"  placeholder="setorId">
+            <input type="number" class="form-control" formControlName="setorId"  placeholder="setorId">
             <label for="floatingInput">Código Setor</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="setor"  placeholder="setor">
+            <input type="text" class="form-control" formControlName="setorNome"  placeholder="setorNome">
             <label for="floatingInput">Setor</label>
           </div>
           <div class="form-floating mb-3">
@@ -70,23 +66,23 @@
             <label for="floatingInput">Numero de Série</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="anoFabricacao"  placeholder="anoFabricacao">
+            <input type="number" class="form-control" formControlName="anoFabricacao"  placeholder="anoFabricacao">
             <label for="floatingInput">Ano de Fabricação</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="dataCompra"  placeholder="dataCompra">
+            <input type="date" class="form-control" formControlName="dtCompra"  placeholder="dtCompra">
             <label for="floatingInput">Data da Compra</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="precoCompra"  placeholder="precoCompra">
-            <label for="floatingInput">Preço de Compra</label>
+            <input type="number" class="form-control" formControlName="valorCompra"  placeholder="valorCompra">
+            <label for="floatingInput">Valor de Compra</label>
           </div>
           <div class="form-floating mb-3">
             <input type="text" class="form-control" formControlName="anotacoes"  placeholder="anotacoes">
             <label for="floatingInput">Anotações</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="foto"  placeholder="foto">
+            <input type="url" class="form-control" formControlName="foto"  placeholder="foto">
             <label for="floatingInput">Foto</label>
           </div>
           <div class="form-floating mb-3">
@@ -116,6 +112,7 @@
         <div class="row mt-2">
           <div class="col">
             <div class="btn-group d-flex">
+              <button type="button" class="btn btn-outline-primary" [routerLink]="['/equipment']">Cancelar</button>
               <button type="button" class="btn btn-outline-primary" [disabled]="!equipForm.valid" (click)="save()">Salvar</button>
             </div>
           </div>

@@ -78,7 +78,6 @@ export class SectorFormComponent implements OnInit {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
-
         this.showError(this.message, 'Ocorreu um erro!');
         console.log(this.success);
         console.log(this.message);
@@ -87,13 +86,6 @@ export class SectorFormComponent implements OnInit {
     });
   }
 
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
-  }
-
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
-  }
 
   private loadSector(idSector: number){
     this.sectorService.getById(idSector).subscribe(
@@ -104,4 +96,13 @@ export class SectorFormComponent implements OnInit {
       }
     );
   }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
+  }
+
 }

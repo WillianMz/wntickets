@@ -61,17 +61,17 @@ export class EquipFormComponent implements OnInit {
       ativo: new FormControl(iequip.ativo, []),
       codInterno: new FormControl(iequip.codInterno, []),
       tipoId: new FormControl(iequip.tipoId, []),
-      tipo: new FormControl(iequip.tipo, []),
+      tipoDescricao: new FormControl(iequip.tipoDescricao, []),
       setorId: new FormControl(iequip.setorId, []),
-      setor: new FormControl(iequip.setor, []),
+      setorNome: new FormControl(iequip.setorNome, []),
       descricao: new FormControl(iequip.descricao, []),
       fabricante: new FormControl(iequip.fabricante, []),
       marca: new FormControl(iequip.marca, []),
       modelo: new FormControl(iequip.modelo, []),
       numSerial: new FormControl(iequip.numSerial, []),
       anoFabricacao: new FormControl(iequip.anoFabricacao, []),
-      dataCompra: new FormControl(iequip.dataCompra, []),
-      precoCompra: new FormControl(iequip.precoCompra, []),
+      dtCompra: new FormControl(iequip.dtCompra, []),
+      valorCompra: new FormControl(iequip.valorCompra, []),
       anotacoes: new FormControl(iequip.anotacoes, []),
       foto: new FormControl(iequip.foto, []),
       motivoBaixa: new FormControl(iequip.motivoBaixa, [])
@@ -102,14 +102,6 @@ export class EquipFormComponent implements OnInit {
     });
   }
 
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
-  }
-
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
-  }
-
   private loadEquip(idEquip: number){
     this.equipamentoService.getById(idEquip).subscribe(
       (response) => {
@@ -119,4 +111,13 @@ export class EquipFormComponent implements OnInit {
       }
     );
   }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
+  }
+
 }

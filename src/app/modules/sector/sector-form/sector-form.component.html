@@ -27,20 +27,11 @@
           <label for="floatingInput">Nome</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" formControlName="ativo"  placeholder="ativo">
-          <label for="floatingInput">Ativo</label>
-        </div>
-        <div class="form-floating mb-3">
           <div class="form-control">
-            <input type="checkbox" >
+            <input type="checkbox" formControlName="ativo"  placeholder="ativo">
             <label for="floatingInput">Ativo</label>
           </div>
         </div>
-        <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar setor">
-          <i class="bi bi-toggle2-off"></i>
-          Desativar
-        </button>
-
         <!-- validacao -->
         <div class="text-danger" *ngIf="nome?.errors">
           <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o Nome do setor</div>
@@ -63,6 +54,7 @@
       <div class="row mt-2">
         <div class="col">
           <div class="btn-group d-flex">
+            <button type="button" class="btn btn-outline-primary" [routerLink]="['/labs']">Cancelar</button>
             <button type="button" class="btn btn-outline-primary" [disabled]="!sectorForm.valid" (click)="save()">Salvar</button>
           </div>
         </div>

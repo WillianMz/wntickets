@@ -19,10 +19,10 @@ export class EquipListComponent implements OnInit {
   equipmentsCopy: EquipamentoModel[];
   equipment: EquipamentoModel;
   equipmentId: number;
+  equipmentName: string;
+  filterDisabledEquipments: boolean;
   success: boolean;
   message: string;
-  filterDisabledEquipments: boolean;
-  equipmentName: string;
   erros: ErroServidor[];
 
   public configuration: Config;

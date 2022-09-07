@@ -3,9 +3,9 @@ export class EquipamentoModel {
     public ativo?: boolean;
     public codInterno?: string;
     public tipoId?: number;
-    public tipo?: string;
+    public tipoDescricao?: string;
     public setorId?: number;
-    public setor?: string;
+    public setorNome?: string;
     public nome?: string;
     public descricao?: string;
     public fabricante?: string;
@@ -13,10 +13,11 @@ export class EquipamentoModel {
     public modelo?: string;
     public numSerial?: string;
     public anoFabricacao?: number;
-    public dataCompra?: string;
-    public precoCompra?: string;
+    public dtCompra?: string;
+    public valorCompra?: string;
     public anotacoes?: string;
     public foto?: string;
     public motivoBaixa?: string;
+
   }
   

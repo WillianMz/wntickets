@@ -31,6 +31,7 @@
     "ngx-popperjs": "^14.1.0",
     "ngx-spinner": "^14.0.0",
     "ngx-toastr": "^15.0.0",
+    "pipe": "^1.1.0",
     "popper.js": "^1.16.1",
     "rxjs": "~7.5.6",
     "tslib": "^2.4.0",
