@@ -149,6 +149,36 @@ export class SectorListComponent implements OnInit {
     });
   }
 
+  public setAtivos(){
+    this.sectorName = "";
+    this.listAtivo();
+  }
+
+  private listAtivo() {
+    this.listEnabled();
+  }
+
+  private listEnabled() {
+    this.spinner.show();
+
+    this.sectorService.enabled().subscribe({
+      next: (response) => {
+        this.sectors = response;
+        console.log(this.sectors);
+        this.sectorsCopy = this.sectors;
+        this.titlePage = "Setores";
+        this.spinner.hide();
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
+      }
+    });
+  }
+
   public saveFilter(){
     this.sectorName = "";
     this.list();
@@ -221,7 +251,6 @@ export class SectorListComponent implements OnInit {
   }
 
   public delete(id: string){
-
     this.spinner.show();
 
     this.sectorService.delete(Number.parseInt(id)).subscribe({
@@ -242,7 +271,7 @@ export class SectorListComponent implements OnInit {
           this.notification.showError('Erro');
           this.spinner.hide();
         }else {
-          this.notification.showError('Erro ao excluir equipamento');
+          this.notification.showError('Erro ao excluir o setor');
           this.spinner.hide();
         }
         

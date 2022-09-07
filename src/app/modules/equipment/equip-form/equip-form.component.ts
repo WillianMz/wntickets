@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EquipamentoModel } from 'src/app/models/equipment/equipamentoModel';
@@ -30,9 +30,9 @@ export class EquipFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    const equip = { Nome: '' };
+    const equip = { nome: '' };
     this.startForm(equip);
-    console.log(equip)
+    //console.log(equip)
      }
 
      get nome() {
@@ -46,19 +46,35 @@ export class EquipFormComponent implements OnInit {
       this.loadEquip(this.equipID);
     }
     else{
-      this.titleForm = "Novo laboratório";
+      this.titleForm = "Novo Equipamento";
       this.titleFormVisible = true;
     }
-    console.log(id)
   }
 
   startForm(iequip: EquipamentoModel) {
     this.equipForm = new FormGroup({
-      nome: new FormControl(iequip.Nome, [
-/*         Validators.required,
+      nome: new FormControl(iequip.nome, [
+      /*   Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40) */
-      ])
+      ]),
+      ativo: new FormControl(iequip.ativo, []),
+      codInterno: new FormControl(iequip.codInterno, []),
+      tipoId: new FormControl(iequip.tipoId, []),
+      tipo: new FormControl(iequip.tipo, []),
+      setorId: new FormControl(iequip.setorId, []),
+      setor: new FormControl(iequip.setor, []),
+      descricao: new FormControl(iequip.descricao, []),
+      fabricante: new FormControl(iequip.fabricante, []),
+      marca: new FormControl(iequip.marca, []),
+      modelo: new FormControl(iequip.modelo, []),
+      numSerial: new FormControl(iequip.numSerial, []),
+      anoFabricacao: new FormControl(iequip.anoFabricacao, []),
+      dataCompra: new FormControl(iequip.dataCompra, []),
+      precoCompra: new FormControl(iequip.precoCompra, []),
+      anotacoes: new FormControl(iequip.anotacoes, []),
+      foto: new FormControl(iequip.foto, []),
+      motivoBaixa: new FormControl(iequip.motivoBaixa, [])
     });
     console.log();
   }
@@ -70,20 +86,28 @@ export class EquipFormComponent implements OnInit {
       next: (response) => {
         this.success = response['sucesso'];
         this.message = response['mensagem'];
-        /* this.showSuccess(this.message); */
-        this.router.navigate(['/labs']);
+        this.showSuccess(this.message);
+        this.router.navigate(['/equipment']);
       },
       error: (response) => {
         console.log(response);
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
-        /* this.showError(this.message, 'Ocorreu um erro!'); */
+        this.showError(this.message, 'Ocorreu um erro!');
         console.log(this.success);
         console.log(this.message);
         console.log(this.erros);
       }
     });
+  }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
   }
 
   private loadEquip(idEquip: number){

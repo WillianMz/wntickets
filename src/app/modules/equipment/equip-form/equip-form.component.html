@@ -3,7 +3,7 @@
 <div class="pt-2 container">
 
     <div class="row" *ngIf="titleFormVisible">
-      <h3>{{titleForm}}</h3>
+      <h3>{{ titleForm }}</h3>
     </div>
   
     <div class="row">
@@ -16,19 +16,93 @@
             <label for="floatingInput">Código</label>
         </div> -->
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
+            <input type="text" class="form-control" formControlName="nome"  placeholder="nome">
             <label for="floatingInput">Nome</label>
-        </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="ativo"  placeholder="ativo">
+            <label for="floatingInput">Ativo</label>
+          </div>
+          <div class="form-floating mb-3">
+            <div class="form-control">
+              <input type="checkbox" >
+              <label for="floatingInput">Ativo</label>
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="codInterno"  placeholder="codInterno">
+            <label for="floatingInput">Código Interno</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="tipoId"  placeholder="tipoId">
+            <label for="floatingInput">Tipo ID</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="tipo"  placeholder="tipo">
+            <label for="floatingInput">Tipo</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="setorId"  placeholder="setorId">
+            <label for="floatingInput">Código Setor</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="setor"  placeholder="setor">
+            <label for="floatingInput">Setor</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="descricao"  placeholder="descricao">
+            <label for="floatingInput">Descricao</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="fabricante"  placeholder="fabricante">
+            <label for="floatingInput">Fabricante</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="marca"  placeholder="marca">
+            <label for="floatingInput">Marca</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="modelo"  placeholder="modelo">
+            <label for="floatingInput">Modelo</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="numSerial"  placeholder="numSerial">
+            <label for="floatingInput">Numero de Série</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="anoFabricacao"  placeholder="anoFabricacao">
+            <label for="floatingInput">Ano de Fabricação</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="dataCompra"  placeholder="dataCompra">
+            <label for="floatingInput">Data da Compra</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="precoCompra"  placeholder="precoCompra">
+            <label for="floatingInput">Preço de Compra</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="anotacoes"  placeholder="anotacoes">
+            <label for="floatingInput">Anotações</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="foto"  placeholder="foto">
+            <label for="floatingInput">Foto</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="motivoBaixa"  placeholder="motivoBaixa">
+            <label for="floatingInput">Motivo Baixa</label>
+          </div>
   
           <!-- validacao -->
-<!--           <div class="text-danger" *ngIf="nome?.errors">
-            <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o Nome do setor</div>
+          <div class="text-danger" *ngIf="nome?.errors">
+            <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o Nome do Equipamento</div>
             <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
               Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
             </div>
             <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
               Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres</div>
-          </div> -->
+          </div>
   
           <!-- <div class="col-12">
             <label for="lastName" class="form-label">Equipe</label>
@@ -50,9 +124,9 @@
         <!-- MOSTRAR NOTIFICACOES DO BACKEND -->
         <div class="row mt-2" *ngIf="erros?.length">
           <div class="alert alert-danger" role="alert">
-            <h5>{{message}}</h5>
+            <h5>{{ message }}</h5>
             <ul *ngFor="let e of erros">
-              <li><strong>{{e.key}}</strong> - {{e.message}}</li>
+              <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
             </ul>
           </div>
         </div>
