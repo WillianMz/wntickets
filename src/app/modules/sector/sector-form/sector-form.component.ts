@@ -54,9 +54,9 @@ export class SectorFormComponent implements OnInit {
   startForm(isector: SetorModel) {
     this.sectorForm = new FormGroup({
       nome: new FormControl(isector.nome, [
-     /*    Validators.required,
+        Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(40) */
+        Validators.maxLength(40)
       ]),
       ativo: new FormControl(isector.ativo, [])
     });

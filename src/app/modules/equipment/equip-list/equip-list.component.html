@@ -33,13 +33,13 @@
 <div class="container">
 
   <div class="row mt-2">
-    <div class="col-12">
+    <div class="col-10">
       <h2>{{ titlePage }}</h2>
     </div>
   </div>
 
   <div class="row mt-2">
-    <div class="col-xs-6 col-sm-12 col-lg-6">
+    <div class="col-xs-5 col-sm-10 col-lg-5">
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Digite aqui o que deseja procurar..." [(ngModel)]="equipmentName">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()" *ngIf="equipmentName?.length">
@@ -50,8 +50,8 @@
   </div>
 
   <div class="row" *ngIf="true">
-    <div class="col-12">
-      <div class="col-xs-6 col-sm-12 col-lg-6">
+<!--     <div class="col-10"> -->
+      <div class="col-xs-5 col-sm-10 col-lg-5">
         <div class="btn-group">
           <button type="button" class="btn btn-outline-primary" (click)="new()">
             <i class="bi bi-plus-square"></i> Adicionar
@@ -73,11 +73,11 @@
           </button> -->
         </div>
       </div>
-    </div>
+<!--     </div> -->
   </div>
 
   <div class="row mt-2" *ngIf="equipments?.length">
-    <div class="col-12">
+    <div class="col-10">
       <ngx-table [data]="equipments" [configuration]="configuration" [columns]="columns">
         <ng-template let-row>
           <td>

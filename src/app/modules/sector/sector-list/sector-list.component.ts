@@ -49,8 +49,8 @@ export class SectorListComponent implements OnInit {
     //colunas
     this.columns = [
       { key: 'id', title: 'Código' },
-      { key: 'nome', title: 'Nome' }/* ,
-      { key: 'isActive', title: 'Editar'} */
+      { key: 'nome', title: 'Nome' },
+      { key: 'isActive', title: 'Ativo'}
     ];
   }
 

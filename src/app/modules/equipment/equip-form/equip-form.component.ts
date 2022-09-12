@@ -54,9 +54,9 @@ export class EquipFormComponent implements OnInit {
   startForm(iequip: EquipamentoModel) {
     this.equipForm = new FormGroup({
       nome: new FormControl(iequip.nome, [
-      /*   Validators.required,
+        Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(40) */
+        Validators.maxLength(40)
       ]),
       ativo: new FormControl(iequip.ativo, []),
       codInterno: new FormControl(iequip.codInterno, []),

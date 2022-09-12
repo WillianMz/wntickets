@@ -46,7 +46,7 @@ export class TicketListComponent implements OnInit {
     this.configuration.tableLayout.style = 'tiny';
     // ... etc.
     this.columns = [
-      { key: 'id', title: 'Id' },
+      { key: 'id', title: 'Código' },
       { key: 'assunto', title: 'Assunto' },
       { key: 'criador', title: 'Criado por' },
       { key: 'dataAbertura', title: 'Aberto em' },
