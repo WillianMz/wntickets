@@ -41,7 +41,7 @@ export class EquipamentoService {
   }
   
   public getAll(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=true`)
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento`)
     //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 

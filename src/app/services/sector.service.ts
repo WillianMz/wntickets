@@ -41,7 +41,7 @@ export class SectorService {
   }
 
   public getAll(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=true`)
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor`)
   }
 
   public getById(id: number): Observable<SetorModel>{

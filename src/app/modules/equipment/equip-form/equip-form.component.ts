@@ -1,3 +1,5 @@
+import { SectorService } from './../../../services/sector.service';
+import { SetorModel } from './../../../models/sector/setorModel';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,12 +25,14 @@ export class EquipFormComponent implements OnInit {
   message: string;
   success: boolean;
   erros: ErroServidor[];
+  setores: SetorModel[];
 
   constructor(
     private equipamentoService: EquipamentoService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sectorService: SectorService
   ) {
     const equip = { nome: '' };
     this.startForm(equip);
@@ -40,6 +44,9 @@ export class EquipFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
+
+    this.sectorService.getAll().subscribe((setores) => this.setores = setores);
+
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id){
       this.equipID = parseInt(id);
@@ -56,14 +63,13 @@ export class EquipFormComponent implements OnInit {
       nome: new FormControl(iequip.nome, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(40)
-      ]),
+        Validators.maxLength(40)]),
       ativo: new FormControl(iequip.ativo, []),
       codInterno: new FormControl(iequip.codInterno, []),
       tipoId: new FormControl(iequip.tipoId, []),
       tipoDescricao: new FormControl(iequip.tipoDescricao, []),
-      setorId: new FormControl(iequip.setorId, []),
-      setorNome: new FormControl(iequip.setorNome, []),
+      setorId: new FormControl([iequip.setorId]),
+      setorNome: new FormControl([[]]),
       descricao: new FormControl(iequip.descricao, []),
       fabricante: new FormControl(iequip.fabricante, []),
       marca: new FormControl(iequip.marca, []),

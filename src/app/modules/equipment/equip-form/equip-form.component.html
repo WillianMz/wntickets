@@ -41,14 +41,23 @@
               <input type="text" class="form-control" formControlName="tipoDescricao"  placeholder="Tipo Descrição">
             </div>
 
-            <div class="col-sm-2">
+<!--             <div class="col-sm-2">
               <label>Cód Setor</label>
               <input type="number" class="form-control" formControlName="setorId"  placeholder="Cód Setor">
             </div>
-
-            <div class="col-sm-5">
+-->
+<!--             <div class="col-sm-5">
               <label>Setor</label>
               <input type="text" class="form-control" formControlName="setorNome"  placeholder="Setor">
+            </div> 
+ -->
+            <div class="col-sm-6">
+              <label>Setor</label>
+              <select class="form-select" formControlName="setorId" placeholder="Setor" required="">
+                <option *ngFor="let setor of setores" value="{{ setor.id }}">
+                  {{ setor.nome }}
+                </option>
+              </select>
             </div>
 
             <div class="col-sm-6">
@@ -83,7 +92,7 @@
 
             <div class="col-sm-3">
               <label>Dt Compra</label>
-              <input type="date" class="form-control" formControlName="dtCompra"  placeholder="Dt Compra">
+              <input type="text" class="form-control" formControlName="dtCompra"  placeholder="Dt Compra">
             </div>
 
             <div class="col-sm-3">

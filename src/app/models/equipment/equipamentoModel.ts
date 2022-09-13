@@ -1,10 +1,11 @@
+import { SetorModel } from './../sector/setorModel';
 export class EquipamentoModel {
     public id?: number;
     public ativo?: boolean;
     public codInterno?: string;
     public tipoId?: number;
     public tipoDescricao?: string;
-    public setorId?: number;
+    public setorId?: SetorModel[];
     public setorNome?: string;
     public nome?: string;
     public descricao?: string;
