@@ -65,19 +65,42 @@ export class EquipFormComponent implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(40)]),
       ativo: new FormControl(iequip.ativo, []),
-      codInterno: new FormControl(iequip.codInterno, []),
+      codInterno: new FormControl(iequip.codInterno, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40)]),
       tipoId: new FormControl(iequip.tipoId, []),
       tipoDescricao: new FormControl(iequip.tipoDescricao, []),
       setorId: new FormControl([iequip.setorId]),
-      setorNome: new FormControl([[]]),
-      descricao: new FormControl(iequip.descricao, []),
-      fabricante: new FormControl(iequip.fabricante, []),
-      marca: new FormControl(iequip.marca, []),
-      modelo: new FormControl(iequip.modelo, []),
-      numSerial: new FormControl(iequip.numSerial, []),
+      setorNome: new FormControl([[
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40)]]),
+      descricao: new FormControl(iequip.descricao, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40)]),
+      fabricante: new FormControl(iequip.fabricante, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40)]),
+      marca: new FormControl(iequip.marca, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40)]),
+      modelo: new FormControl(iequip.modelo, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40)]),
+      numSerial: new FormControl(iequip.numSerial, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(10)]),
       anoFabricacao: new FormControl(iequip.anoFabricacao, []),
-      dtCompra: new FormControl(iequip.dtCompra, []),
-      valorCompra: new FormControl(iequip.valorCompra, []),
+      dtCompra: new FormControl(iequip.dtCompra, [
+        Validators.required]),
+      valorCompra: new FormControl(iequip.valorCompra, [
+        Validators.required]),
       anotacoes: new FormControl(iequip.anotacoes, []),
       foto: new FormControl(iequip.foto, []),
       motivoBaixa: new FormControl(iequip.motivoBaixa, [])
