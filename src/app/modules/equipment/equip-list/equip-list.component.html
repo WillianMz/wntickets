@@ -1,112 +1,102 @@
 <app-load [text]="'obtendo dados...'"></app-load>
 
 <div class="container">
-  <div class="row pt-2" *ngIf="false">
-    <app-alert-nada-exibir [mensagem]="'EM DESENVOLVIMENTO'" [color]="'alert-danger'"></app-alert-nada-exibir>
-  </div>
-</div>
+  <div class="row">
+    <div class="col-12">
 
-<!-- <ng-template #filtroPesquisa>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Filtros</h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" >
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
+      <!-- BOTOES DE ACOES -->
+      <div class="row" *ngIf="true">
+        <div class="col-12">
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary" (click)="new()">
+              <i class="bi bi-plus-lg"></i> Adicionar
+            </button>
+            <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
+              <i class="bi bi-arrow-clockwise"></i> Atualizar
+            </button>
 
-    <ul class="list-group">
-      <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="true" [(ngModel)]="filterDisabledEquipments">
-        Somente desativados
-      </label>
-    </ul>
+            <!-- BOTAO DE FILTROS PREDEFENIDOS -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-funnel"></i> Filtrar
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Desativados</a></li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Tipo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Marca</a></li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Modelo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Setor</a></li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Fabricante</a></li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Serial</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Limpar Filtros</a></li>
+              </ul>
+            </div>
 
-    <div class="row mt-2">
-      <button class="btn btn-primary" (click)="saveFilter()">Aplicar</button>
-    </div>
-
-  </div>
-</ng-template> -->
-
-
-<div class="container">
-
-  <div class="row mt-2">
-    <div class="col-10">
-      <h2>{{ titlePage }}</h2>
-    </div>
-  </div>
-
-  <div class="row mt-2">
-    <div class="col-xs-5 col-sm-10 col-lg-5">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Digite aqui o que deseja procurar..." [(ngModel)]="equipmentName">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()" *ngIf="equipmentName?.length">
-          <i class="bi bi-search"></i> Procurar
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="true">
-<!--     <div class="col-10"> -->
-      <div class="col-xs-5 col-sm-10 col-lg-5">
-        <div class="btn-group">
-          <button type="button" class="btn btn-outline-primary" (click)="new()">
-            <i class="bi bi-plus-square"></i> Adicionar
-          </button>
-          <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
-            <i class="bi bi-arrow-clockwise"></i> Atualizar
-          </button>
-          <button type="button" class="btn btn-outline-primary" (click)="setAtivos()">
-            <i class="bi bi-filter"></i> Equipamentos Ativos
-          </button>
-          <button type="button" class="btn btn-outline-primary" (click)="setInativos()">
-            <i class="bi bi-filter"></i> Equipamentos Inativos
-          </button>
-          <!-- <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
-            <i class="bi bi-filter"></i> Filtro
-          </button>
-          <button type="button" class="btn btn-outline-primary" (click)="cleanFilters()">
-            <i class="bi bi-filter"></i> Limpar filtros
-          </button> -->
+            <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
+              <i class="bi bi-pc-display"></i> Tipos de Equipamentos
+            </button>
+          </div>
         </div>
       </div>
-<!--     </div> -->
-  </div>
 
-  <div class="row mt-2" *ngIf="equipments?.length">
-    <div class="col-10">
-      <ngx-table [data]="equipments" [configuration]="configuration" [columns]="columns">
-        <ng-template let-row>
-          <td>
-            <div class="font-small">{{ row.id }}</div>
-          </td>
-          <td>
-            <span class="font-small">{{ row.nome }}</span>
-          </td>
-          <td>
-            <span class="font-small">{{ row.numSerial }}</span>
-          </td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-outline-warning btn-sm" tooltip="Editar equipamento selecionado" (click)="edit(row.id)">
-                <i class="bi bi-pencil"></i>
-                Editar
-              </button>
-              <button class="btn btn-outline-danger btn-sm" tooltip="Excluír equipamento selecionado" (click)="delete(row.id)">
-                <i class="bi bi-trash"></i>
-                Remover
-              </button>
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="false">
+        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+      </div>
+
+      <!-- TITULO DA PAGINA -->
+      <div class="row mt-2 col-10">
+        <h2>{{tituloDaPagina}}</h2>
+      </div>
+
+      <!-- INPUT PARA PESQUISA -->
+      <div class="row mt-2">
+        <div class="col-xs-5 col-sm-10 col-lg-5">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="equipmentName">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()"
+              *ngIf="equipmentName?.length">
+              <i class="bi bi-search"></i> Procurar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID / TABELA -->
+      <div class="row mt-2">
+        <div class="col-12">
+          
+          <div class="columns">
+            <div class="column col-12">
+              <ngx-table [configuration]="configuration" [data]="equipments" [columns]="columns"> </ngx-table>
             </div>
-          </td>
-        </ng-template>
-      </ngx-table>
-    </div>
-  </div>
+          </div>
+          <ng-template #actionTpl let-row let-rowIndex="rowIndex">
+            <div class="btn-group">
+              <div class="btn-group">
+                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Mais detalhes
+                </button>              
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Editar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Excluir</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Desativar</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Detalhes</a></li>
+                </ul>
+              </div>
+              
+            </div>
+          </ng-template>
 
-  <div class="row pt-2" *ngIf="!equipments?.length">
-    <app-alert [mensagem]="'Nenhum equipamento encontrado!'" [color]="'alert-secondary'"></app-alert>
+        </div>
+      </div>
+
+
+
+    </div>
   </div>
 </div>

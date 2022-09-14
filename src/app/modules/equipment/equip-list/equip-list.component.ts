@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { EquipamentoModel } from 'src/app/models/equipment/equipamentoModel';
@@ -14,7 +14,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class EquipListComponent implements OnInit {
 
-  titlePage: string;
+  @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
+
+  tituloDaPagina: string = 'Equipamentos';
   equipments: EquipamentoModel[];
   equipmentsCopy: EquipamentoModel[];
   equipment: EquipamentoModel;
@@ -50,8 +52,11 @@ export class EquipListComponent implements OnInit {
     this.columns = [
       { key: 'id', title: 'Código' },
       { key: 'nome', title: 'Nome' },
-      { key: 'numserial', title: 'Nº serial' }/* ,
-      { key: 'isActive', title: 'Editar'} */
+      { key: 'setorNome', title:'Setor'},
+      { key: 'fabricante', title:'Fabricante'},
+      { key: 'marca', title:'Marca'},
+      { key: 'numSerial', title: 'Nº serial' },
+      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
 
@@ -67,7 +72,7 @@ export class EquipListComponent implements OnInit {
         this.equipments = response;
         console.log(this.equipments);
         this.equipmentsCopy = this.equipments;
-        this.titlePage = "Equipamentos";
+        this.tituloDaPagina = "Equipamentos";
         this.spinner.hide();
       },
       error: (response) => {
@@ -129,7 +134,7 @@ export class EquipListComponent implements OnInit {
         this.equipments = response;
         console.log(this.equipments);
         this.equipmentsCopy = this.equipments;
-        this.titlePage = "Equipamentos";
+        this.tituloDaPagina = "Equipamentos";
         this.spinner.hide();
       },
       error: (response) => {
@@ -159,7 +164,7 @@ export class EquipListComponent implements OnInit {
         this.equipments = response;
         console.log(this.equipments);
         this.equipmentsCopy = this.equipments;
-        this.titlePage = "Equipamentos";
+        this.tituloDaPagina = "Equipamentos";
         this.spinner.hide();
       },
       error: (response) => {

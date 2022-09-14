@@ -1,160 +1,162 @@
-<!-- <app-navbar titlePage="Novo Equipamento" *ngIf="!navbarVisible"></app-navbar> -->
-
-<div class="pt-2 container">
+<div class="container">
   <div class="row">
 
-      <div class="row" *ngIf="titleFormVisible">
-        <h3>{{ titleForm }}</h3>
+    <!-- AVISOS -->
+    <div class="row pt-2" *ngIf="boolAviso">
+      <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+    </div>
+
+    <!-- NOTIFICACOES DO SERVIDOR -->
+    <div class="row mt-2" *ngIf="erros?.length">
+      <div class="alert alert-danger" role="alert">
+        <h5>{{ message }}</h5>
+        <ul *ngFor="let e of erros">
+          <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+        </ul>
       </div>
+    </div>
 
-      <div class="col-sm-12">
-        <form [formGroup]="equipForm">
-          <div class="row g-2">
-            <!--<div class="form-floating mb-3"></div>
-                <input type="text" class="form-control" formControlName="id"  placeholder="id">
-                <label for="floatingInput">Código</label>
-            </div> -->
-            <div class="col-sm-8">
-              <label>Nome</label>
-              <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
-            </div>
+    <div class="row" *ngIf="boolTitulo">
+      <h3>{{ tituloPagina }}</h3>
+    </div>
 
-            <div class="col-sm-1">
-              <label>Ativo</label>
-              <div class="form-control">
-                <input type="checkbox" formControlName="ativo"  placeholder="Ativo">
-              </div>
-            </div>
+    <div class="col-sm-12">
+      <form [formGroup]="equipForm">
 
-            <div class="col-sm-3">
-              <label>Código Interno</label>
-              <input type="number" class="form-control" formControlName="codInterno"  placeholder="Código Interno">
-            </div>
-
-            <div class="col-sm-2">
-              <label>Tipo ID</label>
-              <input type="text" class="form-control" formControlName="tipoId"  placeholder="Tipo ID">
-            </div>
-
-            <div class="col-sm-10">
-              <label>Tipo Descrição</label>
-              <input type="text" class="form-control" formControlName="tipoDescricao"  placeholder="Tipo Descrição">
-            </div>
-
-<!--             <div class="col-sm-2">
-              <label>Cód Setor</label>
-              <input type="number" class="form-control" formControlName="setorId"  placeholder="Cód Setor">
-            </div>
--->
-<!--             <div class="col-sm-5">
-              <label>Setor</label>
-              <input type="text" class="form-control" formControlName="setorNome"  placeholder="Setor">
-            </div> 
- -->
-            <div class="col-sm-6">
-              <label>Setor</label>
-              <select class="form-select" formControlName="setorId" placeholder="Setor" required="">
-                <option *ngFor="let setor of setores" value="{{ setor.id }}">
-                  {{ setor.nome }}
-                </option>
-              </select>
-            </div>
-
-            <div class="col-sm-6">
-              <label>Descrição</label>
-              <input type="text" class="form-control" formControlName="descricao"  placeholder="Descrição">
-            </div>
-
-            <div class="col-sm-6">
-              <label>Fabricante</label>
-              <input type="text" class="form-control" formControlName="fabricante"  placeholder="Fabricante">
-            </div>
-
-            <div class="col-sm-6">
-              <label>Marca</label>
-              <input type="text" class="form-control" formControlName="marca"  placeholder="Marca">
-            </div>
-
-            <div class="col-sm-6">
-              <label>Modelo</label>
-              <input type="text" class="form-control" formControlName="modelo"  placeholder="Modelo">
-            </div>
-
-            <div class="col-sm-3">
-              <label>Nr Série</label>
-              <input type="text" class="form-control" formControlName="numSerial"  placeholder="Nr Série">
-            </div>
-
-            <div class="col-sm-3">
-              <label>Fabricado em</label>
-              <input type="number" class="form-control" formControlName="anoFabricacao"  placeholder="Fabricado em">
-            </div>
-
-            <div class="col-sm-3">
-              <label>Dt Compra</label>
-              <input type="text" class="form-control" formControlName="dtCompra"  placeholder="Dt Compra">
-            </div>
-
-            <div class="col-sm-3">
-              <label>Vl Compra</label>
-              <input type="number" class="form-control" formControlName="valorCompra"  placeholder="Vl Compra">
-            </div>
-
-            <div class="col-sm-8">
-              <label>Anotações</label>
-              <input type="text" class="form-control" formControlName="anotacoes"  placeholder="Anotações">
-            </div>
-
-            <div class="col-sm-4">
-              <label>Motivo Baixa</label>
-              <input type="text" class="form-control" formControlName="motivoBaixa"  placeholder="Motivo Baixa">
-            </div>
-
-            <div class="col-sm-12">
-<!--               <label>Foto</label>
-              <input type="url" class="form-control" formControlName="foto"  placeholder="Foto"> -->
-              <img src="/assets/logo.png" class="rounded-circle" alt="Imagem">
-            </div>
-
-            <!-- validacao -->
-            <div class="text-danger" *ngIf="nome?.errors">
-              <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o Nome do Equipamento</div>
-              <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
-                Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
-              </div>
-              <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
-                Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres</div>
-            </div>
-
-            <!-- <div class="col-12">
-              <label for="lastName" class="form-label">Equipe</label>
-              <select class="form-select" id="setor" formControlName="setor" required="">
-                <option >Selecione</option>
-              </select>
-            </div> -->
-          </div>
-        </form>
-
+        <!-- ATIVO -->
         <div class="row mt-2">
-          <div class="col">
-            <div class="btn-group">
-              <button type="button" class="btn btn-outline-primary" [routerLink]="['/equipment']">Cancelar</button>
-              <button type="button" class="btn btn-outline-primary" [disabled]="!equipForm.valid" (click)="save()">Salvar</button>
+          <div class="col-sm-4">
+            <div class="form-check" *ngIf="true">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="ativo">
+              <label class="form-check-label" for="flexCheckDefault">
+                Equipamento ativo
+              </label>
             </div>
           </div>
         </div>
 
-        <!-- MOSTRAR NOTIFICACOES DO BACKEND -->
-        <div class="row mt-2" *ngIf="erros?.length">
-          <div class="alert alert-danger" role="alert">
-            <h5>{{ message }}</h5>
-            <ul *ngFor="let e of erros">
-              <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
-            </ul>
+        <!-- TIPO/SETOR -->
+        <div class="row mt-2">
+
+          <div class="col-sm-3" *ngIf="boolTipo">
+            <label>Tipo</label>
+            <select class="form-select" formControlName="tipo" placeholder="Setor" required="">
+              <option *ngFor="let tipo of tipos" [value]="tipo.id">{{tipo.descricao}}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-4" *ngIf="boolSetor">
+            <label>Setor</label>
+            <select class="form-select" formControlName="setor" placeholder="Setor" required="">
+              <option *ngFor="let setor of setores" [value]="setor.id">{{setor.nome}}</option>
+            </select>
           </div>
         </div>
 
-      </div>
+        <!-- CODIGO INTERNO/MARCA -->
+        <div class="row mt-2">
+          <div class="col-sm-4" *ngIf="boolCod">
+            <label>Código Interno</label>
+            <input type="text" class="form-control" formControlName="codInterno" placeholder="Nome">
+          </div>
 
+          <div class="col-sm-4" *ngIf="boolNumSerie">
+            <label>Número de Série</label>
+            <input type="text" class="form-control" formControlName="numSerial" placeholder="Nome">
+          </div>
+        </div>
+
+        <!-- NOME/DESCRICAO -->
+        <div class="row mt-2">
+          <div class="col-sm-5" *ngIf="boolNome">
+            <label>Nome</label>
+            <input type="text" class="form-control" formControlName="nome" placeholder="Nome">
+          </div>
+
+          <div class="col-sm-7" *ngIf="boolDescricao">
+            <label>Descrição</label>
+            <input type="text" class="form-control" formControlName="descricao" placeholder="Nome">
+          </div>
+        </div>
+
+        <!-- FABRICANTE/MARCA/MODELO -->
+        <div class="row mt-2">
+          <div class="col-sm-4" *ngIf="boolFabricante">
+            <label>Fabricante</label>
+            <input type="text" class="form-control" formControlName="fabricante" placeholder="Nome">
+          </div>
+
+          <div class="col-sm-4" *ngIf="boolMarca">
+            <label>Marca</label>
+            <input type="text" class="form-control" formControlName="marca" placeholder="Nome">
+          </div>
+
+          <div class="col-sm-4" *ngIf="boolModelo">
+            <label>Modelo</label>
+            <input type="text" class="form-control" formControlName="modelo" placeholder="Nome">
+          </div>
+        </div>
+
+        <!-- ANO FABRICACAO/DT.COMPRA/VALOR/COMPRA -->
+        <div class="row mt-2">
+          <div class="col-sm-3" *ngIf="boolAnoFab">
+            <label>Ano Fabricação</label>
+            <input type="text" class="form-control" formControlName="anoFabricacao" placeholder="Nome">
+          </div>
+
+          <div class="col-sm-4" *ngIf="boolDtCompra">
+            <label>Data Compra</label>
+            <input type="text" class="form-control" formControlName="dtCompra" placeholder="Nome">
+          </div>
+
+          <div class="col-sm-3" *ngIf="boolValor">
+            <label>Valor Compra</label>
+            <input type="text" class="form-control" formControlName="valorCompra" placeholder="Nome">
+          </div>
+        </div>
+
+        <!-- ANOTAÇÕES -->
+        <div class="row mt-2">
+          <div class="col-sm-12" *ngIf="boolAnotacao">
+            <label>Anotações</label>
+            <input type="text" class="form-control" formControlName="anotacoes" placeholder="Nome">
+          </div>
+        </div>
+
+        <!-- BAIXA DO EQUIPAMENTO -->
+        <div class="row mt-4">
+          <div class="col-sm-12" *ngIf="boolMotivoBaixa">
+            <label>Motivo de Baixa</label>
+            <input type="text" class="form-control" formControlName="motivoBaixa" placeholder="Nome">
+          </div>
+        </div>
+
+        <!-- IMAGENS | BACKEND AINDA NAO SUPORTA-->
+        <div class="row mt-2" *ngIf="false">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                Imagens
+              </div>
+              <div class="card-body">
+                <a type="button" class="btn btn-primary">Adicionar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
   </div>
+
+  <div class="row mt-2">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
+      <div class="btn-group">
+        <button type="button" class="btn btn-outline-primary" [disabled]="equipForm.valid"(click)="salvar()">Salvar</button>
+        <button type="button" class="btn btn-outline-danger" [routerLink]="['/equipment']">Cancelar</button>
+      </div>
+    </div>  
+  </div>
+
 </div>
+<br>
