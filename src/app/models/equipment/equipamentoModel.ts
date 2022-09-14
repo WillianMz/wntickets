@@ -19,7 +19,7 @@ export class EquipamentoModel {
     public motivoBaixa?: string;
 
 
-    //REMOVER
+    //REMOVER -> falta ajustar a API
     public setorId?: SetorModel[];
     public setorNome?: string;
     public tipoId?: number;

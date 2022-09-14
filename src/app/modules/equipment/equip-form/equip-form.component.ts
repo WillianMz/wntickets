@@ -21,19 +21,15 @@ export class EquipFormComponent implements OnInit {
   @Input() navbarVisible: boolean;
   @Input() titleFormVisible: boolean;
 
-  titleForm: string = 'EquipForm';
+  tituloPagina: string = 'Detalhes do Equipamento';
   equip: EquipamentoModel;
   equipForm: FormGroup;
   message: string;
   success: boolean;
   erros: ErroServidor[];
-  
-
-  tituloPagina: string = 'Detalhes do Equipamento';
   equipamento: EquipamentoModel;
   setores: SetorModel[];
   tipos: TipoEquiModel[];
-
   //campos visiveis
   boolTitulo: boolean = true;
   boolAviso: boolean = false;
@@ -63,8 +59,8 @@ export class EquipFormComponent implements OnInit {
 
     //PARA INICIAR O FORMULARIO
     const tipo = {id: 1, descricao: ''};
-    const setor = {id: 1, nome: ''};
-    const equip = {id: 0, ativo: true, codInterno: '', tipo: tipo, setor: setor, nome:'', descricao:'', fabricante:'',
+    const setor = {id: 1, nome: ""};
+    const equip = {ativo: true, codInterno: '', tipo: tipo, setor: setor, nome:'', descricao:'', fabricante:'',
       marca: '', modelo:'', numSerial:'', anoFabricacao:'', dtCompra: '', valorCompra:'',anotacoes:''
     }
 
@@ -76,20 +72,6 @@ export class EquipFormComponent implements OnInit {
     this.listarTipos();
     this.listarSetores();
     this.configurarForm();
-
-    /* this.sectorService.getAll().subscribe((setores) => this.setores = setores);
-
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if(id){
-      this.equipID = parseInt(id);
-      this.loadEquip(this.equipID);
-      this.titleForm = "EDITANDO EQUIPAMENTO";
-      this.titleFormVisible = true;
-    }
-    else{
-      this.titleForm = "Novo Equipamento";
-      this.titleFormVisible = true;
-    } */
   }
 
 //#region GETS
@@ -167,8 +149,7 @@ export class EquipFormComponent implements OnInit {
         }
         else{
           this.setores = [];
-          //MELHORAR
-          alert('ERRO AO OBTER SETORES');
+          this.showError('Não foi possível carregar os laboratórios');
         }
       },
       error: (error) => {
@@ -186,8 +167,7 @@ export class EquipFormComponent implements OnInit {
         }
         else{
           this.tipos = [];
-          //MELHORAR
-          alert('Erro ao obter Tipos de equipamentos');
+          this.showError('Não foi possível obter os tipos de equipamentos');
         }
       }
     })
@@ -204,13 +184,14 @@ export class EquipFormComponent implements OnInit {
     }
     else{
       this.tituloPagina = 'Novo equipamento'
+      this.boolMotivoBaixa = false
     }
   }
 
   //VERIFICAR OS TAMANHOS DOS CAMPOS -> VER NO BANCO DE DADOS
   private start(equip: EquipamentoModel){
     this.equipForm = new FormGroup({
-      id: new FormControl(equip.id),
+      //id: new FormControl(equip.id),
       ativo: new FormControl(equip.ativo),
       codInterno: new FormControl(equip.codInterno, [ 
         Validators.required,
@@ -244,7 +225,7 @@ export class EquipFormComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(40)
       ]),
-      numSerial: new FormControl(equip.modelo, [
+      numSerial: new FormControl(equip.numSerial, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(40)
@@ -256,8 +237,8 @@ export class EquipFormComponent implements OnInit {
       ]),
       dtCompra: new FormControl(equip.dtCompra, [
         Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(8)
+        Validators.minLength(10),
+        Validators.maxLength(10)
       ]),
       valorCompra: new FormControl(equip.valorCompra, [Validators.required]),
       anotacoes: new  FormControl(equip.anotacoes),
@@ -276,7 +257,7 @@ export class EquipFormComponent implements OnInit {
         }
         else{
           //MELHORAR AQUI
-          alert('Erro ao carregar dados');
+          this.showError('Não foi possível obter os dados do equipamento');
         }
       }
     });
@@ -290,8 +271,8 @@ export class EquipFormComponent implements OnInit {
         id: this.equipID,
         ativo: this.ativo?.value,
         codInterno: this.codInterno?.value,
-        tipo: this.tipo?.value,
-        setor:this.setor?.value,
+        tipoId: this.tipo?.value,
+        setorId:this.setor?.value,
         nome:this.nome?.value,
         descricao: this.descricao?.value,
         fabricante: this.fabricante?.value,
@@ -304,6 +285,7 @@ export class EquipFormComponent implements OnInit {
         anotacoes:this.anotacoes?.value
       };
 
+      console.log(equip);
       this.editarEquipamento(equip);
     }
     else {
@@ -324,6 +306,7 @@ export class EquipFormComponent implements OnInit {
         valorCompra: this.valorCompra?.value,
         anotacoes:this.anotacoes?.value        
       };
+      console.log(equip);
       //SALVAR
       this.novoEquipamento(equip);
     }
@@ -332,17 +315,21 @@ export class EquipFormComponent implements OnInit {
   private novoEquipamento(equip: EquipamentoModel){
     this.equipamentoService.adicionar(equip).subscribe({
       next: (response) => {
-        this.success == response['sucesso'];
+        this.success = response['sucesso'];
 
+        //RETORNO BACK -> REGRAS DE NEGOCIO
         if(this.success == true){
           this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/equipment']);
         }
         else{
           this.message = response['mensagem'];
+          this.showError(this.message);
         }
       },
       error: (response) => {
-        //PEGA OS ERROS. MELHORAR ISTO
+        //PEGA OS ERROS. FALHAS
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
@@ -353,22 +340,36 @@ export class EquipFormComponent implements OnInit {
   private editarEquipamento(equip: EquipamentoModel){
     this.equipamentoService.editar(equip).subscribe({
       next: (response) => {
-        this.success == response['sucesso'];
+        this.success = response['sucesso'];
 
+        //RETORNO BACK -> REGRAS DE NEGOCIO
         if(this.success == true){
           this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/equipment']);
+          console.log('1');
         }
         else{
           this.message = response['mensagem'];
+          this.showError(this.message);
+          console.log('2');
         }
       },
       error: (response) => {
-        //PEGA OS ERROS. MELHORAR ISTO
+        //PEGA OS ERROS. FALHAS
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
       }
     });
+  }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
   }
 
 
@@ -423,7 +424,7 @@ export class EquipFormComponent implements OnInit {
     console.log();
   } */
 
-  save(){
+  /* save(){
     const equip = {...this.equipForm.value, id: this.equipID};
     console.log(equip);
     this.equipamentoService.save(equip).subscribe({
@@ -444,24 +445,6 @@ export class EquipFormComponent implements OnInit {
         console.log(this.erros);
       }
     });
-  }
-
-  private loadEquip(idEquip: number){
-    this.equipamentoService.getById(idEquip).subscribe(
-      (response) => {
-        this.equip = response;
-        //this.startForm(this.equip);
-        console.log(this.equip);
-      }
-    );
-  }
-
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
-  }
-
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
-  }
+  } */
 
 }

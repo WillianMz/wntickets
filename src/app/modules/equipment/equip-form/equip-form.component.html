@@ -207,11 +207,11 @@
             <!-- VALIDACAO -->
             <div class="text-danger" *ngIf="valorCompra?.errors">
               <div *ngIf="valorCompra?.errors?.required && (valorCompra?.dirty || valorCompra?.touched)">Informe o valorCompra</div>
-              <div *ngIf="valorCompra?.errors?.minlength && (valorCompra?.dirty || valorCompra?.touched)">
+             <!--  <div *ngIf="valorCompra?.errors?.minlength && (valorCompra?.dirty || valorCompra?.touched)">
                 valorCompra deve conter no mínimo {{valorCompra?.errors?.minlength.requiredLength}} caracteres
               </div>
               <div *ngIf="valorCompra?.errors?.maxlength && (valorCompra?.dirty || valorCompra?.touched)">
-                valorCompra deve conter no máximo {{valorCompra?.errors?.maxlength.requiredLength}} caracteres</div>
+                valorCompra deve conter no máximo {{valorCompra?.errors?.maxlength.requiredLength}} caracteres</div> -->
             </div>   
           </div>
         </div>
@@ -263,7 +263,7 @@
   <div class="row mt-2">
     <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
       <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary" [disabled]="equipForm.valid"(click)="salvar()">Salvar</button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="!equipForm.valid" (click)="salvar()">Salvar</button>
         <button type="button" class="btn btn-outline-danger" [routerLink]="['/equipment']">Cancelar</button>
       </div>
     </div>  
