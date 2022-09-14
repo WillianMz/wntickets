@@ -1,3 +1,5 @@
+import { TipoEquiModel } from './../models/equipment/tipoEquipModel';
+import { NovoEquipamentoModel } from './../models/equipment/novoEquipamentoModel';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -10,13 +12,6 @@ import { EquipamentoModel } from '../models/equipment/equipamentoModel';
 export class EquipamentoService {
 
   constructor(private http: HttpClient) {}
-
-  private handleError<T>(operacao: string, result?: T){
-    return (error: any): Observable<T> => {
-      console.log(error);
-      return of(result as T);
-    }
-  }
 
   save(equipamento: EquipamentoModel){
     if(equipamento.id){
@@ -41,12 +36,12 @@ export class EquipamentoService {
   }
   
   public getAll(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=true`)
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento`)
     //.pipe(catchError(this.handleError<Result>('getAll')));
   }
 
   public getById(id: number): Observable<EquipamentoModel>{
-    return this.http.get(`${environment.api}/Equipamento/${id}`);
+    return this.http.get(`${environment.api}/equipamento/${id}`);
   }
 
   public disable(id: number){
@@ -67,5 +62,20 @@ export class EquipamentoService {
 
   public getByName(nome: string): Observable<EquipamentoModel[]> {
     return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/GetByName?nome=${nome}`);
+  }
+
+
+  //NOVAS ROTAS
+  public adicionar(equipamento: EquipamentoModel){
+    return this.http.post(`${environment.api}/equipamento`, equipamento);
+  }
+
+  public editar(equipamento: EquipamentoModel){
+    return this.http.put(`${environment.api}/equipamento`, equipamento);
+  }
+
+  //TIPOS DE EQUIPAMENTOS
+  public getTipos(ativo: boolean): Observable<TipoEquiModel[]>{
+    return this.http.get<TipoEquiModel[]>(`${environment.api}/equipamento/tipo?ativo=${ativo}`);
   }
 }

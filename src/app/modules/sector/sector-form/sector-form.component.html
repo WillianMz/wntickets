@@ -1,76 +1,79 @@
 <!-- <app-navbar titlePage="Novo setor" *ngIf="!navbarVisible"></app-navbar> -->
 
 <div class="pt-2 container">
-
-  <div class="row" *ngIf="titleFormVisible">
-    <h3>{{ titleForm }}</h3>
-  </div>
-
-  <!-- <div class="row mt-2">
-    <div class="mb-2" >
-      <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary" [routerLink]="['/sectors']">
-          <i class="bi bi-arrow-left"></i> Voltar
-        </button>
-      </div>
-    </div>
-  </div> -->
-
   <div class="row">
 
-    <div class="col-sm-12">
-
-      <form [formGroup]="sectorForm">
-
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
-          <label for="floatingInput">Nome</label>
-        </div>
-        <div class="form-floating mb-3">
-          <div class="form-control">
-            <input type="checkbox" formControlName="ativo"  placeholder="ativo">
-            <label for="floatingInput">Ativo</label>
-          </div>
-        </div>
-        <!-- validacao -->
-        <div class="text-danger" *ngIf="nome?.errors">
-          <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o Nome do setor</div>
-          <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
-            Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
-          </div>
-          <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
-            Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres</div>
-        </div>
-
-        <!-- <div class="col-12">
-          <label for="lastName" class="form-label">Equipe</label>
-          <select class="form-select" id="setor" formControlName="setor" required="">
-            <option >Selecione</option>
-          </select>
-        </div> -->
-
-      </form>
-
-      <div class="row mt-2">
-        <div class="col">
-          <div class="btn-group d-flex">
-            <button type="button" class="btn btn-outline-primary" [routerLink]="['/labs']">Cancelar</button>
-            <button type="button" class="btn btn-outline-primary" [disabled]="!sectorForm.valid" (click)="save()">Salvar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- MOSTRAR NOTIFICACOES DO BACKEND -->
-      <div class="row mt-2" *ngIf="erros?.length">
-        <div class="alert alert-danger" role="alert">
-          <h5>{{ message }}</h5>
-          <ul *ngFor="let e of erros">
-            <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
-          </ul>
-        </div>
-      </div>
-
+    <div class="row" *ngIf="titleFormVisible">
+      <h3>{{ titleForm }}</h3>
     </div>
 
+    <!-- <div class="row mt-2">
+      <div class="mb-2" >
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" [routerLink]="['/sectors']">
+            <i class="bi bi-arrow-left"></i> Voltar
+          </button>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-sm-12">
+      <form [formGroup]="sectorForm">
+          <div class="row g-2">
+
+            <div class="col-sm-10">
+              <label>Nome</label>
+              <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
+            </div>
+
+            <div class="col-sm-2">
+              <label>Ativo</label>
+              <div class="form-control">
+                <input type="checkbox" formControlName="ativo"  placeholder="Ativo">
+              </div>
+            </div>
+
+            <!-- validacao -->
+            <div class="text-danger" *ngIf="nome?.errors">
+              <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">
+                Informe o Nome do setor
+              </div>
+              <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
+                Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
+                Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres
+              </div>
+            </div>
+
+            <!-- <div class="col-12">
+              <label for="lastName" class="form-label">Equipe</label>
+              <select class="form-select" id="setor" formControlName="setor" required="">
+                <option >Selecione</option>
+              </select>
+            </div> -->
+        </div>
+      </form>
+
+        <div class="row mt-2">
+          <div class="col">
+            <div class="btn-group">
+              <button type="button" class="btn btn-outline-primary" [routerLink]="['/labs']">Cancelar</button>
+              <button type="button" class="btn btn-outline-primary" [disabled]="!sectorForm.valid" (click)="save()"><i class="bi bi-check"></i>Salvar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOSTRAR NOTIFICACOES DO BACKEND -->
+        <div class="row mt-2" *ngIf="erros?.length">
+          <div class="alert alert-danger" role="alert">
+            <h5>{{ message }}</h5>
+            <ul *ngFor="let e of erros">
+              <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+            </ul>
+          </div>
+        </div>
+
+    </div>
   </div>
 </div>
