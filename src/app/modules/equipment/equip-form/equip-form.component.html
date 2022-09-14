@@ -58,11 +58,31 @@
           <div class="col-sm-4" *ngIf="boolCod">
             <label>Código Interno</label>
             <input type="text" class="form-control" formControlName="codInterno" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="codInterno?.errors">
+              <div *ngIf="codInterno?.errors?.required && (codInterno?.dirty || codInterno?.touched)">Informe o codInterno do equipamento</div>
+              <div *ngIf="codInterno?.errors?.minlength && (codInterno?.dirty || codInterno?.touched)">
+                codInterno deve conter no mínimo {{codInterno?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="codInterno?.errors?.maxlength && (codInterno?.dirty || codInterno?.touched)">
+                codInterno deve conter no máximo {{codInterno?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>   
           </div>
 
           <div class="col-sm-4" *ngIf="boolNumSerie">
             <label>Número de Série</label>
             <input type="text" class="form-control" formControlName="numSerial" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="numSerial?.errors">
+              <div *ngIf="numSerial?.errors?.required && (numSerial?.dirty || numSerial?.touched)">Informe o numSerial do equipamento</div>
+              <div *ngIf="numSerial?.errors?.minlength && (numSerial?.dirty || numSerial?.touched)">
+                numSerial deve conter no mínimo {{numSerial?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="numSerial?.errors?.maxlength && (numSerial?.dirty || numSerial?.touched)">
+                numSerial deve conter no máximo {{numSerial?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>   
           </div>
         </div>
 
@@ -71,11 +91,32 @@
           <div class="col-sm-5" *ngIf="boolNome">
             <label>Nome</label>
             <input type="text" class="form-control" formControlName="nome" placeholder="Nome">
+          
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="nome?.errors">
+              <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o nome do equipamento</div>
+              <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
+                Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
+                Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>          
+          
           </div>
 
           <div class="col-sm-7" *ngIf="boolDescricao">
             <label>Descrição</label>
             <input type="text" class="form-control" formControlName="descricao" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="descricao?.errors">
+              <div *ngIf="descricao?.errors?.required && (descricao?.dirty || descricao?.touched)">Informe o descricao</div>
+              <div *ngIf="descricao?.errors?.minlength && (descricao?.dirty || descricao?.touched)">
+                descricao deve conter no mínimo {{descricao?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="descricao?.errors?.maxlength && (descricao?.dirty || descricao?.touched)">
+                descricao deve conter no máximo {{descricao?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>  
           </div>
         </div>
 
@@ -84,16 +125,46 @@
           <div class="col-sm-4" *ngIf="boolFabricante">
             <label>Fabricante</label>
             <input type="text" class="form-control" formControlName="fabricante" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="fabricante?.errors">
+              <div *ngIf="fabricante?.errors?.required && (fabricante?.dirty || fabricante?.touched)">Informe o fabricante</div>
+              <div *ngIf="fabricante?.errors?.minlength && (fabricante?.dirty || fabricante?.touched)">
+                fabricante deve conter no mínimo {{fabricante?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="fabricante?.errors?.maxlength && (fabricante?.dirty || nome?.touched)">
+                fabricante deve conter no máximo {{fabricante?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>    
           </div>
 
           <div class="col-sm-4" *ngIf="boolMarca">
             <label>Marca</label>
             <input type="text" class="form-control" formControlName="marca" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="marca?.errors">
+              <div *ngIf="marca?.errors?.required && (marca?.dirty || marca?.touched)">Informe a marca</div>
+              <div *ngIf="marca?.errors?.minlength && (marca?.dirty || marca?.touched)">
+                marca deve conter no mínimo {{marca?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="marca?.errors?.maxlength && (marca?.dirty || marca?.touched)">
+                marca deve conter no máximo {{marca?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>    
           </div>
 
           <div class="col-sm-4" *ngIf="boolModelo">
             <label>Modelo</label>
             <input type="text" class="form-control" formControlName="modelo" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="modelo?.errors">
+              <div *ngIf="modelo?.errors?.required && (modelo?.dirty || modelo?.touched)">Informe o modelo</div>
+              <div *ngIf="modelo?.errors?.minlength && (modelo?.dirty || modelo?.touched)">
+                modelo deve conter no mínimo {{modelo?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="modelo?.errors?.maxlength && (modelo?.dirty || modelo?.touched)">
+                modelo deve conter no máximo {{modelo?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>    
           </div>
         </div>
 
@@ -102,16 +173,46 @@
           <div class="col-sm-3" *ngIf="boolAnoFab">
             <label>Ano Fabricação</label>
             <input type="text" class="form-control" formControlName="anoFabricacao" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="anoFabricacao?.errors">
+              <div *ngIf="anoFabricacao?.errors?.required && (anoFabricacao?.dirty || anoFabricacao?.touched)">Informe o anoFabricacao</div>
+              <div *ngIf="anoFabricacao?.errors?.minlength && (anoFabricacao?.dirty || anoFabricacao?.touched)">
+                anoFabricacao deve conter no mínimo {{anoFabricacao?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="anoFabricacao?.errors?.maxlength && (anoFabricacao?.dirty || anoFabricacao?.touched)">
+                anoFabricacao deve conter no máximo {{anoFabricacao?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>   
           </div>
 
           <div class="col-sm-4" *ngIf="boolDtCompra">
             <label>Data Compra</label>
             <input type="text" class="form-control" formControlName="dtCompra" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="dtCompra?.errors">
+              <div *ngIf="dtCompra?.errors?.required && (dtCompra?.dirty || dtCompra?.touched)">Informe o dtCompra</div>
+              <div *ngIf="dtCompra?.errors?.minlength && (dtCompra?.dirty || dtCompra?.touched)">
+                dtCompra deve conter no mínimo {{dtCompra?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="dtCompra?.errors?.maxlength && (dtCompra?.dirty || dtCompra?.touched)">
+                dtCompra deve conter no máximo {{dtCompra?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>   
           </div>
 
           <div class="col-sm-3" *ngIf="boolValor">
             <label>Valor Compra</label>
             <input type="text" class="form-control" formControlName="valorCompra" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="valorCompra?.errors">
+              <div *ngIf="valorCompra?.errors?.required && (valorCompra?.dirty || valorCompra?.touched)">Informe o valorCompra</div>
+              <div *ngIf="valorCompra?.errors?.minlength && (valorCompra?.dirty || valorCompra?.touched)">
+                valorCompra deve conter no mínimo {{valorCompra?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="valorCompra?.errors?.maxlength && (valorCompra?.dirty || valorCompra?.touched)">
+                valorCompra deve conter no máximo {{valorCompra?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>   
           </div>
         </div>
 
@@ -120,6 +221,16 @@
           <div class="col-sm-12" *ngIf="boolAnotacao">
             <label>Anotações</label>
             <input type="text" class="form-control" formControlName="anotacoes" placeholder="Nome">
+
+            <!-- VALIDACAO -->
+            <!-- <div class="text-danger" *ngIf="anotacoes?.errors">
+              <div *ngIf="anotacoes?.errors?.required && (anotacoes?.dirty || anotacoes?.touched)">Informe o anotacoes</div>
+              <div *ngIf="anotacoes?.errors?.minlength && (anotacoes?.dirty || anotacoes?.touched)">
+                anotacoes deve conter no mínimo {{anotacoes?.errors?.minlength.requiredLength}} caracteres
+              </div>
+              <div *ngIf="anotacoes?.errors?.maxlength && (anotacoes?.dirty || anotacoes?.touched)">
+                anotacoes deve conter no máximo {{anotacoes?.errors?.maxlength.requiredLength}} caracteres</div>
+            </div>   -->
           </div>
         </div>
 
