@@ -243,4 +243,8 @@ export class EquipListComponent implements OnInit {
   public disable(id: string){
   }
 
+  public openTipoEquip() {
+    this.router.navigate(['equipment/type']);
+  }
+
 }
