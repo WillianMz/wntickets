@@ -21,13 +21,13 @@
                 <i class="bi bi-funnel"></i> Filtrar
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Desativados</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Tipo</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Marca</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Modelo</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Setor</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Fabricante</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Serial</a></li>
+                <li><a class="dropdown-item" type="button" (click)="equipInativos()">Desativados</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Tipo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Marca</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Modelo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Setor</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Fabricante</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Serial</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -68,7 +68,6 @@
       <!-- GRID / TABELA -->
       <div class="row mt-2">
         <div class="col-12">
-          
           <div class="columns">
             <div class="column col-12">
               <ngx-table [configuration]="configuration" [data]="equipments" [columns]="columns"> </ngx-table>
@@ -92,10 +91,8 @@
               
             </div>
           </ng-template>
-
         </div>
       </div>
-
     </div>
   </div>
 </div>

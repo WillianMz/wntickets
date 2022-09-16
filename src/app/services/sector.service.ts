@@ -65,6 +65,16 @@ export class SectorService {
   }
 
   public getByNome(nome: string): Observable<SetorModel[]> {
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor/GetByNome?nome=${nome}`);
+    return this.http.get<SetorModel[]>(`${environment.api}/Setor/get-by-nome?nome=${nome}`);
   }
+
+  //NOVAS ROTAS
+  public adicionar(setor: SetorModel){
+    return this.http.post(`${environment.api}/Setor`, setor);
+  }
+
+  public editar(setor: SetorModel){
+    return this.http.put(`${environment.api}/Setor`, setor);
+  }
+
 }

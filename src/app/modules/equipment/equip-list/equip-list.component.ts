@@ -117,7 +117,7 @@ export class EquipListComponent implements OnInit {
     });
   } */
 
-  public setInativos(){
+  public equipInativos(){
     this.equipmentName = "";
     this.listInativo();
   }
@@ -147,7 +147,7 @@ export class EquipListComponent implements OnInit {
     });
   }
 
-  public setAtivos(){
+  public equipAtivos(){
     this.equipmentName = "";
     this.listAtivo();
   }
@@ -256,7 +256,7 @@ export class EquipListComponent implements OnInit {
         
       }
     });
-}
+  }
 
   public delete(id: string) {
     this.spinner.show();

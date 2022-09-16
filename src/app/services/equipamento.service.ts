@@ -64,7 +64,6 @@ export class EquipamentoService {
     return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/nome?nome=${nome}`);
   }
 
-
   //NOVAS ROTAS
   public adicionar(equipamento: EquipamentoModel){
     return this.http.post(`${environment.api}/equipamento`, equipamento);
