@@ -49,8 +49,8 @@ export class SectorListComponent implements OnInit {
     //colunas
     this.columns = [
       { key: 'id', title: 'Código' },
-      { key: 'nome', title: 'Nome' },
-      { key: 'isActive', title: 'Ativo'}
+      { key: 'nome', title: 'Nome' }/* ,
+      { key: 'isActive', title: 'Ativo'} */
     ];
   }
 
@@ -249,6 +249,56 @@ export class SectorListComponent implements OnInit {
       }
     }); */
   }
+
+  public desativar(id: string) {
+    this.spinner.show();
+
+    this.sectorService.disable(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.list();
+      },
+      error: (response) => {
+        console.log(response);
+        if (response.status != 405) {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.notification.showError('Erro');
+          this.spinner.hide();
+        }else {
+          this.notification.showError('Erro ao inativar o laboratório');
+          this.spinner.hide();
+        }
+        
+      }
+    });
+}
+
+public ativar(id: string) {
+  this.spinner.show();
+
+  this.sectorService.enable(Number.parseInt(id)).subscribe({
+    next: (response) => {
+      console.log(response);
+      this.list();
+    },
+    error: (response) => {
+      console.log(response);
+      if (response.status != 405) {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro');
+        this.spinner.hide();
+      }else {
+        this.notification.showError('Erro ao ativar o laboratório');
+        this.spinner.hide();
+      }
+      
+    }
+  });
+}
 
   public delete(id: string){
     this.spinner.show();

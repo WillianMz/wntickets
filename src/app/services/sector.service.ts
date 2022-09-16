@@ -49,11 +49,11 @@ export class SectorService {
   }
 
   public disable(id: number){
-    return this.http.put(`${environment.api}/Setor/${id}/inativar`, null);
+    return this.http.put(`${environment.api}/Setor/${id}/disable`, null);
   }
 
   public enable(id: number) {
-    return this.http.put(`${environment.api}/Setor/${id}/ativar`, null);
+    return this.http.put(`${environment.api}/Setor/${id}/enable`, null);
   }
 
   public disabled(): Observable<SetorModel[]>{

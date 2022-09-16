@@ -208,10 +208,6 @@ export class EquipListComponent implements OnInit {
     this.router.navigate([`equipment/edit/${equipmentId}`]);
   }
 
-  public enable(id: string) {
-
-  }
-
   public desativar(id: string) {
       this.spinner.show();
   
