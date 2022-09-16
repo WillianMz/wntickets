@@ -31,7 +31,7 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Limpar Filtros</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Limpar Filtros</a></li>
               </ul>
             </div>
 
@@ -49,7 +49,7 @@
 
       <!-- TITULO DA PAGINA -->
       <div class="row mt-2 col-10">
-        <h2>{{tituloDaPagina}}</h2>
+        <h2>{{ tituloDaPagina }}</h2>
       </div>
 
       <!-- INPUT PARA PESQUISA -->
@@ -82,10 +82,11 @@
                 </button>              
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Excluir</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Desativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="ativar(row.id)">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="desativar(row.id)">Desativar</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Detalhes</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li>
                 </ul>
               </div>
               
@@ -94,8 +95,6 @@
 
         </div>
       </div>
-
-
 
     </div>
   </div>

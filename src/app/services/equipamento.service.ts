@@ -45,7 +45,7 @@ export class EquipamentoService {
   }
 
   public disable(id: number){
-    return this.http.put(`${environment.api}/Equipamento/${id}/inativar`, null);
+    return this.http.put(`${environment.api}/Equipamento/${id}/desativar`, null);
   }
 
   public enable(id: number) {
@@ -61,7 +61,7 @@ export class EquipamentoService {
   }
 
   public getByName(nome: string): Observable<EquipamentoModel[]> {
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/GetByName?nome=${nome}`);
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/nome?nome=${nome}`);
   }
 
 
