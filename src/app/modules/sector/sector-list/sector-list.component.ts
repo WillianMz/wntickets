@@ -1,5 +1,5 @@
 import { SetorModel } from './../../../models/sector/setorModel';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { SectorService } from 'src/app/services/sector.service';
@@ -14,15 +14,18 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class SectorListComponent implements OnInit {
 
-  titlePage: string;
+  @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
+
+  //titlePage: string;
+  tituloDaPagina: string = 'Laboratórios';
   sectors: SetorModel[];
   sectorsCopy: SetorModel[];
   sector: SetorModel;
   sectorId: number;
+  sectorName: string;
+  filterDisabledSectors: boolean;
   success: boolean;
   message: string;
-  filterDisabledSectors: boolean;
-  sectorName: string;
   erros: ErroServidor[];
 
   public configuration: Config;
@@ -49,20 +52,13 @@ export class SectorListComponent implements OnInit {
     //colunas
     this.columns = [
       { key: 'id', title: 'Código' },
-      { key: 'nome', title: 'Nome' },
-      { key: 'isActive', title: 'Ativo'}
+      { key: 'nome', title: 'Nome' },/* ,
+      { key: 'isActive', title: 'Ativo'} */
+      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
 
   private list() {
-    /* if(this.filterDisabledSectors){
-      this.titlePage = "Setores desativados";
-      this.listDisabled();//lista setores desativados
-    }
-    else{
-      this.titlePage = "Laboratórios";
-      this.listAll();//lista todos os setores ativos
-    } */
     this.listAll();
   }
 
@@ -74,7 +70,7 @@ export class SectorListComponent implements OnInit {
         this.sectors = response;
         console.log(this.sectors);
         this.sectorsCopy = this.sectors;
-        this.titlePage = "Setores";
+        this.tituloDaPagina = "Laboratórios";
         this.spinner.hide();
       },
       error: (response) => {
@@ -136,7 +132,7 @@ export class SectorListComponent implements OnInit {
         this.sectors = response;
         console.log(this.sectors);
         this.sectorsCopy = this.sectors;
-        this.titlePage = "Setores";
+        this.tituloDaPagina = "Laboratórios";
         this.spinner.hide();
       },
       error: (response) => {
@@ -166,7 +162,7 @@ export class SectorListComponent implements OnInit {
         this.sectors = response;
         console.log(this.sectors);
         this.sectorsCopy = this.sectors;
-        this.titlePage = "Setores";
+        this.tituloDaPagina = "Laboratórios";
         this.spinner.hide();
       },
       error: (response) => {
@@ -202,9 +198,9 @@ export class SectorListComponent implements OnInit {
     //this.modalRef = this.modalService.show(template);
   }
 
-  public goCategories(sectorId: string){
+/*   public goCategories(sectorId: string){
     this.router.navigate(['labs/categories'], {queryParams: { sector: sectorId}});
-  }
+  } */
 
   public new(){
     this.router.navigate(['labs/new']);
@@ -214,40 +210,54 @@ export class SectorListComponent implements OnInit {
     this.router.navigate([`labs/edit/${sectorId}`]);
   }
 
-  public enable(id: string){
-    /* Swal.fire({
-      title:'Ativar o setor?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar'
-    }).then(result => {
-      if(result.value) {
-        this.spinner.show();
-        let sectorId = parseInt(id);
-        this.sectorService.enable(sectorId).subscribe({
-          next: (response) => {
-            this.success = response['sucesso'];
-            this.message = response['mensagem'];
+  public desativar(id: string) {
+    this.spinner.show();
 
-            if(this.success == true){
-              this.notification.showSuccess(this.message);
-              this.list();
-              this.spinner.hide();
-            }
-            else{
-              Swal.fire('teste', this.message,'error');
-            }
-          },
-          error: () => {
-            this.spinner.hide();
-          }
-        });
-
+    this.sectorService.disable(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.list();
+      },
+      error: (response) => {
+        console.log(response);
+        if (response.status != 405) {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.notification.showError('Erro');
+          this.spinner.hide();
+        }else {
+          this.notification.showError('Erro ao inativar o laboratório');
+          this.spinner.hide();
+        }
+        
       }
-    }); */
+    });
+  }
+
+  public ativar(id: string) {
+  this.spinner.show();
+
+  this.sectorService.enable(Number.parseInt(id)).subscribe({
+    next: (response) => {
+      console.log(response);
+      this.list();
+      },
+      error: (response) => {
+        console.log(response);
+        if (response.status != 405) {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.notification.showError('Erro');
+          this.spinner.hide();
+        }else {
+          this.notification.showError('Erro ao ativar o laboratório');
+          this.spinner.hide();
+        }
+        
+      }
+    });
   }
 
   public delete(id: string){
@@ -271,7 +281,7 @@ export class SectorListComponent implements OnInit {
           this.notification.showError('Erro');
           this.spinner.hide();
         }else {
-          this.notification.showError('Erro ao excluir o setor');
+          this.notification.showError('Erro ao excluir o laboratório');
           this.spinner.hide();
         }
         

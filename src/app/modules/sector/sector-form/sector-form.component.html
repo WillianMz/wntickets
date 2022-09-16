@@ -1,10 +1,26 @@
+
 <!-- <app-navbar titlePage="Novo setor" *ngIf="!navbarVisible"></app-navbar> -->
 
-<div class="pt-2 container">
+<div class="container">
   <div class="row">
 
-    <div class="row" *ngIf="titleFormVisible">
-      <h3>{{ titleForm }}</h3>
+    <!-- AVISOS -->
+    <div class="row pt-2" *ngIf="boolAviso">
+      <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+    </div>
+
+    <!-- NOTIFICACOES DO SERVIDOR -->
+    <div class="row mt-2" *ngIf="erros?.length">
+      <div class="alert alert-danger" role="alert">
+        <h5>{{ message }}</h5>
+        <ul *ngFor="let e of erros">
+          <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="boolTitulo">
+      <h3>{{ tituloPagina }}</h3>
     </div>
 
     <!-- <div class="row mt-2">
@@ -19,61 +35,45 @@
 
     <div class="col-sm-12">
       <form [formGroup]="sectorForm">
-          <div class="row g-2">
 
-            <div class="col-sm-10">
-              <label>Nome</label>
-              <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
+        <!-- ATIVO -->
+        <div class="row mt-2">
+          <div class="col-sm-4">
+            <div class="form-check" *ngIf="true">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="ativo">
+              <label class="form-check-label" for="flexCheckDefault">
+                Setor Ativo
+              </label>
             </div>
+          </div>
+        </div>
 
-            <div class="col-sm-2">
-              <label>Ativo</label>
-              <div class="form-control">
-                <input type="checkbox" formControlName="ativo"  placeholder="Ativo">
-              </div>
+        <div class="col-sm-10">
+          <label>Nome</label>
+          <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
+
+          <!-- VALIDACAO -->
+          <div class="text-danger" *ngIf="nome?.errors">
+            <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o nome do setor</div>
+            <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
+              Nome deve conter no mínimo {{ nome?.errors?.minlength.requiredLength }} caracteres
             </div>
-
-            <!-- validacao -->
-            <div class="text-danger" *ngIf="nome?.errors">
-              <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">
-                Informe o Nome do setor
-              </div>
-              <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
-                Nome deve conter no mínimo {{nome?.errors?.minlength.requiredLength}} caracteres
-              </div>
-              <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
-                Nome deve conter no máximo {{nome?.errors?.maxlength.requiredLength}} caracteres
-              </div>
-            </div>
-
-            <!-- <div class="col-12">
-              <label for="lastName" class="form-label">Equipe</label>
-              <select class="form-select" id="setor" formControlName="setor" required="">
-                <option >Selecione</option>
-              </select>
-            </div> -->
+            <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
+              Nome deve conter no máximo {{ nome?.errors?.maxlength.requiredLength }} caracteres</div>
+          </div>
         </div>
       </form>
-
-        <div class="row mt-2">
-          <div class="col">
-            <div class="btn-group">
-              <button type="button" class="btn btn-outline-primary" [routerLink]="['/labs']">Cancelar</button>
-              <button type="button" class="btn btn-outline-primary" [disabled]="!sectorForm.valid" (click)="save()"><i class="bi bi-check"></i>Salvar</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- MOSTRAR NOTIFICACOES DO BACKEND -->
-        <div class="row mt-2" *ngIf="erros?.length">
-          <div class="alert alert-danger" role="alert">
-            <h5>{{ message }}</h5>
-            <ul *ngFor="let e of erros">
-              <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
-            </ul>
-          </div>
-        </div>
-
     </div>
   </div>
+
+  <div class="row mt-2">
+    <div class="col">
+      <div class="btn-group">
+        <button type="button" class="btn btn-outline-primary" [routerLink]="['/labs']">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="!sectorForm.valid" (click)="salvar()"><i class="bi bi-check"></i>Salvar</button>
+      </div>
+    </div>
+  </div>
+
 </div>
+<br>
