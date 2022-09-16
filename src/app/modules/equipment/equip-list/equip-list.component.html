@@ -21,17 +21,17 @@
                 <i class="bi bi-funnel"></i> Filtrar
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Desativados</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Tipo</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Marca</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Modelo</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Setor</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Fabricante</a></li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Por Serial</a></li>
+                <li><a class="dropdown-item" type="button" (click)="equipInativos()">Desativados</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Tipo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Marca</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Modelo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Setor</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Fabricante</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Serial</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" type="button" (click)="setInativos()">Limpar Filtros</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Limpar Filtros</a></li>
               </ul>
             </div>
 
@@ -49,7 +49,7 @@
 
       <!-- TITULO DA PAGINA -->
       <div class="row mt-2 col-10">
-        <h2>{{tituloDaPagina}}</h2>
+        <h2>{{ tituloDaPagina }}</h2>
       </div>
 
       <!-- INPUT PARA PESQUISA -->
@@ -68,7 +68,6 @@
       <!-- GRID / TABELA -->
       <div class="row mt-2">
         <div class="col-12">
-          
           <div class="columns">
             <div class="column col-12">
               <ngx-table [configuration]="configuration" [data]="equipments" [columns]="columns"> </ngx-table>
@@ -82,21 +81,18 @@
                 </button>              
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Excluir</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Desativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="ativar(row.id)">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="desativar(row.id)">Desativar</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()">Detalhes</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li>
                 </ul>
               </div>
               
             </div>
           </ng-template>
-
         </div>
       </div>
-
-
-
     </div>
   </div>
 </div>

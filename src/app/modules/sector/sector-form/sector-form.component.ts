@@ -17,12 +17,16 @@ export class SectorFormComponent implements OnInit {
   @Input() navbarVisible: boolean;
   @Input() titleFormVisible: boolean;
 
-  titleForm: string = 'SetorForm';
+  //titleForm: string = 'SetorForm';
+  tituloPagina: string = 'Detalhes do laboratório';
   sector: SetorModel;
   sectorForm: FormGroup;
   message: string;
   success: boolean;
   erros: ErroServidor[];
+  setor: SetorModel;
+  boolTitulo: boolean = true;
+  boolAviso: boolean = false;
 
   constructor(
     private sectorService: SectorService,
@@ -30,71 +34,151 @@ export class SectorFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    const sector = { nome: '' };
-    this.startForm(sector);
-    //console.log(sector)
+
+    //PARA INICIAR O FORMULARIO
+    const sector = {nome:'', ativo: true
+
    }
 
-  get nome() {
-    return this.sectorForm.get('nome');
+   this.start(sector);
+  
   }
 
   ngOnInit(): void {
+    this.configurarForm();
+  }
+
+  //#region GETS
+
+    //GETS
+    get nome() {
+      return this.sectorForm.get('nome');
+    }
+
+    get ativo() {
+      return this.sectorForm.get('ativo');
+    }
+
+    //#region
+
+  //CONFIGURA A APARENCIA DA PAGINA A SER EXIBIDA AO USUARIO
+  private configurarForm(){
+    //pega o id na URL
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id){
+      this.tituloPagina = 'Editando laboratório';
       this.sectorID = parseInt(id);
-      this.loadSector(this.sectorID);
+      this.carregarDados(this.sectorID);
     }
     else{
-      this.titleForm = "Novo laboratório";
-      this.titleFormVisible = true;
+      this.tituloPagina = 'Novo laboratório'
     }
   }
 
-  startForm(isector: SetorModel) {
+  //VERIFICAR OS TAMANHOS DOS CAMPOS -> VER NO BANCO DE DADOS
+  private start(sector: SetorModel){
     this.sectorForm = new FormGroup({
-      nome: new FormControl(isector.nome, [
+      nome: new FormControl(sector.nome, [
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(2),
         Validators.maxLength(40)
       ]),
-      ativo: new FormControl(isector.ativo, [])
+      ativo: new FormControl(sector.ativo)
     });
-    console.log();
   }
 
-  save(){
-    const sector = {...this.sectorForm.value, id: this.sectorID};
-    console.log(sector);
-    this.sectorService.save(sector).subscribe({
+  //CARREGA OBJETO E PREENCHE OS DADOS NA TELA
+  private carregarDados(id: number){
+    this.sectorService.getById(id).subscribe({
+      next: (response) => {
+        this.setor = response;
+        
+        if(this.setor != null){
+          this.start(this.setor);
+        }
+        else{
+          //MELHORAR AQUI
+          this.showError('Não foi possível obter os dados do setor');
+        }
+      }
+    });
+  }
+
+  salvar(){
+    if(this.sectorID){
+      let sector: SetorModel;
+      sector = {
+        //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
+        id: this.sectorID,
+        nome:this.nome?.value,
+        ativo: this.ativo?.value
+      };
+
+      console.log(sector);
+      this.editarSetor(sector);
+    }
+    else {
+      //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
+      let sector: SetorModel;
+      sector = {
+        nome:this.nome?.value, 
+      };
+      console.log(sector);
+      //SALVAR
+      this.novoSetor(sector);
+    }
+  }
+
+  private editarSetor(sector: SetorModel){
+    this.sectorService.editar(sector).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        this.showSuccess(this.message);
-        this.router.navigate(['/labs']);
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/labs']);
+          console.log('1');
+        }
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+          console.log('2');
+        }
       },
       error: (response) => {
-        console.log(response);
+        //PEGA OS ERROS. FALHAS
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
-        this.showError(this.message, 'Ocorreu um erro!');
-        console.log(this.success);
-        console.log(this.message);
-        console.log(this.erros);
       }
     });
   }
 
+  private novoSetor(sector: SetorModel){
+    this.sectorService.adicionar(sector).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
 
-  private loadSector(idSector: number){
-    this.sectorService.getById(idSector).subscribe(
-      (response) => {
-        this.sector = response;
-        this.startForm(this.sector);
-        console.log(this.sector);
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/labs']);
+        }
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
       }
-    );
+    });
   }
 
   private showSuccess(message: string, title?: string){

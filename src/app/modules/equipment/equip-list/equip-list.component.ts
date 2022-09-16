@@ -117,7 +117,7 @@ export class EquipListComponent implements OnInit {
     });
   } */
 
-  public setInativos(){
+  public equipInativos(){
     this.equipmentName = "";
     this.listInativo();
   }
@@ -147,7 +147,7 @@ export class EquipListComponent implements OnInit {
     });
   }
 
-  public setAtivos(){
+  public equipAtivos(){
     this.equipmentName = "";
     this.listAtivo();
   }
@@ -208,10 +208,57 @@ export class EquipListComponent implements OnInit {
     this.router.navigate([`equipment/edit/${equipmentId}`]);
   }
 
-  public enable(id: string){
+  public desativar(id: string) {
+      this.spinner.show();
+  
+      this.equipamentoService.disable(Number.parseInt(id)).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.list();
+        },
+        error: (response) => {
+          console.log(response);
+          if (response.status != 405) {
+            this.success = response.error['sucesso'];
+            this.message = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+            this.notification.showError('Erro');
+            this.spinner.hide();
+          }else {
+            this.notification.showError('Erro ao inativar o equipamento');
+            this.spinner.hide();
+          }
+          
+        }
+      });
   }
 
-  public delete(id: string){
+  public ativar(id: string) {
+    this.spinner.show();
+
+    this.equipamentoService.enable(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.list();
+      },
+      error: (response) => {
+        console.log(response);
+        if (response.status != 405) {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.notification.showError('Erro');
+          this.spinner.hide();
+        }else {
+          this.notification.showError('Erro ao ativar o equipamento');
+          this.spinner.hide();
+        }
+        
+      }
+    });
+  }
+
+  public delete(id: string) {
     this.spinner.show();
 
     this.equipamentoService.delete(Number.parseInt(id)).subscribe({
@@ -238,9 +285,6 @@ export class EquipListComponent implements OnInit {
         
       }
     });
-  }
-
-  public disable(id: string){
   }
 
 }
