@@ -1,158 +1,91 @@
-<div class="container">
+<app-load [text]="'obtendo dados...'"></app-load>
 
-  <!-- <div class="columns">
-    <div class="column col-12">
-      <div class="jumbotron">
-        <h1 class="display-4">Tickets</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="false">
+        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
       </div>
+
+      <!-- TITULO DA PAGINA -->
+      <div class="row mt-2 col-10">
+        <h2>{{ tituloDaPagina }}</h2>
+      </div>
+
+      <!-- INPUT PARA PESQUISA -->
+      <div class="row mt-2">
+        <div class="col-xs-5 col-sm-10 col-lg-5">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="ticketName">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()"
+              *ngIf="ticketName?.length">
+              <i class="bi bi-search"></i> Procurar
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="mb-2">
         <div class="btn-group">
           <button type="button" class="btn btn-outline-primary" (click)="newTicket()">Adicionar</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Filtro Avançado
+          </button>
+          
         </div>
       </div>
-    </div>
-  </div> -->
 
-  <h2>Tickets</h2>
-
-  <div class="mb-2">
-    <div class="btn-group">
-      <button type="button" class="btn btn-outline-primary" (click)="newTicket()">Adicionar</button>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Filtro Avançado
-      </button>
-      
-    </div>
-  </div>
-
-
-
-
-  <!-- <div class="row col-12">
-    <div class="col-sm-3">
-      <label for="lastName" class="form-label">Setor</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.setor}}</option>
-      </select>
-    </div>
-
-    <div class="col-sm-3">
-      <label for="lastName" class="form-label">Categoria</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.categoria}}</option>
-      </select>
-    </div>
-
-    <div class="col-sm-3">
-      <label for="lastName" class="form-label">Status</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.statusAtual}}</option>
-      </select>
-    </div>
-
-    <div class="col-sm-3">
-      <label for="lastName" class="form-label">Prioridade</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.prioridadeAtual}}</option>
-      </select>
-    </div>
-  </div> -->
-
-  <!-- <div class="row col-12">
-
-    <div class="col">
-      <div class="input-group mt-2">
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Consultar</button>
+      <!-- GRID / TABELA -->
+      <div class="row mt-2">
+        <div class="col-12">
+          <div class="columns">
+            <div class="column col-12">
+              <ngx-table [configuration]="configuration" [data]="tickets" [columns]="columns"> </ngx-table>
+            </div>
+          </div>
+          <ng-template #actionTpl let-row let-rowIndex="rowIndex">
+            <div class="btn-group">
+              <div class="btn-group">
+                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Mais detalhes
+                </button>              
+                 <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Detalhes</a></li>
+                </ul>
+              </div>
+              
+            </div>
+          </ng-template>
+        </div>
       </div>
-    </div>    
-  </div> -->
 
-  <div class="row col-12">
-    <ngx-table 
-      [data]="tickets"
-      [configuration]="configuration"
-      [columns]="columns"
-      (event)="eventEmitted($event)">
-    </ngx-table>
-  </div>
+      <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Filtrar Chamados</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <app-ticket-filter></app-ticket-filter>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aplicar</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
 
-  <ng-template #actionTpl let-row let-rowIndex="rowIndex">
-    <div class="btn btn-sm btn-primary">Detalhes</div>
-  </ng-template>
-
-  <table *ngIf="false" class="table table-bordered table-hover table-condensed table-striped table-responsive "
-    rules="all" id="conteudo_gvUsuarios" style="border-collapse:collapse;" cellspacing="0" cellpadding="4" border="1">
-    <tbody>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Assunto</th>
-        <th scope="col">Senha</th>
-        <th scope="col">Email</th>
-        <th scope="col">Status</th>
-        <th scope="col">Tipo</th>
-        <th scope="col">Grupo/Rep.</th>
-      </tr>
-      <tr>
-        <td align="right">109</td>
-        <td><a href="cadastro_usuario.aspx?id=109">Adilson</a></td>
-        <td>123456</td>
-        <td>mercadomarbbs@gmail.com</td>
-        <td align="center">A</td>
-        <td align="center">C</td>
-        <td>MERCADOMAR</td>
-      </tr>
-
-
-    </tbody>
-  </table>
-
-  <!-- <div class="container mt-3">
-    <h2>Small Table</h2>
-    <p>The .table-sm class makes the table smaller by cutting cell padding in half:</p>
-    <table class="table table-bordered table-sm">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Assunto</th>
-          <th>Criado por</th>
-          <th>Aberto em</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let t of tickets">
-          <td>{{t.id}}</td>
-          <td>{{t.assunto}}</td>
-          <td>{{t.criador}}</td>
-          <td>{{t.dataAbertura}}</td>
-          <td>
-            <button class="btn btn-sm btn-primary">Detalhes</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div> -->
-
-
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Filtrar Tickets</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <app-ticket-filter></app-ticket-filter>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aplicar</button>
-        <button type="button" class="btn btn-primary">Cancelar</button>
-      </div>
+
+
     </div>
   </div>
 </div>
