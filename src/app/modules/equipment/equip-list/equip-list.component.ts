@@ -44,7 +44,7 @@ export class EquipListComponent implements OnInit {
     this.list();
   }
 
-  private configGrid(){
+  private configGrid() {
     this.configuration = { ...DefaultConfig };
     this.configuration.searchEnabled = true;
     this.configuration.fixedColumnWidth = false;
@@ -87,8 +87,13 @@ export class EquipListComponent implements OnInit {
     });
   }
 
+  public search(){
+    this.listByName(this.equipmentName);
+  }
+
   private listByName(name: string) {
     this.spinner.show();
+
     this.equipamentoService.getByName(name).subscribe({
       next: (response) => {
         this.equipments = response;
@@ -123,10 +128,6 @@ export class EquipListComponent implements OnInit {
     this.equipmentName = "";
     this.list();
     //this.modalRef?.hide();
-  }
-
-  public search(){
-    this.listByName(this.equipmentName);
   }
 
   public alert(){

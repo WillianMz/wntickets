@@ -1,3 +1,6 @@
+import { NotificationService } from './../../../services/notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ErroServidor } from './../../../models/erroServidor';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -14,12 +17,16 @@ export class TicketListComponent implements OnInit {
 
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
 
-  titlePage: string;
+  /* titlePage: string; */
+  tituloDaPagina: string = 'Chamados';
   tickets: TicketModel[];
+  ticketsCopy: TicketModel[];
   ticket: TicketModel;
   ticketId: number;
+  ticketName: string;
   success: boolean;
   message: string;
+  erros: ErroServidor[];
   public clicked: string;
 
   public configuration: Config;
@@ -28,15 +35,22 @@ export class TicketListComponent implements OnInit {
   constructor(
     private ticketService: TicketService,
     private router: Router,
+    private notification: NotificationService,
+    private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
+    this.configGrid();
+    this.list();
+  }
+
+  private configGrid() {
     this.configuration = { ...DefaultConfig };
     this.configuration.searchEnabled = true;
-    this.configuration.fixedColumnWidth = false;    
+    this.configuration.fixedColumnWidth = false;
     this.configuration.selectRow = true;
-    this.configuration.rows = 10;    
+    this.configuration.rows = 10;
     this.configuration.columnReorder = true;
     //bordas
     this.configuration.tableLayout.borderless = false;
@@ -50,128 +64,103 @@ export class TicketListComponent implements OnInit {
       { key: 'assunto', title: 'Assunto' },
       { key: 'criador', title: 'Criado por' },
       { key: 'dataAbertura', title: 'Aberto em' },
-      { key: 'statusAtual', title: 'Status' },
-      //{ key: 'prioridadeAtual', title: 'Prioridade'},
-      //{ key: 'setor', title: 'Setor' },      
-      { key: 'action', title: '', cellTemplate: this.actionTpl, searchEnabled: false },
-      //{ key: 'action', title: 'Actions', cellTemplate: this.actionTpl },
-      
+      { key: 'statusAtual', title: 'Status' },    
+      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled: false },
     ];
+  }
 
+  private list() {
     this.listAll();
   }
 
-  eventEmitted($event: { event: string; value: any }): void {
-    //this.clicked = JSON.stringify($event);
-    // eslint-disable-next-line no-console
-    //console.log('$event', $event);
-    //alert($event);
-  }
+
+  private listAll() {    
+      this.spinner.show();
+
+      this.ticketService.getAll().subscribe({
+        next: (response) => {
+          this.tickets = response;
+          console.log(this.tickets);
+          this.ticketsCopy = this.tickets;
+          this.tituloDaPagina = "Chamados";
+          this.spinner.hide();
+        },
+        error: (response) => {
+          this.success = response.error['sucesso'];
+          this.message = response.error['mensagem'];
+          this.erros = response.error['objeto'];
+          this.notification.showError('Erro ao obter dados');
+          this.spinner.hide();
+        }
+      });
+    }
 
   newTicket() {
     this.router.navigate(['/ticket/new']);
   }
 
-  private listAll() {    
-    this.tickets = [
-      {
-        id: 123, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal',
-        descricao: 'AJFDHALKSJDHFALKSJDFH LAKSJDFHAKJLSDHFALKSJDHFAKLSJDFH ALKSJDFHAKLJSDHFLKAJSDHF LAKJSDHFLKAJSHDFLKJSAHDF LKASJDHFALKSJDHFAKLJSDFH '
-      },
-      {
-        id: 456, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'ERRO AO ATUALIZAR SISTEMA', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 789, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMANDO INVÁLIDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 321, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'IMPORTAR DADOS DE XML', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 654, criador: 'Willian', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'INSTALAR PROGRAMA MICROSOFT OFFICE 365 HOJE', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 987, criador: 'Luna', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'SOLICITACAO DE MANUTENCAO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 147, criador: 'Helena', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'MONTAGEM DE NOVO COMPUTADOR', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 123, criador: 'Willian', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 456, criador: 'Willian', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 789, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 321, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 654, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 987, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 147, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 123, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 456, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 789, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 321, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 654, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 987, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 147, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      }
-    ];
-    console.log(this.tickets);
+  public search(){
+    this.listByName(/* this.ticketName */);
+  }
 
+  private listByName(/* name: string */) {
+    this.spinner.show();
 
-    /* this.ticketService.getAll().subscribe({
+    this.ticketService.getAll(/*name*/).subscribe({
       next: (response) => {
         this.tickets = response;
-        this.titlePage = "Tickets";
+        this.spinner.hide();
       },
       error: (response) => {
-        alert(response.error);
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.spinner.hide();
       }
-    }) */
+    });
+  }
+
+  public edit(ticketId: string){
+    this.router.navigate([`/ticket/edit/${ticketId}`]);
+  }
+
+  public delete(id: string) {
+    this.spinner.show();
+
+    this.ticketService.delete(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/ticket']);
+          this.spinner.hide();
+          console.log('1');
+        }
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+          this.spinner.hide();
+          console.log('2');
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+      }
+    });
+  }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
   }
 
 }
