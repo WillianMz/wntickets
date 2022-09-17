@@ -140,14 +140,13 @@ export class EquipFormComponent implements OnInit {
   //#region
 
   //OBTER SETORES
-  private listarSetores(){
+  private listarSetores() {
     this.sectorService.getAll().subscribe({
       next: (response) => {
         if(response != null){
           this.setores = response;
-          
         }
-        else{
+        else {
           this.setores = [];
           this.showError('Não foi possível carregar os laboratórios');
         }

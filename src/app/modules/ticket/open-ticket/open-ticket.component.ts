@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { ErroServidor } from './../../../models/erroServidor';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoriaModel } from 'src/app/models/sector/categoriaModel';
@@ -14,6 +16,7 @@ import { TicketService } from 'src/app/services/ticket.service';
 })
 export class OpenTicketComponent implements OnInit {
 
+  tituloPagina: string = 'Novo Chamado';
   ticket: TicketModel
   sectors: SetorModel[];
   categories: CategoriaModel[];
@@ -21,10 +24,17 @@ export class OpenTicketComponent implements OnInit {
   ticketForm: FormGroup;
   selectStatus: boolean = true;
   selectPriority: boolean = true;
+  message: string;
+  success: boolean;
+  erros: ErroServidor[];
+  boolTitulo: boolean = true;
+  boolAviso: boolean = false;
+  boolAss: boolean = true;
 
   constructor(
     private setorService: SectorService,
     private categService: CategoryService,
+    private toastr: ToastrService,
     private ticketService: TicketService
   ) {
     let ticket = { setorId:0, categoriaId:0, criadorId:0, assunto:'', descricao:'' };
@@ -74,31 +84,37 @@ export class OpenTicketComponent implements OnInit {
       categoria: new FormControl(ticket.categoria, [
         Validators.required
       ]),
-      criador: new FormControl(ticket.criador, [
-        Validators.required
-      ]),
+      status: new FormControl(ticket.statusAtual),
+      prioridade: new FormControl(ticket.prioridadeAtual),
       assunto: new FormControl(ticket.assunto, [
         Validators.required,
         Validators.minLength(15),
-        Validators.maxLength(40)
+        Validators.maxLength(35)
       ]),
       descricao: new FormControl(ticket.descricao, [
         Validators.required,
         Validators.minLength(20),
         Validators.maxLength(250)
       ]),
-      status: new FormControl(ticket.statusAtual),
-      prioridade: new FormControl(ticket.prioridadeAtual)
+/*       criador: new FormControl(ticket.criador, [
+        Validators.required
+      ]), */
     });
   }
 
-  private listSectors(){
+  private listSectors() {
     this.setorService.getAll().subscribe({
       next: (response ) => {
-        this.sectors = response;
-      },
-      error: (response) => {
-        console.log(response);
+        if(response != null){
+          this.sectors = response;
+        }
+        else {
+            this.sectors = [];
+            this.showError('Não foi possível carregar os laboratórios');
+          }
+        },
+      error: (error) => {
+        alert(error);
       }
     })
   }
@@ -113,4 +129,13 @@ export class OpenTicketComponent implements OnInit {
       }
     })
   }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
+  }
+
 }
