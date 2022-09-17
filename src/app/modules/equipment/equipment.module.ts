@@ -7,6 +7,8 @@ import { EquipListComponent } from './equip-list/equip-list.component';
 import { EquipFormComponent } from './equip-form/equip-form.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxCurrencyModule } from "ngx-currency";
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { TableModule } from 'ngx-easy-table';
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TableModule
+    TableModule,
+    NgxMaskModule.forChild(),
+    NgxCurrencyModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

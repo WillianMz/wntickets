@@ -172,7 +172,7 @@
         <div class="row mt-2">
           <div class="col-sm-3" *ngIf="boolAnoFab">
             <label>Ano Fabricação</label>
-            <input type="number" min='0' class="form-control" formControlName="anoFabricacao" placeholder="Ano Fabricação">
+            <input type="text" mask="0000" class="form-control" formControlName="anoFabricacao" placeholder="Ano Fabricação">
 
             <!-- VALIDACAO -->
 <!--             <div class="text-danger" *ngIf="anoFabricacao?.errors">
@@ -186,8 +186,8 @@
           </div>
 
           <div class="col-sm-4" *ngIf="boolDtCompra">
-            <label>Data Compra</label>
-            <input type="text" class="form-control" formControlName="dtCompra" placeholder="dd/MM/aaaa">
+            <label>Data da Compra</label>
+            <input type="text" class="form-control" formControlName="dtCompra" placeholder="dd/MM/aaaa"  mask="d0/M0/0000">
 
             <!-- VALIDACAO -->
             <div class="text-danger" *ngIf="dtCompra?.errors">
@@ -201,8 +201,9 @@
           </div>
 
           <div class="col-sm-3" *ngIf="boolValor">
-            <label>Valor Compra</label>
-            <input type="text" class="form-control" formControlName="valorCompra" placeholder="Valor Compra">
+            <label>Valor da Compra</label>
+            <!-- <input type="text" class="form-control" formControlName="valorCompra" placeholder="R$"> -->
+            <input type="text" class="form-control" currencyMask formControlName="valorCompra">
 
             <!-- VALIDACAO -->
             <div class="text-danger" *ngIf="valorCompra?.errors">
