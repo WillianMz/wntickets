@@ -38,11 +38,11 @@ export class SectorFormComponent implements OnInit {
     //PARA INICIAR O FORMULARIO
     const sector = {nome:'', ativo: true
 
-   }
+    }
 
-   this.start(sector);
-  
-  }
+    this.start(sector);
+    
+    }
 
   ngOnInit(): void {
     this.configurarForm();
@@ -128,6 +128,31 @@ export class SectorFormComponent implements OnInit {
       this.novoSetor(sector);
     }
   }
+  
+  private novoSetor(sector: SetorModel){
+    this.sectorService.adicionar(sector).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/labs']);
+        }
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+      }
+    });
+  }
 
   private editarSetor(sector: SetorModel){
     this.sectorService.editar(sector).subscribe({
@@ -145,31 +170,6 @@ export class SectorFormComponent implements OnInit {
           this.message = response['mensagem'];
           this.showError(this.message);
           console.log('2');
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-      }
-    });
-  }
-
-  private novoSetor(sector: SetorModel){
-    this.sectorService.adicionar(sector).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/labs']);
-        }
-        else{
-          this.message = response['mensagem'];
-          this.showError(this.message);
         }
       },
       error: (response) => {
