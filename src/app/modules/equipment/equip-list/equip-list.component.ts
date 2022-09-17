@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -34,7 +35,8 @@ export class EquipListComponent implements OnInit {
     private equipamentoService: EquipamentoService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -117,34 +119,35 @@ export class EquipListComponent implements OnInit {
     });
   } */
 
-  public equipInativos(){
+  public saveFilter(){
     this.equipmentName = "";
-    this.listInativo();
+    this.list();
+    //this.modalRef?.hide();
   }
 
-  private listInativo() {
-    this.listDisabled();
+  public search(){
+    this.listByName(this.equipmentName);
   }
 
-  private listDisabled() {
-    this.spinner.show();
+  public alert(){
+    this.notification.showInfo('Funcionalidade em desenvolvimento!', 'ATENÇÃO');
+  }
 
-    this.equipamentoService.disabled().subscribe({
-      next: (response) => {
-        this.equipments = response;
-        console.log(this.equipments);
-        this.equipmentsCopy = this.equipments;
-        this.tituloDaPagina = "Equipamentos";
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
+  public cleanFilters(){
+    this.filterDisabledEquipments = false;
+    this.listAll();
+  }
+
+  public openModal(template: TemplateRef<any>) {
+    //this.modalRef = this.modalService.show(template);
+  }
+
+  public new(){
+    this.router.navigate(['equipment/new']);
+  }
+
+  public edit(equipmentId: string){
+    this.router.navigate([`equipment/edit/${equipmentId}`]);
   }
 
   public equipAtivos(){
@@ -177,35 +180,66 @@ export class EquipListComponent implements OnInit {
     });
   }
 
-  public saveFilter(){
+  public ativar(id: string) {
+    this.spinner.show();
+
+    this.equipamentoService.enable(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          /* this.router.navigate(['/equipment']); */
+          this.listInativo();
+          this.spinner.hide();
+          console.log('1');
+        }
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+          this.spinner.hide();
+          console.log('2');
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+      }
+    });
+  }
+
+  public equipInativos(){
     this.equipmentName = "";
-    this.list();
-    //this.modalRef?.hide();
+    this.listInativo();
   }
 
-  public search(){
-    this.listByName(this.equipmentName);
+  private listInativo() {
+    this.listDisabled();
   }
 
-  public alert(){
-    this.notification.showInfo('Funcionalidade em desenvolvimento!', 'ATENÇÃO');
-  }
+  private listDisabled() {
+    this.spinner.show();
 
-  public cleanFilters(){
-    this.filterDisabledEquipments = false;
-    this.listAll();
-  }
-
-  public openModal(template: TemplateRef<any>) {
-    //this.modalRef = this.modalService.show(template);
-  }
-
-  public new(){
-    this.router.navigate(['equipment/new']);
-  }
-
-  public edit(equipmentId: string){
-    this.router.navigate([`equipment/edit/${equipmentId}`]);
+    this.equipamentoService.disabled().subscribe({
+      next: (response) => {
+        this.equipments = response;
+        console.log(this.equipments);
+        this.equipmentsCopy = this.equipments;
+        this.tituloDaPagina = "Equipamentos";
+        this.spinner.hide();
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
+      }
+    });
   }
 
   public desativar(id: string) {
@@ -213,49 +247,31 @@ export class EquipListComponent implements OnInit {
   
       this.equipamentoService.disable(Number.parseInt(id)).subscribe({
         next: (response) => {
-          console.log(response);
-          this.list();
+          this.success = response['sucesso'];
+  
+          //RETORNO BACK -> REGRAS DE NEGOCIO
+          if(this.success == true){
+            this.message = response['mensagem'];
+            this.showSuccess(this.message);
+            /* this.router.navigate(['/equipment']); */
+            this.listAtivo();
+            this.spinner.hide();
+            console.log('1');
+          }
+          else{
+            this.message = response['mensagem'];
+            this.showError(this.message);
+            this.spinner.hide();
+            console.log('2');
+          }
         },
         error: (response) => {
-          console.log(response);
-          if (response.status != 405) {
-            this.success = response.error['sucesso'];
-            this.message = response.error['mensagem'];
-            this.erros = response.error['objeto'];
-            this.notification.showError('Erro');
-            this.spinner.hide();
-          }else {
-            this.notification.showError('Erro ao inativar o equipamento');
-            this.spinner.hide();
-          }
-          
-        }
-      });
-  }
-
-  public ativar(id: string) {
-    this.spinner.show();
-
-    this.equipamentoService.enable(Number.parseInt(id)).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.list();
-      },
-      error: (response) => {
-        console.log(response);
-        if (response.status != 405) {
+          //PEGA OS ERROS. FALHAS
           this.success = response.error['sucesso'];
           this.message = response.error['mensagem'];
           this.erros = response.error['objeto'];
-          this.notification.showError('Erro');
-          this.spinner.hide();
-        }else {
-          this.notification.showError('Erro ao ativar o equipamento');
-          this.spinner.hide();
         }
-        
-      }
-    });
+      });
   }
 
   public delete(id: string) {
@@ -263,28 +279,38 @@ export class EquipListComponent implements OnInit {
 
     this.equipamentoService.delete(Number.parseInt(id)).subscribe({
       next: (response) => {
-        console.log(response);
-        this.list();
-      },
-      // error: (HttpErrorResponse) => {
-      //   this.notification.showError('Erro ao excluir equipamento');
-      //   this.spinner.hide();
-      // },
-      error: (response) => {
-        console.log(response);
-        if (response.status != 405) {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.notification.showError('Erro');
+        this.success = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/equipment']);
           this.spinner.hide();
-        }else {
-          this.notification.showError('Erro ao excluir o equipamento');
-          this.spinner.hide();
+          console.log('1');
         }
-        
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+          this.spinner.hide();
+          console.log('2');
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
       }
     });
+  }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
   }
 
 }

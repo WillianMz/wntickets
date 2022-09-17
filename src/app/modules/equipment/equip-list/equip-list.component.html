@@ -81,9 +81,10 @@
                 </button>              
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
                   <li><a class="dropdown-item" type="button" (click)="ativar(row.id)">Ativar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="desativar(row.id)">Desativar</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li>
                 </ul>

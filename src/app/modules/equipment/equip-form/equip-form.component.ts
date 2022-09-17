@@ -242,14 +242,12 @@ export class EquipFormComponent implements OnInit {
       ]),
       valorCompra: new FormControl(equip.valorCompra, [Validators.required]),
       anotacoes: new  FormControl(equip.anotacoes, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100)
+/*         Validators.minLength(2),
+        Validators.maxLength(100) */
       ]),
       motivoBaixa: new FormControl(equip.motivoBaixa, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100)
+/*         Validators.minLength(2),
+        Validators.maxLength(100) */
       ])
     });
   }

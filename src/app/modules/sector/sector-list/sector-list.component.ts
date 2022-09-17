@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { SetorModel } from './../../../models/sector/setorModel';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
@@ -35,7 +36,8 @@ export class SectorListComponent implements OnInit {
     private sectorService: SectorService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -115,66 +117,6 @@ export class SectorListComponent implements OnInit {
     });
   } */
 
-  public setInativos(){
-    this.sectorName = "";
-    this.listInativo();
-  }
-
-  private listInativo() {
-    this.listDisabled();
-  }
-
-  private listDisabled() {
-    this.spinner.show();
-
-    this.sectorService.disabled().subscribe({
-      next: (response) => {
-        this.sectors = response;
-        console.log(this.sectors);
-        this.sectorsCopy = this.sectors;
-        this.tituloDaPagina = "Laboratórios";
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
-  }
-
-  public setAtivos(){
-    this.sectorName = "";
-    this.listAtivo();
-  }
-
-  private listAtivo() {
-    this.listEnabled();
-  }
-
-  private listEnabled() {
-    this.spinner.show();
-
-    this.sectorService.enabled().subscribe({
-      next: (response) => {
-        this.sectors = response;
-        console.log(this.sectors);
-        this.sectorsCopy = this.sectors;
-        this.tituloDaPagina = "Laboratórios";
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
-  }
-
   public saveFilter(){
     this.sectorName = "";
     this.list();
@@ -210,52 +152,126 @@ export class SectorListComponent implements OnInit {
     this.router.navigate([`labs/edit/${sectorId}`]);
   }
 
-  public desativar(id: string) {
+  public setAtivos(){
+    this.sectorName = "";
+    this.listAtivo();
+  }
+
+  private listAtivo() {
+    this.listEnabled();
+  }
+
+  private listEnabled() {
     this.spinner.show();
 
-    this.sectorService.disable(Number.parseInt(id)).subscribe({
+    this.sectorService.enabled().subscribe({
       next: (response) => {
-        console.log(response);
-        this.list();
+        this.sectors = response;
+        console.log(this.sectors);
+        this.sectorsCopy = this.sectors;
+        this.tituloDaPagina = "Laboratórios";
+        this.spinner.hide();
       },
       error: (response) => {
-        console.log(response);
-        if (response.status != 405) {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.notification.showError('Erro');
-          this.spinner.hide();
-        }else {
-          this.notification.showError('Erro ao inativar o laboratório');
-          this.spinner.hide();
-        }
-        
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
       }
     });
   }
 
   public ativar(id: string) {
-  this.spinner.show();
+    this.spinner.show();
+  
+    this.sectorService.enable(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
 
-  this.sectorService.enable(Number.parseInt(id)).subscribe({
-    next: (response) => {
-      console.log(response);
-      this.list();
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.listInativo();
+          /* this.router.navigate(['/labs']); */
+          this.spinner.hide();
+          console.log('1');
+        }
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+          this.spinner.hide();
+          console.log('2');
+        }
       },
       error: (response) => {
-        console.log(response);
-        if (response.status != 405) {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+      }
+    });
+    }
+
+    public setInativos(){
+      this.sectorName = "";
+      this.listInativo();
+    }
+  
+    private listInativo() {
+      this.listDisabled();
+    }
+  
+    private listDisabled() {
+      this.spinner.show();
+  
+      this.sectorService.disabled().subscribe({
+        next: (response) => {
+          this.sectors = response;
+          console.log(this.sectors);
+          this.sectorsCopy = this.sectors;
+          this.tituloDaPagina = "Laboratórios";
+          this.spinner.hide();
+        },
+        error: (response) => {
           this.success = response.error['sucesso'];
           this.message = response.error['mensagem'];
           this.erros = response.error['objeto'];
-          this.notification.showError('Erro');
-          this.spinner.hide();
-        }else {
-          this.notification.showError('Erro ao ativar o laboratório');
+          this.notification.showError('Erro ao obter dados');
           this.spinner.hide();
         }
-        
+      });
+    }
+
+  public desativar(id: string) {
+    this.spinner.show();
+
+    this.sectorService.disable(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.listAtivo();
+          /* this.router.navigate(['/labs']); */
+          this.spinner.hide();
+          console.log('1');
+        }
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+          this.spinner.hide();
+          console.log('2');
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
       }
     });
   }
@@ -265,61 +281,30 @@ export class SectorListComponent implements OnInit {
 
     this.sectorService.delete(Number.parseInt(id)).subscribe({
       next: (response) => {
-        console.log(response);
-        this.list();
-      },
-      // error: (HttpErrorResponse) => {
-      //   this.notification.showError('Erro ao excluir equipamento');
-      //   this.spinner.hide();
-      // },
-      error: (response) => {
-        console.log(response);
-        if (response.status != 405) {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.notification.showError('Erro');
+        this.success = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.showSuccess(this.message);
+          this.router.navigate(['/labs']);
           this.spinner.hide();
-        }else {
-          this.notification.showError('Erro ao excluir o laboratório');
-          this.spinner.hide();
+          console.log('1');
         }
-        
+        else{
+          this.message = response['mensagem'];
+          this.showError(this.message);
+          this.spinner.hide();
+          console.log('2');
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
       }
     });
-
-    /* Swal.fire({
-      title:'Confirmar exclusão do setor?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar'
-    }).then(result => {
-      if(result.value) {
-        this.spinner.show();
-        let sectorId = parseInt(id);
-        this.spinner.show();
-        this.sectorService.delete(sectorId).subscribe({
-          next: (response) => {
-            this.success = response['sucesso'];
-            this.message = response['mensagem'];
-
-            if(this.success == true){
-              this.notification.showSuccess(this.message);
-              this.list();
-            }
-            else{
-              Swal.fire('teste', this.message,'error');
-            }
-          },
-          error: () => {
-            this.spinner.hide();
-          }
-        });
-      }
-    }); */
   }
 
   public disable(id: string){
@@ -354,6 +339,14 @@ export class SectorListComponent implements OnInit {
         });
       }
     }); */
+  }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
   }
 
 }
