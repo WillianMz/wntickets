@@ -12,6 +12,8 @@ import { NgxPopperjsModule } from 'ngx-popperjs';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
+import { AuthenticationComponent } from './layouts/authentication/authentication.component';
+import { HomeComponent } from './layouts/home/home.component';
 
   export const customCurrencyMaskConfig = {
     align: "left",
@@ -31,7 +33,9 @@ import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent
+    AdminComponent,
+    AuthenticationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

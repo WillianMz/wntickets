@@ -1,3 +1,4 @@
+import { CadastroUsuarioRequest } from './../models/user/cadastroUsuarioRequest.model';
 import { AlterarSenhaModel } from './../models/user/alterarSenhaModel';
 import { UsuarioModel } from './../models/user/usuarioModel';
 import { EditarUsuarioModel } from './../models/user/editarUsuarioModel';
@@ -6,6 +7,7 @@ import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +15,9 @@ import { Injectable } from '@angular/core';
 export class UserService {
 
   private url = `${environment.api}/usuario`;
+  private caminhoApi = `${environment.api}/api/usuario`;
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor( private http: HttpClient) { }
 
   public create(usuario: NovoUsuarioModel) {
     return this.http.post(`${this.url}`, usuario);
@@ -62,4 +63,10 @@ export class UserService {
     return this.http.get<UsuarioModel>(`${this.url}/${id}`);
   }
 
+
+
+  //NOVAS ROTAS ***********************************************
+  public criarContaDeUsuario(novaConta: CadastroUsuarioRequest): Observable<CadastroUsuarioResponse>{
+    return this.http.post(this.caminhoApi, novaConta);
+  }
 }

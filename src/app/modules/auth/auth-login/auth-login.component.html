@@ -1,56 +1,107 @@
-<div class="container">
-  <div class="col-md-10 mx-auto col-lg-5 pt-5">
-    <form class="p-4 p-md-5 border rounded-3 bg-light" [formGroup]="loginForm">
+<div class="login-page bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 offset-lg-1">
+        <!-- <h3 class="mb-3">Login Now</h3> -->
+        <div class="bg-white shadow rounded">
+          <div class="row">
+            <div class="col-md-7 pe-0">
+              <div class="form-left h-100 py-5 px-5">
 
-      <h1 class="h3 mb-3 fw-normal">Bem vindo!</h1>
+                <!-- FORMULARIO -->
+                <form action="" class="row g-4">
+                  <!-- EMAIL -->
+                  <div class="col-12">
+                    <label>Email<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
+                      <input type="text" class="form-control" placeholder="Email do usuário">
+                    </div>
+                  </div>
 
-      <!-- EMAIL -->
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="email" formControlName="email"  placeholder="name@example.com">
-        <label for="floatingInput">Usuário</label>
+                  <!-- SENHA -->
+                  <div class="col-12">
+                    <label>Senha<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
+                      <input type="password" class="form-control" placeholder="Senha do usuário">
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                      <label class="form-check-label" for="inlineFormCheck">Lembrar-me</label>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <a href="#" class="float-end text-primary">Recuperar senha?</a>
+                  </div>
+
+                  <!-- BOTAO ENTRAR -->
+                  <div class="col-sm-12">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-primary" type="button">Entrar</button>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <!-- BOTAO CRIAR NOVA CONTA -->
+                  <div class="col-sm-12">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-success" type="button" routerLink="/login/nova-conta">Criar nova
+                        conta</button>
+
+                      <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Criar nova conta
+                      </button>
+
+                    </div>
+                  </div>
+
+
+                  <!-- <div class="col-12">
+                    <button type="submit" class="btn btn-primary px-4 float-end mt-4">login</button>
+                  </div> -->
+                </form>
+
+
+              </div>
+            </div>
+            <div class="col-md-5 ps-0 d-none d-md-block">
+              <div class="form-right h-100 bg-primary text-white text-center pt-5">
+                <i class="bi bi-bootstrap"></i>
+                <h2 class="fs-1">Bem-vindo!!!</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-end text-secondary mt-3">v1.0 BETA</p>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- validacao Email-->
-      <div class="text-danger" *ngIf="email?.errors">
-        <ul>
-          <li *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">Email inválido</li>
-          <li *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe seu Email</li>
-          <li *ngIf="email?.errors?.minlength && (email?.dirty || email?.touched)">Tamanho de Email inválido</li>
-          <li *ngIf="email?.errors?.maxlength && (email?.dirty || email?.touched)">Tamanho de Email inválido</li>
-        </ul>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">Cadastre-se</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <!-- PWD -->
-      <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="senha" formControlName="senha" placeholder="Password">
-        <label for="floatingPassword">Senha</label>
+      <div class="modal-body">
+        <!-- <app-auth-register></app-auth-register> -->
+        <!-- FORMULARIO PARA CADASTRO DE USUARIO -->
+        <app-form-register-user></app-form-register-user>
       </div>
-
-      <!-- validacao senha -->
-      <div class="text-danger" *ngIf="senha?.errors">
-        <ul>
-          <li *ngIf="senha?.errors?.required && (senha?.dirty || senha?.touched)">Informe sua senha</li>
-          <li *ngIf="senha?.errors?.minlength && (senha?.dirty || senha?.touched)">Tamanho de senha inválido</li>
-          <li *ngIf="senha?.errors?.maxlength && (senha?.dirty || senha?.touched)">Tamanho de senha inválido</li>
-        </ul>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        <button type="button" class="btn btn-success">Cadastre-se</button>
       </div>
-
-      <button class="w-100 btn btn-lg btn-primary" 
-              [disabled]="!loginForm.valid"
-              (click)="login()">
-        Entrar
-      </button>
-      <hr class="my-4">
-
-      <small class="text-muted">Não tem uma conta? </small>
-      <a routerLink="/auth/register">Crie uma!</a>
-      <br>
-      <small class="text-muted">Esqueceu a senha? </small>
-      <a routerLink="/auth/recover">Recuperar minha conta!</a>
-      <br>
-      <small class="text-muted">Ativar usuário? </small>
-      <a routerLink="/auth/activate">Ativar conta de usuário!</a>
-
-    </form>
+    </div>
   </div>
 </div>
