@@ -1,3 +1,5 @@
+import { LoginRequest } from './../../../models/auth/loginRequest.model';
+import { UserService } from 'src/app/services/user.service';
 
 import { Router } from '@angular/router';
 import { LoginModel } from './../../../models/auth/loginModel';
@@ -19,6 +21,7 @@ export class AuthLoginComponent implements OnInit {
   erros: ErroServidor[];
 
   constructor(
+    private userService: UserService,
     private router: Router,
     private notification: NotificationService
   ) {
@@ -37,8 +40,20 @@ export class AuthLoginComponent implements OnInit {
     return this.loginForm.get('senha');
   }
 
-  login(){
-    this.router.navigate(['/home']);
+  public entrar(){
+    let login = new LoginRequest;
+    login.email = 'willianmazzorana@hotmail.com';
+    login.senha = '@Willian2022'
+    this.userService.efetuarLogin(login).subscribe({
+      next: (response) => {
+        console.log(response);
+
+        if(response.sucesso == true){
+          window.localStorage.setItem('token', response.token);
+          this.router.navigate(['']);
+        }
+      }
+    })
   }
 
   private startForm(login: LoginModel) {

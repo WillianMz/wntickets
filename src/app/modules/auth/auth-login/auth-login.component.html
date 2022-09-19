@@ -42,7 +42,7 @@
                   <!-- BOTAO ENTRAR -->
                   <div class="col-sm-12">
                     <div class="d-grid gap-2">
-                      <button class="btn btn-primary" type="button">Entrar</button>
+                      <button class="btn btn-primary" type="button" (click)="entrar()">Entrar</button>
                     </div>
                   </div>
 
@@ -51,14 +51,7 @@
                   <!-- BOTAO CRIAR NOVA CONTA -->
                   <div class="col-sm-12">
                     <div class="d-grid gap-2">
-                      <button class="btn btn-success" type="button" routerLink="/login/nova-conta">Criar nova
-                        conta</button>
-
-                      <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        Criar nova conta
-                      </button>
-
+                      <button class="btn btn-success" type="button" routerLink="/login/nova-conta">Criar nova conta</button>
                     </div>
                   </div>
 
@@ -80,27 +73,6 @@
           </div>
         </div>
         <p class="text-end text-secondary mt-3">v1.0 BETA</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title" id="exampleModalLabel">Cadastre-se</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- <app-auth-register></app-auth-register> -->
-        <!-- FORMULARIO PARA CADASTRO DE USUARIO -->
-        <app-form-register-user></app-form-register-user>
-      </div>
-      <div class="modal-footer">
-        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-        <button type="button" class="btn btn-success">Cadastre-se</button>
       </div>
     </div>
   </div>

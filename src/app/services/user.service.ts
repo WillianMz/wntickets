@@ -1,13 +1,15 @@
+import { LoginRequest } from './../models/auth/loginRequest.model';
 import { CadastroUsuarioRequest } from './../models/user/cadastroUsuarioRequest.model';
 import { AlterarSenhaModel } from './../models/user/alterarSenhaModel';
 import { UsuarioModel } from './../models/user/usuarioModel';
 import { EditarUsuarioModel } from './../models/user/editarUsuarioModel';
 import { NovoUsuarioModel } from './../models/user/novoUsuarioModel';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
+import { LoginResponse } from '../models/auth/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +70,14 @@ export class UserService {
   //NOVAS ROTAS ***********************************************
   public criarContaDeUsuario(novaConta: CadastroUsuarioRequest): Observable<CadastroUsuarioResponse>{
     return this.http.post(this.caminhoApi, novaConta);
+  }
+
+  public efetuarLogin(login: LoginRequest): Observable<LoginResponse> {    
+    return this.http.post(`${this.caminhoApi}/login`, login);
+  }
+
+  getToken() {
+    const token = window.localStorage.getItem('token');
+    return token;
   }
 }

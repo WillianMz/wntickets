@@ -1,3 +1,4 @@
+import { HttpInterceptorProviders } from './http-interceptors/index';
 import { ComponentsModule } from './components/components.module';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -55,7 +56,9 @@ import { HomeComponent } from './layouts/home/home.component';
     NgxMaskModule.forRoot({dropSpecialCharacters: false}),
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
   ],
-  providers: [],
+  providers: [
+    HttpInterceptorProviders
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

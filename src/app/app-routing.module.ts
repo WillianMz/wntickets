@@ -14,7 +14,7 @@ const routes: Routes = [
     path:'',
     component: HomeComponent, 
     children: [
-      { path:'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)},
+      { path:'', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)},
       { path:'laboratorios', loadChildren: () => import('./modules/sector/sector.module').then(m => m.SectorModule)},
       { path:'equipamentos', loadChildren: () => import('./modules/equipment/equipment.module').then(m => m.EquipmentModule)},
       { path:'chamados', loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)},
