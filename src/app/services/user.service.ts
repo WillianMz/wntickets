@@ -11,6 +11,8 @@ import { Injectable } from '@angular/core';
 import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
 import { LoginResponse } from '../models/auth/loginResponse.model';
 
+import * as jwt_decode from 'jwt-decode';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -79,5 +81,44 @@ export class UserService {
   getToken() {
     const token = window.localStorage.getItem('token');
     return token;
+  }
+
+  obterDataExpiracaoToken(token: string): Date {
+    const decoded: any = jwt_decode.default(token);
+    
+    if(decoded.exp === undefined){
+      return new Date;
+    }
+
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp);
+    return date;
+  }
+
+  tokenExpirado(token?:string) : boolean {
+    if(!token){
+      return true;
+    }
+
+    const date = this.obterDataExpiracaoToken(token);
+    if(date === undefined){
+      return false;
+    }
+
+    //data do token é maior que a data atual?
+    //se nao for esta expirado
+    return !(date.valueOf() > new Date().valueOf());
+  }
+
+  usuarioEstaLogado() {
+    const token = this.getToken();
+    if(!token){
+      return false;
+    }
+    else if(this.tokenExpirado(token)){
+      return false;
+    }
+
+    return true;
   }
 }

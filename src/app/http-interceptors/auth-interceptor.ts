@@ -12,7 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
         const token = this.userService.getToken();
         let request: HttpRequest<any> = req;
 
-        if(token) {
+        if(token && !this.userService.tokenExpirado(token)) {
             //O request é imutavel, ou seja não é possivel mudar anda
             //Faço o clone para conseguir mudar as propriedades
             //Passo o token de autenticacao no header
