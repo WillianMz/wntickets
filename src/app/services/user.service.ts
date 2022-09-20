@@ -79,13 +79,13 @@ export class UserService {
   }
 
   getToken() {
-    const token = window.localStorage.getItem('token');
+    const token = window.localStorage.getItem('wntickets');
     return token;
   }
 
   obterDataExpiracaoToken(token: string): Date {
     const decoded: any = jwt_decode.default(token);
-    
+
     if(decoded.exp === undefined){
       return new Date;
     }

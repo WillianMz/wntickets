@@ -1,3 +1,4 @@
+import { LoginService } from './../../../services/login.service';
 import { LoginRequest } from './../../../models/auth/loginRequest.model';
 import { UserService } from 'src/app/services/user.service';
 
@@ -23,7 +24,8 @@ export class AuthLoginComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private loginService: LoginService
   ) {
     const login = new LoginModel();
     this.startForm(login);
@@ -49,7 +51,9 @@ export class AuthLoginComponent implements OnInit {
         console.log(response);
 
         if(response.sucesso == true){
-          window.localStorage.setItem('token', response.token);
+          //window.localStorage.setItem('token', response.token);
+          this.loginService.salvarToken(response.token);
+          this.loginService.obterToken();
           this.router.navigate(['']);
         }
       }
