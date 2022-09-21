@@ -1,3 +1,4 @@
+import { Route, Router } from '@angular/router';
 import { Usuario } from './../models/user/usuario.model';
 import { LoginRequest } from './../models/auth/loginRequest.model';
 import { LoginResponse } from './../models/auth/loginResponse.model';
@@ -19,7 +20,10 @@ const ENDERECO_API: string = `${environment.api}/api/usuario`;
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
  
   //OK
   criarContaDeUsuario(novaConta: CadastroUsuarioRequest): Observable<CadastroUsuarioResponse | null>{
@@ -33,13 +37,14 @@ export class LoginService {
 
   fazerLogout(){
     delete localStorage[CHAVE_TOKEN];
+    this.router.navigate(['/login']);
   }
 
   //OK
   obterToken(){
     const token = localStorage.getItem(CHAVE_TOKEN);
     if(token){
-      this.usuarioLogado(token);
+      //this.usuarioLogado(token);
       return token;
     }
     else  
@@ -52,13 +57,20 @@ export class LoginService {
   }
 
   //OK
-  usuarioLogado(token: string) : Usuario {
-    const decoded: any = jwt_decode.default(token);
-    let usuario = new Usuario();
-    usuario.email= decoded.email;
-    usuario.nome = decoded.name;
-    usuario.perfil = decoded.role;
-    console.log('Usuario: ' + usuario.nome+ usuario.email + usuario.perfil);
-    return usuario;
+  usuarioLogado() : Usuario {
+    const token = localStorage.getItem(CHAVE_TOKEN);
+    if(token) {
+      const decoded: any = jwt_decode.default(token);
+      let usuario = new Usuario();
+      usuario.email= decoded.email;
+      usuario.nome = decoded.name;
+      usuario.perfil = decoded.role;
+      console.log('Usuario: ' + usuario.nome+ usuario.email + usuario.perfil);
+      return usuario;
+    }
+    else{
+      let user = new Usuario;
+      return user;
+    }
   }
 }
