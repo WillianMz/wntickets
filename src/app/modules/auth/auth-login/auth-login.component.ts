@@ -28,6 +28,8 @@ export class AuthLoginComponent implements OnInit {
     private loginService: LoginService
   ) {
     const login = new LoginModel();
+    login.Email = "";
+    login.Senha = "";
     this.startForm(login);
   }
 
@@ -44,16 +46,15 @@ export class AuthLoginComponent implements OnInit {
 
   public entrar(){
     let login = new LoginRequest;
-    login.email = 'willianmazzorana@hotmail.com';
-    login.senha = '@Willian2022'
+    login.email = this.email?.value;
+    login.senha = this.senha?.value;
+
     this.userService.efetuarLogin(login).subscribe({
       next: (response) => {
         console.log(response);
 
-        if(response.sucesso == true){
-          //window.localStorage.setItem('token', response.token);
+        if(response.sucesso == true) {
           this.loginService.salvarToken(response.token);
-          this.loginService.obterToken();
           this.router.navigate(['']);
         }
       }

@@ -9,13 +9,19 @@
               <div class="form-left h-100 py-5 px-5">
 
                 <!-- FORMULARIO -->
-                <form action="" class="row g-4">
+                <form [formGroup]="loginForm" class="row g-4">
+
                   <!-- EMAIL -->
                   <div class="col-12">
                     <label>Email<span class="text-danger">*</span></label>
                     <div class="input-group">
                       <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
-                      <input type="text" class="form-control" placeholder="Email do usuário">
+                      <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email do usuário">
+                    </div>
+
+                    <!-- VALIDACAO -->
+                    <div class="text-danger" *ngIf="email?.errors">
+                      <div *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Email é obrigatório!</div>
                     </div>
                   </div>
 
@@ -24,7 +30,12 @@
                     <label>Senha<span class="text-danger">*</span></label>
                     <div class="input-group">
                       <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                      <input type="password" class="form-control" placeholder="Senha do usuário">
+                      <input type="password" class="form-control" formControlName="senha" id="senha" placeholder="Senha do usuário">
+                    </div>
+
+                    <!-- VALIDACAO -->
+                    <div class="text-danger" *ngIf="senha?.errors">
+                      <div *ngIf="senha?.errors?.required && (senha?.dirty || senha?.touched)">Senha é obrigatório</div>
                     </div>
                   </div>
 
@@ -42,7 +53,7 @@
                   <!-- BOTAO ENTRAR -->
                   <div class="col-sm-12">
                     <div class="d-grid gap-2">
-                      <button class="btn btn-primary" type="button" (click)="entrar()">Entrar</button>
+                      <button class="btn btn-primary" type="button" [disabled]="!loginForm.valid" (click)="entrar()">Entrar</button>
                     </div>
                   </div>
 
@@ -51,7 +62,8 @@
                   <!-- BOTAO CRIAR NOVA CONTA -->
                   <div class="col-sm-12">
                     <div class="d-grid gap-2">
-                      <button class="btn btn-success" type="button" routerLink="/login/nova-conta">Criar nova conta</button>
+                      <button class="btn btn-success" type="button" routerLink="/login/nova-conta">Criar nova
+                        conta</button>
                     </div>
                   </div>
 

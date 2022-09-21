@@ -27,7 +27,10 @@ export class NavbarComponent implements OnInit {
   }
 
   configurarNavBar(){
-    this.usuario = this.loginService.usuarioLogado();
+    let user = this.loginService.usuarioLogado();
+    if(user){
+      this.usuario = user;
+    }
   }
 
   sair(){

@@ -35,20 +35,10 @@ export class LoginService {
     return this.http.post(`${ENDERECO_API}/login`, login);
   }
 
+  //OK
   fazerLogout(){
     delete localStorage[CHAVE_TOKEN];
     this.router.navigate(['/login']);
-  }
-
-  //OK
-  obterToken(){
-    const token = localStorage.getItem(CHAVE_TOKEN);
-    if(token){
-      //this.usuarioLogado(token);
-      return token;
-    }
-    else  
-      return null;
   }
   
   //OK
@@ -57,20 +47,76 @@ export class LoginService {
   }
 
   //OK
-  usuarioLogado() : Usuario {
+  public usuarioLogado() : Usuario | null{
     const token = localStorage.getItem(CHAVE_TOKEN);
     if(token) {
+
+      //verifica se esta expirado
+      if(this.tokenExpirado()){
+        this.router.navigate(['/login']);
+        return null;
+      }
+
       const decoded: any = jwt_decode.default(token);
       let usuario = new Usuario();
       usuario.email= decoded.email;
       usuario.nome = decoded.name;
       usuario.perfil = decoded.role;
-      console.log('Usuario: ' + usuario.nome+ usuario.email + usuario.perfil);
+      //console.log('Usuario: ' + usuario.nome+ usuario.email + usuario.perfil);
       return usuario;
     }
     else{
-      let user = new Usuario;
-      return user;
+      /* let user = new Usuario;
+      return user; */
+      this.router.navigate(['/login']);
+      return null
     }
   }
+
+  //OK
+  private tokenExpirado(): boolean {
+    const token = localStorage.getItem(CHAVE_TOKEN);
+    if(!token){
+      return true;
+    }
+
+    const date = this.obterDataExpiracaoDoToken();
+    if(date == undefined){
+      return false;
+    }
+
+    //se a data do token for maior que a atual nao esta expirado
+    //caso contrario esta expirado
+    return !(date.valueOf() > new Date().valueOf());
+  }
+
+  //OK
+  private obterDataExpiracaoDoToken(): Date | null{
+    const token = localStorage.getItem(CHAVE_TOKEN);
+    if(token){
+      const decoded: any = jwt_decode.default(token);
+
+      if(decoded.exp === undefined){
+        return null;
+      }
+
+      const date = new Date(0);
+      date.setUTCSeconds(decoded.exp);
+      return date;
+    }
+    else{
+      return null;
+    }
+  }
+
+  //OK
+  /* obterToken(){
+    const token = localStorage.getItem(CHAVE_TOKEN);
+    if(token){
+      //this.usuarioLogado(token);
+      return token;
+    }
+    else  
+      return null;
+  } */
 }
