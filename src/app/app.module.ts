@@ -1,3 +1,4 @@
+import { HttpInterceptorProviders } from './http-interceptors/index';
 import { ComponentsModule } from './components/components.module';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,6 +13,8 @@ import { NgxPopperjsModule } from 'ngx-popperjs';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
+import { AuthenticationComponent } from './layouts/authentication/authentication.component';
+import { HomeComponent } from './layouts/home/home.component';
 
   export const customCurrencyMaskConfig = {
     align: "left",
@@ -31,7 +34,9 @@ import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent
+    AdminComponent,
+    AuthenticationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +56,9 @@ import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
     NgxMaskModule.forRoot({dropSpecialCharacters: false}),
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
   ],
-  providers: [],
+  providers: [
+    HttpInterceptorProviders
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
