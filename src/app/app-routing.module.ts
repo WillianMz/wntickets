@@ -15,9 +15,10 @@ const routes: Routes = [
     component: HomeComponent, 
     children: [
       { path:'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)},
-      { path:'laboratorios', loadChildren: () => import('./modules/sector/sector.module').then(m => m.SectorModule)},
-      { path:'equipamentos', loadChildren: () => import('./modules/equipment/equipment.module').then(m => m.EquipmentModule)},
-      { path:'chamados', loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)},
+      { path:'labs', loadChildren: () => import('./modules/sector/sector.module').then(m => m.SectorModule)},
+      { path:'equipment', loadChildren: () => import('./modules/equipment/equipment.module').then(m => m.EquipmentModule)},
+      { path:'ticket', loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)},
+      { path: '', redirectTo: 'home', pathMatch: 'full'},
     ],
     canActivate: [AuthGuard]
   },
@@ -30,7 +31,11 @@ const routes: Routes = [
       { path:'ativar-conta', component: AuthUserActivateComponent } */
 
     ]
-  }
+  },
+  { path: '404', component: NotfoundComponent },
+  { path: '', redirectTo: '404', pathMatch: 'full'},
+  { path: '**', redirectTo: '404'},
+  { path: '#', redirectTo: 'home'},
 
   /* {
     path:'auth',

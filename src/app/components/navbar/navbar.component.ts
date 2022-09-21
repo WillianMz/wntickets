@@ -14,9 +14,9 @@ export class NavbarComponent implements OnInit {
   usuario: Usuario;
   public modulos = [
     { titulo: 'Home', url: '/home', icone: 'bi bi-house' },
-    { titulo: 'Laboratórios', url: '/laboratorios', icone: 'bi bi-binoculars-fill' },
-    { titulo: 'Equipamentos', url: '/equipamentos', icone: 'bi bi-pc-display' },
-    { titulo: 'Chamados', url: '/chamados', icone: 'bi bi-ticket-detailed-fill' }
+    { titulo: 'Laboratórios', url: '/labs', icone: 'bi bi-binoculars-fill' },
+    { titulo: 'Equipamentos', url: '/equipment', icone: 'bi bi-pc-display' },
+    { titulo: 'Chamados', url: '/ticket', icone: 'bi bi-ticket-detailed-fill' }
   ];
 
   constructor(private loginService: LoginService) { }
