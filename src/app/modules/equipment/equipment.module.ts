@@ -1,20 +1,18 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { EquipmentRoutingModule } from './equipment-routing.module';
 import { EquipListComponent } from './equip-list/equip-list.component';
 import { EquipFormComponent } from './equip-form/equip-form.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
-import { EquipTypeListComponent } from './equip-type/equip-type-list/equip-type-list.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [
     EquipListComponent,
-    EquipFormComponent,
-    EquipTypeListComponent
+    EquipFormComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +20,8 @@ import { EquipTypeListComponent } from './equip-type/equip-type-list/equip-type-
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TableModule
+    TableModule,
+    RouterModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

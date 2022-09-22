@@ -1,11 +1,10 @@
-//import { SetorModel } from './../../../models/sector/setorModel';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErroServidor } from 'src/app/models/erroServidor';
-import { SectorService } from 'src/app/services/sector.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TipoEquiModel } from 'src/app/models/equipment/tipoEquipModel';
+import { EquipamentoService } from 'src/app/services/equipamento.service';
 
 @Component({
     selector: 'app-equip-type-form',
@@ -14,65 +13,68 @@ import { TipoEquiModel } from 'src/app/models/equipment/tipoEquipModel';
 })
 export class EquipTypeFormComponent implements OnInit {
 
-    @Input() sectorID: number;
+    @Input() tipoEquipID: number;
     @Input() navbarVisible: boolean;
     @Input() titleFormVisible: boolean;
 
-    titleForm: string = 'SetorForm';
+    tituloPagina: string = 'Detalhes do tipo de equipamento';
+    titleForm: string = 'TipoEquipForm';
     equipType: TipoEquiModel;
-    sectorForm: FormGroup;
+    tipoEquipForm: FormGroup;
     message: string;
     success: boolean;
     erros: ErroServidor[];
+    boolTitulo: boolean = true;
+    boolAviso: boolean = false;
 
     constructor(
-    private sectorService: SectorService,
+    private equipamentoService: EquipamentoService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService
     ) {
-    const sector = { descricao: '' };
-    this.startForm(sector);
-    //console.log(sector)
+    const tipoEquip = { descricao: '', ativo: true };
+    this.startForm(tipoEquip);
     }
 
-    get nome() {
-    return this.sectorForm.get('nome');
+    get descricao() {
+    return this.tipoEquipForm.get('descricao');
     }
 
     ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id){
-        this.sectorID = parseInt(id);
-        this.loadSector(this.sectorID);
+        this.tituloPagina = 'Editando tipo de equipamento';
+        this.tipoEquipID = parseInt(id);
+        this.loadTipoEquip(this.tipoEquipID);
     }
     else{
-        this.titleForm = "Novo laboratório";
-        this.titleFormVisible = true;
+        this.tituloPagina = "Novo tipo de equipamento";
     }
     }
 
-    startForm(isector: TipoEquiModel) {
-    this.sectorForm = new FormGroup({
-        nome: new FormControl(isector.descricao, [
+    startForm(itipo: TipoEquiModel) {
+    this.tipoEquipForm = new FormGroup({
+        descricao: new FormControl(itipo.descricao, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(40)
         ]),
-        ativo: new FormControl(isector.ativo, [])
+        ativo: new FormControl(itipo.ativo, []),
+        controlarNumSerial: new FormControl(itipo.controlarNumSerial, [])
     });
     console.log();
     }
 
-    save(){
-    const sector = {...this.sectorForm.value, id: this.sectorID};
-    console.log(sector);
-    this.sectorService.save(sector).subscribe({
+    saveTipo(){
+    const tipoEquip = {...this.tipoEquipForm.value, id: this.tipoEquipID};
+    console.log(tipoEquip);
+    this.equipamentoService.saveTipo(tipoEquip).subscribe({
         next: (response) => {
         this.success = response['sucesso'];
         this.message = response['mensagem'];
         this.showSuccess(this.message);
-        this.router.navigate(['/labs']);
+        this.router.navigate(['/equip-type']);
         },
         error: (response) => {
         console.log(response);
@@ -88,8 +90,8 @@ export class EquipTypeFormComponent implements OnInit {
     }
 
 
-    private loadSector(idSector: number){
-    this.sectorService.getById(idSector).subscribe(
+    private loadTipoEquip(idTipoEquip: number){
+    this.equipamentoService.getTipoById(idTipoEquip).subscribe(
         (response) => {
         this.equipType = response;
         this.startForm(this.equipType);

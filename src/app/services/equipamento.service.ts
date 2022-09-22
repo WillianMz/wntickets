@@ -77,4 +77,37 @@ export class EquipamentoService {
   public getTipos(ativo: boolean): Observable<TipoEquiModel[]>{
     return this.http.get<TipoEquiModel[]>(`${environment.api}/equipamento/tipo?ativo=${ativo}`);
   }
+
+  public getTipoById(id: number): Observable<TipoEquiModel>{
+    return this.http.get<TipoEquiModel>(`${environment.api}/equipamento/tipo/${id}`);
+  }
+
+  private createTipo(equipType: TipoEquiModel){
+    return this.http.post(`${environment.api}/Equipamento/tipo`, equipType);
+  }
+
+  private updateTipo(equipType: TipoEquiModel){
+    return this.http.put(`${environment.api}/Equipamento/tipo`, equipType);
+  }
+
+  public enableTipo(equipType: TipoEquiModel){
+    return this.updateTipo(equipType);
+  }
+
+  public disableTipo(equipType: TipoEquiModel){
+    return this.updateTipo(equipType);
+  }
+
+  saveTipo(tipoEquip: TipoEquiModel){
+    if(tipoEquip.id){
+      return this.updateTipo(tipoEquip);
+    }
+    else {
+      return this.createTipo(tipoEquip);
+    }
+  }
+
+  public disabledTipo(): Observable<EquipamentoModel[]>{
+    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/Tipo?ativo=false`);
+  }
 }

@@ -291,7 +291,7 @@ export class EquipListComponent implements OnInit {
   }
 
   public openTipoEquip() {
-    this.router.navigate(['equipment/type']);
+    this.router.navigate(['equip-type']);
   }
 
 }

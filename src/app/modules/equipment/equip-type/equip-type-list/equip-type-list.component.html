@@ -11,7 +11,7 @@
             <button type="button" class="btn btn-outline-primary" (click)="new()">
               <i class="bi bi-plus-lg"></i> Adicionar
             </button>
-            <button type="button" class="btn btn-outline-primary" (click)="atualizar()">
+            <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
               <i class="bi bi-arrow-clockwise"></i> Atualizar
             </button>
 
@@ -21,11 +21,11 @@
                 <i class="bi bi-funnel"></i> Filtrar
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" type="button" (click)="listInativos()">Listar somente inativos</a></li>
+                <li><a class="dropdown-item" type="button" (click)="setInativos()">Desativados</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilter()">Limpar Filtros</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Limpar Filtros</a></li>
               </ul>
             </div>
           </div>
@@ -42,7 +42,7 @@
         <h2>{{tituloDaPagina}}</h2>
       </div>
 
-      <!-- INPUT PARA PESQUISA -->
+<!--        INPUT PARA PESQUISA 
       <div class="row mt-2">
         <div class="col-xs-5 col-sm-10 col-lg-5">
           <div class="input-group mb-3">
@@ -53,7 +53,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- GRID / TABELA -->
       <div class="row mt-2">
@@ -72,8 +72,8 @@
                 </button>              
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()" *ngIf="row.ativo">Desativar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="setInativos()" *ngIf="!row.ativo">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="!row.ativo">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo">Desativar</a></li>
                 </ul>
               </div>
               
