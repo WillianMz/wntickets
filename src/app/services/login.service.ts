@@ -62,19 +62,16 @@ export class LoginService {
       usuario.email= decoded.email;
       usuario.nome = decoded.name;
       usuario.perfil = decoded.role;
-      //console.log('Usuario: ' + usuario.nome+ usuario.email + usuario.perfil);
       return usuario;
     }
     else{
-      /* let user = new Usuario;
-      return user; */
       this.router.navigate(['/login']);
       return null
     }
   }
 
   //OK
-  private tokenExpirado(): boolean {
+  tokenExpirado(): boolean {
     const token = localStorage.getItem(CHAVE_TOKEN);
     if(!token){
       return true;
@@ -107,6 +104,18 @@ export class LoginService {
     else{
       return null;
     }
+  }
+
+  usuarioEstaLogado() {
+    const token = localStorage.getItem(CHAVE_TOKEN);
+    if(!token){
+      return false;
+    }
+    else if(this.tokenExpirado()){
+      return false;
+    }
+
+    return true;
   }
 
   //OK

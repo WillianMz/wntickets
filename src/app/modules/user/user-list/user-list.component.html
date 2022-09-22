@@ -64,7 +64,7 @@
           <button type="button" class="btn btn-outline-primary">
             <i class="bi bi-printer"></i> Imprimir
           </button>
-          <button type="button" class="btn btn-outline-primary" (click)="openModal(filtroPesquisa)">
+          <button type="button" class="btn btn-outline-primary">
             <i class="bi bi-filter"></i> Filtro
           </button>
         </div>
@@ -72,7 +72,7 @@
     </div>
   </div>
 
-  <div class="row mt-2" *ngIf="users?.length">
+  <!-- <div class="row mt-2" *ngIf="users?.length">
     <div class="col-12">
       <ngx-table [data]="users" [configuration]="configuration" [columns]="columns">
         <ng-template let-row>
@@ -110,9 +110,9 @@
         </ng-template>
       </ngx-table>
     </div>
-  </div>
+  </div> -->
 
-  <div class="row pt-2" *ngIf="!users?.length">
-    <app-alert-nada-exibir [mensagem]="'Nenhum usuário encontrado!'" [color]="'alert-secondary'"></app-alert-nada-exibir>
+  <div class="row pt-2" >
+    <app-alert [mensagem]="'Nenhum usuário encontrado!'" [color]="'alert-secondary'"></app-alert>
   </div>
 </div>

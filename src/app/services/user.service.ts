@@ -1,29 +1,23 @@
-import { LoginRequest } from './../models/auth/loginRequest.model';
-import { CadastroUsuarioRequest } from './../models/user/cadastroUsuarioRequest.model';
-import { AlterarSenhaModel } from './../models/user/alterarSenhaModel';
-import { UsuarioModel } from './../models/user/usuarioModel';
-import { EditarUsuarioModel } from './../models/user/editarUsuarioModel';
-import { NovoUsuarioModel } from './../models/user/novoUsuarioModel';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
+import { RoleRequest } from './../models/user/roleRequest.model';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
-import { LoginResponse } from '../models/auth/loginResponse.model';
 
-import * as jwt_decode from 'jwt-decode';
+const ENDERECO_API: string = `${environment.api}/api/usuario`;
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private url = `${environment.api}/usuario`;
-  private caminhoApi = `${environment.api}/api/usuario`;
-
   constructor( private http: HttpClient) { }
 
-  public create(usuario: NovoUsuarioModel) {
+  public criarRole(role: RoleRequest) : Observable<any>{
+    return this.http.post(ENDERECO_API, role);
+  }
+
+  /* ublic create(usuario: NovoUsuarioModel) {
     return this.http.post(`${this.url}`, usuario);
   }
 
@@ -38,8 +32,8 @@ export class UserService {
   public delete(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
-
-  public password(alterarSenha: AlterarSenhaModel) {
+ */
+  /* public password(alterarSenha: AlterarSenhaModel) {
     return this.http.put(`${this.url}/password`, alterarSenha);
   }
 
@@ -50,8 +44,8 @@ export class UserService {
   public checkLogin(login: string) {
     return this.http.get(`${this.url}/checklogin/${login}`);
   }
-
-  public checkEmail(email: string) {
+ */
+ /*  public checkEmail(email: string) {
     return this.http.get(`${this.url}/checkemail/${email}`);
   }
 
@@ -61,15 +55,15 @@ export class UserService {
 
   public getDetail(id: number): Observable<UsuarioModel> {
     return this.http.get<UsuarioModel>(`${this.url}/${id}/details`);
-  }
+  } */
 
-  public getById(id: number): Observable<UsuarioModel> {
+ /*  public getById(id: number): Observable<UsuarioModel> {
     return this.http.get<UsuarioModel>(`${this.url}/${id}`);
-  }
+  } */
 
 
 
-  //NOVAS ROTAS ***********************************************
+  /* //NOVAS ROTAS ***********************************************
   public criarContaDeUsuario(novaConta: CadastroUsuarioRequest): Observable<CadastroUsuarioResponse>{
     return this.http.post(this.caminhoApi, novaConta);
   }
@@ -81,9 +75,9 @@ export class UserService {
   getToken() {
     const token = window.localStorage.getItem('wntickets');
     return token;
-  }
+  } */
 
-  obterDataExpiracaoToken(token: string): Date {
+  /* obterDataExpiracaoToken(token: string): Date {
     const decoded: any = jwt_decode.default(token);
 
     if(decoded.exp === undefined){
@@ -94,8 +88,8 @@ export class UserService {
     date.setUTCSeconds(decoded.exp);
     return date;
   }
-
-  tokenExpirado(token?:string) : boolean {
+ */
+  /* tokenExpirado(token?:string) : boolean {
     if(!token){
       return true;
     }
@@ -120,5 +114,5 @@ export class UserService {
     }
 
     return true;
-  }
+  } */
 }

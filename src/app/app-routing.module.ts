@@ -18,6 +18,7 @@ const routes: Routes = [
       { path:'labs', loadChildren: () => import('./modules/sector/sector.module').then(m => m.SectorModule)},
       { path:'equipment', loadChildren: () => import('./modules/equipment/equipment.module').then(m => m.EquipmentModule)},
       { path:'ticket', loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)},
+      { path:'users', loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)},
       { path: '', redirectTo: 'home', pathMatch: 'full'},
     ],
     canActivate: [AuthGuard]
