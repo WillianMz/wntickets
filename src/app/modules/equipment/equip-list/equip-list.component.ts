@@ -305,13 +305,20 @@ export class EquipListComponent implements OnInit {
       }
     });
   }
-
+  
   private showSuccess(message: string, title?: string){
     this.toastr.success(message, title);
   }
 
   private showError(message: string, title?: string){
     this.toastr.error(message, title);
+  }
+  
+  public disable(id: string){
+  }
+
+  public openTipoEquip() {
+    this.router.navigate(['equip-type']);
   }
 
 }

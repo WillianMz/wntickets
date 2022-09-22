@@ -7,9 +7,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path:'', component: AuthLoginComponent },
-  { path:'recover', component: AuthRecoverPasswordComponent },
-  { path:'register', component: AuthRegisterComponent },
-  { path:'activate', component: AuthUserActivateComponent }
+  { path:'nova-conta', component: AuthRegisterComponent },
+  { path:'recuperar', component: AuthRecoverPasswordComponent },
+  { path:'ativar', component: AuthUserActivateComponent }
 ];
 
 @NgModule({
