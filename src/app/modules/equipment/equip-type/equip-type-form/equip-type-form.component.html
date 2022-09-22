@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+
+    <!-- AVISOS -->
+    <div class="row pt-2" *ngIf="boolAviso">
+      <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+    </div>
+
+    <!-- NOTIFICACOES DO SERVIDOR -->
+    <div class="row mt-2" *ngIf="erros?.length">
+      <div class="alert alert-danger" role="alert">
+        <h5>{{ message }}</h5>
+        <ul *ngFor="let e of erros">
+          <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="boolTitulo">
+      <h3>{{ tituloPagina }}</h3>
+    </div>
+
+    <div class="col-sm-12">
+      <form [formGroup]="tipoEquipForm">
+
+        <div class="row mt-2">
+          <!-- CONTROLA N SERIAL -->
+          <div class="col-sm-4">
+            <div class="form-check" *ngIf="true">
+              <input class="form-check-input" type="checkbox" value="" id="controlarNumSerial" formControlName="controlarNumSerial">
+              <label class="form-check-label" for="controlarNumSerial">
+                Controla Nº Serial
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-6"></div>
+          <!-- ATIVO -->
+          <div class="col">
+            <div class="form-check" *ngIf="true">
+              <input class="form-check-input" type="checkbox" value="" id="ativo" formControlName="ativo">
+              <label class="form-check-label" for="ativo">
+                Ativo
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <label>Descrição</label>
+          <input type="text" class="form-control" formControlName="descricao"  placeholder="Descrição">
+
+          <!-- VALIDACAO -->
+          <div class="text-danger" *ngIf="descricao?.errors">
+            <div *ngIf="descricao?.errors?.required && (descricao?.dirty || descricao?.touched)">Descrição é obrigatória!</div>
+            <div *ngIf="descricao?.errors?.minlength && (descricao?.dirty || descricao?.touched)">
+              Descrição deve conter no mínimo {{ descricao?.errors?.minlength.requiredLength }} caracteres
+            </div>
+            <div *ngIf="descricao?.errors?.maxlength && (descricao?.dirty || descricao?.touched)">
+              Descrição deve conter no máximo {{ descricao?.errors?.maxlength.requiredLength }} caracteres</div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
+      <div class="btn-group">
+        <button type="button" class="btn btn-outline-primary" [disabled]="!tipoEquipForm.valid" (click)="saveTipo()">Salvar</button>
+        <button type="button" class="btn btn-outline-danger" [routerLink]="['/equip-type']">Cancelar</button>
+      </div>
+    </div>  
+  </div>
+
+</div>
+<br>

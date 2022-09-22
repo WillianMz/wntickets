@@ -1,7 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { EquipmentRoutingModule } from './equipment-routing.module';
 import { EquipListComponent } from './equip-list/equip-list.component';
 import { EquipFormComponent } from './equip-form/equip-form.component';
