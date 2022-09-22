@@ -312,7 +312,8 @@ export class EquipListComponent implements OnInit {
 
   private showError(message: string, title?: string){
     this.toastr.error(message, title);
-    
+  }
+  
   public disable(id: string){
   }
 
