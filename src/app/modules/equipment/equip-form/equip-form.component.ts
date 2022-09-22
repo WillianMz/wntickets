@@ -140,14 +140,13 @@ export class EquipFormComponent implements OnInit {
   //#region
 
   //OBTER SETORES
-  private listarSetores(){
+  private listarSetores() {
     this.sectorService.getAll().subscribe({
       next: (response) => {
         if(response != null){
           this.setores = response;
-          
         }
-        else{
+        else {
           this.setores = [];
           this.showError('Não foi possível carregar os laboratórios');
         }
@@ -196,7 +195,7 @@ export class EquipFormComponent implements OnInit {
       codInterno: new FormControl(equip.codInterno, [ 
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(40)
+        Validators.maxLength(15)
       ]),
       tipo: new FormControl(equip.tipo?.id, [Validators.required]),
       setor: new FormControl(equip.setor?.id, [Validators.required]),
@@ -208,12 +207,12 @@ export class EquipFormComponent implements OnInit {
       descricao: new FormControl(equip.descricao, [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(40)
+        Validators.maxLength(100)
       ]),
       fabricante: new FormControl(equip.fabricante, [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(40)
+        Validators.maxLength(50)
       ]),
       marca: new FormControl(equip.marca, [
         Validators.required,
@@ -228,7 +227,7 @@ export class EquipFormComponent implements OnInit {
       numSerial: new FormControl(equip.numSerial, [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(40)
+        Validators.maxLength(15)
       ]),
       anoFabricacao: new FormControl(equip.anoFabricacao, [
         Validators.required,
@@ -241,8 +240,14 @@ export class EquipFormComponent implements OnInit {
         Validators.maxLength(10)
       ]),
       valorCompra: new FormControl(equip.valorCompra, [Validators.required]),
-      anotacoes: new  FormControl(equip.anotacoes),
-      motivoBaixa: new FormControl(equip.motivoBaixa)
+      anotacoes: new  FormControl(equip.anotacoes, [
+/*         Validators.minLength(2),
+        Validators.maxLength(100) */
+      ]),
+      motivoBaixa: new FormControl(equip.motivoBaixa, [
+/*         Validators.minLength(2),
+        Validators.maxLength(100) */
+      ])
     });
   }
 

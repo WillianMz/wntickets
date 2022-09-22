@@ -4,6 +4,29 @@
   <div class="row">
     <div class="col-12">
 
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="false">
+        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+      </div>
+
+      <!-- TITULO DA PAGINA -->
+      <div class="row mt-2 col-10">
+        <h2>{{ tituloDaPagina }}</h2>
+      </div>
+
+      <!-- INPUT PARA PESQUISA -->
+      <div class="row mt-2">
+        <div class="col-xs-5 col-sm-10 col-lg-5">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="equipmentName">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()"
+              *ngIf="equipmentName?.length">
+              <i class="bi bi-search"></i> Procurar
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- BOTOES DE ACOES -->
       <div class="row" *ngIf="true">
         <div class="col-12">
@@ -42,29 +65,6 @@
         </div>
       </div>
 
-      <!-- AVISOS -->
-      <div class="row pt-2" *ngIf="false">
-        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
-      </div>
-
-      <!-- TITULO DA PAGINA -->
-      <div class="row mt-2 col-10">
-        <h2>{{ tituloDaPagina }}</h2>
-      </div>
-
-      <!-- INPUT PARA PESQUISA -->
-      <div class="row mt-2">
-        <div class="col-xs-5 col-sm-10 col-lg-5">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="equipmentName">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()"
-              *ngIf="equipmentName?.length">
-              <i class="bi bi-search"></i> Procurar
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- GRID / TABELA -->
       <div class="row mt-2">
         <div class="col-12">
@@ -81,9 +81,10 @@
                 </button>              
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
                   <li><a class="dropdown-item" type="button" (click)="ativar(row.id)">Ativar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="desativar(row.id)">Desativar</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li>
                 </ul>

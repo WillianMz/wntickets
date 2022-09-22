@@ -1,77 +1,53 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-md" *ngIf="true">
   <div class="container-fluid">
 
-    <!-- BOTAO PARA MENU LATERAL - NAO DISPONIVEL NESTA VERSAO INICIAL -->
-    <!-- <button class="btn btn-sm btn-outline-light"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasWithBothOptions"
-            aria-controls="offcanvasWithBothOptions">
-            
-            <span class="navbar-toggler-icon"></span>
-    </button> -->
-
-    <a class="navbar-brand text-uppercase fw-bold" style="padding-left: 20px;">
-      <!-- <img src="../../../assets/logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top"> -->
-      {{titlePage}}
-    </a>
-
+    <!-- BOTAO QUANDO NAVBAR ESTA COLLAPSE -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavBar"
-            aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation" *ngIf="menus">
+      aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="topNavBar" *ngIf="menus">
+    <!-- MARCA OU TITULO DA NAVBAR -->
+    <div class="collapse navbar-collapse justify-content-start" id="topNavBar">
+      <a class="navbar-brand text-uppercase fw-bold marca">{{titlePage}}</a>
+    </div>
 
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " routerLink="/labs" >Laboratórios</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/ticket">Tickets</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/equipment">Equipamentos</a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" routerLink="/equipment">Equipes</a>
-        </li> -->
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/user">Usuários</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/config">Configurações</a>
+    <!-- MENUS -->
+    <div class="collapse navbar-collapse justify-content-center" id="topNavBar" *ngIf="menus">
+      <ul class="navbar-nav ">
+        <li class="nav-item" *ngFor="let m of modulos">
+          <a class="nav-link" [routerLink]="[m.url]" routerLinkActive="active">
+            <i class="{{m.icone}}"></i> {{m.titulo}}
+          </a>
         </li>
       </ul>
+    </div>
 
+    <!-- DADOS PARA O USUARIO LOGADO -->
+    <div class="collapse navbar-collapse justify-content-end" id="topNavBar" *ngIf="menus">
       <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" routerLinkActive="/login">
+            <button type="button" class="btn btn-sm btn-outline-light position-relative">
+              <i class="bi bi-bell-fill"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">99+</span>
+            </button>
+          </a>
+        </li>
+        <!-- OPCOES DO USUARIO -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle ms-2" href="#" role="button" data-bs-toggle="dropdown"
+          <a class="nav-link active dropdown-toggle ms-2" href="#" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle" width="32" height="32">
-            Willian
+            <img src="{{usuario.img || 'https://github.com/mdo.png'}}" alt="mdo" class="rounded-circle" width="32" height="32">
+            {{usuario.nome}}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" routerLink="/user/account">Meu Perfil</a></li>
-            <li><a class="dropdown-item" routerLink="/auth">Sair</a></li>
+            <li><a class="dropdown-item" type="button" routerLink="/user/account">Minha Conta</a></li>
+            <hr class="dropdown-divider">
+            <li><a class="dropdown-item" type="button" (click)="sair()">Sair</a></li>
           </ul>
         </li>
       </ul>
-
     </div>
   </div>
 </nav>
-
-
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <p>Try scrolling the rest of the page to see this option in action.</p>
-  </div>
-</div>
