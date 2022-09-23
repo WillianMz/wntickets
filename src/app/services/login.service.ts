@@ -46,6 +46,11 @@ export class LoginService {
     localStorage.setItem(CHAVE_TOKEN, token);
   }
 
+  obterToken() {
+    const token = localStorage.getItem(CHAVE_TOKEN);
+    return token;
+  }
+
   //OK
   public usuarioLogado() : Usuario | null{
     const token = localStorage.getItem(CHAVE_TOKEN);

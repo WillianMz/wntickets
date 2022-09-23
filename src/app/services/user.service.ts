@@ -3,6 +3,7 @@ import { RoleRequest } from './../models/user/roleRequest.model';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RoleResponse } from '../models/user/roleResponse.model';
 
 const ENDERECO_API: string = `${environment.api}/api/usuario`;
 
@@ -15,6 +16,10 @@ export class UserService {
 
   public criarRole(role: RoleRequest) : Observable<any>{
     return this.http.post(ENDERECO_API, role);
+  }
+
+  public getRoles(): Observable<RoleResponse[]>{
+    return this.http.get<RoleResponse[]>(`${ENDERECO_API}/list-role`);
   }
 
   /* ublic create(usuario: NovoUsuarioModel) {

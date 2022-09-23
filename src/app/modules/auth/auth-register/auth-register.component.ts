@@ -77,13 +77,35 @@ export class AuthRegisterComponent implements OnInit {
             this.notificationService.showSuccess('Conta de usuário criada com sucesso!','Novo Usuário');
             this.router.navigate(['/login']);
           }
-          else{
+          else if(response.sucesso == false){
+            console.log(response.erros);
+            this.cadastroUsuarioResponse.erros = response.erros;
             this.notificationService.showError('Erro ao criar conta de usuário. Tente novamente!','Novo usuário');
           }
         }
       },
-      error: (response) => {
-        console.log(response);
+      error: (err) => {
+        console.log('aqui: ' + err.error);
+        //console.log(`Erro ${JSON.stringify(err.error)}`)
+        /* 
+        {
+          "sucesso": false,
+          "erros": [
+            "Passwords must have at least one lowercase ('a'-'z')."
+          ]
+        }
+        {
+          "errors": {
+            "SenhaConfirmacao": [
+              "As senhas devem ser iguais"
+            ]
+          },
+          "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+          "title": "One or more validation errors occurred.",
+          "status": 400,
+          "traceId": "00-37f8dda22b5e51b8891a6227b7e54b5d-4a4ab1ca4f500327-00"
+        }
+        */
       }
     })
   }

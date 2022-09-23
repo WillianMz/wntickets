@@ -4,70 +4,83 @@
       <div class="col-lg-10 offset-lg-1">
         <!-- <h3 class="mb-3">Login Now</h3> -->
         <div class="bg-white shadow rounded">
-          
+
           <div class="row">
             <div class="col-md-12 pe-0">
               <div class="form-left h-100 py-5 px-5">
 
+                <!-- NOTIFICACOES DO SERVIDOR -->
+                <div class="alert alert-danger" *ngIf="cadastroUsuarioResponse?.erros?.length">
+                  <h5>{{ message }}</h5>
+                  <ul *ngFor="let e of cadastroUsuarioResponse?.erros">
+                    <li>{{ e }}</li>
+                  </ul>
+                </div>
+
                 <form [formGroup]="userForm">
                   <!-- EMAIL -->
                   <div class="row">
-                      <div class="form-group">
-                          <label for="Email">E-mail</label>
-                          <input placeholder="Ex: email@email.com" autocomplete="false" class="form-control" type="email" id="email" formControlName="email" required>
-                      </div>
+                    <div class="form-group">
+                      <label for="Email">E-mail</label>
+                      <input placeholder="Ex: email@email.com" autocomplete="false" class="form-control" type="email"
+                        id="email" formControlName="email" required>
+                    </div>
                   </div>
-              
+
                   <!-- NOME -->
                   <div class="row">
-                      <div class="col-xs-12 col-sm-6 col-md-6">
-                          <div class="form-group">
-                              <label for="Nome">Nome</label>
-                              <input placeholder="Nome" autocomplete="off" class="form-control" type="text" id="nome" formControlName="nome">
-                          </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                      <div class="form-group">
+                        <label for="Nome">Nome</label>
+                        <input placeholder="Nome" autocomplete="off" class="form-control" type="text" id="nome"
+                          formControlName="nome">
                       </div>
-              
-              
-                      <!-- TELEFONE -->
-                      <div class="col-xs-12 col-sm-6 col-md-6">
-                          <div class="form-group">
-                              <label for="telefone">Telefone</label>
-                              <input placeholder="Telefone" autocomplete="off" class="form-control" type="text" id="telefone" formControlName="telefone">
-                          </div>
+                    </div>
+
+
+                    <!-- TELEFONE -->
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                      <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input placeholder="Telefone" autocomplete="off" class="form-control" type="text" id="telefone"
+                          formControlName="telefone">
                       </div>
+                    </div>
                   </div>
-              
+
                   <!-- SENHA -->
                   <div class="row">
-                      <div class="col-12">
-                          <div class="form-group">
-                              <label for="Password">Senha</label>
-                              <input autocomplete="off" class="form-control" type="password" id="senha" formControlName="senha">
-                          </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label for="Password">Senha</label>
+                        <input autocomplete="off" class="form-control" type="password" id="senha"
+                          formControlName="senha">
                       </div>
+                    </div>
                   </div>
-              
+
                   <!-- CONFIRMACAO DE SENHA -->
                   <div class="row">
-                      <div class="col-12">
-                          <div class="form-group">
-                              <label for="ConfirmPassword">Confirme a Senha</label>
-                              <input autocomplete="off" class="form-control" type="password" id="confirmaSenha" formControlName="confirmaSenha">
-                          </div>
-              
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label for="ConfirmPassword">Confirme a Senha</label>
+                        <input autocomplete="off" class="form-control" type="password" id="confirmaSenha"
+                          formControlName="confirmaSenha">
                       </div>
+
+                    </div>
                   </div>
-              
+
                   <hr>
-              
+
                   <div class="row">
-                      <div class="d-grid gap-2">
+                    <div class="d-grid gap-2">
                       <button class="btn btn-primary" [disabled]="!userForm.valid" (click)="salvar()">Confirmar</button>
                       <button class="btn btn-outline-secondary">Cancelar</button>
-                      </div>
+                    </div>
                   </div>
-              
-              </form>
+
+                </form>
 
               </div>
             </div>
