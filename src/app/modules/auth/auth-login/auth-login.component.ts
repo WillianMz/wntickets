@@ -3,7 +3,6 @@ import { LoginRequest } from './../../../models/auth/loginRequest.model';
 import { UserService } from 'src/app/services/user.service';
 
 import { Router } from '@angular/router';
-import { LoginModel } from './../../../models/auth/loginModel';
 import { ErroServidor } from './../../../models/erroServidor';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -27,9 +26,9 @@ export class AuthLoginComponent implements OnInit {
     private notification: NotificationService,
     private loginService: LoginService
   ) {
-    const login = new LoginModel();
-    login.Email = "";
-    login.Senha = "";
+    const login = new LoginRequest();
+    login.email = "";
+    login.senha = "";
     this.startForm(login);
   }
 
@@ -49,27 +48,25 @@ export class AuthLoginComponent implements OnInit {
     login.email = this.email?.value;
     login.senha = this.senha?.value;
 
-    this.userService.efetuarLogin(login).subscribe({
+    this.loginService.fazerLogin(login).subscribe({
       next: (response) => {
-        console.log(response);
-
-        if(response.sucesso == true) {
+        if(response?.sucesso == true) {
           this.loginService.salvarToken(response.token);
           this.router.navigate(['']);
         }
       }
-    })
+    });
   }
 
-  private startForm(login: LoginModel) {
+  private startForm(login: LoginRequest) {
     this.loginForm = new FormGroup({
-      email: new FormControl(login.Email, [
+      email: new FormControl(login.email, [
         Validators.required,
         Validators.email,
         Validators.minLength(8),
         Validators.maxLength(200)
       ]),
-      senha: new FormControl(login.Senha, [
+      senha: new FormControl(login.senha, [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(12)

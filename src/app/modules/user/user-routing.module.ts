@@ -1,12 +1,15 @@
+import { UserPageAdminComponent } from './user-page-admin/user-page-admin.component';
+import { UserRoleComponent } from './user-role/user-role.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
-  { path:'', component: UserListComponent },
+  { path:'', component: UserPageAdminComponent },
   { path:'account', component: UserAccountComponent },
-  { path:'list', component: UserListComponent }
+  { path:'list', component: UserListComponent },
+  { path:'roles', component: UserRoleComponent }
 ];
 
 @NgModule({
