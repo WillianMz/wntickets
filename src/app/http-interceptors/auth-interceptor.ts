@@ -1,4 +1,4 @@
-import { UserService } from 'src/app/services/user.service';
+import { LoginService } from 'src/app/services/login.service';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, throwError } from 'rxjs';
@@ -6,13 +6,16 @@ import { catchError, Observable, throwError } from 'rxjs';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     
-    constructor(private userService: UserService){}
+    constructor(
+        private loginService: LoginService
+    ){}
 
+    //MELHORAR
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = this.userService.getToken();
+        const token = this.loginService.obterToken();
         let request: HttpRequest<any> = req;
 
-        if(token && !this.userService.tokenExpirado(token)) {
+        if(token && !this.loginService.tokenExpirado ()) {
             //O request é imutavel, ou seja não é possivel mudar anda
             //Faço o clone para conseguir mudar as propriedades
             //Passo o token de autenticacao no header

@@ -1,10 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { ToastrService } from 'ngx-toastr';
 import { ErroServidor } from 'src/app/models/erroServidor';
-import { UsuarioModel } from 'src/app/models/user/usuarioModel';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -14,8 +10,6 @@ import { UserService } from 'src/app/services/user.service';
 export class UserListComponent implements OnInit {
 
   titlePage: string;
-  users: UsuarioModel[];
-  user: UsuarioModel;
   success: boolean;
   message: string;
   erros: ErroServidor[];
@@ -25,26 +19,12 @@ export class UserListComponent implements OnInit {
   public configuration: Config;
   public columns: Columns[];
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private toastr: ToastrService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.titlePage = 'Usuários';
     this.configGrid();
-    this.listAll();
   }
-
-  public edit(id: string){
-    this.router.navigate([`users/${id}/edit`]);
-  }
-
-  public openModal(template: TemplateRef<any>) {
-    //this.modalRef = this.modalService.show(template);
-  }
-
 
   private configGrid(){
     this.configuration = { ...DefaultConfig };
@@ -64,88 +44,5 @@ export class UserListComponent implements OnInit {
     ];
   }
 
-  private listAll() {
-    this.userService.getAll().subscribe({
-      next: (response) => {
-        this.success = response['sucesso']        ;
-        this.message = response['mensagem'];
-        this.users = response;
-        this.titlePage = 'Todos os usuários';
-
-        /* if(this.success == true) {
-          this.users = response['objeto'];
-          this.titlePage = 'Usuários';
-        }
-        else {
-          this.message = response['mensagem'];
-          this.users = [];
-        } */
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-      }
-    });
-  }
-
-  private listDisabled() {
-    this.userService.getDesativados().subscribe({
-      next: (response) => {
-        this.success = response['sucesso']        ;
-        this.message = response['mensagem'];
-
-        if(this.success == true) {
-          this.users == response['objeto'];
-          this.titlePage = 'Usuários';
-        }
-        else {
-          this.message = response['mensagem'];
-          this.users = [];
-        }
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-      }
-    });
-  }
-
-  private disable(id: number) {
-    this.userService.disable(id).subscribe({
-      next: (response) => {
-        this.success = response['sucesso']        ;
-        this.message = response['mensagem'];
-
-        if(this.success == true) {
-        }
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-      }
-    });
-  }
-
-  private delete(id: number) {
-    this.userService.delete(id).subscribe({
-      next: (response) => {
-        this.success = response['sucesso']        ;
-        this.message = response['mensagem'];
-
-        if(this.success == true) {
-        }
-        else {
-        }
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-      }
-    });
-  }
 
 }

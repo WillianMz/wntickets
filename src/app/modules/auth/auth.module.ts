@@ -7,7 +7,6 @@ import { AuthLoginComponent } from './auth-login/auth-login.component';
 import { AuthRecoverPasswordComponent } from './auth-recover-password/auth-recover-password.component';
 import { AuthUserActivateComponent } from './auth-user-activate/auth-user-activate.component';
 import { AuthRegisterComponent } from './auth-register/auth-register.component';
-import { FormRegisterUserComponent } from './form-register-user/form-register-user.component';
 
 
 @NgModule({
@@ -15,8 +14,7 @@ import { FormRegisterUserComponent } from './form-register-user/form-register-us
     AuthLoginComponent,
     AuthRecoverPasswordComponent,
     AuthUserActivateComponent,
-    AuthRegisterComponent,
-    FormRegisterUserComponent
+    AuthRegisterComponent
   ],
   imports: [
     CommonModule,
