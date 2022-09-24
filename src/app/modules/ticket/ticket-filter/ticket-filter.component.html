@@ -1,54 +1,48 @@
 <div class="row col-12">
 
-    <div class="col-12">
-      <label for="lastName" class="form-label">Setor</label>
-      <select class="form-select" formControlName="setor" placeholder="Setor" required="">
-        <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
-      </select>
-    </div>
+  <div class="col-12">
+    <label for="lastName" class="form-label">Setor</label>
+    <select class="form-select" placeholder="Setor" required="">
+      <option value="?" selected="selected"></option>
+      <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
+    </select>
+  </div>
 
-    <!-- VERIFICAR DEMAIS FILTROS -->
+  <!-- VERIFICAR FILTROS -->
 
-    <!-- <div class="col-12">
-      <label for="lastName" class="form-label">Setor</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.setor}}</option>
-      </select>
-    </div>
+  <div class="col-12">
+    <label for="lastName" class="form-label">Categoria</label>
+    <select class="form-select" placeholder="Categoria" required="">
+      <option value="?" selected="selected"></option>
+      <option value="s.id" *ngFor="let s of tickets">{{ s.categoria }}</option>
+    </select>
+  </div>
 
-    <div class="col-12">
-      <label for="lastName" class="form-label">Categoria</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.categoria}}</option>
-      </select>
-    </div>
+  <div class="col-12">
+    <label for="lastName" class="form-label">Status</label>
+    <select class="form-select" placeholder="Status" required="">
+      <option value="?" selected="selected"></option>
+      <option value="s.id" *ngFor="let s of tickets">{{ s.statusAtual }}</option>
+    </select>
+  </div>
 
-    <div class="col-12">
-      <label for="lastName" class="form-label">Status</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.statusAtual}}</option>
-      </select>
-    </div>
+  <div class="col-12">
+    <label for="lastName" class="form-label">Prioridade</label>
+    <select class="form-select" placeholder="Prioridade" required="">
+      <option value="?" selected="selected"></option>
+      <option value="s.id" *ngFor="let s of tickets">{{ s.prioridadeAtual }}</option>
+    </select>
+  </div>
+</div>
 
-    <div class="col-12">
-      <label for="lastName" class="form-label">Prioridade</label>
-      <select class="form-select" id="setor" formControlName="setor" required="">
-        <option value="s.id" *ngFor="let s of tickets">{{s.prioridadeAtual}}</option>
-      </select>
-    </div>
-  </div>-->
 <div class="row col-12">
-
-    <div class="col-12">
-        <!-- <label for="lastName" class="form-label">Descrição</label>
-      <input type="text" class="form-control" id="assunto" formControlName="assunto" placeholder="Assunto"> -->
-        <div class="input-group mt-2">
-            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
-                aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Consultar</button>
-        </div>
-    </div>
-
-
-
+  <div class="col-12">
+      <!-- <label for="lastName" class="form-label">Descrição</label>
+    <input type="text" class="form-control" id="assunto" formControlName="assunto" placeholder="Assunto"> -->
+      <div class="input-group mt-2">
+          <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
+              aria-describedby="button-addon2">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2">Consultar</button>
+      </div>
+  </div>
 </div>
