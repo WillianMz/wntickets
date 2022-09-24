@@ -1,3 +1,6 @@
+import { ToastrService } from 'ngx-toastr';
+import { SectorService } from 'src/app/services/sector.service';
+import { SetorModel } from 'src/app/models/sector/setorModel';
 import { Component, OnInit } from '@angular/core';
 import { TicketModel } from 'src/app/models/ticket/ticketModel';
 
@@ -9,11 +12,17 @@ import { TicketModel } from 'src/app/models/ticket/ticketModel';
 export class TicketFilterComponent implements OnInit {
 
   tickets: TicketModel[];
+  setores: SetorModel[];
+  boolSetor: boolean = true;
 
-  constructor() { }
+  constructor(
+    private toastr: ToastrService,
+    private sectorService: SectorService
+  ) { }
 
   ngOnInit(): void {
     this.listAll();
+    this.listarSetores();
   }
 
   private listAll() {    
@@ -25,84 +34,34 @@ export class TicketFilterComponent implements OnInit {
       {
         id: 456, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
         assunto: 'ERRO AO ATUALIZAR SISTEMA', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 789, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMANDO INVÁLIDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 321, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'IMPORTAR DADOS DE XML', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 654, criador: 'Willian', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'INSTALAR PROGRAMA MICROSOFT OFFICE 365 HOJE', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 987, criador: 'Luna', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'SOLICITACAO DE MANUTENCAO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 147, criador: 'Helena', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'MONTAGEM DE NOVO COMPUTADOR', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 123, criador: 'Willian', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 456, criador: 'Willian', setor: 'Desenvolvimento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 789, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 321, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 654, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 987, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 147, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 123, criador: 'Willian', setor: 'Manutenção', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 456, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 789, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 321, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 654, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 987, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
-      },
-      {
-        id: 147, criador: 'Willian', setor: 'Treinamento', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
       }
     ];
+  }
+
+  //OBTER SETORES
+  private listarSetores() {
+    this.sectorService.getAll().subscribe({
+      next: (response) => {
+        if(response != null){
+          this.setores = response;
+        }
+        else {
+          this.setores = [];
+          this.showError('Não foi possível carregar os laboratórios');
+        }
+      },
+      error: (error) => {
+        alert(error);
+      }
+    });
+  }
+
+  private showSuccess(message: string, title?: string){
+    this.toastr.success(message, title);
+  }
+
+  private showError(message: string, title?: string){
+    this.toastr.error(message, title);
   }
 
 }

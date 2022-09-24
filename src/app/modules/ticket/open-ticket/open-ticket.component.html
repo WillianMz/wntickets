@@ -29,7 +29,7 @@
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Setor</label>
             <select class="form-select" id="setor" formControlName="setor" required="">
-              <option (click)="loadCategories()" [value]="s.id" *ngFor="let s of sectors">{{ s.nome }}</option>
+              <option [value]="s.id" *ngFor="let s of sectors">{{ s.nome }}</option>
             </select>
 
             <div class="invalid-feedback">
@@ -38,18 +38,19 @@
           </div>
 
           <!-- CATEGORIA -->
+<!--           
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Categoria</label>
             <select class="form-select" id="categoria" formControlName="categoria" required="">
-              <option value="{{c.Id}}" *ngFor="let c of categories">{{c.Nome}}</option>
+              <option (click)="loadCategories()" value="{{ c.Id }}" *ngFor="let c of categories">{{ c.Nome }}</option>
             </select>
             <div class="invalid-feedback">
               Please select a valid country.
             </div>
           </div>
-
+ -->
           <!-- STATUS -->
-          <div class="col-sm-4" *ngIf="selectStatus">
+          <div class="col-sm-3" *ngIf="selectStatus">
             <label for="lastName" class="form-label">Status</label>
             <select class="form-select" required="" id="status" formControlName="status">
               <option value="">Selecione...</option>
@@ -61,7 +62,7 @@
           </div>
 
           <!-- PRIORIDADE -->
-          <div class="col-sm-4" *ngIf="selectPriority">
+          <div class="col-sm-3" *ngIf="selectPriority">
             <label for="lastName" class="form-label">Prioridade</label>
             <select class="form-select" required="" id="prioridade" formControlName="prioridade">
               <option value="">Selecione...</option>

@@ -1,5 +1,15 @@
 <div class="row col-12">
+
     <div class="col-12">
+      <label for="lastName" class="form-label">Setor</label>
+      <select class="form-select" formControlName="setor" placeholder="Setor" required="">
+        <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
+      </select>
+    </div>
+
+    <!-- VERIFICAR DEMAIS FILTROS -->
+
+    <!-- <div class="col-12">
       <label for="lastName" class="form-label">Setor</label>
       <select class="form-select" id="setor" formControlName="setor" required="">
         <option value="s.id" *ngFor="let s of tickets">{{s.setor}}</option>
@@ -26,7 +36,7 @@
         <option value="s.id" *ngFor="let s of tickets">{{s.prioridadeAtual}}</option>
       </select>
     </div>
-  </div>
+  </div>-->
 <div class="row col-12">
 
     <div class="col-12">
