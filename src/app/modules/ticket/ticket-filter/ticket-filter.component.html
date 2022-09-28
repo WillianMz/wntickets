@@ -22,7 +22,7 @@
     <label for="lastName" class="form-label">Status</label>
     <select class="form-select" placeholder="Status" required="">
       <option value="?" selected="selected"></option>
-      <option value="s.id" *ngFor="let s of tickets">{{ s.statusAtual }}</option>
+      <option value="s.id" *ngFor="let s of tickets">{{ s.status }}</option>
     </select>
   </div>
 

@@ -29,11 +29,11 @@ export class TicketFilterComponent implements OnInit {
     this.tickets = [
       {
         id: 123, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
+        assunto: 'COMPUTADOR NÃO ESTA LIGANDO', status: 'Pendente', prioridadeAtual: 'Normal'
       },
       {
         id: 456, criador: 'Willian', setor: 'Suporte', categoria: 'Manutenção', dataAbertura: '08/08/2022',
-        assunto: 'ERRO AO ATUALIZAR SISTEMA', statusAtual: 'Pendente', prioridadeAtual: 'Normal'
+        assunto: 'ERRO AO ATUALIZAR SISTEMA', status: 'Pendente', prioridadeAtual: 'Normal'
       }
     ];
   }
