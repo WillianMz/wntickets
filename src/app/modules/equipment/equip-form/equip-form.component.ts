@@ -58,7 +58,7 @@ export class EquipFormComponent implements OnInit {
   ) {
 
     //PARA INICIAR O FORMULARIO
-    const tipo = {id: 1, descricao: ''};
+    const tipo = {id: 1, descricao: '', ativo: true, controlarNumSerial: false};
     const setor = {id: 1, nome: ""};
     const equip = {ativo: true, codInterno: '', tipo: tipo, setor: setor, nome:'', descricao:'', fabricante:'',
       marca: '', modelo:'', numSerial:'', anoFabricacao:'', dtCompra: '', valorCompra:'',anotacoes:''

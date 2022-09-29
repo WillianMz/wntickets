@@ -33,7 +33,7 @@ export class EquipTypeFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
     ) {
-    const tipoEquip = { descricao: '', ativo: true };
+    const tipoEquip = { descricao: '', ativo: true, controlarNumSerial: false };
     this.startForm(tipoEquip);
     }
 
