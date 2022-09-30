@@ -27,4 +27,8 @@ export class TicketFormComponent implements OnInit {
     this.router.navigate(['tickets/1/attachments']);
   }
 
+  newTicket() {
+    this.router.navigate(['/ticket/new']);
+  }
+
 }

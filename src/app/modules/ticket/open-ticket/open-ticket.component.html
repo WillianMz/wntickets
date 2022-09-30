@@ -29,7 +29,7 @@
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Setor</label>
             <select class="form-select" id="setor" formControlName="setor" required="">
-              <option (click)="loadCategories()" [value]="s.id" *ngFor="let s of sectors">{{ s.nome }}</option>
+              <option [value]="s.id" *ngFor="let s of sectors">{{ s.nome }}</option>
             </select>
 
             <div class="invalid-feedback">
@@ -38,22 +38,29 @@
           </div>
 
           <!-- CATEGORIA -->
+<!--           
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Categoria</label>
             <select class="form-select" id="categoria" formControlName="categoria" required="">
-              <option value="{{c.Id}}" *ngFor="let c of categories">{{c.Nome}}</option>
+              <option (click)="loadCategories()" value="{{ c.Id }}" *ngFor="let c of categories">{{ c.Nome }}</option>
             </select>
             <div class="invalid-feedback">
               Please select a valid country.
             </div>
           </div>
-
+ -->
           <!-- STATUS -->
-          <div class="col-sm-4" *ngIf="selectStatus">
+          <div class="col-sm-3" *ngIf="selectStatus">
             <label for="lastName" class="form-label">Status</label>
             <select class="form-select" required="" id="status" formControlName="status">
               <option value="">Selecione...</option>
-              <option>Option 1</option>
+              <option value="1">NOVO</option>
+              <option value="2">PENDENTE</option>
+              <option value="3">EM ATENDIMENTO</option>
+              <option value="4">FINALIZADO</option>
+              <option value="5">CANCELADO</option>
+              <option value="6">FECHADO</option>
+              <option value="7">REABERTO</option>
             </select>
             <div class="invalid-feedback">
               Please select a valid country.
@@ -61,11 +68,14 @@
           </div>
 
           <!-- PRIORIDADE -->
-          <div class="col-sm-4" *ngIf="selectPriority">
+          <div class="col-sm-3" *ngIf="selectPriority">
             <label for="lastName" class="form-label">Prioridade</label>
             <select class="form-select" required="" id="prioridade" formControlName="prioridade">
               <option value="">Selecione...</option>
-              <option>Option 1</option>
+              <option value="0">BAIXA</option>
+              <option value="1">NORMAL</option>
+              <option value="2">ALTA</option>
+              <option value="3">URGENTE</option>
             </select>
             <div class="invalid-feedback">
               Please select a valid country.

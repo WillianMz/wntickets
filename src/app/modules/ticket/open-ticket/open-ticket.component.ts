@@ -84,7 +84,7 @@ export class OpenTicketComponent implements OnInit {
       categoria: new FormControl(ticket.categoria, [
         Validators.required
       ]),
-      status: new FormControl(ticket.statusAtual),
+      status: new FormControl(ticket.status),
       prioridade: new FormControl(ticket.prioridadeAtual),
       assunto: new FormControl(ticket.assunto, [
         Validators.required,

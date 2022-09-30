@@ -39,6 +39,8 @@ export class TicketService {
     return this.http.get<TicketModel[]>(`${environment.api}/Ticket`)
   }
 
-
+  public editar(ticket: TicketModel){
+    return this.http.put(`${environment.api}/Ticket`, ticket);
+  }
 
 }

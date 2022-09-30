@@ -9,7 +9,7 @@ export class TicketModel {
   public dataAbertura?: string;
   public assunto?: string;
   public descricao?: string;
-  public statusAtual?: string;
+  public status?: string;
   public prioridadeAtual?: string;
   public dataFechamento?: string;
   public solucao?: string;
