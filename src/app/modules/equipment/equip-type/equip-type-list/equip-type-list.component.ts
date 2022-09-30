@@ -52,8 +52,8 @@ export class EquipTypeListComponent implements OnInit {
     this.columns = [
       { key: 'id', title: 'Código' },
       { key: 'descricao', title: 'Descrição' },
-      { key: 'controlarNumSerial', title:'Controla Nº Serial'},
-      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
+      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false },
+      { key: 'controlarNumSerialString', title:'Controla Nº Serial'}
     ];
   }
 
@@ -66,7 +66,12 @@ export class EquipTypeListComponent implements OnInit {
 
     this.equipamentoService.getTipos(true).subscribe({
       next: (response) => {
-        this.equipmentsType = response;
+        this.equipmentsType = response.map(item => {
+          return {
+            ...item,
+            controlarNumSerialString: item.controlarNumSerial ? 'Sim' : 'Não'
+          }
+        });
         this.tituloDaPagina = "Tipos de Equipamentos (Ativos)";
         this.spinner.hide();
       },

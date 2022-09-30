@@ -107,7 +107,7 @@ export class EquipamentoService {
     }
   }
 
-  public disabledTipo(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/Tipo?ativo=false`);
+  public disabledTipo(): Observable<TipoEquiModel[]>{
+    return this.http.get<TipoEquiModel[]>(`${environment.api}/Equipamento/Tipo?ativo=false`);
   }
 }
