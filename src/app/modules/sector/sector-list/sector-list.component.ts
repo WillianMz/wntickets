@@ -54,8 +54,8 @@ export class SectorListComponent implements OnInit {
     //colunas
     this.columns = [
       { key: 'id', title: 'Código' },
-      { key: 'nome', title: 'Nome' },/* ,
-      { key: 'isActive', title: 'Ativo'} */
+      { key: 'nome', title: 'Nome' },
+      { key: 'ativoString', title: 'Status'},
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
@@ -69,7 +69,12 @@ export class SectorListComponent implements OnInit {
 
     this.sectorService.getAll().subscribe({
       next: (response) => {
-        this.sectors = response;
+        this.sectors = response.map(item => {
+          return {
+            ...item,
+            ativoString: item.ativo ? 'Ativo' : 'Inativo'
+          }
+        });
         console.log(this.sectors);
         this.sectorsCopy = this.sectors;
         this.tituloDaPagina = "Laboratórios";
@@ -166,7 +171,12 @@ export class SectorListComponent implements OnInit {
 
     this.sectorService.enabled().subscribe({
       next: (response) => {
-        this.sectors = response;
+        this.sectors = response.map(item => {
+          return {
+            ...item,
+            ativoString: item.ativo ? 'Ativo' : 'Inativo'
+          }
+        });
         console.log(this.sectors);
         this.sectorsCopy = this.sectors;
         this.tituloDaPagina = "Laboratórios";
@@ -228,7 +238,12 @@ export class SectorListComponent implements OnInit {
   
       this.sectorService.disabled().subscribe({
         next: (response) => {
-          this.sectors = response;
+          this.sectors = response.map(item => {
+            return {
+              ...item,
+              ativoString: item.ativo ? 'Ativo' : 'Inativo'
+            }
+          });
           console.log(this.sectors);
           this.sectorsCopy = this.sectors;
           this.tituloDaPagina = "Laboratórios";

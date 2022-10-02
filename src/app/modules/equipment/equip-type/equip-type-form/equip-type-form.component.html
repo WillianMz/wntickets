@@ -63,10 +63,10 @@
     </div>
   </div>
   <div class="row mt-2">
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
+    <div class="col">
       <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary" [disabled]="!tipoEquipForm.valid" (click)="saveTipo()">Salvar</button>
         <button type="button" class="btn btn-outline-danger" [routerLink]="['/equip-type']">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="!tipoEquipForm.valid" (click)="saveTipo()">Salvar</button>
       </div>
     </div>  
   </div>
