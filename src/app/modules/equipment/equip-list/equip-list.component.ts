@@ -50,14 +50,15 @@ export class EquipListComponent implements OnInit {
     this.configuration.fixedColumnWidth = false;
     this.configuration.selectRow = true;
     this.configuration.rows = 10;
+    this.configuration.tableLayout.style = 'tiny';
     //colunas
     this.columns = [
-      { key: 'id', title: 'Código' },
+      { key: 'id', title: 'Cód.' },
+      { key: 'codInterno', title: 'Cód.Interno' },
       { key: 'nome', title: 'Nome' },
-      { key: 'setorNome', title:'Setor'},
-      { key: 'fabricante', title:'Fabricante'},
+      /* { key: 'fabricante', title:'Fabricante'}, */
       { key: 'marca', title:'Marca'},
-      { key: 'numSerial', title: 'Nº serial' },
+      { key: 'modelo', title: 'Modelo' },
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }

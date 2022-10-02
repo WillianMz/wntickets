@@ -8,6 +8,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule } from "ngx-currency";
+import {TabViewModule} from 'primeng/tabview';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { NgxCurrencyModule } from "ngx-currency";
     ComponentsModule,
     TableModule,
     NgxMaskModule.forChild(),
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    TabViewModule    
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
