@@ -52,8 +52,9 @@ export class EquipTypeListComponent implements OnInit {
     this.columns = [
       { key: 'id', title: 'Código' },
       { key: 'descricao', title: 'Descrição' },
-      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false },
-      { key: 'controlarNumSerialString', title:'Controla Nº Serial'}
+      { key: 'controlarNumSerialString', title:'Controla Nº Serial'},
+      { key: 'ativoString', title:'Status'},
+      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
 
@@ -69,10 +70,11 @@ export class EquipTypeListComponent implements OnInit {
         this.equipmentsType = response.map(item => {
           return {
             ...item,
-            controlarNumSerialString: item.controlarNumSerial ? 'Sim' : 'Não'
+            controlarNumSerialString: item.controlarNumSerial ? 'Sim' : 'Não',
+            ativoString: item.ativo ? 'Ativo' : 'Inativo'
           }
         });
-        this.tituloDaPagina = "Tipos de Equipamentos (Ativos)";
+        this.tituloDaPagina = "Tipos de Equipamentos";
         this.spinner.hide();
       },
       error: (response) => {
@@ -115,8 +117,14 @@ export class EquipTypeListComponent implements OnInit {
 
     this.equipamentoService.disabledTipo().subscribe({
       next: (response) => {
-        this.equipmentsType = response;
-        this.tituloDaPagina = "Tipos de Equipamentos (Inativos)";
+        this.equipmentsType = response.map(item => {
+          return {
+            ...item,
+            controlarNumSerialString: item.controlarNumSerial ? 'Sim' : 'Não',
+            ativoString: item.ativo ? 'Ativo' : 'Inativo'
+          }
+        });
+        this.tituloDaPagina = "Tipos de Equipamentos";
         this.spinner.hide();
       },
       error: (response) => {
