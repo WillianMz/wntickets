@@ -6,12 +6,20 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { EquipamentoModel } from '../models/equipment/equipamentoModel';
 
+const ENDERECO_API: string = `${environment.api}/equipamento`;
+
 @Injectable({
   providedIn: 'root'
 })
 export class EquipamentoService {
 
   constructor(private http: HttpClient) {}
+
+  public getBySetor(setor: number, ativo: boolean) : Observable<EquipamentoModel[]>{
+    return this.http.get<EquipamentoModel[]>(`${ENDERECO_API}/setor?setorId=${setor}&ativo=${ativo}`)
+  }
+
+  
 
   save(equipamento: EquipamentoModel){
     if(equipamento.id){

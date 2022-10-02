@@ -103,7 +103,7 @@ export class OpenTicketComponent implements OnInit {
   }
 
   private listSectors() {
-    this.setorService.getAll().subscribe({
+    this.setorService.getAll(true).subscribe({
       next: (response ) => {
         if(response != null){
           this.sectors = response;
