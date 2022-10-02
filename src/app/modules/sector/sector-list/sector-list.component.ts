@@ -59,7 +59,7 @@ export class SectorListComponent implements OnInit {
 
   public limparFiltros(){
     this.listarSetores(true);
-    this.tituloDaPagina = "Equipamentos";
+    this.tituloDaPagina = "Laboratórios";
   }
 
   public procurarPorNome(){
@@ -80,7 +80,7 @@ export class SectorListComponent implements OnInit {
 
   public filtrarDesativados(){
     this.listarSetores(false);
-    this.tituloDaPagina = "Equipamentos desativados";
+    this.tituloDaPagina = "Laboratórios desativados";
   }
 
   public ativar(id: string) {
