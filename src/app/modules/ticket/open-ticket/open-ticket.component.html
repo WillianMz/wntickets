@@ -37,18 +37,6 @@
             </div>
           </div>
 
-          <!-- CATEGORIA -->
-          
-          <div class="col-sm-5">
-            <label for="lastName" class="form-label">Categoria</label>
-            <select class="form-select" id="categoria" formControlName="categoria" required="">
-              <option (click)="loadCategories()" value="{{ c.Id }}" *ngFor="let c of categories">{{ c.Nome }}</option>
-            </select>
-            <div class="invalid-feedback">
-              Please select a valid country.
-            </div>
-          </div>
-
           <!-- STATUS -->
           <div class="col-sm-5" *ngIf="selectStatus">
             <label for="lastName" class="form-label">Status</label>

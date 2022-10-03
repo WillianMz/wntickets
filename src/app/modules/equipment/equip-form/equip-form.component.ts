@@ -1,10 +1,8 @@
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
 import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
 import { EquipamentoRequest } from './../../../models/equipment/equipamentoRequest.model';
-import { NovoEquipamentoModel } from './../../../models/equipment/novoEquipamentoModel';
-import { TipoEquiModel } from './../../../models/equipment/tipoEquipModel';
 import { SectorService } from './../../../services/sector.service';
-import { SetorModel } from './../../../models/sector/setorModel';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +29,7 @@ export class EquipFormComponent implements OnInit {
   success: boolean;
   erros: ErroServidor[];
   equipamento: EquipamentoResponse;
-  setores: SetorModel[];
+  setores: SetorResponse[];
   tipos: TipoEquipamentoResponse[];
   //campos visiveis
   boolTitulo: boolean = true;

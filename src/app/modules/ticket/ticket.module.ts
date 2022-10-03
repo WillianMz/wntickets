@@ -14,7 +14,6 @@ import { TicketCommentsComponent } from './ticket-comments/ticket-comments.compo
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 
 import { TableModule } from 'ngx-easy-table';
-import { TicketFilterComponent } from './ticket-filter/ticket-filter.component';
 
 
 @NgModule({
@@ -26,8 +25,7 @@ import { TicketFilterComponent } from './ticket-filter/ticket-filter.component';
     TicketFinalizeComponent,
     TicketAttachmentsComponent,
     TicketCommentsComponent,
-    TicketFormComponent,
-    TicketFilterComponent
+    TicketFormComponent
   ],
   imports: [
     CommonModule,

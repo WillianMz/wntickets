@@ -1,11 +1,9 @@
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { ToastrService } from 'ngx-toastr';
 import { ErroServidor } from './../../../models/erroServidor';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CategoriaModel } from 'src/app/models/sector/categoriaModel';
-import { SetorModel } from 'src/app/models/sector/setorModel';
 import { TicketModel } from 'src/app/models/ticket/ticketModel';
-import { CategoryService } from 'src/app/services/category.service';
 import { SectorService } from 'src/app/services/sector.service';
 import { TicketService } from 'src/app/services/ticket.service';
 
@@ -18,8 +16,7 @@ export class OpenTicketComponent implements OnInit {
 
   tituloPagina: string = 'Novo Chamado';
   ticket: TicketModel
-  sectors: SetorModel[];
-  categories: CategoriaModel[];
+  sectors: SetorResponse[];
   sectorId: number;
   ticketForm: FormGroup;
   selectStatus: boolean = true;
@@ -33,7 +30,6 @@ export class OpenTicketComponent implements OnInit {
 
   constructor(
     private setorService: SectorService,
-    private categService: CategoryService,
     private toastr: ToastrService,
     private ticketService: TicketService
   ) {
@@ -71,10 +67,6 @@ export class OpenTicketComponent implements OnInit {
     console.log(this.sectorId)
   }
 
-  loadCategories(){
-    let id = this.sector?.value;
-    this.listCategories(id);
-  }
 
   private startForm(ticket: TicketModel){
     this.ticketForm = new FormGroup({
@@ -115,17 +107,6 @@ export class OpenTicketComponent implements OnInit {
         },
       error: (error) => {
         alert(error);
-      }
-    })
-  }
-
-  private listCategories(sectorId: number){
-    this.categService.getBySector(sectorId, true).subscribe({
-      next: (response) => {
-        this.categories = response;
-      },
-      error: (response) => {
-        console.log(response);
       }
     })
   }

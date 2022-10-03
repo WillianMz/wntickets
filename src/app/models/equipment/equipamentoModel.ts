@@ -1,11 +1,11 @@
+import { SetorResponse } from './../sector/setorResponse.model';
 import { TipoEquiModel } from './tipoEquipModel';
-import { SetorModel } from './../sector/setorModel';
 export class EquipamentoModel {
     public id?: number;
     public ativo?: boolean;
     public codInterno?: string;
     public tipo?: TipoEquiModel;
-    public setor?: SetorModel;
+    public setor?: SetorResponse;
     public nome?: string;
     public descricao?: string;
     public fabricante?: string;
@@ -20,7 +20,7 @@ export class EquipamentoModel {
 
 
     //REMOVER -> falta ajustar a API
-    public setorId?: SetorModel[];
+    public setorId?: SetorResponse[];
     public setorNome?: string;
     public tipoId?: number;
     public tipoDescricao?: string;
