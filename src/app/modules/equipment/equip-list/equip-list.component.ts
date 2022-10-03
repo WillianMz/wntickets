@@ -1,7 +1,6 @@
 import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
-import { SetorModel } from 'src/app/models/sector/setorModel';
 import { SectorService } from 'src/app/services/sector.service';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
@@ -38,7 +37,7 @@ export class EquipListComponent implements OnInit {
   sectorId: number;
   tipoId: number;
   equipments: EquipamentoResponse[];
-  setor: SetorModel;
+  setor: SetorResponse;
   equipment: EquipamentoModel;
   equipmentId: number;
   equipmentName: string;
