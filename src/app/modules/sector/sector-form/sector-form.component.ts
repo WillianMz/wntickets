@@ -130,7 +130,7 @@ export class SectorFormComponent implements OnInit {
   }
   
   private novoSetor(sector: SetorModel){
-    this.sectorService.adicionar(sector).subscribe({
+    this.sectorService.create(sector).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
 
@@ -155,7 +155,7 @@ export class SectorFormComponent implements OnInit {
   }
 
   private editarSetor(sector: SetorModel){
-    this.sectorService.editar(sector).subscribe({
+    this.sectorService.update(sector).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
 

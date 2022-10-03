@@ -28,7 +28,7 @@ import { HomeComponent } from './layouts/home/home.component';
     nullable: false,
     min: undefined,
     max: undefined,
-    inputMode: CurrencyMaskInputMode.FINANCIAL
+    inputMode: CurrencyMaskInputMode.NATURAL
   };
 
 @NgModule({

@@ -40,7 +40,7 @@ export class TicketFilterComponent implements OnInit {
 
   //OBTER SETORES
   private listarSetores() {
-    this.sectorService.getAll().subscribe({
+    this.sectorService.getAll(true).subscribe({
       next: (response) => {
         if(response != null){
           this.setores = response;
