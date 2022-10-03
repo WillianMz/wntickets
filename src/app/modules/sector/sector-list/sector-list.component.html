@@ -78,15 +78,33 @@
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
                     <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="row.ativo == false">Ativar</a></li>
-                    <li><a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo == true">Desativar</a></li>
+                    <li><a class="dropdown-item" type="button" (click)="desativarSetor.fire()"*ngIf="row.ativo == true">Desativar</a></li>
                     <li><a class="dropdown-item" type="button" (click)="excluir(row.id)">Excluir</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" type="button" (click)="consultarEquipamentos(row.id)">Equipamentos</a></li>
                   </ul>
                 </div>
             </div>
+            
+            <swal
+              #desativarSetor  
+              title="Desativar {{ row.nome  }}?"
+              text="Posteriormente você poderá reativar."
+              icon="question"
+              [showCancelButton]="true"
+              [focusCancel]="true"
+              (confirm)="desativar(row.id)">
+            </swal>
+
           </ng-template>
         </div>
+
+       <!--  <button [swal]="deleteSwal" (confirm)="deleteFile(file)">
+          Delete {{ file.name }}
+        </button>
+         -->
+        
+
 
         <!-- AVISOS -->
         <div class="row pt-2" *ngIf="!sectors?.length">
