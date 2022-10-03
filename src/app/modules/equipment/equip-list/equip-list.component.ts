@@ -35,9 +35,8 @@ export class EquipListComponent implements OnInit {
   setores: SetorResponse[];
   tiposEquipamentos: TipoEquipamentoResponse[];
   descricao: string;
-
-
   sectorId: number;
+  tipoId: number;
   equipments: EquipamentoResponse[];
   setor: SetorModel;
   equipment: EquipamentoModel;
@@ -48,6 +47,7 @@ export class EquipListComponent implements OnInit {
   erros: ErroServidor[];
   public configuration: Config;
   public columns: Columns[];
+  mensagem: string;
 
   constructor(
     private equipamentoService: EquipamentoService,
@@ -62,13 +62,14 @@ export class EquipListComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(
       params => {
         this.sectorId = parseInt(params.sector);
+        this.tipoId = parseInt(params.tipo);
       }
     );
 
     this.configGrid();
-    this.listarEquipamentos(true);
     this.listarSetores();
     this.listarTipos();
+    this.listar();
   }
 
   //OK
@@ -108,6 +109,18 @@ export class EquipListComponent implements OnInit {
     }
   }
 
+  public listar(){
+    //se setorId tiver valor filtrar por setor
+    if(this.sectorId){
+      this.procurarPorSetor(this.sectorId, true)
+    } else if(this.tipoId){
+      this.procurarPorTipo(this.tipoId, true);
+    }
+    else{
+      this.listarEquipamentos(true);
+    }
+  }
+
   public limparFiltros(){
 
   }
@@ -118,7 +131,7 @@ export class EquipListComponent implements OnInit {
 
   public desativar(id: string){
     this.spinner.show();
-  
+
     this.equipamentoService.desativar(Number.parseInt(id)).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
@@ -206,27 +219,20 @@ export class EquipListComponent implements OnInit {
   /*CONSULTAS **********************************************************/
   //OK
   private listarEquipamentos(ativo: boolean) {
-
-    //se setorId tiver valor filtrar por setor
-    if(this.sectorId){
-      this.procurarPorSetor(this.sectorId, true)
-    }
-    else{
-      this.equipamentoService.getAll(ativo).subscribe({
-        next: (response) => {
-          this.equipments = response;
-          this.tituloDaPagina = "Equipamentos";
-          this.spinner.hide();
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.notification.showError('Erro ao obter dados');
-          this.spinner.hide();
-        }
-      });
-    }
+    this.equipamentoService.getAll(ativo).subscribe({
+      next: (response) => {
+        this.equipments = response;
+        this.tituloDaPagina = "Equipamentos";
+        this.spinner.hide();
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
+      }
+    });
   }
   //OK
   private procurarPorNome(nome:string){
@@ -235,6 +241,7 @@ export class EquipListComponent implements OnInit {
       next: (response) => {
         this.equipments = response;
         this.spinner.hide();
+        this.mensagem = 'Filtro por Nome';
       },
       error: (response) => {
         this.success = response.error['sucesso'];
@@ -252,6 +259,7 @@ export class EquipListComponent implements OnInit {
       next: (response) => {
         this.equipments = response;
         this.spinner.hide();
+        this.mensagem = 'Filtro por Tipo de equipamento';
       },
       error: (response) => {
         this.success = response.error['sucesso'];
@@ -299,18 +307,11 @@ export class EquipListComponent implements OnInit {
   //OK
   private procurarPorSetor(setorId: number, ativo: boolean){
     this.spinner.show();
-
-    this.setorService.getById(this.sectorId).subscribe({
-      next: (response) => {
-        console.log(response);        
-        this.setor = response;
-      }
-    });
-
     this.equipamentoService.getBySetor(setorId, ativo).subscribe({
       next: (response) => {
         this.equipments = response;
         this.spinner.hide();
+        this.mensagem = 'Filtro por Setor';
       },
       error: (response) => {
         this.success = response.error['sucesso'];

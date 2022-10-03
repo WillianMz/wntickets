@@ -37,9 +37,9 @@
             <label class="form-check-label" for="flexCheckDefault">Desativados</label>
           </div>
         </div>
-        
+
       </div>
-     
+
 
       <!-- INPUT PARA PESQUISA -->
       <div class="row mt-2">
@@ -110,6 +110,11 @@
         </div>
       </div>
 
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="!equipments?.length">
+        <app-alert [mensagem]="'Nenhum resultado encontrado!'" [color]="'alert-info'"></app-alert>
+      </div>
+
       <!-- GRID / TABELA -->
       <div class="row mt-2">
         <div class="col-12">
@@ -123,7 +128,7 @@
               <div class="btn-group">
                 <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Mais detalhes
-                </button>              
+                </button>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="row.ativo == false">Ativar</a></li>
@@ -134,15 +139,14 @@
                   <li><a class="dropdown-item" type="button" >Detalhes</a></li>
                 </ul>
               </div>
-              
+
             </div>
           </ng-template>
         </div>
       </div>
 
-      <!-- AVISOS -->
-      <div class="row pt-2" *ngIf="equipments?.length">
-        <app-alert [mensagem]="'Nenhum resultado encontrado!'" [color]="'alert-info'"></app-alert>
+      <div class="row">
+        <p class="fs-6 fw-lighter">{{mensagem}}</p>
       </div>
 
     </div>
