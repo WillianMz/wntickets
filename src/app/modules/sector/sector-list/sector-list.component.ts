@@ -1,4 +1,4 @@
-import { SetorModel } from './../../../models/sector/setorModel';
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -16,16 +16,12 @@ export class SectorListComponent implements OnInit {
 
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
   tituloDaPagina: string = 'Laboratórios';
-  sectors: SetorModel[];
-  sectorsCopy: SetorModel[];
-  sector: SetorModel;
+  sectors: SetorResponse[];
   sectorId: number;
   sectorName: string;
-  filterDisabledSectors: boolean;
   success: boolean;
   message: string;
   erros: ErroServidor[];
-
   public configuration: Config;
   public columns: Columns[];
 
@@ -75,7 +71,7 @@ export class SectorListComponent implements OnInit {
   }
 
   public editar(sectorId: string){
-    this.router.navigate([`labs/edit/${sectorId}`]);
+    this.router.navigate([`labs/${sectorId}/edit`]);
   }
 
   public filtrarDesativados(){
@@ -86,18 +82,17 @@ export class SectorListComponent implements OnInit {
   public ativar(id: string) {
     this.spinner.show();
   
-    this.sectorService.enable(Number.parseInt(id)).subscribe({
+    this.sectorService.enable(parseInt(id)).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
-
+        this.message = response['mensagem'];
         //RETORNO BACK -> REGRAS DE NEGOCIO
         if(this.success == true){
-          this.message = response['mensagem'];
           this.notification.showSuccess(this.message);
+          this.listarSetores(true);
           this.spinner.hide();
         }
         else{
-          this.message = response['mensagem'];
           this.notification.showError(this.message);
           this.spinner.hide();
         }
@@ -115,19 +110,18 @@ export class SectorListComponent implements OnInit {
   public desativar(id: string) {
     this.spinner.show();
 
-    this.sectorService.disable(Number.parseInt(id)).subscribe({
+    this.sectorService.disable(parseInt(id)).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
-
+        this.message = response['mensagem'];
         //RETORNO BACK -> REGRAS DE NEGOCIO
         if(this.success == true){
-          this.message = response['mensagem'];
           this.notification.showSuccess(this.message);
+          this.listarSetores(true);
           this.spinner.hide();
         }
         else{
-          this.message = response['mensagem'];
-          this.notification.showError(this.message);
+          this.notification.showWarning(this.message);
           this.spinner.hide();
         }
       },
@@ -139,25 +133,22 @@ export class SectorListComponent implements OnInit {
       }
     });
   }
-
   //IMPLEMENTAR CONFIRMAÇÃO ANTES DE EXCLUIR
   public excluir(id: string){
     this.spinner.show();
 
-    this.sectorService.delete(Number.parseInt(id)).subscribe({
+    this.sectorService.delete(parseInt(id)).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
-
+        this.message = response['mensagem'];
         //RETORNO BACK -> REGRAS DE NEGOCIO
         if(this.success == true){
-          this.message = response['mensagem'];
           this.notification.showSuccess(this.message);
-          this.router.navigate(['/labs']);
+          this.listarSetores(true);
           this.spinner.hide();
         }
         else{
-          this.message = response['mensagem'];
-          this.notification.showError(this.message);
+          this.notification.showWarning(this.message);
           this.spinner.hide();
         }
       },
@@ -172,7 +163,6 @@ export class SectorListComponent implements OnInit {
 
   private listarSetores(ativo: boolean) {
     this.spinner.show();
-
     this.sectorService.getAll(ativo).subscribe({
       next: (response) => {
         this.sectors = response.map(item => {
@@ -181,7 +171,6 @@ export class SectorListComponent implements OnInit {
             ativoString: item.ativo ? 'Ativo' : 'Inativo'
           }
         });
-        this.sectorsCopy = this.sectors;
         this.spinner.hide();
       },
       error: (response) => {

@@ -7,7 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path:'', component: SectorListComponent },
   { path:'new', component: SectorFormComponent },
-  { path:'edit/:id', component: SectorFormComponent }
+  { path:':id/edit', component: SectorFormComponent }
 ];
 
 @NgModule({

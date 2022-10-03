@@ -6,15 +6,15 @@
     <div class="col-12">
       <!-- TITULO DA PAGINA -->
       <div class="row mt-2 col-10">
-        <h2>{{ tituloDaPagina }}</h2>
+        <h3>{{ tituloDaPagina }}</h3>
       </div>
 
       <!-- INPUT PARA PESQUISA -->
       <div class="row mt-2">
         <div class="col-xs-5 col-sm-10 col-lg-5">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="sectorName">
-            <button class="btn btn-outline-secondary" 
+            <input type="text" class="form-control form-control-sm" placeholder="Procurar..." [(ngModel)]="sectorName">
+            <button class="btn btn-sm btn-outline-secondary" 
                     type="button" id="button-addon2" 
                     (click)="procurarPorNome()"
                     *ngIf="sectorName?.length">

@@ -88,11 +88,15 @@ export class EquipTipoFormComponent implements OnInit {
     this.equipamentoService.getTipoById(id).subscribe({
       next: (response) => {
         this.tipoEquipamento = response;
-        this.validarFormulario(this.tipoEquipamento);
+        if(this.tipoEquipamento != null){
+          this.validarFormulario(this.tipoEquipamento);
+        }
+        else{
+          this.notification.showInfo('Registro não encontrado!');
+        }
       },
-      error: (response) => {
+      error: () => {
         this.notification.showError('Erro ao tentar carregar o registro');
-        console.error(response);
       }
     })
   }

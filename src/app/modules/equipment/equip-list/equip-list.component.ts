@@ -358,7 +358,7 @@ export class EquipListComponent implements OnInit {
   }
 
   private listarSetores(){
-    this.setorService.getAll1(true).subscribe({
+    this.setorService.getAll(true).subscribe({
       next: (response) => {
         this.setores = response;
       }
