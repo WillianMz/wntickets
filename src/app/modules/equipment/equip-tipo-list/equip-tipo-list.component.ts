@@ -1,28 +1,31 @@
+import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ErroServidor } from 'src/app/models/erroServidor';
-import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { EquipamentoService } from 'src/app/services/equipamento.service';
 import { Router } from '@angular/router';
-import { NotificationService } from 'src/app/services/notification.service';
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TipoEquiModel } from 'src/app/models/equipment/tipoEquipModel';
+import { ErroServidor } from 'src/app/models/erroServidor';
+import { EquipamentoService } from 'src/app/services/equipamento.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
-  selector: 'app-equip-type-list',
-  templateUrl: './equip-type-list.component.html',
-  styleUrls: ['./equip-type-list.component.css']
+  selector: 'app-equip-tipo-list',
+  templateUrl: './equip-tipo-list.component.html',
+  styleUrls: ['./equip-tipo-list.component.css']
 })
-export class EquipTypeListComponent implements OnInit {
+export class EquipTipoListComponent implements OnInit {
 
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
 
   tituloDaPagina: string = 'Tipos de equipamentos';
-  equipmentsType: TipoEquiModel[];
-  equipmentsTypeOriginal: TipoEquiModel[];
+  tiposDeEquipamentos: TipoEquipamentoResponse[];
+  tipoEquipamento: TipoEquipamentoResponse;
+  tipoEquipamentoId: number;
+  
+  /* equipmentsType: TipoEquiModel[];
   equipmentType: TipoEquiModel;
   equipmentTypeId: number;
   equipmentTypeDescricao: string;
-  filterDisabledEquipmentType: boolean;
+  filterDisabledEquipmentType: boolean; */
   success: boolean;
   message: string;
   erros: ErroServidor[];
@@ -65,9 +68,9 @@ export class EquipTypeListComponent implements OnInit {
   private listAll() {
     this.spinner.show();
 
-    /* this.equipamentoService.getTipos(true).subscribe({
+    this.equipamentoService.getTipos(true).subscribe({
       next: (response) => {
-        this.equipmentsType = response.map(item => {
+        this.tiposDeEquipamentos = response.map(item => {
           return {
             ...item,
             controlarNumSerialString: item.controlarNumSerial ? 'Sim' : 'Não',
@@ -84,15 +87,11 @@ export class EquipTypeListComponent implements OnInit {
         this.notification.showError('Erro ao obter dados');
         this.spinner.hide();
       }
-    }); */
-  }
-
-  public alert(){
-    this.notification.showInfo('Funcionalidade em desenvolvimento!', 'ATENÇÃO');
+    });
   }
 
   public new(){
-    this.router.navigate(['equip-type/new']);
+    this.router.navigate(['/new']);
   }
 
   public edit(equipTypeId: string){
@@ -105,19 +104,18 @@ export class EquipTypeListComponent implements OnInit {
 
   public saveFilter(){
     this.list();
-    //this.modalRef?.hide();
   }
 
-  public setInativos() {
+  /* public setInativos() {
     this.listDisabled();
-  }
+  } */
 
-  private listDisabled() {
+  /* private listDisabled() {
     this.spinner.show();
 
-    /* this.equipamentoService.disabledTipo().subscribe({
+    this.equipamentoService.disabledTipo().subscribe({
       next: (response) => {
-        this.equipmentsType = response.map(item => {
+        this.tiposDeEquipamentos = response.map(item => {
           return {
             ...item,
             controlarNumSerialString: item.controlarNumSerial ? 'Sim' : 'Não',
@@ -134,23 +132,24 @@ export class EquipTypeListComponent implements OnInit {
         this.notification.showError('Erro ao obter dados');
         this.spinner.hide();
       }
-    }); */
-  }
+    });
+  } */
 
   public search(){
     //this.listByNome(this.sectorName);
   }
 
+  //REVISAR
   public ativar(id: number) {
   this.spinner.show();
 
- /*  this.equipamentoService.getTipoById(id).subscribe({
+  this.equipamentoService.getTipoById(id).subscribe({
     next: (response) => {
-      this.equipmentType = response;
+      this.tipoEquipamento = response;
 
-      this.equipmentType.ativo = true;
+      //this.equipmentType.ativo = true;
     
-      this.equipamentoService.enableTipo(this.equipmentType).subscribe({
+      /* this.equipamentoService.enableTipo(this.equipmentType).subscribe({
         next: (response) => {
           this.list();
           },
@@ -168,7 +167,7 @@ export class EquipTypeListComponent implements OnInit {
             }
             
           }
-        });
+        }); */
       },
       error: (response) => {
         if (response.status != 405) {
@@ -183,52 +182,6 @@ export class EquipTypeListComponent implements OnInit {
         }
         
       }
-    }); */
+    });
   }
-
-  public desativar(id: number) {
-    this.spinner.show();
-
-    /* this.equipamentoService.getTipoById(id).subscribe({
-      next: (response) => {
-        this.equipmentType = response;
-  
-        this.equipmentType.ativo = false;
-    
-        this.equipamentoService.disableTipo(this.equipmentType).subscribe({
-          next: (response) => {
-            this.list();
-          },
-          error: (response) => {
-            if (response.status != 405) {
-              this.success = response.error['sucesso'];
-              this.message = response.error['mensagem'];
-              this.erros = response.error['objeto'];
-              this.notification.showError('Erro');
-            }else {
-              this.notification.showError('Erro ao inativar o tipo de equipamento ' + id);
-            }
-            
-          }
-        });
-        
-        },
-        error: (response) => {
-          if (response.status != 405) {
-            this.success = response.error['sucesso'];
-            this.message = response.error['mensagem'];
-            this.erros = response.error['objeto'];
-            this.notification.showError('Erro');
-            this.spinner.hide();
-          }else {
-            this.notification.showError('Erro ao buscar o tipo de equipamento ' + id);
-            this.spinner.hide();
-          }
-          
-        }
-      }); */
-
-    this.spinner.hide();
-  }
-
 }

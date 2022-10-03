@@ -9,12 +9,16 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule } from "ngx-currency";
 import {TabViewModule} from 'primeng/tabview';
+import { EquipTipoListComponent } from './equip-tipo-list/equip-tipo-list.component';
+import { EquipTipoFormComponent } from './equip-tipo-form/equip-tipo-form.component';
 
 
 @NgModule({
   declarations: [
     EquipListComponent,
-    EquipFormComponent
+    EquipFormComponent,
+    EquipTipoListComponent,
+    EquipTipoFormComponent
   ],
   imports: [
     CommonModule,

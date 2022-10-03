@@ -1,3 +1,6 @@
+import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
+import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
+import { EquipamentoRequest } from './../../../models/equipment/equipamentoRequest.model';
 import { NovoEquipamentoModel } from './../../../models/equipment/novoEquipamentoModel';
 import { TipoEquiModel } from './../../../models/equipment/tipoEquipModel';
 import { SectorService } from './../../../services/sector.service';
@@ -27,9 +30,9 @@ export class EquipFormComponent implements OnInit {
   message: string;
   success: boolean;
   erros: ErroServidor[];
-  equipamento: EquipamentoModel;
+  equipamento: EquipamentoResponse;
   setores: SetorModel[];
-  tipos: TipoEquiModel[];
+  tipos: TipoEquipamentoResponse[];
   //campos visiveis
   boolTitulo: boolean = true;
   boolAviso: boolean = false;
@@ -64,7 +67,8 @@ export class EquipFormComponent implements OnInit {
       marca: '', modelo:'', numSerial:'', anoFabricacao:'', dtCompra: '', valorCompra:'',anotacoes:''
     }
 
-    this.start(equip);
+    const novoEquipamento = new EquipamentoResponse();
+    this.start(novoEquipamento);
   }
 
 
@@ -141,7 +145,7 @@ export class EquipFormComponent implements OnInit {
 
   salvar(){
     if(this.equipID){
-      let equip: EquipamentoModel;
+      let equip: EquipamentoRequest;
       equip = {
         //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
         id: this.equipID,
@@ -166,7 +170,7 @@ export class EquipFormComponent implements OnInit {
     }
     else {
       //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
-      let equip: EquipamentoModel;
+      let equip: EquipamentoRequest;
       equip = {
         codInterno: this.codInterno?.value,
         tipoId: this.tipo?.value,
@@ -237,7 +241,7 @@ export class EquipFormComponent implements OnInit {
   }
 
   //VERIFICAR OS TAMANHOS DOS CAMPOS -> VER NO BANCO DE DADOS
-  private start(equip: EquipamentoModel){
+  private start(equip: EquipamentoResponse){
     this.equipForm = new FormGroup({
       ativo: new FormControl(equip.ativo),
       codInterno: new FormControl(equip.codInterno, [ 
@@ -307,8 +311,8 @@ export class EquipFormComponent implements OnInit {
     });
   }
 
-  private novoEquipamento(equip: EquipamentoModel){
-    this.equipamentoService.adicionar(equip).subscribe({
+  private novoEquipamento(equip: EquipamentoRequest){
+    this.equipamentoService.novo(equip).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
 
@@ -332,7 +336,7 @@ export class EquipFormComponent implements OnInit {
     });
   }
 
-  private editarEquipamento(equip: EquipamentoModel){
+  private editarEquipamento(equip: EquipamentoRequest){
     this.equipamentoService.editar(equip).subscribe({
       next: (response) => {
         this.success = response['sucesso'];

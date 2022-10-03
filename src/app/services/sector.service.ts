@@ -1,3 +1,4 @@
+import { SetorResponse } from './../models/sector/setorResponse.model';
 import { SetorModel } from './../models/sector/setorModel';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -43,5 +44,9 @@ export class SectorService {
 
   public getByNome(nome: string): Observable<SetorModel[]> {
     return this.http.get<SetorModel[]>(`${ENDERECO_API}/nome?nome=${nome}`);
+  }
+
+  public getAll1(ativo: boolean): Observable<SetorResponse[]>{
+    return this.http.get<SetorResponse[]>(`${ENDERECO_API}/?ativo=${ativo}`)
   }
 }

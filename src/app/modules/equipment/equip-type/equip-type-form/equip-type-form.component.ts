@@ -46,7 +46,7 @@ export class EquipTypeFormComponent implements OnInit {
     if(id){
         this.tituloPagina = 'Editando tipo de equipamento';
         this.tipoEquipID = parseInt(id);
-        this.loadTipoEquip(this.tipoEquipID);
+        /* this.loadTipoEquip(this.tipoEquipID); */
     }
     else{
         this.tituloPagina = "Novo tipo de equipamento";
@@ -66,7 +66,7 @@ export class EquipTypeFormComponent implements OnInit {
     console.log();
     }
 
-    saveTipo(){
+    /* saveTipo(){
     const tipoEquip = {...this.tipoEquipForm.value, id: this.tipoEquipID};
     console.log(tipoEquip);
     this.equipamentoService.saveTipo(tipoEquip).subscribe({
@@ -107,5 +107,5 @@ export class EquipTypeFormComponent implements OnInit {
     private showError(message: string, title?: string){
     this.toastr.error(message, title);
     }
-
+ */
 }
