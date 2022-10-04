@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
@@ -20,7 +21,7 @@ export class EquipListComponent implements OnInit {
 
   public filtros = [
     { id: 1, descricao: 'Todos' },
-    { id: 2, descricao: 'Setor' },
+    { id: 2, descricao: 'Laboratório' },
     { id: 3, descricao: 'Tipo' },
     { id: 4, descricao: 'Marca' },
     { id: 5, descricao: 'Modelo' },
@@ -33,9 +34,17 @@ export class EquipListComponent implements OnInit {
   tituloDaPagina: string = 'Equipamentos';
   setores: SetorResponse[];
   tiposEquipamentos: TipoEquipamentoResponse[];
-  descricao: string;
-  sectorId: number;
+  //filtros
+  filtroAplicado: number;
+  setorId: number;
   tipoId: number;
+  descricao: string;
+  verComboboxSetores: boolean;
+  verComboboxTipos: boolean;
+  varDesativados: boolean;
+  filtroForm: FormGroup;
+  
+  sectorId: number;
   equipments: EquipamentoResponse[];
   setor: SetorResponse;
   equipment: EquipamentoModel;
@@ -117,6 +126,28 @@ export class EquipListComponent implements OnInit {
     }
     else{
       this.listarEquipamentos(true);
+    }
+  }
+
+  public filtrarPor(filtro: number){
+    switch(filtro) {
+      case 1://TODOS
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;  
+        this.listarEquipamentos(true);
+        break;
+      case 2://SETOR
+        this.verComboboxSetores = true;
+        this.verComboboxTipos = false;
+        break;
+      case 3://TIPO
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = true;
+        break;
+      default:
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        break;
     }
   }
 
@@ -252,6 +283,24 @@ export class EquipListComponent implements OnInit {
     });
   }
   //OK
+  private procurarPorSetor(setorId: number, ativo: boolean){
+    this.spinner.show();
+    this.equipamentoService.getBySetor(setorId, ativo).subscribe({
+      next: (response) => {
+        this.equipments = response;
+        this.spinner.hide();
+        this.mensagem = 'Filtro por Setor';
+      },
+      error: (response) => {
+        this.success = response.error['sucesso'];
+        this.message = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
+      }
+    });
+  }
+  //OK
   private procurarPorTipo(tipoId: number, ativo: boolean){
     this.spinner.show();
     this.equipamentoService.getByTipo(tipoId, ativo).subscribe({
@@ -293,24 +342,6 @@ export class EquipListComponent implements OnInit {
       next: (response) => {
         this.equipments = response;
         this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
-  }
-  //OK
-  private procurarPorSetor(setorId: number, ativo: boolean){
-    this.spinner.show();
-    this.equipamentoService.getBySetor(setorId, ativo).subscribe({
-      next: (response) => {
-        this.equipments = response;
-        this.spinner.hide();
-        this.mensagem = 'Filtro por Setor';
       },
       error: (response) => {
         this.success = response.error['sucesso'];
