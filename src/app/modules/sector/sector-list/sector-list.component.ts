@@ -106,7 +106,6 @@ export class SectorListComponent implements OnInit {
     });
   }
 
-  //IMPLEMENTAR CONFIRMAÇÃO
   public desativar(id: string) {
     this.spinner.show();
 
@@ -133,7 +132,7 @@ export class SectorListComponent implements OnInit {
       }
     });
   }
-  //IMPLEMENTAR CONFIRMAÇÃO ANTES DE EXCLUIR
+  
   public excluir(id: string){
     this.spinner.show();
 
