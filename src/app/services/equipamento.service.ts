@@ -18,13 +18,14 @@ export class EquipamentoService {
   constructor(private http: HttpClient) {}
 
   //tipos de equipamentos
-  public novoTipo(tipo: TipoEquipamentoRequest){
-    return this.http.post(`${ENDERECO_API}/tipo`, tipo);
+  public salvarTipo(tipo: TipoEquipamentoRequest){
+    if(tipo.id){
+      return this.http.put(`${ENDERECO_API}/tipo`, tipo);
+    }
+    else{
+      return this.http.post(`${ENDERECO_API}/tipo`, tipo);
+    }
   };
-
-  public editarTipo(tipo: TipoEquipamentoRequest){
-    return this.http.put(`${ENDERECO_API}/tipo`, tipo);
-  }
 
   public getTipos(ativo: boolean): Observable<TipoEquipamentoResponse[]>{
     return this.http.get<TipoEquipamentoResponse[]>(`${ENDERECO_API}/tipo?ativo=${ativo}`);
@@ -117,7 +118,7 @@ export class EquipamentoService {
   public delete(id: number){
     return this.http.delete(`${environment.api}/Equipamento/${id}`);
   }
-  
+
   public getAll(): Observable<EquipamentoModel[]>{
     return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento`)
     //.pipe(catchError(this.handleError<Result>('getAll')));

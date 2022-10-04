@@ -1,13 +1,5 @@
-
-<!-- <app-navbar titlePage="Novo setor" *ngIf="!navbarVisible"></app-navbar> -->
-
 <div class="container">
   <div class="row">
-
-    <!-- AVISOS -->
-    <div class="row pt-2" *ngIf="boolAviso">
-      <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
-    </div>
 
     <!-- NOTIFICACOES DO SERVIDOR -->
     <div class="row mt-2" *ngIf="erros?.length">
@@ -19,19 +11,9 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="boolTitulo">
+    <div class="row">
       <h3>{{ tituloPagina }}</h3>
     </div>
-
-    <!-- <div class="row mt-2">
-      <div class="mb-2" >
-        <div class="btn-group">
-          <button type="button" class="btn btn-outline-primary" [routerLink]="['/sectors']">
-            <i class="bi bi-arrow-left"></i> Voltar
-          </button>
-        </div>
-      </div>
-    </div> -->
 
     <div class="col-sm-12">
       <form [formGroup]="sectorForm">
@@ -48,9 +30,9 @@
           </div>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-sm-12">
           <label>Nome</label>
-          <input type="text" class="form-control" formControlName="nome"  placeholder="Nome">
+          <input type="text" class="form-control" formControlName="nome"  placeholder="Exemplo: Lab01 ou Unidade IV - Lab01">
 
           <!-- VALIDACAO -->
           <div class="text-danger" *ngIf="nome?.errors">
@@ -59,7 +41,8 @@
               Nome deve conter no mínimo {{ nome?.errors?.minlength.requiredLength }} caracteres
             </div>
             <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
-              Nome deve conter no máximo {{ nome?.errors?.maxlength.requiredLength }} caracteres</div>
+              Nome deve conter no máximo {{ nome?.errors?.maxlength.requiredLength }} caracteres
+            </div>
           </div>
         </div>
       </form>
@@ -70,7 +53,10 @@
     <div class="col">
       <div class="btn-group">
         <button type="button" class="btn btn-outline-danger" [routerLink]="['/labs']">Cancelar</button>
-        <button type="button" class="btn btn-outline-primary" [disabled]="!sectorForm.valid" (click)="salvar()"><i class="bi bi-check"></i>Salvar</button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="!sectorForm.valid" (click)="salvar()">
+          <i class="bi bi-check"></i>
+          Salvar
+        </button>
       </div>
     </div>
   </div>

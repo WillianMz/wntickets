@@ -1,10 +1,11 @@
-import { SetorModel } from './../../../models/sector/setorModel';
+import { SetorRequest } from './../../../models/sector/setorRequest.model';
+import { NotificationService } from './../../../services/notification.service';
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { SectorService } from 'src/app/services/sector.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sector-form',
@@ -14,179 +15,95 @@ import { ToastrService } from 'ngx-toastr';
 export class SectorFormComponent implements OnInit {
 
   @Input() sectorID: number;
-  @Input() navbarVisible: boolean;
-  @Input() titleFormVisible: boolean;
-
-  //titleForm: string = 'SetorForm';
   tituloPagina: string = 'Detalhes do laboratório';
-  sector: SetorModel;
+  setor: SetorResponse;
   sectorForm: FormGroup;
   message: string;
   success: boolean;
   erros: ErroServidor[];
-  setor: SetorModel;
-  boolTitulo: boolean = true;
-  boolAviso: boolean = false;
 
   constructor(
     private sectorService: SectorService,
+    private notification: NotificationService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private toastr: ToastrService
+    private router: Router
   ) {
-
-    //PARA INICIAR O FORMULARIO
-    const sector = {nome:'', ativo: true
-
-    }
-
-    this.start(sector);
-    
-    }
+    const setor = new SetorResponse();
+    setor.ativo = true;
+    this.validarFormulario(setor);
+  }
 
   ngOnInit(): void {
-    this.configurarForm();
-  }
-
-  //#region GETS
-
-    //GETS
-    get nome() {
-      return this.sectorForm.get('nome');
-    }
-
-    get ativo() {
-      return this.sectorForm.get('ativo');
-    }
-
-    //#region
-
-  //CONFIGURA A APARENCIA DA PAGINA A SER EXIBIDA AO USUARIO
-  private configurarForm(){
-    //pega o id na URL
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id){
-      this.tituloPagina = 'Editando laboratório';
       this.sectorID = parseInt(id);
-      this.carregarDados(this.sectorID);
+      this.carregarObjeto(this.sectorID);
+      this.tituloPagina = 'Editando registro';
     }
     else{
-      this.tituloPagina = 'Novo laboratório'
+      this.tituloPagina = 'Novo laboratório';
     }
   }
 
-  //VERIFICAR OS TAMANHOS DOS CAMPOS -> VER NO BANCO DE DADOS
-  private start(sector: SetorModel){
+  get nome() {
+    return this.sectorForm.get('nome');
+  }
+
+  get ativo() {
+    return this.sectorForm.get('ativo');
+  }
+
+  public salvar(){
+    const setor = new SetorRequest();
+    setor.id = this.sectorID;
+    setor.nome = this.nome?.value;
+    setor.ativo = this.ativo?.value;
+
+    this.sectorService.salvar(setor).subscribe({
+      next: (response) =>{
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+
+        if(this.success){
+          this.notification.showSuccess(this.message);
+          this.router.navigate(['/labs']);
+        }
+        else{
+          this.notification.showWarning(this.message);
+        }
+      },
+      error: () => {
+        this.notification.showError('Erro ao salvar laboratório');
+      }
+    });
+  }
+
+  private validarFormulario(setor: SetorResponse){
     this.sectorForm = new FormGroup({
-      nome: new FormControl(sector.nome, [
+      nome: new FormControl(setor.nome, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(40)
       ]),
-      ativo: new FormControl(sector.ativo)
+      ativo: new FormControl(setor.ativo)
     });
   }
 
-  //CARREGA OBJETO E PREENCHE OS DADOS NA TELA
-  private carregarDados(id: number){
+  private carregarObjeto(id: number){
     this.sectorService.getById(id).subscribe({
       next: (response) => {
         this.setor = response;
         
         if(this.setor != null){
-          this.start(this.setor);
+          this.validarFormulario(this.setor);
         }
         else{
-          //MELHORAR AQUI
-          this.showError('Não foi possível obter os dados do setor');
-        }
-      }
-    });
-  }
-
-  salvar(){
-    if(this.sectorID){
-      let sector: SetorModel;
-      sector = {
-        //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
-        id: this.sectorID,
-        nome:this.nome?.value,
-        ativo: this.ativo?.value
-      };
-
-      console.log(sector);
-      this.editarSetor(sector);
-    }
-    else {
-      //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
-      let sector: SetorModel;
-      sector = {
-        nome:this.nome?.value, 
-      };
-      console.log(sector);
-      //SALVAR
-      this.novoSetor(sector);
-    }
-  }
-  
-  private novoSetor(sector: SetorModel){
-    this.sectorService.create(sector).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/labs']);
-        }
-        else{
-          this.message = response['mensagem'];
-          this.showError(this.message);
+          this.notification.showWarning('Registro não encontrado!');
         }
       },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+      error: () => {
+        this.notification.showError('Erro ao carregar o registro');
       }
     });
   }
-
-  private editarSetor(sector: SetorModel){
-    this.sectorService.update(sector).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/labs']);
-          console.log('1');
-        }
-        else{
-          this.message = response['mensagem'];
-          this.showError(this.message);
-          console.log('2');
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-      }
-    });
-  }
-
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
-  }
-
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
-  }
-
 }

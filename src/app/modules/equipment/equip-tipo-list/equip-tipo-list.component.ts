@@ -20,16 +20,6 @@ export class EquipTipoListComponent implements OnInit {
   tiposDeEquipamentos: TipoEquipamentoResponse[];
   tipoEquipamento: TipoEquipamentoResponse;
   tipoEquipamentoId: number;
-  
-  /* equipmentsType: TipoEquiModel[];
-  equipmentType: TipoEquiModel;
-  equipmentTypeId: number;
-  equipmentTypeDescricao: string;
-  filterDisabledEquipmentType: boolean; */
-  success: boolean;
-  message: string;
-  erros: ErroServidor[];
-
   public configuration: Config;
   public columns: Columns[];
 
@@ -42,7 +32,7 @@ export class EquipTipoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.configGrid();
-    this.listAll();
+    this.listarTiposDeEquipamentos(true);
   }
 
   private configGrid(){
@@ -61,14 +51,21 @@ export class EquipTipoListComponent implements OnInit {
     ];
   }
 
-  private list() {
-    this.listAll();
+  public adicionar(){
+    this.router.navigate(['equipment/tipo/new']);
   }
 
-  private listAll() {
-    this.spinner.show();
+  public editar(id: string){
+    this.router.navigate([`equipment/tipo/${id}/edit`]);
+  }
 
-    this.equipamentoService.getTipos(true).subscribe({
+  public equipamentos(id: string){
+    this.router.navigate(['equipment'], {queryParams: { tipo: id}});
+  }
+
+  public listarTiposDeEquipamentos(ativo: boolean){
+    this.spinner.show();
+    this.equipamentoService.getTipos(ativo).subscribe({
       next: (response) => {
         this.tiposDeEquipamentos = response.map(item => {
           return {
@@ -77,110 +74,12 @@ export class EquipTipoListComponent implements OnInit {
             ativoString: item.ativo ? 'Ativo' : 'Inativo'
           }
         });
-        this.tituloDaPagina = "Tipos de Equipamentos";
         this.spinner.hide();
       },
       error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
+        this.notification.showError('Erro ao consultar tipos de equipamentos');
+        console.error(response);
         this.spinner.hide();
-      }
-    });
-  }
-
-  public new(){
-    this.router.navigate(['/new']);
-  }
-
-  public edit(equipTypeId: string){
-    this.router.navigate([`equip-type/edit/${equipTypeId}`]);
-  }
-
-  public cleanFilters() {
-    this.listAll();
-  }
-
-  public saveFilter(){
-    this.list();
-  }
-
-  /* public setInativos() {
-    this.listDisabled();
-  } */
-
-  /* private listDisabled() {
-    this.spinner.show();
-
-    this.equipamentoService.disabledTipo().subscribe({
-      next: (response) => {
-        this.tiposDeEquipamentos = response.map(item => {
-          return {
-            ...item,
-            controlarNumSerialString: item.controlarNumSerial ? 'Sim' : 'Não',
-            ativoString: item.ativo ? 'Ativo' : 'Inativo'
-          }
-        });
-        this.tituloDaPagina = "Tipos de Equipamentos";
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
-  } */
-
-  public search(){
-    //this.listByNome(this.sectorName);
-  }
-
-  //REVISAR
-  public ativar(id: number) {
-  this.spinner.show();
-
-  this.equipamentoService.getTipoById(id).subscribe({
-    next: (response) => {
-      this.tipoEquipamento = response;
-
-      //this.equipmentType.ativo = true;
-    
-      /* this.equipamentoService.enableTipo(this.equipmentType).subscribe({
-        next: (response) => {
-          this.list();
-          },
-          error: (response) => {
-            console.log(response);
-            if (response.status != 405) {
-              this.success = response.error['sucesso'];
-              this.message = response.error['mensagem'];
-              this.erros = response.error['objeto'];
-              this.notification.showError('Erro');
-              this.spinner.hide();
-            }else {
-              this.notification.showError('Erro ao ativar o tipo de equipamento ' + id);
-              this.spinner.hide();
-            }
-            
-          }
-        }); */
-      },
-      error: (response) => {
-        if (response.status != 405) {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.notification.showError('Erro');
-          this.spinner.hide();
-        }else {
-          this.notification.showError('Erro ao buscar o tipo de equipamento ' + id);
-          this.spinner.hide();
-        }
-        
       }
     });
   }

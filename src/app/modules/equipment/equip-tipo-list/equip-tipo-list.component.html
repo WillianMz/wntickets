@@ -18,24 +18,24 @@
       <div class="row" *ngIf="true">
         <div class="col-12">
           <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary" (click)="new()">
+            <button type="button" class="btn  btn-sm btn-outline-primary" (click)="adicionar()">
               <i class="bi bi-plus-lg"></i> Adicionar
             </button>
-            <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
+            <button type="button" class="btn  btn-sm btn-outline-primary" (click)="listarTiposDeEquipamentos(true)">
               <i class="bi bi-arrow-clockwise"></i> Atualizar
             </button>
 
             <!-- BOTAO DE FILTROS PREDEFENIDOS -->
             <div class="btn-group">
-              <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-funnel"></i> Filtrar
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" type="button">Desativados</a></li>
+                <li><a class="dropdown-item" type="button" (click)="listarTiposDeEquipamentos(false)">Desativados</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Limpar Filtros</a></li>
+                <li><a class="dropdown-item" type="button" (click)="listarTiposDeEquipamentos(true)">Limpar Filtros</a></li>
               </ul>
             </div>
           </div>
@@ -45,7 +45,7 @@
 
       <!-- GRID / TABELA -->
       <div class="row mt-2">
-        <div class="col-12">          
+        <div class="col-12">
           <div class="columns">
             <div class="column col-12">
               <ngx-table [configuration]="configuration" [data]="tiposDeEquipamentos" [columns]="columns"> </ngx-table>
@@ -56,10 +56,11 @@
               <div class="btn-group">
                 <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Mais detalhes
-                </button>              
+                </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="!row.ativo">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="equipamentos(row.id)">Equipamentos</a></li>
                 </ul>
               </div>
             </div>

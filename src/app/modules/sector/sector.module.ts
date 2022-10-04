@@ -7,6 +7,7 @@ import { SectorFormComponent } from './sector-form/sector-form.component';
 import { SectorListComponent } from './sector-list/sector-list.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { TableModule } from 'ngx-easy-table';
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TableModule
+    TableModule,
+    SweetAlert2Module
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
