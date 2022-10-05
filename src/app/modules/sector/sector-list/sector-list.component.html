@@ -81,7 +81,7 @@
                     <li><a class="dropdown-item" type="button" (click)="desativarSetor.fire()"*ngIf="row.ativo == true">Desativar</a></li>
                     <li><a class="dropdown-item" type="button" (click)="excluirSetor.fire()">Excluir</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" type="button" (click)="consultarEquipamentos(row.id)">Equipamentos</a></li>
+                    <li><a class="dropdown-item" type="button" (click)="consultarEquipamentos(row.id, row.ativo)">Equipamentos</a></li>
                   </ul>
                 </div>
             </div>
