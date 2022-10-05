@@ -62,8 +62,8 @@ export class SectorListComponent implements OnInit {
     this.listByNome(this.sectorName);
   }
  
-  public consultarEquipamentos(sectorId: string){
-    this.router.navigate(['equipment'], {queryParams: { sector: sectorId}});
+  public consultarEquipamentos(sectorId: string, ativo: boolean){
+    this.router.navigate(['equipment'], {queryParams: { sector: sectorId, ativo: ativo}});
   }
 
   public adicionar(){

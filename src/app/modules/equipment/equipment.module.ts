@@ -11,6 +11,7 @@ import { NgxCurrencyModule } from "ngx-currency";
 import {TabViewModule} from 'primeng/tabview';
 import { EquipTipoListComponent } from './equip-tipo-list/equip-tipo-list.component';
 import { EquipTipoFormComponent } from './equip-tipo-form/equip-tipo-form.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { EquipTipoFormComponent } from './equip-tipo-form/equip-tipo-form.compon
     TableModule,
     NgxMaskModule.forChild(),
     NgxCurrencyModule,
-    TabViewModule    
+    TabViewModule,
+    SweetAlert2Module
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
