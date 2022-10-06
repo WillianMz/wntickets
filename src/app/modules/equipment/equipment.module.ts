@@ -13,7 +13,6 @@ import { EquipTipoListComponent } from './equip-tipo-list/equip-tipo-list.compon
 import { EquipTipoFormComponent } from './equip-tipo-form/equip-tipo-form.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
-
 @NgModule({
   declarations: [
     EquipListComponent,

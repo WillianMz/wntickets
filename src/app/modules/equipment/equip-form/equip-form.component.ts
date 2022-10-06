@@ -7,7 +7,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { EquipamentoModel } from 'src/app/models/equipment/equipamentoModel';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { EquipamentoService } from 'src/app/services/equipamento.service';
 
@@ -23,7 +22,7 @@ export class EquipFormComponent implements OnInit {
   @Input() titleFormVisible: boolean;
 
   tituloPagina: string = 'Detalhes do Equipamento';
-  equip: EquipamentoModel;
+  equip: EquipamentoResponse;
   equipForm: FormGroup;
   message: string;
   success: boolean;

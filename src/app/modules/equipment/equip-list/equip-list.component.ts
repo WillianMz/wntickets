@@ -1,5 +1,6 @@
+import { BaixarEquipamentoRequest } from './../../../models/equipment/baixarEquipamentoRequest.model';
 import { FiltroEquipamento } from './filtroEquipamento';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
@@ -20,7 +21,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class EquipListComponent implements OnInit {
 
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
-
+  display: boolean = false;
   tituloDaPagina: string = 'Equipamentos';
   setores: SetorResponse[];
   setor: SetorResponse;
@@ -32,6 +33,7 @@ export class EquipListComponent implements OnInit {
   verComboboxSetores: boolean = false;
   verComboboxTipos: boolean = false;
   filtroForm: FormGroup;
+  baixaForm: FormGroup;
   nomeBotaoFiltro: string = 'Filtro';
   campo_pesquisa: boolean = true;
   verGrid: boolean = false;
@@ -53,6 +55,7 @@ export class EquipListComponent implements OnInit {
   ) { 
     const filtro = new FiltroEquipamento()
     this.validarFormulario(filtro);
+    this.validarFormBaixa('');
   }
 
   ngOnInit(): void {
@@ -99,6 +102,14 @@ export class EquipListComponent implements OnInit {
 
   get tipoID(){
     return this.filtroForm.get('tipo')?.value;
+  }
+
+  get motivo(){
+    return this.baixaForm.get('motivo')?.value;
+  }
+
+  showDialog() {
+    this.display = true;
   }
 
   public adicionar(){
@@ -276,6 +287,30 @@ export class EquipListComponent implements OnInit {
     });
   }
 
+  public baixar(id: string){
+    const equipBaixa = new BaixarEquipamentoRequest();
+    equipBaixa.equipamentoId = parseInt(id);
+    equipBaixa.motivo = this.motivo;
+
+    this.equipamentoService.baixar(equipBaixa).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        if(this.success){
+          this.notification.showSuccess(this.message);
+          this.baixaForm.reset();
+          this.procurar();
+        }
+        else{
+          this.notification.showInfo(this.message);
+        }
+      },
+      error: () => {
+        this.notification.showError('Erro ao baixar equipamento');
+      }
+    })
+  }
+
   public detalhes(){
     //falta desenvolver. Somente no final
   }
@@ -288,6 +323,16 @@ export class EquipListComponent implements OnInit {
       this.verGrid = false;
       this.equipments = [];
     }
+  }
+
+  private validarFormBaixa(descricao: string){
+    this.baixaForm = new FormGroup({
+      motivo: new FormControl(descricao, [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(100)
+      ])
+    });
   }
 
   private validarFormulario(filtro: FiltroEquipamento){
