@@ -15,6 +15,7 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
 
 import { TableModule } from 'ngx-easy-table';
 import { TicketOpenComponent } from './ticket-open/ticket-open.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { TicketOpenComponent } from './ticket-open/ticket-open.component';
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TableModule
+    TableModule,
+    SweetAlert2Module
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

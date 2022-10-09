@@ -96,7 +96,7 @@ export class TicketListComponent implements OnInit {
     }
 
   newTicket() {
-    this.router.navigate(['/ticket/new']);
+    this.router.navigate(['/ticket/open']);
   }
 
   public cleanFilters(){

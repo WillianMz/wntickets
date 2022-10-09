@@ -1,17 +1,33 @@
+import { ChamadoRequest } from './../models/ticket/chamadoRequest.model';
 import { TicketModel } from './../models/ticket/ticketModel';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
+const ENDERECO_API: string = `${environment.api}/ticket`;
+
 @Injectable({
   providedIn: 'root'
 })
 export class TicketService {
 
-  /* private url = `${environment.api}/ticket`; */
-
   constructor(private http: HttpClient) { }
+
+  public chamadoEquipamento(chamado: ChamadoRequest) {
+    return this.http.post(`${ENDERECO_API}/equipamento`, chamado);
+  }
+
+
+
+
+
+
+
+
+
+
+  //REMOVER ESTES ABAIXO
 
   save(ticket: TicketModel){
     if(ticket.id){

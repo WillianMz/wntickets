@@ -2,91 +2,110 @@
 
     <h1>Novo chamado</h1>
 
-    <form>
+    <hr>
+
+    <form [formGroup]="chamadoForm">
         <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Equipamento</label>
-            <div class="col-sm-4">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Nº do equipamento"
-                        aria-label="Recipient's username">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Identificar</button>
+            <label for="equipamento" class="col-sm-3 col-md-2 col-form-label">Equipamento</label>
+            <div class="col-sm-6 col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Nº do equipamento" aria-label="Equipamento"
+                        id="equipamento" formControlName="equipamento">
+                    <button class="btn btn-outline-success" type="button" id="btnIdentificar"
+                        (click)="identificarEquipamento()">Identificar</button>
+                </div>
+                <div class="text-danger" *ngIf="inputEquipamento?.errors">
+                    <div
+                        *ngIf="inputEquipamento?.errors?.required && (inputEquipamento?.dirty || inputEquipamento?.touched)">
+                        Identifique o equipamento
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3" *ngIf="selecionarSetor">
+            <label for="setor" class="col-sm-2 col-form-label">Laboratório</label>
+            <div class="col-sm-6">
+                <select class="form-select" id="setor" formControlName="setor" [ngModel]="0">
+                    <option value='0' disabled>Selecione o laboratório</option>
+                    <option *ngFor="let setor of setores" [value]="setor.id">{{setor.nome}}</option>
+                </select>
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="inputSetor?.errors">
+                    <ul>
+                        <li *ngIf="inputSetor?.errors?.required && (inputSetor?.dirty || inputSetor?.touched)">
+                            Identifique o equipamento
+                        </li>
+                        <li *ngIf="inputSetor?.errors?.minlength && (inputSetor?.dirty || inputSetor?.touched)">
+                            Nome deve conter no mínimo {{ inputSetor?.errors?.minlength.requiredLength }} caracteres
+                        </li>
+                        <li *ngIf="inputSetor?.errors?.maxlength && (inputSetor?.dirty || inputSetor?.touched)">
+                            Nome deve conter no máximo {{ inputSetor?.errors?.maxlength.requiredLength }} caracteres
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="row mb-3" *ngIf="selecionarPrioridade">
+            <label for="prioridade" class="col-sm-2 col-form-label">Prioridade</label>
+            <div class="col-sm-6">
+                <select class="form-select" id="prioridade" formControlName="prioridade" [ngModel]="0">
+                    <option value='0' disabled>Selecione a prioridade</option>
+                    <option value="0">BAIXA</option>
+                    <option value="1">NORMAL</option>
+                    <option value="2">ALTA</option>
+                    <option value="3">URGENTE</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="assunto" class="col-sm-2 col-form-label">Assunto</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="assunto" formControlName="assunto"
+                    placeholder="Descrição breve do problema">
+
+                <div class="text-danger" *ngIf="inputAssunto?.errors">
+                    <ul>
+                        <li *ngIf="inputAssunto?.errors?.required && (inputAssunto?.dirty || inputAssunto?.touched)">
+                            Informe o assunto do chamado
+                        </li>
+                        <li *ngIf="inputAssunto?.errors?.minlength && (inputAssunto?.dirty || inputAssunto?.touched)">
+                            Tamanho minímo {{ inputAssunto?.errors?.minlength.requiredLength }} caracteres
+                        </li>
+                        <li *ngIf="inputAssunto?.errors?.maxlength && (inputAssunto?.dirty || inputAssunto?.touched)">
+                            Tamanho maxímo {{ inputAssunto?.errors?.maxlength.requiredLength }} caracteres
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
-            <label for="lastName" class="col-sm-2 col-form-label">Setor</label>
-            <div class="col-sm-6">
-                <select class="form-select" required="" id="prioridade">
-                    <option value="">Selecione...</option>
-                    <option value="0">BAIXA</option>
-                    <option value="1">NORMAL</option>
-                    <option value="2">ALTA</option>
-                    <option value="3">URGENTE</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="lastName" class="col-sm-2 col-form-label">Prioridade</label>
-            <div class="col-sm-6">
-                <select class="form-select" required="" id="prioridade">
-                    <option value="">Selecione...</option>
-                    <option value="0">BAIXA</option>
-                    <option value="1">NORMAL</option>
-                    <option value="2">ALTA</option>
-                    <option value="3">URGENTE</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Assunto</label>
+            <label for="descricao" class="col-sm-2 col-form-label">Descrição do problema</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" placeholder="Descrição breve do problema">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Descrição do problema</label>
-            <div class="col-sm-10">
-                <!-- <textarea type="text" name="" id="" rows="10"></textarea> -->
-                <textarea type="text" class="form-control" id="descricao"  rows="5"
-                    placeholder="Descreva o problema ocorrido"></textarea>
+                <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao"
+                    placeholder="Descreva o problema ocorrido">
+                </textarea>
+                <div class="text-danger" *ngIf="inputDescricao?.errors">
+                    <ul>
+                        <li
+                            *ngIf="inputDescricao?.errors?.required && (inputDescricao?.dirty || inputDescricao?.touched)">
+                            Descreva o problema apresentado
+                        </li>
+                        <li
+                            *ngIf="inputDescricao?.errors?.minlength && (inputDescricao?.dirty || inputDescricao?.touched)">
+                            Tamanho minímo {{ inputDescricao?.errors?.minlength.requiredLength }} caracteres
+                        </li>
+                        <li
+                            *ngIf="inputDescricao?.errors?.maxlength && (inputDescricao?.dirty || inputDescricao?.touched)">
+                            Tamanho maxímo {{ inputDescricao?.errors?.maxlength.requiredLength }} caracteres
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <app-ticket-attachments></app-ticket-attachments>
-        <!-- <fieldset class="row mb-3">
-            <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                    <label class="form-check-label" for="gridRadios1">
-                        First radio
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                    <label class="form-check-label" for="gridRadios2">
-                        Second radio
-                    </label>
-                </div>
-                <div class="form-check disabled">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3"
-                        disabled>
-                    <label class="form-check-label" for="gridRadios3">
-                        Third disabled radio
-                    </label>
-                </div>
-            </div>
-        </fieldset> -->
-        <!-- <div class="row mb-3">
-            <div class="col-sm-10 offset-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1">
-                    <label class="form-check-label" for="gridCheck1">
-                        Example checkbox
-                    </label>
-                </div>
-            </div>
-        </div> -->
-        <button type="button" class="btn btn-primary">Salvar</button>
+        <!-- <app-ticket-attachments></app-ticket-attachments> -->
+
+        <button type="button" class="btn btn-primary" [disabled]="!chamadoForm.valid" (click)="salvar()">Salvar</button>
     </form>
 </div>
