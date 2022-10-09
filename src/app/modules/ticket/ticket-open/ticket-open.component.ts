@@ -4,11 +4,10 @@ import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { TicketService } from 'src/app/services/ticket.service';
 import { EquipamentoService } from 'src/app/services/equipamento.service';
 import { ChamadoRequest } from './../../../models/ticket/chamadoRequest.model';
-import { FormGroup, FormControl, Validators, FormControlName } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { SectorService } from 'src/app/services/sector.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ticket-open',
@@ -82,7 +81,7 @@ export class TicketOpenComponent implements OnInit {
       },
       error: () => {
         this.notification.showError('Erro');
-      }      
+      }
     });
   }
 
@@ -120,16 +119,6 @@ export class TicketOpenComponent implements OnInit {
       }
     })
   }
-
-  /* private carregarDadosFormulario(equipamento: EquipamentoResponse){
-    this.chamadoForm = new FormGroup({
-      setor: new FormControl(equipamento.setor?.id),
-      equipamento: new FormControl(equipamento.id),
-      prioridade: new FormControl(),
-      assunto: new FormControl(),
-      descricao: new FormControl(equipamento.descricao)
-    })
-  } */
 
   private validarFormulario(chamado: ChamadoRequest){
     this.chamadoForm = new FormGroup({
