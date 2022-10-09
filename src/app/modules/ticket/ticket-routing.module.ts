@@ -1,3 +1,4 @@
+import { TicketOpenComponent } from './ticket-open/ticket-open.component';
 import { TicketHistoryComponent } from './ticket-history/ticket-history.component';
 import { TicketFinalizeComponent } from './ticket-finalize/ticket-finalize.component';
 import { TicketCommentsComponent } from './ticket-comments/ticket-comments.component';
@@ -11,6 +12,7 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   { path:'', component: TicketListComponent },
+  { path:'open', component: TicketOpenComponent },
   { path:'new', component: OpenTicketComponent },
   { path:'edit/:id', component: TicketFormComponent },
   { path:'detail', component: TicketFormComponent },
