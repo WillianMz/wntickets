@@ -16,7 +16,8 @@ export class NavbarComponent implements OnInit {
     { titulo: 'Home', url: '/home', icone: 'bi bi-house' },
     { titulo: 'Laboratórios', url: '/labs', icone: 'bi bi-binoculars-fill' },
     { titulo: 'Equipamentos', url: '/equipment', icone: 'bi bi-pc-display' },
-    { titulo: 'Chamados', url: '/ticket', icone: 'bi bi-ticket-detailed-fill' }
+    { titulo: 'Chamados', url: '/ticket', icone: 'bi bi-ticket-detailed-fill' },
+    { titulo: 'Usuários', url: '/users', icone: 'bi bi-people' }
   ];
 
   constructor(private loginService: LoginService) { }

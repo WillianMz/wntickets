@@ -9,6 +9,8 @@ import { UserAccountComponent } from './user-account/user-account.component';
 import { UserRoleComponent } from './user-role/user-role.component';
 import { UserPageAdminComponent } from './user-page-admin/user-page-admin.component';
 import { TableModule } from 'ngx-easy-table';
+import { UserFormComponent } from './user-form/user-form.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 @NgModule({
@@ -16,7 +18,8 @@ import { TableModule } from 'ngx-easy-table';
     UserListComponent,
     UserAccountComponent,
     UserRoleComponent,
-    UserPageAdminComponent
+    UserPageAdminComponent,
+    UserFormComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,8 @@ import { TableModule } from 'ngx-easy-table';
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TableModule
+    TableModule,
+    NgxMaskModule.forChild(),
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })

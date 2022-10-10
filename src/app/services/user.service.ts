@@ -4,8 +4,10 @@ import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RoleResponse } from '../models/user/roleResponse.model';
-
-const ENDERECO_API: string = `${environment.api}/api/usuario`;
+import { Usuario } from '../models/user/usuario.model';
+import { UsuarioModel } from '../models/user/usuarioModel';
+import { NovoUsuarioModel } from '../models/user/novoUsuarioModel';
+import { EditarUsuarioModel } from '../models/user/editarUsuarioModel';
 
 @Injectable({
   providedIn: 'root'
@@ -15,24 +17,30 @@ export class UserService {
   constructor( private http: HttpClient) { }
 
   public criarRole(role: RoleRequest) : Observable<any>{
-    return this.http.post(ENDERECO_API, role);
+    return this.http.post(environment.api, role);
   }
 
   public getRoles(): Observable<RoleResponse[]>{
-    return this.http.get<RoleResponse[]>(`${ENDERECO_API}/list-role`);
+    return this.http.get<RoleResponse[]>(`${environment.api}/list-role`);
   }
 
-  /* ublic create(usuario: NovoUsuarioModel) {
-    return this.http.post(`${this.url}`, usuario);
+  public getAll(): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(`${environment.api}/usuario`);
   }
 
-  public update(usuario: EditarUsuarioModel) {
-    return this.http.put(`${this.url}`, usuario);
+  public adicionar(usuario: NovoUsuarioModel) {
+    console.log(usuario);
+    return this.http.post(`${environment.api}/usuario`, usuario);
   }
 
-  public getAll(): Observable<UsuarioModel[]> {
-    return this.http.get<UsuarioModel[]>(this.url);
+  public editar(usuario: EditarUsuarioModel) {
+    return this.http.put(`${environment.api}/usuario`, usuario);
   }
+
+  public delete(id: string){
+    return this.http.delete(`${environment.api}/usuario/${id}`);
+  }
+/*
 
   public delete(id: number) {
     return this.http.delete(`${this.url}/${id}`);
@@ -62,9 +70,9 @@ export class UserService {
     return this.http.get<UsuarioModel>(`${this.url}/${id}/details`);
   } */
 
- /*  public getById(id: number): Observable<UsuarioModel> {
-    return this.http.get<UsuarioModel>(`${this.url}/${id}`);
-  } */
+  public getById(id: string): Observable<UsuarioModel> {
+    return this.http.get<UsuarioModel>(`${environment.api}/${id}`);
+  }
 
 
 

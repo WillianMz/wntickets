@@ -22,6 +22,9 @@
                     <!-- VALIDACAO -->
                     <div class="text-danger" *ngIf="email?.errors">
                       <div *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Email é obrigatório!</div>
+                      <div *ngIf="email?.errors?.minlength && (email?.dirty || email?.touched)">Email deve conter no mínimo {{ email?.errors?.minlength.requiredLength }} caracteres!</div>
+                      <div *ngIf="email?.errors?.maxlength && (email?.dirty || email?.touched)">Email deve conter no máximo {{ email?.errors?.maxlength.requiredLength }} caracteres!</div>
+                      <div *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">Email informado é inválido!</div>
                     </div>
                   </div>
 
