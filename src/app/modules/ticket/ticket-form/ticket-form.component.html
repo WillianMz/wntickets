@@ -1,13 +1,13 @@
-<div class="sticky-top ">
+<!-- <div class="sticky-top ">
   <app-navbar titlePage="Tickets Pendentes"></app-navbar>
-</div>
+</div> -->
 
 <div class="container">
   <section class="pt-2 row">
-    <h3 class="col-12 mb-3">#399 - CADASTRO DE NOVOS SETORES</h3>
+    <h3 class="col-12 mb-3">TÍTULO ASSUNTO</h3>
   </section>
 
-  <div class="pt-2 pb-2 row" *ngIf="false">
+  <!-- <div class="pt-2 pb-2 row" *ngIf="false">
     <div class="col-12">
       <div class="btn-group">
         <button type="button" class="btn btn-outline-primary">Criar novo tiket</button>
@@ -17,14 +17,14 @@
         <button type="button" class="btn btn-outline-primary">Anexos</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="row g-5">
     <div class="col-md-5 col-lg-4 order-md-last">
       <ul class="list-group mb-3">
         <li class="list-group-item">
           <div>
-            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" >Novo ticket</button>
+            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="newTicket()">Novo ticket</button>
           </div>
         </li>
         <li class="list-group-item">
@@ -34,7 +34,7 @@
         </li>
         <li class="list-group-item">
           <div>
-            <button class="w-100 btn btn-outline-danger btn-lg" type="submit" (click)="goComments()">Comentários</button>
+            <button class="w-100 btn btn-outline-dark btn-lg" type="submit" (click)="goComments()">Comentários</button>
           </div>
         </li>
         <li class="list-group-item">
@@ -49,12 +49,12 @@
         </li>
         <li class="list-group-item">
           <div>
-            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Finalizar</button>
+            <button class="w-100 btn btn-outline-success btn-lg" type="submit" (click)="goHistoric()">Finalizar</button>
           </div>
         </li>
         <li class="list-group-item">
           <div>
-            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Cancelar</button>
+            <button class="w-100 btn btn-outline-danger btn-lg" type="submit" (click)="goHistoric()">Cancelar</button>
           </div>
         </li>
       </ul>

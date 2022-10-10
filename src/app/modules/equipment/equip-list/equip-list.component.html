@@ -3,73 +3,85 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-
-      <!-- AVISOS -->
-      <div class="row pt-2" *ngIf="false">
-        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
-      </div>
-
       <!-- TITULO DA PAGINA -->
       <div class="row mt-2 col-10">
         <h2>{{ tituloDaPagina }}</h2>
       </div>
 
-      <!-- INPUT PARA PESQUISA -->
-      <div class="row mt-2">
-        <div class="col-xs-5 col-sm-10 col-lg-5">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="equipmentName">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()"
-              *ngIf="equipmentName?.length">
-              <i class="bi bi-search"></i> Procurar
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- BOTOES DE ACOES -->
-      <div class="row" *ngIf="true">
-        <div class="col-12">
-          <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary" (click)="new()">
-              <i class="bi bi-plus-lg"></i> Adicionar
-            </button>
-            <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
-              <i class="bi bi-arrow-clockwise"></i> Atualizar
-            </button>
-
-            <!-- BOTAO DE FILTROS PREDEFENIDOS -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-funnel"></i> Filtrar
+      <form [formGroup]="filtroForm">
+        <div class="row row-cols-lg-auto g-3 align-items-center">
+          <div class="col-12">
+            <div class="btn-group ">
+              <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-funnel"></i> {{nomeBotaoFiltro}}
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" type="button" (click)="equipInativos()">Desativados</a></li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Tipo</a></li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Marca</a></li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Modelo</a></li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Setor</a></li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Fabricante</a></li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Serial</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(1)">Padrão</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(2)">Por Laboratório</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(3)">Por Tipo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(4)">Desativados</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(5)">Desativados por Laboratório</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(6)">Desativados por Tipo</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Limpar Filtros</a></li>
+                <li><a class="dropdown-item" type="button" (click)="limparFiltros()">Limpar Filtros</a></li>
               </ul>
             </div>
+          </div>
 
-            <button type="button" class="btn btn-outline-primary" (click)="openTipoEquip()">
+          <div class="col-6" *ngIf="verComboboxSetores">
+              <select class="form-select form-select-sm" formControlName="setor" [ngModel]="0">
+                <option value='0' disabled>Selecione o laboratório</option>
+                <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
+              </select>
+          </div>
+
+          <div class="col-6" *ngIf="verComboboxTipos">
+              <select class="form-select form-select-sm" formControlName="tipo" [ngModel]="0">
+                <option value='0' disabled>Selecione o tipo</option>
+                <option *ngFor="let tipo of tiposEquipamentos" [value]="tipo.id">{{ tipo.descricao }}</option>
+              </select>
+          </div>
+
+          <div class="col-6 col-sm-6" *ngIf="campo_pesquisa">
+            <input type="text" class="form-control form-control-sm" formControlName="texto"
+                  placeholder="nome, descrição, marca, modelo, fabricante, serial...">
+          </div>
+  
+          <div class="col-6">
+            <button class="btn btn-sm btn-outline-secondary" type="button" (click)="procurar()">
+              <i class="bi bi-search"></i> Procurar
+            </button>
+          </div>
+
+        </div>      
+      </form>
+
+      <!-- BOTOES DE ACOES -->
+      <div class="row mt-4" *ngIf="true">
+        <div class="col-12">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="adicionar()">
+              <i class="bi bi-plus-lg"></i> Adicionar
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="tiposDeEquipamentos()">
               <i class="bi bi-pc-display"></i> Tipos de Equipamentos
             </button>
           </div>
         </div>
       </div>
 
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="!equipments?.length">
+        <app-alert [mensagem]="'Nenhum resultado encontrado!'" [color]="'alert-info'"></app-alert>
+      </div>
+
       <!-- GRID / TABELA -->
       <div class="row mt-2">
         <div class="col-12">
-          <div class="columns">
-            <div class="column col-12">
+          <div class="columns" *ngIf="verGrid">
+            <div class="column col-12" >
               <ngx-table [configuration]="configuration" [data]="equipments" [columns]="columns"> </ngx-table>
             </div>
           </div>
@@ -78,22 +90,74 @@
               <div class="btn-group">
                 <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Mais detalhes
-                </button>              
+                </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="ativar(row.id)">Ativar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="desativar(row.id)">Desativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="ativarEquip.fire()" *ngIf="row.ativo == false">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="desativarEquip.fire()" *ngIf="row.ativo == true">Desativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="excluirEquip.fire()">Excluir</a></li>
+                  <li><a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#baixaEquipamentoModal">Baixar</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li>
+                  <li><a class="dropdown-item" type="button">Detalhes</a></li>
                 </ul>
               </div>
-              
             </div>
+
+            <swal
+              #ativarEquip
+              title="Ativar {{ row.nome  }}?"
+              icon="question"
+              [showCancelButton]="true"
+              [focusCancel]="true"
+              (confirm)="ativar(row.id)">
+            </swal>
+
+            <swal
+              #desativarEquip
+              title="Desativar {{ row.nome  }}?"
+              icon="question"
+              [showCancelButton]="true"
+              [focusCancel]="true"
+              (confirm)="desativar(row.id)">
+            </swal>
+
+            <swal
+              #excluirEquip
+              title="Excluir {{ row.nome  }}?"
+              icon="question"
+              [showCancelButton]="true"
+              [focusCancel]="true"
+              (confirm)="excluir(row.id)">
+            </swal>
+
+            <div class="modal fade " id="baixaEquipamentoModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="baixaEquipamentoModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Baixar equipamento</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form [formGroup]="baixaForm">
+                      <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Motivo:</label>
+                        <textarea class="form-control" id="message-text" formControlName="motivo"></textarea>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="baixar(row.id)" data-bs-dismiss="modal">Salvar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
           </ng-template>
         </div>
       </div>
     </div>
   </div>
 </div>
+

@@ -24,6 +24,7 @@ export class TicketListComponent implements OnInit {
   ticket: TicketModel;
   ticketId: number;
   ticketName: string;
+  filterDisabledTicket: boolean;
   success: boolean;
   message: string;
   erros: ErroServidor[];
@@ -62,17 +63,16 @@ export class TicketListComponent implements OnInit {
     this.columns = [
       { key: 'id', title: 'Código' },
       { key: 'assunto', title: 'Assunto' },
-      { key: 'criador', title: 'Criado por' },
+      { key: 'status', title: 'Status' },
       { key: 'dataAbertura', title: 'Aberto em' },
-      { key: 'statusAtual', title: 'Status' },    
-      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled: false },
+      { key: 'criador', title: 'Criado por' },
+      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled: false }
     ];
   }
 
   private list() {
     this.listAll();
   }
-
 
   private listAll() {    
       this.spinner.show();
@@ -96,7 +96,12 @@ export class TicketListComponent implements OnInit {
     }
 
   newTicket() {
-    this.router.navigate(['/ticket/new']);
+    this.router.navigate(['/ticket/open']);
+  }
+
+  public cleanFilters(){
+    this.filterDisabledTicket = false;
+    this.listAll();
   }
 
   public search(){

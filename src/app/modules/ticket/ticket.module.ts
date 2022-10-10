@@ -14,7 +14,8 @@ import { TicketCommentsComponent } from './ticket-comments/ticket-comments.compo
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 
 import { TableModule } from 'ngx-easy-table';
-import { TicketFilterComponent } from './ticket-filter/ticket-filter.component';
+import { TicketOpenComponent } from './ticket-open/ticket-open.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { TicketFilterComponent } from './ticket-filter/ticket-filter.component';
     TicketAttachmentsComponent,
     TicketCommentsComponent,
     TicketFormComponent,
-    TicketFilterComponent
+    TicketOpenComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +36,8 @@ import { TicketFilterComponent } from './ticket-filter/ticket-filter.component';
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TableModule
+    TableModule,
+    SweetAlert2Module
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

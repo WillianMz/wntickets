@@ -15,6 +15,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
 import { HomeComponent } from './layouts/home/home.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
   export const customCurrencyMaskConfig = {
     align: "left",
@@ -28,7 +29,7 @@ import { HomeComponent } from './layouts/home/home.component';
     nullable: false,
     min: undefined,
     max: undefined,
-    inputMode: CurrencyMaskInputMode.FINANCIAL
+    inputMode: CurrencyMaskInputMode.NATURAL
   };
 
 @NgModule({
@@ -54,7 +55,13 @@ import { HomeComponent } from './layouts/home/home.component';
     }),
     NgxPopperjsModule,
     NgxMaskModule.forRoot({dropSpecialCharacters: false}),
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    SweetAlert2Module.forRoot({
+      provideSwal: () => import('sweetalert2').then(({default: swal}) => swal.mixin({
+        confirmButtonText: `Confirmar`,
+        cancelButtonText: `Cancelar`
+      }))
+    })
   ],
   providers: [
     HttpInterceptorProviders

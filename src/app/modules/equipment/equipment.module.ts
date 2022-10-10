@@ -8,12 +8,17 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule } from "ngx-currency";
-
+import {TabViewModule} from 'primeng/tabview';
+import { EquipTipoListComponent } from './equip-tipo-list/equip-tipo-list.component';
+import { EquipTipoFormComponent } from './equip-tipo-form/equip-tipo-form.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
     EquipListComponent,
-    EquipFormComponent
+    EquipFormComponent,
+    EquipTipoListComponent,
+    EquipTipoFormComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +28,9 @@ import { NgxCurrencyModule } from "ngx-currency";
     ComponentsModule,
     TableModule,
     NgxMaskModule.forChild(),
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    TabViewModule,
+    SweetAlert2Module
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

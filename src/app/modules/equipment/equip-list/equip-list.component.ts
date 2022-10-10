@@ -1,10 +1,15 @@
-import { ToastrService } from 'ngx-toastr';
+import { BaixarEquipamentoRequest } from './../../../models/equipment/baixarEquipamentoRequest.model';
+import { FiltroEquipamento } from './filtroEquipamento';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
+import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
+import { SectorService } from 'src/app/services/sector.service';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { EquipamentoModel } from 'src/app/models/equipment/equipamentoModel';
 import { EquipamentoService } from 'src/app/services/equipamento.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -16,309 +21,417 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class EquipListComponent implements OnInit {
 
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
-
+  display: boolean = false;
   tituloDaPagina: string = 'Equipamentos';
-  equipments: EquipamentoModel[];
-  equipmentsCopy: EquipamentoModel[];
-  equipment: EquipamentoModel;
-  equipmentId: number;
-  equipmentName: string;
-  filterDisabledEquipments: boolean;
+  setores: SetorResponse[];
+  setor: SetorResponse;
+  tipo: TipoEquipamentoResponse;
+  tiposEquipamentos: TipoEquipamentoResponse[];
+  equipments: EquipamentoResponse[];
+  setorId: number;
+  tipoId: number;
+  verComboboxSetores: boolean = false;
+  verComboboxTipos: boolean = false;
+  filtroForm: FormGroup;
+  baixaForm: FormGroup;
+  nomeBotaoFiltro: string = 'Filtro';
+  campo_pesquisa: boolean = true;
+  verGrid: boolean = false;
+  somenteAtivos: boolean = true;
+  sectorId: number;
   success: boolean;
   message: string;
   erros: ErroServidor[];
-
   public configuration: Config;
   public columns: Columns[];
 
   constructor(
     private equipamentoService: EquipamentoService,
+    private setorService: SectorService,
     private router: Router,
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService,
-  ) { }
-
-  ngOnInit(): void {
-    this.configGrid();
-    this.list();
+    private activatedRoute: ActivatedRoute
+  ) { 
+    const filtro = new FiltroEquipamento()
+    this.validarFormulario(filtro);
+    this.validarFormBaixa('');
   }
 
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(
+      params => {
+        this.sectorId = parseInt(params.sector);
+        this.tipoId = parseInt(params.tipo);
+        this.somenteAtivos = params.ativo;
+      }
+    );
+
+    this.configGrid();
+    this.listarSetores();
+    this.listarTipos();
+    this.procurar();
+  }
+
+  //OK
   private configGrid() {
     this.configuration = { ...DefaultConfig };
     this.configuration.searchEnabled = true;
     this.configuration.fixedColumnWidth = false;
     this.configuration.selectRow = true;
     this.configuration.rows = 10;
+    this.configuration.tableLayout.style = 'tiny';
     //colunas
     this.columns = [
-      { key: 'id', title: 'Código' },
+      { key: 'id', title: 'Cód.' },
+      { key: 'codInterno', title: 'Cód.Interno' },
       { key: 'nome', title: 'Nome' },
-      { key: 'setorNome', title:'Setor'},
-      { key: 'fabricante', title:'Fabricante'},
       { key: 'marca', title:'Marca'},
-      { key: 'numSerial', title: 'Nº serial' },
+      { key: 'modelo', title: 'Modelo' },
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
 
-  private list() {
-    this.listAll();
+  get texto(){
+    return this.filtroForm.get('texto')?.value;
   }
 
-  private listAll() {
-    this.spinner.show();
-
-    this.equipamentoService.getAll().subscribe({
-      next: (response) => {
-        this.equipments = response;
-        console.log(this.equipments);
-        this.equipmentsCopy = this.equipments;
-        this.tituloDaPagina = "Equipamentos";
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
+  get setorID() {
+    return this.filtroForm.get('setor')?.value;
   }
 
-  public search(){
-    this.listByName(this.equipmentName);
+  get tipoID(){
+    return this.filtroForm.get('tipo')?.value;
   }
 
-  private listByName(name: string) {
-    this.spinner.show();
-
-    this.equipamentoService.getByName(name).subscribe({
-      next: (response) => {
-        this.equipments = response;
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.spinner.hide();
-      }
-    });
+  get motivo(){
+    return this.baixaForm.get('motivo')?.value;
   }
 
-/*   private listDisabled() {
-    this.spinner.show();
-    this.equipamentoService.disabled().subscribe({
-      next: (response) => {
-        this.equipments = response;
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.spinner.hide();
-      }
-    });
-  } */
-
-  public saveFilter(){
-    this.equipmentName = "";
-    this.list();
-    //this.modalRef?.hide();
+  showDialog() {
+    this.display = true;
   }
 
-  public alert(){
-    this.notification.showInfo('Funcionalidade em desenvolvimento!', 'ATENÇÃO');
-  }
-
-  public cleanFilters(){
-    this.filterDisabledEquipments = false;
-    this.listAll();
-  }
-
-  public openModal(template: TemplateRef<any>) {
-    //this.modalRef = this.modalService.show(template);
-  }
-
-  public new(){
+  public adicionar(){
     this.router.navigate(['equipment/new']);
   }
 
-  public edit(equipmentId: string){
+  public tiposDeEquipamentos(){
+    this.router.navigate(['/equipment/tipo'])
+  }
+
+  public filtrarPor(filtro: number){
+    switch(filtro) {
+      case 1://TODOS ATIVOS
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        this.nomeBotaoFiltro = 'Ativos';
+        this.somenteAtivos = true;
+        this.consultarEquipamentos(true);
+        break;
+      case 2://SETOR
+        this.nomeBotaoFiltro = 'Filtrando por laboratório';
+        this.verComboboxSetores = true;
+        this.verComboboxTipos = false;
+        this.campo_pesquisa = false;
+        this.somenteAtivos = true;
+        break;
+      case 3://TIPO
+        this.nomeBotaoFiltro = 'Filtrando por tipo';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = true;
+        this.campo_pesquisa = false;
+        this.somenteAtivos = true;
+        break;
+      case 4://DESATIVADOS
+        this.nomeBotaoFiltro = 'Desativados';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        this.campo_pesquisa = false;
+        this.somenteAtivos = false;
+        this.tituloDaPagina = 'Equipamentos desativados';
+        this.consultarEquipamentos(false);
+        break;
+      case 5://DESATIVADOS POR SETOR
+        this.nomeBotaoFiltro = 'Desativados por laboratório';
+        this.verComboboxSetores = true;
+        this.verComboboxTipos = false;
+        this.campo_pesquisa = false;
+        this.somenteAtivos = false;
+        break;
+      case 6://DESATIVADOS POR TIPO
+        this.nomeBotaoFiltro = 'Desativados por tipo';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = true;
+        this.campo_pesquisa = false;
+        this.somenteAtivos = false;
+        break;
+      default:
+        this.nomeBotaoFiltro = 'Ativos';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        this.campo_pesquisa = true;
+        this.somenteAtivos = true;
+        break;
+    }
+  }
+
+  public limparFiltros(){
+    this.nomeBotaoFiltro = 'Padrão';
+    this.verComboboxSetores = false;
+    this.verComboboxTipos = false;
+    this.campo_pesquisa = true;
+    this.somenteAtivos = true;
+    this.router.navigate(['equipment']);
+    this.consultarEquipamentos(this.somenteAtivos);
+  }
+
+  public procurar(){
+    if(this.setorID){
+      this.consultarPorSetor(this.setorID, this.somenteAtivos);
+    }
+    if(this.tipoID){
+      this.consultarPorTipo(this.tipoID, this.somenteAtivos);
+    }
+    if(this.texto){
+      this.consultarPorNome(this.texto);
+    }
+    if(this.sectorId){
+      this.consultarPorSetor(this.sectorId, this.somenteAtivos);
+    }
+    if(this.tipoId){
+      this.consultarPorTipo(this.tipoId, this.somenteAtivos);
+    }
+  }
+
+  public editar(equipmentId: string){
     this.router.navigate([`equipment/edit/${equipmentId}`]);
   }
 
-  public equipAtivos(){
-    this.equipmentName = "";
-    this.listAtivo();
-  }
-
-  private listAtivo() {
-    this.listEnabled();
-  }
-
-  private listEnabled() {
+  public desativar(id: string){
     this.spinner.show();
 
-    this.equipamentoService.enabled().subscribe({
-      next: (response) => {
-        this.equipments = response;
-        console.log(this.equipments);
-        this.equipmentsCopy = this.equipments;
-        this.tituloDaPagina = "Equipamentos";
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
-  }
-
-  public ativar(id: string) {
-    this.spinner.show();
-
-    this.equipamentoService.enable(Number.parseInt(id)).subscribe({
+    this.equipamentoService.desativar(Number.parseInt(id)).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
 
         //RETORNO BACK -> REGRAS DE NEGOCIO
         if(this.success == true){
           this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          /* this.router.navigate(['/equipment']); */
-          this.listInativo();
+          this.notification.showInfo(this.message);
+          this.procurar();
           this.spinner.hide();
-          console.log('1');
         }
         else{
           this.message = response['mensagem'];
-          this.showError(this.message);
+          this.notification.showError(this.message);
           this.spinner.hide();
-          console.log('2');
         }
       },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
       }
     });
   }
 
-  public equipInativos(){
-    this.equipmentName = "";
-    this.listInativo();
-  }
-
-  private listInativo() {
-    this.listDisabled();
-  }
-
-  private listDisabled() {
+  public ativar(id: string){
     this.spinner.show();
 
-    this.equipamentoService.disabled().subscribe({
-      next: (response) => {
-        this.equipments = response;
-        console.log(this.equipments);
-        this.equipmentsCopy = this.equipments;
-        this.tituloDaPagina = "Equipamentos";
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
-      }
-    });
-  }
-
-  public desativar(id: string) {
-      this.spinner.show();
-  
-      this.equipamentoService.disable(Number.parseInt(id)).subscribe({
-        next: (response) => {
-          this.success = response['sucesso'];
-  
-          //RETORNO BACK -> REGRAS DE NEGOCIO
-          if(this.success == true){
-            this.message = response['mensagem'];
-            this.showSuccess(this.message);
-            /* this.router.navigate(['/equipment']); */
-            this.listAtivo();
-            this.spinner.hide();
-            console.log('1');
-          }
-          else{
-            this.message = response['mensagem'];
-            this.showError(this.message);
-            this.spinner.hide();
-            console.log('2');
-          }
-        },
-        error: (response) => {
-          //PEGA OS ERROS. FALHAS
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-        }
-      });
-  }
-
-  public delete(id: string) {
-    this.spinner.show();
-
-    this.equipamentoService.delete(Number.parseInt(id)).subscribe({
+    this.equipamentoService.ativar(Number.parseInt(id)).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
 
         //RETORNO BACK -> REGRAS DE NEGOCIO
         if(this.success == true){
           this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/equipment']);
+          this.notification.showInfo(this.message);
+          this.procurar();
           this.spinner.hide();
-          console.log('1');
         }
         else{
           this.message = response['mensagem'];
-          this.showError(this.message);
+          this.notification.showError(this.message);
           this.spinner.hide();
-          console.log('2');
         }
       },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
       }
     });
   }
-  
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
+
+  public excluir(id: string){
+    this.equipamentoService.excluir(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.success == true){
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+          this.procurar();
+          this.spinner.hide();
+        }
+        else{
+          this.message = response['mensagem'];
+          this.notification.showError(this.message);
+          this.spinner.hide();
+        }
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
   }
 
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
-  }
-  
-  public disable(id: string){
+  public baixar(id: string){
+    const equipBaixa = new BaixarEquipamentoRequest();
+    equipBaixa.equipamentoId = parseInt(id);
+    equipBaixa.motivo = this.motivo;
+
+    this.equipamentoService.baixar(equipBaixa).subscribe({
+      next: (response) => {
+        this.success = response['sucesso'];
+        this.message = response['mensagem'];
+        if(this.success){
+          this.notification.showSuccess(this.message);
+          this.baixaForm.reset();
+          this.procurar();
+        }
+        else{
+          this.notification.showInfo(this.message);
+        }
+      },
+      error: () => {
+        this.notification.showError('Erro ao baixar equipamento');
+      }
+    })
   }
 
-  public openTipoEquip() {
-    this.router.navigate(['equip-type']);
+  public detalhes(){
+    //falta desenvolver. Somente no final
   }
 
+  private configPagina(){
+    if(this.equipments.length > 0){
+      this.verGrid = true;
+    }
+    else {
+      this.verGrid = false;
+      this.equipments = [];
+    }
+  }
+
+  private validarFormBaixa(descricao: string){
+    this.baixaForm = new FormGroup({
+      motivo: new FormControl(descricao, [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(100)
+      ])
+    });
+  }
+
+  private validarFormulario(filtro: FiltroEquipamento){
+    this.filtroForm = new FormGroup({
+      texto: new FormControl(filtro.texto),
+      setor: new FormControl(filtro.setor),
+      tipo: new FormControl(filtro.tipo),
+      ativo: new FormControl(filtro.ativo)
+    });
+  }
+
+  /*CONSULTAS **********************************************************/
+  private carregarSetor(id: number){
+    this.setorService.getById(id).subscribe({
+      next: (response) => {
+        this.setor = response;
+      }
+    });
+  }
+
+  private consultarEquipamentos(ativo: boolean) {
+    this.equipamentoService.getAll(ativo).subscribe({
+      next: (response) => {
+        this.equipments = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private consultarPorNome(texto: string){
+    this.spinner.show();
+    this.equipamentoService.getByNome(texto).subscribe({
+      next: (response) => {
+        this.equipments = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private consultarPorSetor(setorId: number, ativo: boolean){
+    this.spinner.show();
+    this.equipamentoService.getBySetor(setorId, ativo).subscribe({
+      next: (response) => {
+        this.equipments = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private consultarPorTipo(tipoId: number, ativo: boolean){
+    this.spinner.show();
+    this.equipamentoService.getByTipo(tipoId, ativo).subscribe({
+      next: (response) => {
+        this.equipments = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  private listarSetores(){
+    this.setorService.getAll(true).subscribe({
+      next: (response) => {
+        this.setores = response;
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private listarTipos(){
+    this.equipamentoService.getTipos(true).subscribe({
+      next: (response) => {
+        this.tiposEquipamentos = response;
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
 }

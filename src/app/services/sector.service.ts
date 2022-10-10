@@ -1,8 +1,11 @@
-import { SetorModel } from './../models/sector/setorModel';
+import { SetorResponse } from './../models/sector/setorResponse.model';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { SetorRequest } from '../models/sector/setorRequest.model';
+
+const ENDERECO_API: string = `${environment.api}/setor`;
 
 @Injectable({
   providedIn: 'root'
@@ -11,70 +14,36 @@ export class SectorService {
 
   constructor(private http: HttpClient) {}
 
-  private handleError<T>(operacao: string, result?: T){
-    return (error: any): Observable<T> => {
-      console.log(error);
-      return of(result as T);
-    }
-  }
-
-  save(setor: SetorModel){
+  public salvar(setor: SetorRequest){
     if(setor.id){
-      console.log(setor);
-      return this.update(setor);
+      return this.http.put(`${ENDERECO_API}`, setor);
     }
     else {
-      return this.create(setor);
+      return this.http.post(`${ENDERECO_API}`, setor);
     }
   }
 
-  private create(setor: SetorModel){
-    return this.http.post(`${environment.api}/Setor`, setor);
-  }
-
-  private update(isector: SetorModel){
-    return this.http.put(`${environment.api}/Setor`, isector);
+  public getAll(ativo: boolean): Observable<SetorResponse[]>{
+    return this.http.get<SetorResponse[]>(`${ENDERECO_API}/?ativo=${ativo}`)
   }
 
   public delete(id: number){
-    return this.http.delete(`${environment.api}/Setor/${id}`);
+    return this.http.delete(`${ENDERECO_API}/${id}`);
   }
 
-  public getAll(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor`)
-  }
-
-  public getById(id: number): Observable<SetorModel>{
-    return this.http.get(`${environment.api}/Setor/${id}`);
+  public getById(id: number): Observable<SetorResponse>{
+    return this.http.get<SetorResponse>(`${ENDERECO_API}/${id}`);
   }
 
   public disable(id: number){
-    return this.http.put(`${environment.api}/Setor/${id}/disable`, null);
+    return this.http.put(`${ENDERECO_API}/${id}/disable`,null);
   }
 
   public enable(id: number) {
-    return this.http.put(`${environment.api}/Setor/${id}/enable`, null);
+    return this.http.put(`${ENDERECO_API}/${id}/enable`, null);
   }
-
-  public disabled(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=false`);
+ 
+  public getByNome(nome: string): Observable<SetorResponse[]> {
+    return this.http.get<SetorResponse[]>(`${ENDERECO_API}/nome?nome=${nome}`);
   }
-
-  public enabled(): Observable<SetorModel[]>{
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor?ativo=true`);
-  }
-
-  public getByNome(nome: string): Observable<SetorModel[]> {
-    return this.http.get<SetorModel[]>(`${environment.api}/Setor/get-by-nome?nome=${nome}`);
-  }
-
-  //NOVAS ROTAS
-  public adicionar(setor: SetorModel){
-    return this.http.post(`${environment.api}/Setor`, setor);
-  }
-
-  public editar(setor: SetorModel){
-    return this.http.put(`${environment.api}/Setor`, setor);
-  }
-
 }

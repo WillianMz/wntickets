@@ -5,18 +5,15 @@ import { CommonModule } from '@angular/common';
 import { SectorRoutingModule } from './sector-routing.module';
 import { SectorFormComponent } from './sector-form/sector-form.component';
 import { SectorListComponent } from './sector-list/sector-list.component';
-import { CategoryListComponent } from './category-list/category-list.component';
-import { CategoryFormComponent } from './category-form/category-form.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
   declarations: [
     SectorFormComponent,
-    SectorListComponent,
-    CategoryListComponent,
-    CategoryFormComponent
+    SectorListComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +21,8 @@ import { TableModule } from 'ngx-easy-table';
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TableModule
+    TableModule,
+    SweetAlert2Module
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

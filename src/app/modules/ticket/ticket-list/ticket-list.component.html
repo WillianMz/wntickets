@@ -29,9 +29,14 @@
 
       <div class="mb-2">
         <div class="btn-group">
-          <button type="button" class="btn btn-outline-primary" (click)="newTicket()">Adicionar</button>
+          <button type="button" class="btn btn-outline-primary" (click)="newTicket()">
+            <i class="bi bi-plus-lg"></i> Adicionar
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="cleanFilters()">
+            <i class="bi bi-arrow-clockwise"></i> Atualizar
+          </button>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Filtro Avançado
+            <i class="bi bi-funnel"></i> Filtro Avançado
           </button>
           
         </div>

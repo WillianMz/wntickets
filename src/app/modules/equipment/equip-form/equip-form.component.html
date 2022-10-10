@@ -20,254 +20,321 @@
       <h3>{{ tituloPagina }}</h3>
     </div>
 
+
+
     <div class="col-sm-12">
       <form [formGroup]="equipForm">
 
-        <!-- ATIVO -->
-        <div class="row mt-2">
-          <div class="col-sm-4">
-            <div class="form-check" *ngIf="true">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="ativo">
-              <label class="form-check-label" for="flexCheckDefault">
-                Equipamento ativo
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- TIPO/SETOR -->
-        <div class="row mt-2">
-
-          <div class="col-sm-4" *ngIf="boolTipo">
-            <label>Tipo</label>
-            <select class="form-select" formControlName="tipo" placeholder="Setor" required="">
-              <option *ngFor="let tipo of tipos" [value]="tipo.id">{{ tipo.descricao }}</option>
-            </select>
-          </div>
-
-          <div class="col-sm-4" *ngIf="boolSetor">
-            <label>Setor</label>
-            <select class="form-select" formControlName="setor" placeholder="Setor" required="">
-              <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- CODIGO INTERNO/MARCA -->
-        <div class="row mt-2">
-          <div class="col-sm-4" *ngIf="boolCod">
-            <label>Código Interno</label>
-            <input type="text" class="form-control" formControlName="codInterno" placeholder="Código Interno">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="codInterno?.errors">
-              <div *ngIf="codInterno?.errors?.required && (codInterno?.dirty || codInterno?.touched)">Informe o código interno do equipamento</div>
-              <div *ngIf="codInterno?.errors?.minlength && (codInterno?.dirty || codInterno?.touched)">
-                Código interno deve conter no mínimo {{ codInterno?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="codInterno?.errors?.maxlength && (codInterno?.dirty || codInterno?.touched)">
-                Código interno deve conter no máximo {{ codInterno?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>   
-          </div>
-
-          <div class="col-sm-4" *ngIf="boolNumSerie">
-            <label>Número de Série</label>
-            <input type="text" class="form-control" formControlName="numSerial" placeholder="Número de Série">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="numSerial?.errors">
-              <div *ngIf="numSerial?.errors?.required && (numSerial?.dirty || numSerial?.touched)">Informe o número de série do equipamento</div>
-              <div *ngIf="numSerial?.errors?.minlength && (numSerial?.dirty || numSerial?.touched)">
-                Número de Série deve conter no mínimo {{ numSerial?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="numSerial?.errors?.maxlength && (numSerial?.dirty || numSerial?.touched)">
-                Número de Série deve conter no máximo {{ numSerial?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- NOME/DESCRICAO -->
-        <div class="row mt-2">
-          <div class="col-sm-5" *ngIf="boolNome">
-            <label>Nome</label>
-            <input type="text" class="form-control" formControlName="nome" placeholder="Nome">
-          
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="nome?.errors">
-              <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o nome do equipamento</div>
-              <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
-                Nome deve conter no mínimo {{ nome?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
-                Nome deve conter no máximo {{ nome?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>
-          
-          </div>
-
-          <div class="col-sm-7" *ngIf="boolDescricao">
-            <label>Descrição</label>
-            <input type="text" class="form-control" formControlName="descricao" placeholder="Descrição">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="descricao?.errors">
-              <div *ngIf="descricao?.errors?.required && (descricao?.dirty || descricao?.touched)">Informe a descrição</div>
-              <div *ngIf="descricao?.errors?.minlength && (descricao?.dirty || descricao?.touched)">
-                Descrição deve conter no mínimo {{ descricao?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="descricao?.errors?.maxlength && (descricao?.dirty || descricao?.touched)">
-                Descrição deve conter no máximo {{ descricao?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- FABRICANTE/MARCA/MODELO -->
-        <div class="row mt-2">
-          <div class="col-sm-4" *ngIf="boolFabricante">
-            <label>Fabricante</label>
-            <input type="text" class="form-control" formControlName="fabricante" placeholder="Fabricante">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="fabricante?.errors">
-              <div *ngIf="fabricante?.errors?.required && (fabricante?.dirty || fabricante?.touched)">Informe o fabricante</div>
-              <div *ngIf="fabricante?.errors?.minlength && (fabricante?.dirty || fabricante?.touched)">
-                Fabricante deve conter no mínimo {{ fabricante?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="fabricante?.errors?.maxlength && (fabricante?.dirty || nome?.touched)">
-                Fabricante deve conter no máximo {{ fabricante?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>    
-          </div>
-
-          <div class="col-sm-4" *ngIf="boolMarca">
-            <label>Marca</label>
-            <input type="text" class="form-control" formControlName="marca" placeholder="Marca">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="marca?.errors">
-              <div *ngIf="marca?.errors?.required && (marca?.dirty || marca?.touched)">Informe a marca</div>
-              <div *ngIf="marca?.errors?.minlength && (marca?.dirty || marca?.touched)">
-                Marca deve conter no mínimo {{ marca?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="marca?.errors?.maxlength && (marca?.dirty || marca?.touched)">
-                Marca deve conter no máximo {{ marca?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>    
-          </div>
-
-          <div class="col-sm-4" *ngIf="boolModelo">
-            <label>Modelo</label>
-            <input type="text" class="form-control" formControlName="modelo" placeholder="Modelo">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="modelo?.errors">
-              <div *ngIf="modelo?.errors?.required && (modelo?.dirty || modelo?.touched)">Informe o modelo</div>
-              <div *ngIf="modelo?.errors?.minlength && (modelo?.dirty || modelo?.touched)">
-                Modelo deve conter no mínimo {{ modelo?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="modelo?.errors?.maxlength && (modelo?.dirty || modelo?.touched)">
-                Modelo deve conter no máximo {{ modelo?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>    
-          </div>
-        </div>
-
-        <!-- ANO FABRICACAO/DT.COMPRA/VALOR/COMPRA -->
-        <div class="row mt-2">
-          <div class="col-sm-3" *ngIf="boolAnoFab">
-            <label>Ano Fabricação</label>
-            <input type="text" mask="0000" class="form-control" formControlName="anoFabricacao" placeholder="Ano Fabricação">
-
-            <!-- VALIDACAO -->
-<!--             <div class="text-danger" *ngIf="anoFabricacao?.errors">
-              <div *ngIf="anoFabricacao?.errors?.required && (anoFabricacao?.dirty || anoFabricacao?.touched)">Informe o Ano de fabricação</div>
-              <div *ngIf="anoFabricacao?.errors?.minlength && (anoFabricacao?.dirty || anoFabricacao?.touched)">
-                Ano de fabricação deve conter no mínimo {{ anoFabricacao?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="anoFabricacao?.errors?.maxlength && (anoFabricacao?.dirty || anoFabricacao?.touched)">
-                Ano de fabricação deve conter no máximo {{ anoFabricacao?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>    -->
-          </div>
-
-          <div class="col-sm-4" *ngIf="boolDtCompra">
-            <label>Data da Compra</label>
-            <input type="text" class="form-control" formControlName="dtCompra" placeholder="dd/MM/aaaa"  mask="d0/M0/0000">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="dtCompra?.errors">
-              <div *ngIf="dtCompra?.errors?.required && (dtCompra?.dirty || dtCompra?.touched)">Informe a data de compra</div>
-              <div *ngIf="dtCompra?.errors?.minlength && (dtCompra?.dirty || dtCompra?.touched)">
-                Data de Compra deve conter no mínimo {{ dtCompra?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="dtCompra?.errors?.maxlength && (dtCompra?.dirty || dtCompra?.touched)">
-                Data de Compra deve conter no máximo {{ dtCompra?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>   
-          </div>
-
-          <div class="col-sm-3" *ngIf="boolValor">
-            <label>Valor da Compra</label>
-            <!-- <input type="text" class="form-control" formControlName="valorCompra" placeholder="R$"> -->
-            <input type="text" class="form-control" currencyMask formControlName="valorCompra">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="valorCompra?.errors">
-              <div *ngIf="valorCompra?.errors?.required && (valorCompra?.dirty || valorCompra?.touched)">Informe o valor da compra</div>
-             <!--  <div *ngIf="valorCompra?.errors?.minlength && (valorCompra?.dirty || valorCompra?.touched)">
-                Valor da Compra deve conter no mínimo {{ valorCompra?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="valorCompra?.errors?.maxlength && (valorCompra?.dirty || valorCompra?.touched)">
-                Valor da Compra deve conter no máximo {{ valorCompra?.errors?.maxlength.requiredLength }} caracteres</div> -->
-            </div>   
-          </div>
-        </div>
-
-        <!-- ANOTAÇÕES -->
-        <div class="row mt-2">
-          <div class="col-sm-12" *ngIf="boolAnotacao">
-            <label>Anotações</label>
-            <input type="text" class="form-control" formControlName="anotacoes" placeholder="Anotações">
-
-            <!-- VALIDACAO -->
-            <!-- <div class="text-danger" *ngIf="anotacoes?.errors">
-              <div *ngIf="anotacoes?.errors?.required && (anotacoes?.dirty || anotacoes?.touched)">Informe o anotacoes</div>
-              <div *ngIf="anotacoes?.errors?.minlength && (anotacoes?.dirty || anotacoes?.touched)">
-                anotacoes deve conter no mínimo {{ anotacoes?.errors?.minlength.requiredLength }} caracteres
-              </div>
-              <div *ngIf="anotacoes?.errors?.maxlength && (anotacoes?.dirty || anotacoes?.touched)">
-                anotacoes deve conter no máximo {{ anotacoes?.errors?.maxlength.requiredLength }} caracteres</div>
-            </div>   -->
-          </div>
-        </div>
-
-        <!-- BAIXA DO EQUIPAMENTO -->
-        <div class="row mt-4">
-          <div class="col-sm-12" *ngIf="boolMotivoBaixa">
-            <label>Motivo de Baixa</label>
-            <input type="text" class="form-control" formControlName="motivoBaixa" placeholder="Motivo de Baixa">
-          </div>
-        </div>
-
-        <!-- IMAGENS | BACKEND AINDA NAO SUPORTA-->
-        <div class="row mt-2" *ngIf="false">
-          <div class="col">
-            <div class="card">
-              <div class="card-header">
-                Imagens
-              </div>
-              <div class="card-body">
-                <a type="button" class="btn btn-primary">Adicionar</a>
+        <p-tabView>
+          <p-tabPanel header="Principal">
+            <!-- ATIVO -->
+            <div class="row mt-2">
+              <div class="col-sm-4">
+                <div class="form-check" *ngIf="true">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="ativo">
+                  <label class="form-check-label" for="flexCheckDefault">Equipamento ativo</label>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+
+            <!-- TIPO/SETOR -->
+            <div class="row mt-2">
+
+              <div class="col-sm-6" *ngIf="boolTipo">
+                <label>Tipo<span class="text-danger">*</span></label>
+                <select class="form-select campo-obrigatorio" formControlName="tipo" placeholder="Setor" required="">
+                  <option *ngFor="let tipo of tipos" [value]="tipo.id">{{ tipo.descricao }}</option>
+                </select>
+              </div>
+
+              <div class="col-sm-6" *ngIf="boolSetor">
+                <label>Laboratório<span class="text-danger">*</span></label>
+                <select class="form-select campo-obrigatorio" formControlName="setor" placeholder="Setor" required="">
+                  <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- NOME/DESCRICAO -->
+            <div class="row mt-2">
+              <div class="col-sm-5" *ngIf="boolNome">
+                <label>Nome<span class="text-danger">*</span></label>
+                <input type="text" class="form-control campo-obrigatorio" formControlName="nome" placeholder="Nome">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="nome?.errors">
+                  <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o nome do equipamento
+                  </div>
+                  <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
+                    Nome deve conter no mínimo {{ nome?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
+                    Nome deve conter no máximo {{ nome?.errors?.maxlength.requiredLength }} caracteres</div>
+                </div>
+              </div>
+
+              <div class="col-sm-3" *ngIf="boolCod">
+                <label>Código Interno</label>
+                <input type="text" class="form-control" formControlName="codInterno" placeholder="Código Interno">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="codInterno?.errors">
+                  <div *ngIf="codInterno?.errors?.required && (codInterno?.dirty || codInterno?.touched)">Informe o
+                    código
+                    interno do equipamento</div>
+                  <div *ngIf="codInterno?.errors?.minlength && (codInterno?.dirty || codInterno?.touched)">
+                    Código interno deve conter no mínimo {{ codInterno?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="codInterno?.errors?.maxlength && (codInterno?.dirty || codInterno?.touched)">
+                    Código interno deve conter no máximo {{ codInterno?.errors?.maxlength.requiredLength }} caracteres
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4" *ngIf="boolNumSerie">
+                <label>Número de Série</label>
+                <input type="text" class="form-control" formControlName="numSerial" placeholder="Número de Série">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="numSerial?.errors">
+                  <div *ngIf="numSerial?.errors?.required && (numSerial?.dirty || numSerial?.touched)">Informe o número
+                    de
+                    série do equipamento</div>
+                  <div *ngIf="numSerial?.errors?.minlength && (numSerial?.dirty || numSerial?.touched)">
+                    Número de Série deve conter no mínimo {{ numSerial?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="numSerial?.errors?.maxlength && (numSerial?.dirty || numSerial?.touched)">
+                    Número de Série deve conter no máximo {{ numSerial?.errors?.maxlength.requiredLength }} caracteres
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-sm-12" *ngIf="boolDescricao">
+                <label>Descrição<span class="text-danger">*</span></label>
+                <input type="text" class="form-control campo-obrigatorio" formControlName="descricao" placeholder="Descrição">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="descricao?.errors">
+                  <div *ngIf="descricao?.errors?.required && (descricao?.dirty || descricao?.touched)">Informe a
+                    descrição
+                  </div>
+                  <div *ngIf="descricao?.errors?.minlength && (descricao?.dirty || descricao?.touched)">
+                    Descrição deve conter no mínimo {{ descricao?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="descricao?.errors?.maxlength && (descricao?.dirty || descricao?.touched)">
+                    Descrição deve conter no máximo {{ descricao?.errors?.maxlength.requiredLength }} caracteres</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FABRICANTE/MARCA/MODELO -->
+            <div class="row mt-2">
+              <div class="col-sm-4" *ngIf="boolFabricante">
+                <label>Fabricante<span class="text-danger">*</span></label>
+                <input type="text" class="form-control campo-obrigatorio" formControlName="fabricante" placeholder="Fabricante">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="fabricante?.errors">
+                  <div *ngIf="fabricante?.errors?.required && (fabricante?.dirty || fabricante?.touched)">Informe o
+                    fabricante</div>
+                  <div *ngIf="fabricante?.errors?.minlength && (fabricante?.dirty || fabricante?.touched)">
+                    Fabricante deve conter no mínimo {{ fabricante?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="fabricante?.errors?.maxlength && (fabricante?.dirty || nome?.touched)">
+                    Fabricante deve conter no máximo {{ fabricante?.errors?.maxlength.requiredLength }} caracteres</div>
+                </div>
+              </div>
+
+              <div class="col-sm-4" *ngIf="boolMarca">
+                <label>Marca<span class="text-danger">*</span></label>
+                <input type="text" class="form-control campo-obrigatorio" formControlName="marca" placeholder="Marca">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="marca?.errors">
+                  <div *ngIf="marca?.errors?.required && (marca?.dirty || marca?.touched)">Informe a marca</div>
+                  <div *ngIf="marca?.errors?.minlength && (marca?.dirty || marca?.touched)">
+                    Marca deve conter no mínimo {{ marca?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="marca?.errors?.maxlength && (marca?.dirty || marca?.touched)">
+                    Marca deve conter no máximo {{ marca?.errors?.maxlength.requiredLength }} caracteres</div>
+                </div>
+              </div>
+
+              <div class="col-sm-4" *ngIf="boolModelo">
+                <label>Modelo<span class="text-danger">*</span></label>
+                <input type="text" class="form-control campo-obrigatorio" formControlName="modelo" placeholder="Modelo">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="modelo?.errors">
+                  <div *ngIf="modelo?.errors?.required && (modelo?.dirty || modelo?.touched)">Informe o modelo</div>
+                  <div *ngIf="modelo?.errors?.minlength && (modelo?.dirty || modelo?.touched)">
+                    Modelo deve conter no mínimo {{ modelo?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="modelo?.errors?.maxlength && (modelo?.dirty || modelo?.touched)">
+                    Modelo deve conter no máximo {{ modelo?.errors?.maxlength.requiredLength }} caracteres</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CODIGO INTERNO/MARCA -->
+            <div class="row mt-2">
+              <div class="col-sm-4" *ngIf="false">
+                <label>Código Interno</label>
+                <input type="text" class="form-control" formControlName="codInterno" placeholder="Código Interno">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="codInterno?.errors">
+                  <div *ngIf="codInterno?.errors?.required && (codInterno?.dirty || codInterno?.touched)">Informe o
+                    código
+                    interno do equipamento</div>
+                  <div *ngIf="codInterno?.errors?.minlength && (codInterno?.dirty || codInterno?.touched)">
+                    Código interno deve conter no mínimo {{ codInterno?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="codInterno?.errors?.maxlength && (codInterno?.dirty || codInterno?.touched)">
+                    Código interno deve conter no máximo {{ codInterno?.errors?.maxlength.requiredLength }} caracteres
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4" *ngIf="false">
+                <label>Número de Série</label>
+                <input type="text" class="form-control" formControlName="numSerial" placeholder="Número de Série">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="numSerial?.errors">
+                  <div *ngIf="numSerial?.errors?.required && (numSerial?.dirty || numSerial?.touched)">Informe o número
+                    de
+                    série do equipamento</div>
+                  <div *ngIf="numSerial?.errors?.minlength && (numSerial?.dirty || numSerial?.touched)">
+                    Número de Série deve conter no mínimo {{ numSerial?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="numSerial?.errors?.maxlength && (numSerial?.dirty || numSerial?.touched)">
+                    Número de Série deve conter no máximo {{ numSerial?.errors?.maxlength.requiredLength }} caracteres
+                  </div>
+                </div>
+              </div>
+
+              <!-- ANOTAÇÕES -->
+              <div class="row mt-2">
+                <div class="col-sm-12" *ngIf="boolAnotacao">
+                  <label>Informações Adicionais</label>
+                  <input type="text" class="form-control" formControlName="anotacoes" placeholder="Anotações">
+                </div>
+              </div>
+            </div>
+
+          </p-tabPanel>
+
+          <p-tabPanel header="Compra">
+            <div class="row mt-2">            
+              <div class="col-sm-12">
+                <!-- FORNECEDOR DO EQUIPAMENTO -->
+                <label>Fornecedor<span class="text-danger">*</span></label>
+                <div class="input-group mb-3">
+                  <select class="form-select campo-obrigatorio" formControlName="tipo" placeholder="Setor" required="">
+                    <option *ngFor="let tipo of tipos" [value]="tipo.id">{{ tipo.descricao }}</option>
+                  </select>
+                  <button class="btn btn-outline-secondary" type="button">Procurar</button>
+                </div>                
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-sm-3" >
+                <label>Nota Fiscal</label>
+                <input type="text" class="form-control " formControlName="" placeholder="Nota Fiscal">
+              </div>
+
+              <div class="col-sm-6" >
+                <label>Chave NF-e</label>
+                <input type="text" class="form-control " formControlName="">
+              </div>
+            </div>
+
+            <!-- ANO FABRICACAO/DT.COMPRA/VALOR/COMPRA -->
+            <div class="row mt-2">
+              <div class="col-sm-3" *ngIf="boolAnoFab">
+                <label>Ano Fabricação</label>
+                <input type="text" mask="0000" class="form-control" formControlName="anoFabricacao" placeholder="Ano Fabricação">
+              </div>
+
+              <!-- data de compra -->
+              <div class="col-sm-4" *ngIf="boolDtCompra">
+                <label>Data da Compra<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="dtCompra" placeholder="dd/MM/aaaa" mask="d0/M0/0000">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="dtCompra?.errors">
+                  <div *ngIf="dtCompra?.errors?.required && (dtCompra?.dirty || dtCompra?.touched)">Informe a data de
+                    compra
+                  </div>
+                  <div *ngIf="dtCompra?.errors?.minlength && (dtCompra?.dirty || dtCompra?.touched)">
+                    Data de Compra deve conter no mínimo {{ dtCompra?.errors?.minlength.requiredLength }} caracteres
+                  </div>
+                  <div *ngIf="dtCompra?.errors?.maxlength && (dtCompra?.dirty || dtCompra?.touched)">
+                    Data de Compra deve conter no máximo {{ dtCompra?.errors?.maxlength.requiredLength }} caracteres
+                  </div>
+                </div>
+              </div>
+
+              <!-- valor de compra -->
+              <div class="col-sm-3" *ngIf="boolValor">
+                <label>Valor da Compra<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" currencyMask formControlName="valorCompra">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="valorCompra?.errors">
+                  <div *ngIf="valorCompra?.errors?.required && (valorCompra?.dirty || valorCompra?.touched)">Informe o  valor da compra</div>
+                </div>
+              </div>
+            </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Históricos">
+            <!-- BAIXA DO EQUIPAMENTO -->
+            <div class="row mt-4">
+              <div class="col-sm-12" *ngIf="boolMotivoBaixa">
+                <label>Motivo de Baixa</label>
+                <input type="text" class="form-control" formControlName="motivoBaixa" placeholder="Motivo de Baixa">
+              </div>
+            </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Outros">
+            
+
+            <!-- IMAGENS | BACKEND AINDA NAO SUPORTA-->
+            <div class="row mt-2" *ngIf="false">
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                    Imagens
+                  </div>
+                  <div class="card-body">
+                    <a type="button" class="btn btn-primary">Adicionar</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabPanel>
+
+        </p-tabView>
 
       </form>
     </div>
   </div>
 
   <div class="row mt-2">
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
+    <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto"> -->
+    <div class="col">
       <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary" [disabled]="!equipForm.valid" (click)="salvar()">Salvar</button>
         <button type="button" class="btn btn-outline-danger" [routerLink]="['/equipment']">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="!equipForm.valid"
+          (click)="salvar()">Salvar</button>
       </div>
-    </div>  
+    </div>
   </div>
 
 </div>

@@ -1,10 +1,14 @@
-import { TipoEquiModel } from './../models/equipment/tipoEquipModel';
-import { NovoEquipamentoModel } from './../models/equipment/novoEquipamentoModel';
+import { BaixarEquipamentoRequest } from './../models/equipment/baixarEquipamentoRequest.model';
+import { EquipamentoRequest } from './../models/equipment/equipamentoRequest.model';
+import { TipoEquipamentoResponse } from './../models/equipment/tipoEquipamentoResponse.model';
+import { TipoEquipamentoRequest } from './../models/equipment/tipoEquipamentoRequest.model';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { EquipamentoModel } from '../models/equipment/equipamentoModel';
+import { EquipamentoResponse } from '../models/equipment/equipamentoResponse.model';
+
+const ENDERECO_API: string = `${environment.api}/equipamento`;
 
 @Injectable({
   providedIn: 'root'
@@ -13,101 +17,82 @@ export class EquipamentoService {
 
   constructor(private http: HttpClient) {}
 
-  save(equipamento: EquipamentoModel){
-    if(equipamento.id){
-      console.log(equipamento);
-      return this.update(equipamento);
+  //tipos de equipamentos
+  public salvarTipo(tipo: TipoEquipamentoRequest){
+    if(tipo.id){
+      return this.http.put(`${ENDERECO_API}/tipo`, tipo);
     }
-    else {
-      return this.create(equipamento);
+    else{
+      return this.http.post(`${ENDERECO_API}/tipo`, tipo);
     }
+  };
+
+  public getTipos(ativo: boolean): Observable<TipoEquipamentoResponse[]>{
+    return this.http.get<TipoEquipamentoResponse[]>(`${ENDERECO_API}/tipo?ativo=${ativo}`);
   }
 
-  private create(equipamento: EquipamentoModel){
-    return this.http.post(`${environment.api}/Equipamento`, equipamento);
+  public getTipoById(id: number) : Observable<TipoEquipamentoResponse>{
+    return this.http.get<TipoEquipamentoResponse>(`${ENDERECO_API}/tipo/${id}`);
+  };
+
+  //equipamentos
+  public novo(equipamento: EquipamentoRequest) {
+    return this.http.post(`${ENDERECO_API}`,equipamento);
   }
 
-  private update(iequip: EquipamentoModel){
-    return this.http.put(`${environment.api}/Equipamento`, iequip);
+  public editar(equipamento: EquipamentoRequest) {
+    return this.http.put(`${ENDERECO_API}`,equipamento);
   }
 
-  public delete(id: number){
-    return this.http.delete(`${environment.api}/Equipamento/${id}`);
-  }
-  
-  public getAll(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento`)
-    //.pipe(catchError(this.handleError<Result>('getAll')));
+  public getAll(ativo: boolean) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/?ativo=${ativo}`)
   }
 
-  public getById(id: number): Observable<EquipamentoModel>{
-    return this.http.get(`${environment.api}/equipamento/${id}`);
+  public baixar(equipamento: BaixarEquipamentoRequest){
+    return this.http.put(`${ENDERECO_API}/baixar`, equipamento);
   }
 
-  public disable(id: number){
-    return this.http.put(`${environment.api}/Equipamento/${id}/desativar`, null);
+  public ativar(id: number){
+    return this.http.put(`${ENDERECO_API}/${id}/ativar`, null);
   }
 
-  public enable(id: number) {
-    return this.http.put(`${environment.api}/Equipamento/${id}/ativar`, null);
+  public desativar(id: number){
+    return this.http.put(`${ENDERECO_API}/${id}/desativar`, null);
   }
 
-  public disabled(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=false`);
+  public excluir(id: number){
+    return this.http.delete(`${ENDERECO_API}/${id}`);
   }
 
-  public enabled(): Observable<EquipamentoModel[]>{
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento?ativo=true`);
+  public getById(id: number) : Observable<EquipamentoResponse>{
+    return this.http.get<EquipamentoResponse>(`${ENDERECO_API}/${id}`)
   }
 
-  public getByName(nome: string): Observable<EquipamentoModel[]> {
-    return this.http.get<EquipamentoModel[]>(`${environment.api}/Equipamento/nome?nome=${nome}`);
+  public getByNome(nome: string) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/nome?nome=${nome}`);
   }
 
-  //NOVAS ROTAS
-  public adicionar(equipamento: EquipamentoModel){
-    return this.http.post(`${environment.api}/equipamento`, equipamento);
+  public getByTipo(tipo: number, ativo: boolean) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/tipo_equip?tipoId=${tipo}&ativo=${ativo}`);
   }
 
-  public editar(equipamento: EquipamentoModel){
-    return this.http.put(`${environment.api}/equipamento`, equipamento);
+  public getBySetor(setor: number, ativo: boolean) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/setor?setorId=${setor}&ativo=${ativo}`);
   }
 
-  //TIPOS DE EQUIPAMENTOS
-  public getTipos(ativo: boolean): Observable<TipoEquiModel[]>{
-    return this.http.get<TipoEquiModel[]>(`${environment.api}/equipamento/tipo?ativo=${ativo}`);
+  /* public getByMarca(marca: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/marca?marca=${marca}&ativo=${ativo}`);
   }
 
-  public getTipoById(id: number): Observable<TipoEquiModel>{
-    return this.http.get<TipoEquiModel>(`${environment.api}/equipamento/tipo/${id}`);
+  public getByModelo(modelo: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/modelo?modelo=${modelo}&ativo=${ativo}`);
   }
 
-  private createTipo(equipType: TipoEquiModel){
-    return this.http.post(`${environment.api}/Equipamento/tipo`, equipType);
+  public getByFabricante(fabricante: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/fabricante?fabricante=${fabricante}&ativo=${ativo}`);
   }
 
-  private updateTipo(equipType: TipoEquiModel){
-    return this.http.put(`${environment.api}/Equipamento/tipo`, equipType);
-  }
-
-  public enableTipo(equipType: TipoEquiModel){
-    return this.updateTipo(equipType);
-  }
-
-  public disableTipo(equipType: TipoEquiModel){
-    return this.updateTipo(equipType);
-  }
-
-  saveTipo(tipoEquip: TipoEquiModel){
-    if(tipoEquip.id){
-      return this.updateTipo(tipoEquip);
-    }
-    else {
-      return this.createTipo(tipoEquip);
-    }
-  }
-
-  public disabledTipo(): Observable<TipoEquiModel[]>{
-    return this.http.get<TipoEquiModel[]>(`${environment.api}/Equipamento/Tipo?ativo=false`);
-  }
+  public getBySerial(serial: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
+    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/serial?serial=${serial}&ativo=${ativo}`);
+  } */
 }
