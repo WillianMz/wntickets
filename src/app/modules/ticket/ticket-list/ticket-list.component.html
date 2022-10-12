@@ -59,13 +59,24 @@
                  <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="excluirTicket.fire()">Excluir</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Detalhes</a></li>
                 </ul>
               </div>
               
             </div>
+
+            <swal
+            #excluirTicket 
+            title="Excluír {{ row.assunto }}?"
+            text="Esta ação não poderá ser desfeita"
+            icon="question"
+            [showCancelButton]="true"
+            [focusCancel]="true"
+            (confirm)="delete(row.id)">
+          </swal>
+
           </ng-template>
         </div>
       </div>
@@ -82,8 +93,8 @@
               <app-ticket-filter></app-ticket-filter>
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aplicar</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
             </div>
 
           </div>

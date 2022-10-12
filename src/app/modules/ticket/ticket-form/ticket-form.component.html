@@ -20,45 +20,6 @@
   </div> -->
 
   <div class="row g-5">
-    <div class="col-md-5 col-lg-4 order-md-last">
-      <ul class="list-group mb-3">
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="newTicket()">Novo ticket</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-warning btn-lg" type="submit">Editar</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-dark btn-lg" type="submit" (click)="goComments()">Comentários</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="goAttachments()">Anexos</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Histórico</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-success btn-lg" type="submit" (click)="goHistoric()">Finalizar</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-danger btn-lg" type="submit" (click)="goHistoric()">Cancelar</button>
-          </div>
-        </li>
-      </ul>
-    </div>
 
     <div class="col-md-7 col-lg-8">
       <form class="needs-validation" novalidate="">
@@ -175,6 +136,47 @@
         <hr class="my-4">
       </form>
     </div>
+
+    <div class="col-md-5 col-lg-4 order-md-last">
+      <ul class="list-group mb-3">
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="newTicket()">Novo ticket</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-warning btn-lg" type="submit">Editar</button>
+          </div>
+        </li>
+        <!-- <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-dark btn-lg" type="submit" (click)="goComments()">Comentários</button>
+          </div>
+        </li> -->
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="goAttachments()">Anexos</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Histórico</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-success btn-lg" type="submit" (click)="goHistoric()">Finalizar</button>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-danger btn-lg" type="submit" (click)="goHistoric()">Cancelar</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
   </div>
 
 </div>

@@ -18,6 +18,9 @@ export class TicketService {
     return this.http.post(`${ENDERECO_API}/equipamento`, chamado);
   }
 
+  public delete(id: number){
+    return this.http.delete(`${ENDERECO_API}/${id}?chamadoId=${id}`);
+  }
 
 
 
@@ -47,9 +50,9 @@ export class TicketService {
     return this.http.put(`${environment.api}/Ticket`, iticket);
   }
 
-  public delete(id: number){
+  /* public delete(id: number){
     return this.http.delete(`${environment.api}/Ticket/${id}`);
-  }
+  } */
 
   public getAll(): Observable<TicketModel[]> {
     return this.http.get<TicketModel[]>(`${environment.api}/Ticket`)
