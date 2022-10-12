@@ -127,13 +127,13 @@ export class TicketOpenComponent implements OnInit {
       prioridade: new FormControl(chamado.prioridade),
       assunto: new FormControl(chamado.assunto, [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(5),
         Validators.maxLength(100)
       ]),
       descricao: new FormControl(chamado.descricao,[
         Validators.required,
-        Validators.minLength(35),
-        Validators.maxLength(1000)
+        Validators.minLength(10),
+        Validators.maxLength(2000)
       ])
     });
   }

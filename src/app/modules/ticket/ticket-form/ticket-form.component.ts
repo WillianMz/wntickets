@@ -15,20 +15,21 @@ export class TicketFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  newTicket() {
+    this.router.navigate(['/ticket/open']);
+  }
+
   goHistoric(){
     this.router.navigate(['tickets/1/historic']);
   }
 
-  goComments(){
+  /* goComments(){
     this.router.navigate(['tickets/1/comments']);
-  }
+  } */
 
   goAttachments(){
     this.router.navigate(['tickets/1/attachments']);
   }
 
-  newTicket() {
-    this.router.navigate(['/ticket/new']);
-  }
 
 }
