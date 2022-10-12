@@ -7,7 +7,7 @@
     <form [formGroup]="chamadoForm">
         <div class="row mb-3">
             <label for="equipamento" class="col-sm-3 col-md-2 col-form-label">Equipamento</label>
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-5">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Nº do equipamento" aria-label="Equipamento"
                         id="equipamento" formControlName="equipamento">
@@ -44,8 +44,8 @@
                     </ul>
                 </div>
             </div>
-
         </div>
+
         <div class="row mb-3" *ngIf="selecionarPrioridade">
             <label for="prioridade" class="col-sm-2 col-form-label">Prioridade</label>
             <div class="col-sm-6">
@@ -58,6 +58,7 @@
                 </select>
             </div>
         </div>
+
         <div class="row mb-3">
             <label for="assunto" class="col-sm-2 col-form-label">Assunto</label>
             <div class="col-sm-10">
@@ -79,6 +80,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row mb-3">
             <label for="descricao" class="col-sm-2 col-form-label">Descrição do problema</label>
             <div class="col-sm-10">
@@ -106,6 +108,19 @@
 
         <!-- <app-ticket-attachments></app-ticket-attachments> -->
 
-        <button type="button" class="btn btn-primary" [disabled]="!chamadoForm.valid" (click)="salvar()">Salvar</button>
+        <div class="row mt-2">
+            <div class="col">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-outline-primary" [disabled]="!chamadoForm.valid" (click)="salvar()">
+                  <i class="bi bi-check"></i>
+                  Salvar
+                </button>
+              </div>
+            </div>
+        </div>
+
     </form>
 </div>

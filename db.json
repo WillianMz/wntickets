@@ -299,7 +299,13 @@
     }
   ],
   "contatos": [],
-  "tickets": [],
+  "Ticket": [
+    {
+      "equipamentoId": 1,
+      "assunto": "TESTE JSON assunto",
+      "descricao": "TESTE JSON descricao"
+    }
+  ],
   "calls": [],
   "equipamento": [
     {
