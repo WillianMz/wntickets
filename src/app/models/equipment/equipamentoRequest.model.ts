@@ -11,13 +11,12 @@ export class EquipamentoRequest {
     public modelo: string;
     public numSerial: string;
     public anoFabricacao?: string;
-    public dtCompra?: string;
-    public valorCompra?: string
+    public fornecedorId?: number;
+    public notaFiscal: number;
+    public chaveNFe?: string;
+    public dtCompra: string;
+    public valorCompra: string
+    public tempoGarantia?: string;
     public anotacoes?: string;
     public foto?: string;
-
-    public fornecedorId?: number;
-    public notaFiscal?: number;
-    public chaveNFe?: string;
-    public tempoGarantia?: string;
 }
