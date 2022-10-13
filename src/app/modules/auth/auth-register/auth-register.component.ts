@@ -112,7 +112,10 @@ export class AuthRegisterComponent implements OnInit {
 
   private startForm(usuario: CadastroUsuarioRequest){
     this.userForm = new FormGroup({
-      email: new FormControl(usuario.email, Validators.required),
+      email: new FormControl(usuario.email, [
+        Validators.required,
+        Validators.email
+      ]),
       nome: new FormControl(usuario.nome, [
         Validators.required,
         Validators.minLength(5),

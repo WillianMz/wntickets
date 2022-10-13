@@ -1,118 +1,96 @@
+<app-load [text]="'obtendo dados...'"></app-load>
 
 <div class="container">
-  <div class="row pt-2" *ngIf="false">
-    <app-alert [mensagem]="'EM DESENVOLVIMENTO'" [color]="'alert-danger'"></app-alert>
-  </div>
-</div>
-
-<ng-template #filtroPesquisa>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Filtros</h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <ul class="list-group">
-      <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="true">
-        Somente desativados
-      </label>
-    </ul>
-
-    <div class="row mt-2">
-      <button class="btn btn-primary">Aplicar</button>
-    </div>
-
-  </div>
-</ng-template>
-
-
-<div class="container">
-
-  <div class="row mt-2">
+  <div class="row">
     <div class="col-12">
-      <h2>{{titlePage}}</h2>
-    </div>
-  </div>
 
-  <div class="row mt-2">
-    <div class="col-xs-6 col-sm-12 col-lg-6">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Digite aqui o que deseja procurar..." >
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" >
-          <i class="bi bi-search"></i> Procurar
-        </button>
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="false">
+        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
       </div>
-    </div>
-  </div>
 
-  <div class="row" *ngIf="true">
-    <div class="col-12">
-      <div class="col-xs-6 col-sm-12 col-lg-6">
-        <div class="btn-group">
-          <button type="button" class="btn btn-outline-primary" >
-            <i class="bi bi-plus-square"></i> Adicionar
-          </button>
-          <button type="button" class="btn btn-outline-primary" >
-            <i class="bi bi-arrow-clockwise"></i> Atualizar
-          </button>
-          <button type="button" class="btn btn-outline-primary" >
-            <i class="bi bi-check2-square"></i> Selecionar
-          </button>
-          <button type="button" class="btn btn-outline-primary">
-            <i class="bi bi-printer"></i> Imprimir
-          </button>
-          <button type="button" class="btn btn-outline-primary">
-            <i class="bi bi-filter"></i> Filtro
-          </button>
+      <!-- TITULO DA PAGINA -->
+      <div class="row mt-2 col-10">
+        <h2>{{ tituloDaPagina }}</h2>
+      </div>
+
+      <!-- INPUT PARA PESQUISA -->
+<!--       <div class="row mt-2">
+        <div class="col-xs-5 col-sm-10 col-lg-5">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="equipmentName">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="search()"
+              *ngIf="equipmentName?.length">
+              <i class="bi bi-search"></i> Procurar
+            </button>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- BOTOES DE ACOES -->
+      <div class="row" *ngIf="true">
+        <div class="col-12">
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary" (click)="new()">
+              <i class="bi bi-plus-lg"></i> Adicionar
+            </button>
+            <button type="button" class="btn btn-outline-primary" (click)="saveFilter()">
+              <i class="bi bi-arrow-clockwise"></i> Atualizar
+            </button>
+            <button type="button" class="btn btn-outline-primary" (click)="voltar()">
+              <i class="bi bi-arrow-return-left"></i> Voltar
+            </button>
+
+            <!-- BOTAO DE FILTROS PREDEFENIDOS -->
+<!--             <div class="btn-group">
+              <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-funnel"></i> Filtrar
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" type="button" (click)="userInativos()">Desativados</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Tipo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Marca</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Modelo</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Setor</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Fabricante</a></li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Por Serial</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Limpar Filtros</a></li>
+              </ul>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID / TABELA -->
+      <div class="row mt-2">
+        <div class="col-12">
+          <div class="columns">
+            <div class="column col-12">
+              <ngx-table [configuration]="configuration" [data]="users" [columns]="columns"> </ngx-table>
+            </div>
+          </div>
+          <ng-template #actionTpl let-row let-rowIndex="rowIndex">
+            <div class="btn-group">
+              <div class="btn-group">
+                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Mais detalhes
+                </button>              
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="!row.ativo">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo">Desativar</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li>
+                </ul>
+              </div>
+              
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- <div class="row mt-2" *ngIf="users?.length">
-    <div class="col-12">
-      <ngx-table [data]="users" [configuration]="configuration" [columns]="columns">
-        <ng-template let-row>
-          <td>
-            <div class="font-small">{{ row.id }}</div>
-          </td>
-          <td>
-            <span class="font-small">{{row.nome}} {{row.sobrenome}}</span>
-          </td>
-          <td>
-            <span class="font-small">{{row.email}}</span>
-          </td>
-          <td>
-            <span class="font-small">{{row.tipoUsuario}}</span>
-          </td>
-          <td>
-            <span class="font-small">{{row.login || "**********"}} </span>
-          </td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-outline-warning btn-sm" tooltip="Editar" (click)="edit(row.id)">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-outline-danger btn-sm" tooltip="Excluír">
-                <i class="bi bi-trash"></i>
-              </button>
-              <button class="btn btn-outline-success btn-sm" tooltip="Ativar" *ngIf="row.ativo == false">
-                <i class="bi bi-toggle2-on"></i>
-              </button>
-              <button class="btn btn-outline-secondary btn-sm" tooltip="Desativar" *ngIf="row.ativo == true">
-                <i class="bi bi-toggle2-off"></i>
-              </button>
-            </div>
-          </td>
-        </ng-template>
-      </ngx-table>
-    </div>
-  </div> -->
-
-  <div class="row pt-2" >
-    <app-alert [mensagem]="'Nenhum usuário encontrado!'" [color]="'alert-secondary'"></app-alert>
   </div>
 </div>
