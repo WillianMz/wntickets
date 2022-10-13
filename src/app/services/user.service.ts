@@ -9,6 +9,8 @@ import { NovoUsuarioModel } from '../models/user/novoUsuarioModel';
 import { EditarUsuarioModel } from '../models/user/editarUsuarioModel';
 import { environment } from 'src/environments/environment';
 
+const ENDERECO_API: string = `${environment.api}/usuario`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,28 +19,28 @@ export class UserService {
   constructor( private http: HttpClient) { }
 
   public criarRole(role: RoleRequest) : Observable<any>{
-    return this.http.post(environment.api, role);
+    return this.http.post(`${ENDERECO_API}`, role);
   }
 
   public getRoles(): Observable<RoleResponse[]>{
-    return this.http.get<RoleResponse[]>(`${environment.api}/list-role`);
+    return this.http.get<RoleResponse[]>(`${ENDERECO_API}/list-role`);
   }
 
   public getAll(): Observable<Usuario[]>{
-    return this.http.get<Usuario[]>(`${environment.api}/usuario`);
+    return this.http.get<Usuario[]>(`${ENDERECO_API}`);
   }
 
   public adicionar(usuario: NovoUsuarioModel) {
     console.log(usuario);
-    return this.http.post(`${environment.api}/usuario`, usuario);
+    return this.http.post(`${ENDERECO_API}`, usuario);
   }
 
   public editar(usuario: EditarUsuarioModel) {
-    return this.http.put(`${environment.api}/usuario`, usuario);
+    return this.http.put(`${ENDERECO_API}`, usuario);
   }
 
   public delete(id: string){
-    return this.http.delete(`${environment.api}/usuario/${id}`);
+    return this.http.delete(`${ENDERECO_API}/${id}`);
   }
 /*
 
@@ -71,7 +73,7 @@ export class UserService {
   } */
 
   public getById(id: string): Observable<UsuarioModel> {
-    return this.http.get<UsuarioModel>(`${environment.api}/usuario/${id}`);
+    return this.http.get<UsuarioModel>(`${ENDERECO_API}/${id}`);
   }
 
 
