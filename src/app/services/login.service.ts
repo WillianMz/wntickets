@@ -3,7 +3,7 @@ import { Usuario } from './../models/user/usuario.model';
 import { LoginRequest } from './../models/auth/loginRequest.model';
 import { LoginResponse } from './../models/auth/loginResponse.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from './../../environments/environment.prod';
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.
 import * as jwt_decode from 'jwt-decode';
 
 const CHAVE_TOKEN: string = "wntickets";
-const ENDERECO_API: string = `${environment.api}/api/usuario`;
+const ENDERECO_API: string = `${environment.api}/usuario`;
 
 
 @Injectable({

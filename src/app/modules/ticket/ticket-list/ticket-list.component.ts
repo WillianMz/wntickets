@@ -65,7 +65,8 @@ export class TicketListComponent implements OnInit {
       { key: 'assunto', title: 'Assunto' },
       { key: 'status', title: 'Status' },
       { key: 'dataAbertura', title: 'Aberto em' },
-      { key: 'criador', title: 'Criado por' },
+      { key: 'criador.nome', title: 'Criado por' },
+      { key: 'setor.nome', title: 'Laboratório' },
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled: false }
     ];
   }

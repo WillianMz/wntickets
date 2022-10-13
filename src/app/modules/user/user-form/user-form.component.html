@@ -1,0 +1,153 @@
+<div class="container">
+    <div class="row">
+  
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="boolAviso">
+        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+      </div>
+  
+      <!-- NOTIFICACOES DO SERVIDOR -->
+      <div class="row mt-2" *ngIf="erros?.length">
+        <div class="alert alert-danger" role="alert">
+          <h5>{{ message }}</h5>
+          <ul *ngFor="let e of erros">
+            <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+          </ul>
+        </div>
+      </div>
+  
+      <div class="row" *ngIf="boolTitulo">
+        <h3>{{ tituloPagina }}</h3>
+      </div>
+  
+      <div class="col-sm-12">
+        <form [formGroup]="userForm">
+  
+          <!-- ATIVO -->
+          <div class="row mt-2">
+            <div class="col-sm-4">
+              <div class="form-check" *ngIf="true">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="ativa">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Ativo
+                </label>
+              </div>
+            </div>
+          </div>
+  
+          <!-- CODIGO INTERNO/MARCA -->
+          <div class="row mt-2">
+            <div class="col-sm-4" *ngIf="boolCod">
+              <label>Código</label>
+              <input type="text" class="form-control" formControlName="contaUsuarioId" placeholder="Código" ng-disabled="!boolCod">
+            </div>
+          </div>
+  
+          <!-- NOME/apelido -->
+          <div class="row mt-2">
+            <div class="col-sm-8" *ngIf="boolNome">
+              <label>Nome</label>
+              <input type="text" class="form-control" formControlName="nome" placeholder="Nome">
+            
+              <!-- VALIDACAO -->
+              <div class="text-danger" *ngIf="nome?.errors">
+                <div *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o nome do usuário</div>
+                <div *ngIf="nome?.errors?.minlength && (nome?.dirty || nome?.touched)">
+                  Nome deve conter no mínimo {{ nome?.errors?.minlength.requiredLength }} caracteres
+                </div>
+                <div *ngIf="nome?.errors?.maxlength && (nome?.dirty || nome?.touched)">
+                  Nome deve conter no máximo {{ nome?.errors?.maxlength.requiredLength }} caracteres</div>
+              </div>
+            </div>
+  
+            <div class="col-sm-4" *ngIf="boolApelido">
+              <label>Apelido</label>
+              <input type="text" class="form-control" formControlName="apelido" placeholder="Apelido">
+  
+              <!-- VALIDACAO -->
+              <div class="text-danger" *ngIf="apelido?.errors">
+                <div *ngIf="apelido?.errors?.required && (apelido?.dirty || apelido?.touched)">Informe o apelido</div>
+                <div *ngIf="apelido?.errors?.minlength && (apelido?.dirty || apelido?.touched)">
+                  Apelido deve conter no mínimo {{ apelido?.errors?.minlength.requiredLength }} caracteres
+                </div>
+                <div *ngIf="apelido?.errors?.maxlength && (apelido?.dirty || apelido?.touched)">
+                  Apelido deve conter no máximo {{ apelido?.errors?.maxlength.requiredLength }} caracteres</div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- TELEFONE/EMAIL -->
+          <div class="row mt-2">
+            <div class="col-sm-3" *ngIf="boolFone">
+              <label>Telefone</label>
+              <input type="text" mask="(00) 0 0000-0000 || (00) 0000-0000" class="form-control" formControlName="telefone" placeholder="Telefone">
+            
+              <!-- VALIDACAO -->
+              <div class="text-danger" *ngIf="telefone?.errors">
+                <div *ngIf="telefone?.errors?.required && (telefone?.dirty || telefone?.touched)">Informe o número do telefone</div>
+                <div *ngIf="telefone?.errors?.minlength && (telefone?.dirty || telefone?.touched)">
+                    Telefone deve conter no mínimo {{ telefone?.errors?.minlength.requiredLength }} caracteres
+                </div>
+                <div *ngIf="telefone?.errors?.maxlength && (telefone?.dirty || telefone?.touched)">
+                    Telefone deve conter no máximo {{ telefone?.errors?.maxlength.requiredLength }} caracteres</div>
+              </div>
+            
+            </div>
+  
+            <div class="col-sm-9" *ngIf="boolEmail">
+              <label>Email</label>
+              <input type="text" class="form-control" formControlName="email" placeholder="Email">
+  
+              <!-- VALIDACAO -->
+              <div class="text-danger" *ngIf="email?.errors">
+                <div *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe o email</div>
+                <div *ngIf="email?.errors?.minlength && (email?.dirty || email?.touched)">
+                    Email deve conter no mínimo {{ email?.errors?.minlength.requiredLength }} caracteres
+                </div>
+                <div *ngIf="email?.errors?.maxlength && (email?.dirty || email?.touched)">
+                    Email deve conter no máximo {{ email?.errors?.maxlength.requiredLength }} caracteres</div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- SENHA/CONFIRMAÇÃO DE SENHA -->
+          <div class="row mt-2">
+            <div class="col-sm-5" *ngIf="boolSenha">
+              <label>Senha</label>
+              <input type="password" class="form-control" formControlName="senha" placeholder="Senha">
+            
+              <!-- VALIDACAO -->
+              <div class="text-danger" *ngIf="senha?.errors">
+                <div *ngIf="senha?.errors?.required && (senha?.dirty || senha?.touched)">Informe a senha</div>
+                <div *ngIf="senha?.errors?.minlength && (senha?.dirty || senha?.touched)">
+                    A senha deve conter no mínimo {{ senha.errors?.minlength.requiredLength }} caracteres
+                </div>
+                <div *ngIf="senha?.errors?.maxlength && (senha?.dirty || senha?.touched)">
+                    A senha deve conter no máximo {{ senha.errors?.maxlength.requiredLength }} caracteres</div>
+              </div>
+            </div>
+  
+            <div class="col-sm-7" *ngIf="boolSenhaConf">
+              <label>Confirme a senha</label>
+              <input type="password" class="form-control" formControlName="senhaConfirmacao" placeholder="Confirme a senha">
+  
+              <!-- VALIDACAO -->
+              <div *ngIf="senhaConfirmacao?.errors?.equalsTo">Senha não é igual</div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  
+    <div class="row mt-2">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" [disabled]="!userForm.valid" (click)="salvar()">Salvar</button>
+          <button type="button" class="btn btn-outline-danger" [routerLink]="['/users']">Cancelar</button>
+        </div>
+      </div>  
+    </div>
+  
+  </div>
+  <br>

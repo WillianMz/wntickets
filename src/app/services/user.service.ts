@@ -1,11 +1,15 @@
 import { Observable } from 'rxjs';
 import { RoleRequest } from './../models/user/roleRequest.model';
-import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RoleResponse } from '../models/user/roleResponse.model';
+import { Usuario } from '../models/user/usuario.model';
+import { UsuarioModel } from '../models/user/usuarioModel';
+import { NovoUsuarioModel } from '../models/user/novoUsuarioModel';
+import { EditarUsuarioModel } from '../models/user/editarUsuarioModel';
+import { environment } from 'src/environments/environment';
 
-const ENDERECO_API: string = `${environment.api}/api/usuario`;
+const ENDERECO_API: string = `${environment.api}/usuario`;
 
 @Injectable({
   providedIn: 'root'
@@ -15,24 +19,30 @@ export class UserService {
   constructor( private http: HttpClient) { }
 
   public criarRole(role: RoleRequest) : Observable<any>{
-    return this.http.post(ENDERECO_API, role);
+    return this.http.post(`${ENDERECO_API}`, role);
   }
 
   public getRoles(): Observable<RoleResponse[]>{
     return this.http.get<RoleResponse[]>(`${ENDERECO_API}/list-role`);
   }
 
-  /* ublic create(usuario: NovoUsuarioModel) {
-    return this.http.post(`${this.url}`, usuario);
+  public getAll(): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(`${ENDERECO_API}`);
   }
 
-  public update(usuario: EditarUsuarioModel) {
-    return this.http.put(`${this.url}`, usuario);
+  public adicionar(usuario: NovoUsuarioModel) {
+    console.log(usuario);
+    return this.http.post(`${ENDERECO_API}`, usuario);
   }
 
-  public getAll(): Observable<UsuarioModel[]> {
-    return this.http.get<UsuarioModel[]>(this.url);
+  public editar(usuario: EditarUsuarioModel) {
+    return this.http.put(`${ENDERECO_API}`, usuario);
   }
+
+  public delete(id: string){
+    return this.http.delete(`${ENDERECO_API}/${id}`);
+  }
+/*
 
   public delete(id: number) {
     return this.http.delete(`${this.url}/${id}`);
@@ -62,9 +72,9 @@ export class UserService {
     return this.http.get<UsuarioModel>(`${this.url}/${id}/details`);
   } */
 
- /*  public getById(id: number): Observable<UsuarioModel> {
-    return this.http.get<UsuarioModel>(`${this.url}/${id}`);
-  } */
+  public getById(id: string): Observable<UsuarioModel> {
+    return this.http.get<UsuarioModel>(`${ENDERECO_API}/${id}`);
+  }
 
 
 
