@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { RoleRequest } from './../models/user/roleRequest.model';
-import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RoleResponse } from '../models/user/roleResponse.model';
@@ -8,6 +7,7 @@ import { Usuario } from '../models/user/usuario.model';
 import { UsuarioModel } from '../models/user/usuarioModel';
 import { NovoUsuarioModel } from '../models/user/novoUsuarioModel';
 import { EditarUsuarioModel } from '../models/user/editarUsuarioModel';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +71,7 @@ export class UserService {
   } */
 
   public getById(id: string): Observable<UsuarioModel> {
-    return this.http.get<UsuarioModel>(`${environment.api}/${id}`);
+    return this.http.get<UsuarioModel>(`${environment.api}/usuario/${id}`);
   }
 
 

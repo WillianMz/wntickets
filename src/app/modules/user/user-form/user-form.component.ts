@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { EquipamentoModel } from 'src/app/models/equipment/equipamentoModel';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { UserService } from 'src/app/services/user.service';
 import { CadastroUsuarioRequest } from 'src/app/models/user/cadastroUsuarioRequest.model';
