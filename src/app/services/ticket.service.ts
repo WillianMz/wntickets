@@ -18,15 +18,17 @@ export class TicketService {
     return this.http.post(`${ENDERECO_API}/equipamento`, chamado);
   }
 
+  public cancelar(chamado: ChamadoRequest){
+    return this.http.put(`${ENDERECO_API}/cancelar`, chamado);
+  }
+
+  public finalizar(chamado: ChamadoRequest){
+    return this.http.put(`${ENDERECO_API}/finalizar`, chamado);
+  }
+
   public delete(id: number){
     return this.http.delete(`${ENDERECO_API}/${id}?chamadoId=${id}`);
   }
-
-
-
-
-
-
 
 
 
