@@ -120,10 +120,10 @@
               <div class="text-danger" *ngIf="senha?.errors">
                 <div *ngIf="senha?.errors?.required && (senha?.dirty || senha?.touched)">Informe a senha</div>
                 <div *ngIf="senha?.errors?.minlength && (senha?.dirty || senha?.touched)">
-                    A senha deve conter no mínimo {{ senha?.errors?.minlength.requiredLength }} caracteres
+                    A senha deve conter no mínimo {{ senha.errors?.minlength.requiredLength }} caracteres
                 </div>
                 <div *ngIf="senha?.errors?.maxlength && (senha?.dirty || senha?.touched)">
-                    A senha deve conter no máximo {{ senha?.errors?.maxlength.requiredLength }} caracteres</div>
+                    A senha deve conter no máximo {{ senha.errors?.maxlength.requiredLength }} caracteres</div>
               </div>
             </div>
   
