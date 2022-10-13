@@ -7,7 +7,6 @@ import { SectorService } from './../../../services/sector.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { EquipamentoService } from 'src/app/services/equipamento.service';
 
@@ -133,12 +132,24 @@ export class EquipFormComponent implements OnInit {
     return this.equipForm.get('dtCompra');
   }
 
-  get valorCompra() {
-    return this.equipForm.get('valorCompra');
+  get dtRecebimento(){
+    return this.equipForm.get('dtRecebimento');
   }
 
-  get tempoGarantia(){
-    return this.equipForm.get('tempoGarantia');
+  get garantiaExt(){
+    return this.equipForm.get('garantiaExtendida');
+  }
+
+  get garantiaContratual(){
+    return this.equipForm.get('garantiaContratual');
+  }
+
+  get validadeGarantia(){
+    return this.equipForm.get('validadeGarantia');
+  }
+
+  get valorCompra() {
+    return this.equipForm.get('valorCompra');
   }
 
   get anotacoes() {
@@ -173,8 +184,10 @@ export class EquipFormComponent implements OnInit {
     equipamento.notaFiscal = this.notaFiscal?.value;
     equipamento.chaveNFe = this.chaveNFe?.value;
     equipamento.dtCompra = this.dtCompra?.value;
+    equipamento.dtRecebimento = this.dtRecebimento?.value;
+    equipamento.garantiaExtendida = this.garantiaExt?.value;
+    equipamento.garantiaContratual = this.garantiaContratual?.value;
     equipamento.valorCompra = this.valorCompra?.value;
-    equipamento.tempoGarantia = this.tempoGarantia?.value;
     equipamento.anotacoes = this.anotacoes?.value;
     equipamento.foto = this.foto?.value;
 
@@ -312,7 +325,7 @@ export class EquipFormComponent implements OnInit {
         Validators.minLength(1),
         Validators.maxLength(1000)
       ]),
-      chaveNFe: new FormControl(equip.chaveNFe, [
+      chaveNFe: new FormControl(equip.chaveNotaFiscal, [
         Validators.minLength(44),
         Validators.maxLength(44)
       ]),
@@ -320,8 +333,15 @@ export class EquipFormComponent implements OnInit {
         Validators.minLength(10),
         Validators.maxLength(10)
       ]),
+      dtRecebimento: new FormControl(equip.dtRecebimento,[
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]),
+      garantiaExtendida: new FormControl(equip.garantiaExtendida),
+      garantiaContratual: new FormControl(equip.garantiaContratual),
+      validadeGarantia: new FormControl({value: equip.validadeGarantia, disabled: true}),
       valorCompra: new FormControl(equip.valorCompra),
-      garantia: new FormControl(equip.tempoGarantia),
       anotacoes: new  FormControl(equip.anotacoes),
       motivoBaixa: new FormControl(equip.motivoBaixa)
     });

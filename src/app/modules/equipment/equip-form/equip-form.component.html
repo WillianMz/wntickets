@@ -284,7 +284,7 @@
               </div>
 
               <!-- data de compra -->
-              <div class="col-sm-4">
+              <div class="col-sm-4 col-md-2">
                 <label>Data da Compra<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" formControlName="dtCompra" placeholder="dd/MM/aaaa" mask="d0/M0/0000">
 
@@ -304,8 +304,31 @@
                 </div>
               </div>
 
-              <!-- valor de compra -->
-              <div class="col-sm-3">
+              <!-- data de recebimento -->
+              <div class="col-sm-4 col-md-2">
+                <label>Data de Entrega<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="dtRecebimento" placeholder="dd/mm/aaaa" mask="d0/M0/0000">
+
+                <!-- VALIDACAO -->
+                <div class="text-danger" *ngIf="dtRecebimento?.errors">
+                  <ul>
+                    <li *ngIf="dtRecebimento?.errors?.required && (dtRecebimento?.dirty || dtRecebimento?.touched)">
+                      Informe a data de compra
+                    </li>
+                    <li *ngIf="dtRecebimento?.errors?.minlength && (dtRecebimento?.dirty || dtRecebimento?.touched)">
+                      Tamanho mínimo {{ dtRecebimento?.errors?.minlength.requiredLength }} caracteres
+                    </li>
+                    <li *ngIf="dtRecebimento?.errors?.maxlength && (dtRecebimento?.dirty || dtRecebimento?.touched)">
+                      Tamanho máximo {{ dtRecebimento?.errors?.maxlength.requiredLength }} caracteres
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+               <!-- valor de compra -->
+               <div class="col-sm-3">
                 <label>Valor da Compra<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" currencyMask formControlName="valorCompra">
                 <!-- VALIDACAO -->
@@ -316,9 +339,28 @@
                     </li>
                   </ul>
                 </div>
+              </div>
 
+              <!-- garantia extendida -->
+              <div class="col-sm-3">
+                <label>Garantia Extendida (Em dias)</label>
+                <input type="text" mask="000" class="form-control" formControlName="garantiaExtendida">
+              </div>
+
+
+              <!-- garantia contratual -->
+              <div class="col-sm-3">
+                <label>Garantia Contratual (Em dias)</label>
+                <input type="text" mask="000" class="form-control" formControlName="garantiaContratual">
+              </div>
+
+              <!-- validade garantia -->
+              <div class="col-sm-3 col-md-2">
+                <label>Validade da garantia</label>
+                <input type="text" mask="000" class="form-control" formControlName="validadeGarantia" mask="d0/M0/0000">
               </div>
             </div>
+
           </p-tabPanel>
 
           <p-tabPanel header="Históricos">
