@@ -80,7 +80,7 @@
           <div class="row mt-2">
             <div class="col-sm-3" *ngIf="boolFone">
               <label>Telefone</label>
-              <input type="text" mask="(00) 0 0000-0000 || (00) 0000-0000" class="form-control" formControlName="telefone" placeholder="Telefone">
+              <input type="text" mask="(00) 0 0000-0000 || (00) 0000-0000" autocomplete="off" type="text" class="form-control" formControlName="telefone" placeholder="Telefone">
             
               <!-- VALIDACAO -->
               <div class="text-danger" *ngIf="telefone?.errors">
@@ -118,12 +118,7 @@
             
               <!-- VALIDACAO -->
               <div class="text-danger" *ngIf="senha?.errors">
-                <div *ngIf="senha?.errors?.required && (senha?.dirty || senha?.touched)">Informe a senha</div>
-                <div *ngIf="senha?.errors?.minlength && (senha?.dirty || senha?.touched)">
-                    A senha deve conter no mínimo {{ senha.errors?.minlength.requiredLength }} caracteres
-                </div>
-                <div *ngIf="senha?.errors?.maxlength && (senha?.dirty || senha?.touched)">
-                    A senha deve conter no máximo {{ senha.errors?.maxlength.requiredLength }} caracteres</div>
+                <div *ngIf="senha?.errors?.pattern && (senha?.dirty || senha?.touched)">Senha deve possuir no mínimo 6 e no máximo 50 caracteres, incluindo pelo menos 1 número, 1 letra maiúscula, 1 letra minúscula e 1 caracter especial!</div>
               </div>
             </div>
   
@@ -132,7 +127,9 @@
               <input type="password" class="form-control" formControlName="senhaConfirmacao" placeholder="Confirme a senha">
   
               <!-- VALIDACAO -->
-              <div *ngIf="senhaConfirmacao?.errors?.equalsTo">Senha não é igual</div>
+              <div class="text-danger" *ngIf="senha?.errors">
+                <div *ngIf="senhaConfirmacao?.errors?.equalsTo">Senha não é igual</div>
+              </div>
             </div>
           </div>
 

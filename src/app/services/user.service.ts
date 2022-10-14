@@ -8,6 +8,11 @@ import { UsuarioModel } from '../models/user/usuarioModel';
 import { NovoUsuarioModel } from '../models/user/novoUsuarioModel';
 import { EditarUsuarioModel } from '../models/user/editarUsuarioModel';
 import { environment } from 'src/environments/environment';
+import { ListarUsuarioModel } from '../models/user/listarUsuarioModel';
+import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
+import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
+
+const ENDERECO_API: string = `${environment.api}/usuario`;
 
 const ENDERECO_API: string = `${environment.api}/usuario`;
 
@@ -26,11 +31,11 @@ export class UserService {
     return this.http.get<RoleResponse[]>(`${ENDERECO_API}/list-role`);
   }
 
-  public getAll(): Observable<Usuario[]>{
-    return this.http.get<Usuario[]>(`${ENDERECO_API}`);
+  public getAll(): Observable<ListarUsuarioModel[]>{
+    return this.http.get<ListarUsuarioModel[]>(`${ENDERECO_API}`);
   }
 
-  public adicionar(usuario: NovoUsuarioModel) {
+  public adicionar(usuario: CadastroUsuarioRequest): Observable<CadastroUsuarioResponse | null>{
     console.log(usuario);
     return this.http.post(`${ENDERECO_API}`, usuario);
   }
