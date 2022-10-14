@@ -1,5 +1,8 @@
+import { AnexoRequest } from './../models/ticket/anexoRequest.model';
+import { FinalizarRequest } from './../models/ticket/finalizarRequest.model';
+import { CancelarRequest } from './../models/ticket/cancelarRequest.model';
+import { ChamadoResponse } from './../models/ticket/chamadoResponse.model';
 import { ChamadoRequest } from './../models/ticket/chamadoRequest.model';
-import { TicketModel } from './../models/ticket/ticketModel';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -14,52 +17,48 @@ export class TicketService {
 
   constructor(private http: HttpClient) { }
 
+  public salvar(chamado: ChamadoRequest) {
+    if(chamado.ticketId){
+      return this.http.put(`${ENDERECO_API}/ticket`, chamado);
+    }
+    else{
+      return this.http.post(`${ENDERECO_API}/ticket`, chamado);  
+    }
+  }
+
+  public getAll(): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/`)
+  }
+
   public chamadoEquipamento(chamado: ChamadoRequest) {
     return this.http.post(`${ENDERECO_API}/equipamento`, chamado);
   }
 
+  public cancelar(motivo: CancelarRequest){
+    return this.http.put(`${ENDERECO_API}/cancelar`, motivo);
+  }
+
+  public finalizar(motivo: FinalizarRequest) {
+    return this.http.put(`${ENDERECO_API}/finalizar`, motivo);
+  }
+
   public delete(id: number){
-    return this.http.delete(`${ENDERECO_API}/${id}?chamadoId=${id}`);
+    return this.http.delete(`${ENDERECO_API}/${id}`);
   }
 
-
-
-
-
-
-
-
-
-  //REMOVER ESTES ABAIXO
-
-  save(ticket: TicketModel){
-    if(ticket.id){
-      console.log(ticket);
-      return this.update(ticket);
-    }
-    else {
-      return this.create(ticket);
-    }
+  public getById(id: number): Observable<ChamadoResponse> {
+    return this.http.get<ChamadoResponse>(`${ENDERECO_API}/${id}`);
   }
 
-  private create(ticket: TicketModel){
-    return this.http.post(`${environment.api}/Ticket`, ticket);
+  public anexarArquivo(anexo: AnexoRequest){
+    return this.http.post(`${ENDERECO_API}/anexo`, anexo);
   }
 
-  private update(iticket: TicketModel){
-    return this.http.put(`${environment.api}/Ticket`, iticket);
+  public removerAnexo(anexo: number){
+    return this.http.delete(`${ENDERECO_API}/anexo/${anexo}`);
   }
 
-  /* public delete(id: number){
-    return this.http.delete(`${environment.api}/Ticket/${id}`);
-  } */
-
-  public getAll(): Observable<TicketModel[]> {
-    return this.http.get<TicketModel[]>(`${environment.api}/Ticket`)
+  public fazerVerificacoes(){
+    return this.http.post(`${ENDERECO_API}/verificar`, null);
   }
-
-  public editar(ticket: TicketModel){
-    return this.http.put(`${environment.api}/Ticket`, ticket);
-  }
-
 }

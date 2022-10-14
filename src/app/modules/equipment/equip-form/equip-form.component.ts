@@ -44,6 +44,8 @@ export class EquipFormComponent implements OnInit {
   boolValor: boolean = true;
   boolAnotacao: boolean = true;
   boolMotivoBaixa: boolean = true;
+  boolFornecedor: boolean = false;
+  boolHistorico: boolean = false;
 
   message: string;
   success: boolean;
@@ -59,6 +61,9 @@ export class EquipFormComponent implements OnInit {
 
     //PARA INICIAR O FORMULARIO
     const novoEquipamento = new EquipamentoResponse();
+    novoEquipamento.ativo = true;
+    novoEquipamento.garantiaContratual = 0;
+    novoEquipamento.garantiaExtendida = 0;
     this.validarFormulario(novoEquipamento);
   }
 

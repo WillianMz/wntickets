@@ -209,7 +209,7 @@
 
           <p-tabPanel header="Compra">
 
-            <div class="row mt-2">            
+            <div class="row mt-2" *ngIf="boolFornecedor">            
               <div class="col-sm-12">
                 <!-- FORNECEDOR DO EQUIPAMENTO -->
                 <label>Fornecedor<span class="text-danger">*</span></label>
@@ -363,7 +363,7 @@
 
           </p-tabPanel>
 
-          <p-tabPanel header="Históricos">
+          <p-tabPanel header="Históricos" *ngIf="boolHistorico">
             <!-- BAIXA DO EQUIPAMENTO -->
             <div class="row mt-4">
               <div class="col-sm-12" *ngIf="boolMotivoBaixa">
