@@ -14,8 +14,6 @@ import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.
 
 const ENDERECO_API: string = `${environment.api}/usuario`;
 
-const ENDERECO_API: string = `${environment.api}/usuario`;
-
 @Injectable({
   providedIn: 'root'
 })
