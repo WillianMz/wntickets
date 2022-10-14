@@ -4,6 +4,7 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ErroServidor } from 'src/app/models/erroServidor';
+import { ListarUsuarioModel } from 'src/app/models/user/listarUsuarioModel';
 import { Usuario } from 'src/app/models/user/usuario.model';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
@@ -18,7 +19,7 @@ export class UserListComponent implements OnInit {
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
 
   tituloDaPagina: string = 'Usuários';
-  users: Usuario[];
+  users: ListarUsuarioModel[];
   success: boolean;
   message: string;
   erros: ErroServidor[];
@@ -69,7 +70,6 @@ export class UserListComponent implements OnInit {
     this.userService.getAll().subscribe({
       next: (response) => {
         this.users = response;
-        console.log(this.users);
         this.spinner.hide();
       },
       error: (response) => {

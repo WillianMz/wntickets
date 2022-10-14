@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { EquipamentoModel } from 'src/app/models/equipment/equipamentoModel';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { UserService } from 'src/app/services/user.service';
 import { CadastroUsuarioRequest } from 'src/app/models/user/cadastroUsuarioRequest.model';
@@ -11,6 +10,8 @@ import { NovoUsuarioModel } from 'src/app/models/user/novoUsuarioModel';
 import { EditarUsuarioModel } from 'src/app/models/user/editarUsuarioModel';
 import { NgxMaskModule } from 'ngx-mask';
 import { FormValidations } from 'src/app/functions/form-validations';
+import { CadastroUsuarioResponse } from 'src/app/models/user/cadastroUsuarioResponse.model';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-user-form',
@@ -40,10 +41,13 @@ export class UserFormComponent implements OnInit {
   boolSenha: boolean = true;
   boolSenhaConf: boolean = true;
 
+  cadastroUsuarioResponse: CadastroUsuarioResponse;
+
   constructor(
     private usuarioService: UserService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private notificationService: NotificationService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder
   ) {
@@ -99,6 +103,7 @@ export class UserFormComponent implements OnInit {
     else{
       this.tituloPagina = 'Novo usuário';
       this.boolCod = false;
+      this.boolApelido = false;
     }
   }
 
@@ -121,18 +126,34 @@ export class UserFormComponent implements OnInit {
         Validators.maxLength(17)
       ]],
       apelido: [user.apelido, [
-        Validators.required,
         Validators.minLength(2),
         Validators.maxLength(100)
       ]],
       ativa: [user.ativa],
-      senha: [null],
+      senha: [null, [Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{6,50}')]],
       senhaConfirmacao: [null, [FormValidations.equalsTo('senha')]],
     });
-
+    
     this.userForm.controls['senha'].valueChanges.forEach(() => {
       this.userForm.controls['senhaConfirmacao'].updateValueAndValidity();
     })
+
+  }
+
+  private setUserApelidoValidators() {
+    const apelidoControl = this.userForm.get('apelido');
+
+    if (!apelidoControl) {
+      return;
+    }
+
+    if (this.boolApelido) {
+      apelidoControl.setValidators([Validators.required]);
+    } else {
+      apelidoControl.setValidators(null);
+    }
+
+    apelidoControl.updateValueAndValidity();
   }
 
   //CARREGA OBJETO E PREENCHE OS DADOS NA TELA
@@ -143,6 +164,7 @@ export class UserFormComponent implements OnInit {
         
         if(this.usuario != null){
           this.start(this.usuario);
+          this.setUserApelidoValidators();
         }
         else{
           //MELHORAR AQUI
@@ -187,28 +209,28 @@ export class UserFormComponent implements OnInit {
   }
 
   private novoUsuario(user: UsuarioModel){
-    let usuario: NovoUsuarioModel;
+    let usuario: CadastroUsuarioRequest;
     usuario = {
       nome: user.nome,
       email: user.email,
       telefone: user.telefone,
-      senha: user.senha,
-      senhaConfirmacao: user.senhaConfirmacao
+      senha: user.senha == null ? "" : user.senha,
+      senhaConfirmacao: user.senhaConfirmacao == null ? "" : user.senhaConfirmacao
     }
 
     this.usuarioService.adicionar(usuario).subscribe({
       next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/users']);
-        }
-        else{
-          this.message = response['mensagem'];
-          this.showError(this.message);
+        if (response) {
+          this.cadastroUsuarioResponse = response;
+          if(this.cadastroUsuarioResponse.sucesso == true){
+            this.notificationService.showSuccess('Conta de usuário criada com sucesso!','Novo Usuário');
+            this.router.navigate(['/users']);
+          }
+          else if(response.sucesso == false){
+            console.log(response.erros);
+            this.cadastroUsuarioResponse.erros = response.erros;
+            this.notificationService.showError('Erro ao criar conta de usuário. Tente novamente!','Novo usuário');
+          }
         }
       },
       error: (response) => {
