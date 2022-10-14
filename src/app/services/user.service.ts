@@ -14,6 +14,8 @@ import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.
 
 const ENDERECO_API: string = `${environment.api}/usuario`;
 
+const ENDERECO_API: string = `${environment.api}/usuario`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +24,7 @@ export class UserService {
   constructor( private http: HttpClient) { }
 
   public criarRole(role: RoleRequest) : Observable<any>{
-    return this.http.post(ENDERECO_API, role);
+    return this.http.post(`${ENDERECO_API}`, role);
   }
 
   public getRoles(): Observable<RoleResponse[]>{

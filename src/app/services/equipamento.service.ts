@@ -36,13 +36,14 @@ export class EquipamentoService {
   };
 
   //equipamentos
-  public novo(equipamento: EquipamentoRequest) {
-    return this.http.post(`${ENDERECO_API}`,equipamento);
-  }
-
-  public editar(equipamento: EquipamentoRequest) {
-    return this.http.put(`${ENDERECO_API}`,equipamento);
-  }
+  public salvar(equipamento: EquipamentoRequest){
+    if(equipamento.id){
+      return this.http.put(`${ENDERECO_API}`,equipamento);
+    }
+    else{
+      return this.http.post(`${ENDERECO_API}`,equipamento);
+    }
+  };
 
   public getAll(ativo: boolean) : Observable<EquipamentoResponse[]>{
     return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/?ativo=${ativo}`)

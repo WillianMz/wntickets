@@ -4,7 +4,8 @@
 
 <div class="container">
   <section class="pt-2 row">
-    <h3 class="col-12 mb-3">TÍTULO ASSUNTO</h3>
+    <h2 class="col-12 mb-3">{{ tituloPagina }}</h2>
+    <h2 class="col-12 mb-3">TÍTULO ASSUNTO</h2>
   </section>
 
   <!-- <div class="pt-2 pb-2 row" *ngIf="false">
@@ -164,19 +165,98 @@
             <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="goHistoric()">Histórico</button>
           </div>
         </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-success btn-lg" type="submit" (click)="goHistoric()">Finalizar</button>
-          </div>
-        </li>
-        <li class="list-group-item">
+        <!-- <li class="list-group-item">
           <div>
             <button class="w-100 btn btn-outline-danger btn-lg" type="submit" (click)="goHistoric()">Cancelar</button>
           </div>
+        </li> -->
+
+        <li class="list-group-item">
+          <div>
+            <button type="button" class="w-100 btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop_1">
+              Cancelar
+            </button>
+          </div>
         </li>
+
+        <!-- <li class="list-group-item">
+          <div>
+            <button class="w-100 btn btn-outline-success btn-lg" type="submit" (click)="goHistoric()">Finalizar</button>
+          </div>
+        </li> -->
+
+        <li class="list-group-item">
+          <div>
+            <button type="button" class="w-100 btn btn-outline-success btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop_2">
+              Finalizar
+            </button>
+          </div>
+        </li>
+
       </ul>
     </div>
 
-  </div>
+      <!-- Modal Cancelar -->
+      <div class="modal fade" id="staticBackdrop_1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Cancelar o Ticket</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label>Motivo</label>
+              <input type="text" class="form-control" placeholder="Motivo"> <!-- TRATAR INFORMAÇÃO DIGITADA -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Fechar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="cancelarTickets.fire()">Cancelar Ticket</button>
+            </div>
 
+            <swal
+                #cancelarTickets 
+                title="Tem certeza que deseja cancelar o ticket?"
+                text="Esta ação não poderá ser desfeita"
+                icon="question"
+                [showCancelButton]="true"
+                [focusCancel]="true"
+                (confirm)="cancelarTicket()">
+            </swal>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Finalizar -->
+      <div class="modal fade" id="staticBackdrop_2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Finalizar o Ticket</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label>Solução</label>
+              <input type="text" class="form-control" placeholder="Solução"> <!-- TRATAR INFORMAÇÃO DIGITADA -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="finalizarTickets.fire()">Finalizar Ticket</button>
+            </div>
+
+            <swal
+              #finalizarTickets
+              title="Tem certeza que deseja finalizar o ticket?"
+              text="Esta ação não poderá ser desfeita"
+              icon="question"
+              [showCancelButton]="true"
+              [focusCancel]="true"
+              (confirm)="finalizarTicket()">
+            </swal>
+
+          </div>
+        </div>
+      </div>
+
+  </div>
 </div>

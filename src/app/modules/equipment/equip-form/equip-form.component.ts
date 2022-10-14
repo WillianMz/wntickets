@@ -1,3 +1,4 @@
+import { NotificationService } from 'src/app/services/notification.service';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
 import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
@@ -17,19 +18,15 @@ import { EquipamentoService } from 'src/app/services/equipamento.service';
 })
 export class EquipFormComponent implements OnInit {
 
-  @Input() equipID: number;
-  @Input() navbarVisible: boolean;
-  @Input() titleFormVisible: boolean;
-
   tituloPagina: string = 'Detalhes do Equipamento';
-  equip: EquipamentoResponse;
   equipForm: FormGroup;
-  message: string;
-  success: boolean;
-  erros: ErroServidor[];
+  sucesso: boolean;
+  mensagem: string;  
   equipamento: EquipamentoResponse;
   setores: SetorResponse[];
   tipos: TipoEquipamentoResponse[];
+  equipamentoId: number;
+
   //campos visiveis
   boolTitulo: boolean = true;
   boolAviso: boolean = false;
@@ -49,29 +46,27 @@ export class EquipFormComponent implements OnInit {
   boolAnotacao: boolean = true;
   boolMotivoBaixa: boolean = true;
 
+  message: string;
+  success: boolean;
+  erros: ErroServidor[];
+
   constructor(
     private equipamentoService: EquipamentoService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService,
-    private sectorService: SectorService
+    private sectorService: SectorService,
+    private notification: NotificationService
   ) {
 
     //PARA INICIAR O FORMULARIO
-    const tipo = {id: 1, descricao: '', ativo: true, controlarNumSerial: false};
-    const setor = {id: 1, nome: ""};
-    const equip = {ativo: true, codInterno: '', tipo: tipo, setor: setor, nome:'', descricao:'', fabricante:'',
-      marca: '', modelo:'', numSerial:'', anoFabricacao:'', dtCompra: '', valorCompra:'',anotacoes:''
-    }
-
     const novoEquipamento = new EquipamentoResponse();
-    this.start(novoEquipamento);
+    this.validarFormulario(novoEquipamento);
   }
 
 
   ngOnInit(): void {
-    this.listarTipos();
-    this.listarSetores();
+    this.obterSetores(true);
+    this.obterTipos(true);
     this.configurarForm();
   }
 
@@ -122,6 +117,18 @@ export class EquipFormComponent implements OnInit {
     return this.equipForm.get('anoFabricacao');
   }
 
+  get fornecedor(){
+    return this.equipForm.get('fornecedor');
+  }
+
+  get notaFiscal(){
+    return this.equipForm.get('notaFiscal');
+  }
+
+  get chaveNFe(){
+    return this.equipForm.get('chaveNFe');
+  }
+  
   get dtCompra() {
     return this.equipForm.get('dtCompra');
   }
@@ -130,8 +137,16 @@ export class EquipFormComponent implements OnInit {
     return this.equipForm.get('valorCompra');
   }
 
+  get tempoGarantia(){
+    return this.equipForm.get('tempoGarantia');
+  }
+
   get anotacoes() {
     return this.equipForm.get('anotacoes');
+  }
+
+  get foto(){
+    return this.equipForm.get('foto');
   }
 
   get motivoBaixa() {
@@ -141,83 +156,43 @@ export class EquipFormComponent implements OnInit {
   //#region
 
   salvar(){
-    if(this.equipID){
-      let equip: EquipamentoRequest;
-      equip = {
-        //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
-        id: this.equipID,
-        ativo: this.ativo?.value,
-        codInterno: this.codInterno?.value,
-        tipoId: this.tipo?.value,
-        setorId:this.setor?.value,
-        nome:this.nome?.value,
-        descricao: this.descricao?.value,
-        fabricante: this.fabricante?.value,
-        marca: this.marca?.value,
-        modelo:this.modelo?.value,
-        numSerial: this.numSerial?.value,
-        anoFabricacao: this.anoFabricacao?.value,
-        dtCompra: this.dtCompra?.value,
-        valorCompra: this.valorCompra?.value,
-        anotacoes:this.anotacoes?.value
-      };
+    const equipamento = new EquipamentoRequest();
+    equipamento.id = this.equipamentoId;
+    equipamento.ativo = this.ativo?.value;
+    equipamento.codInterno = this.codInterno?.value;
+    equipamento.tipoId = this.tipo?.value;
+    equipamento.setorId = this.setor?.value;
+    equipamento.nome = this.nome?.value;
+    equipamento.descricao = this.descricao?.value;
+    equipamento.fabricante = this.fabricante?.value;
+    equipamento.marca = this.marca?.value;
+    equipamento.modelo = this.modelo?.value;
+    equipamento.numSerial = this.numSerial?.value;
+    equipamento.anoFabricacao = this.anoFabricacao?.value;
+    equipamento.fornecedorId = this.fornecedor?.value;
+    equipamento.notaFiscal = this.notaFiscal?.value;
+    equipamento.chaveNFe = this.chaveNFe?.value;
+    equipamento.dtCompra = this.dtCompra?.value;
+    equipamento.valorCompra = this.valorCompra?.value;
+    equipamento.tempoGarantia = this.tempoGarantia?.value;
+    equipamento.anotacoes = this.anotacoes?.value;
+    equipamento.foto = this.foto?.value;
 
-      console.log(equip);
-      this.editarEquipamento(equip);
-    }
-    else {
-      //CRIA UM NOVO OBJETO COM OS CAMPOS NECESSARIOS PARA MANDAR PARA O BACKEND
-      let equip: EquipamentoRequest;
-      equip = {
-        codInterno: this.codInterno?.value,
-        tipoId: this.tipo?.value,
-        setorId:this.setor?.value,
-        nome:this.nome?.value,
-        descricao: this.descricao?.value,
-        fabricante: this.fabricante?.value,
-        marca: this.marca?.value,
-        modelo:this.modelo?.value,
-        numSerial: this.numSerial?.value,
-        anoFabricacao: this.anoFabricacao?.value,
-        dtCompra: this.dtCompra?.value,
-        valorCompra: this.valorCompra?.value,
-        anotacoes:this.anotacoes?.value        
-      };
-      console.log(equip);
-      //SALVAR
-      this.novoEquipamento(equip);
-    }
-  }
-
-  //OBTER SETORES
-  private listarSetores() {
-    this.sectorService.getAll(true).subscribe({
+    this.equipamentoService.salvar(equipamento).subscribe({
       next: (response) => {
-        if(response != null){
-          this.setores = response;
-        }
-        else {
-          this.setores = [];
-          this.showError('Não foi possível carregar os laboratórios');
-        }
-      },
-      error: (error) => {
-        alert(error);
-      }
-    });
-  }
+        this.sucesso = response['sucesso'];
+        this.mensagem = response['mensagem'];
 
-  //OBTER TIPOS DE EQUIPAMENTOS
-  private listarTipos(){
-    this.equipamentoService.getTipos(true).subscribe({
-      next: (response) => {
-        if(response != null){
-          this.tipos = response;
+        if(this.sucesso){
+          this.notification.showSuccess(this.mensagem);
+          this.router.navigate(['/equipment']);
         }
         else{
-          this.tipos = [];
-          this.showError('Não foi possível obter os tipos de equipamentos');
+          this.notification.showWarning(this.mensagem);
         }
+      },
+      error: () => {
+        this.notification.showError('Erro ao salvar equipamento');
       }
     })
   }
@@ -228,8 +203,8 @@ export class EquipFormComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id){
       this.tituloPagina = 'Editando equipamento';
-      this.equipID = parseInt(id);
-      this.carregarDados(this.equipID);
+      this.equipamentoId = parseInt(id);
+      this.carregarObjeto(this.equipamentoId);
     }
     else{
       this.tituloPagina = 'Novo equipamento'
@@ -237,8 +212,58 @@ export class EquipFormComponent implements OnInit {
     }
   }
 
-  //VERIFICAR OS TAMANHOS DOS CAMPOS -> VER NO BANCO DE DADOS
-  private start(equip: EquipamentoResponse){
+  private obterSetores(ativo: boolean){
+    this.sectorService.getAll(ativo).subscribe({
+      next: (response) => {
+        if(response) {
+          this.setores = response;
+        }
+        else{
+          this.setores = [];
+          this.notification.showWarning('Nenhum setor encontrado!');
+        }
+      },
+      error: () => {
+        this.notification.showError('Erro ao consultar setores');
+      }
+    })
+  }
+
+  private obterTipos(ativo: boolean){
+    this.equipamentoService.getTipos(ativo).subscribe({
+      next: (response) => {
+        if(response){
+          this.tipos = response;
+        }
+        else{
+          this.tipos = [];
+          this.notification.showWarning('Nenhum tipo de equipamento encontrado!');
+        }
+      },
+      error: () => {
+        this.notification.showError('Erro ao consultar tipos de equipamentos');
+      }
+    });
+  }
+
+  private carregarObjeto(id: number){
+    this.equipamentoService.getById(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.equipamento = response;
+          this.validarFormulario(this.equipamento);
+        }
+        else{
+          this.notification.showWarning('Equipamento não encontrado');
+        }
+      },
+      error: () => {
+        this.notification.showError('Erro ao carregar dados do equipamento');
+      }
+    });
+  }
+
+  private validarFormulario(equip: EquipamentoResponse){
     this.equipForm = new FormGroup({
       ativo: new FormControl(equip.ativo),
       codInterno: new FormControl(equip.codInterno, [ 
@@ -281,90 +306,24 @@ export class EquipFormComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(4)
       ]),
+      fornecedor: new FormControl(equip.fornecedorId),
+      notaFiscal: new FormControl(equip.notaFiscal, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(1000)
+      ]),
+      chaveNFe: new FormControl(equip.chaveNFe, [
+        Validators.minLength(44),
+        Validators.maxLength(44)
+      ]),
       dtCompra: new FormControl(equip.dtCompra, [
         Validators.minLength(10),
         Validators.maxLength(10)
       ]),
       valorCompra: new FormControl(equip.valorCompra),
+      garantia: new FormControl(equip.tempoGarantia),
       anotacoes: new  FormControl(equip.anotacoes),
       motivoBaixa: new FormControl(equip.motivoBaixa)
     });
-  }
-
-  //CARREGA OBJETO E PREENCHE OS DADOS NA TELA
-  private carregarDados(id: number){
-    this.equipamentoService.getById(id).subscribe({
-      next: (response) => {
-        this.equipamento = response;
-        
-        if(this.equipamento != null){
-          this.start(this.equipamento);
-        }
-        else{
-          //MELHORAR AQUI
-          this.showError('Não foi possível obter os dados do equipamento');
-        }
-      }
-    });
-  }
-
-  private novoEquipamento(equip: EquipamentoRequest){
-    this.equipamentoService.novo(equip).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/equipment']);
-        }
-        else{
-          this.message = response['mensagem'];
-          this.showError(this.message);
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-      }
-    });
-  }
-
-  private editarEquipamento(equip: EquipamentoRequest){
-    this.equipamentoService.editar(equip).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/equipment']);
-          console.log('1');
-        }
-        else{
-          this.message = response['mensagem'];
-          this.showError(this.message);
-          console.log('2');
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-      }
-    });
-  }
-
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
-  }
-
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
   }
 }
