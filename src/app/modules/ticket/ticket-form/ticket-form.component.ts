@@ -1,9 +1,11 @@
+import { CancelarRequest } from './../../../models/ticket/cancelarRequest.model';
 import { ErroServidor } from './../../../models/erroServidor';
 import { ChamadoRequest } from './../../../models/ticket/chamadoRequest.model';
 import { NotificationService } from './../../../services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FinalizarRequest } from 'src/app/models/ticket/finalizarRequest.model';
 
 @Component({
   selector: 'app-ticket-form',
@@ -53,7 +55,7 @@ export class TicketFormComponent implements OnInit {
   }
 
   cancelarTicket(){
-    const ticket = new ChamadoRequest();
+    const ticket = new CancelarRequest();
     ticket.ticketId = this.ticketID;
 
     this.ticketService.cancelar(ticket).subscribe({
@@ -76,7 +78,7 @@ export class TicketFormComponent implements OnInit {
   }
 
   finalizarTicket(){
-    const ticket = new ChamadoRequest();
+    const ticket = new FinalizarRequest();
     ticket.ticketId = this.ticketID;
 
     this.ticketService.finalizar(ticket).subscribe({

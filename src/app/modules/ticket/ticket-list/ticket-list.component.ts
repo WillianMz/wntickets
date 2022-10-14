@@ -1,3 +1,4 @@
+import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
 import { NotificationService } from './../../../services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ErroServidor } from './../../../models/erroServidor';
@@ -5,7 +6,6 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ToastrService } from 'ngx-toastr';
-import { TicketModel } from 'src/app/models/ticket/ticketModel';
 import { TicketService } from 'src/app/services/ticket.service';
 
 @Component({
@@ -17,19 +17,14 @@ export class TicketListComponent implements OnInit {
 
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
 
-  /* titlePage: string; */
   tituloDaPagina: string = 'Chamados';
-  tickets: TicketModel[];
-  ticketsCopy: TicketModel[];
-  ticket: TicketModel;
-  ticketId: number;
-  ticketName: string;
-  filterDisabledTicket: boolean;
-  success: boolean;
-  message: string;
+  chamados: ChamadoResponse[];
+  chamado: ChamadoResponse;
+  chamadoId: number;
+  sucesso: boolean;
+  mensagem: string;
+  descricao: string;
   erros: ErroServidor[];
-  public clicked: string;
-
   public configuration: Config;
   public columns: Columns[];
 
@@ -37,8 +32,7 @@ export class TicketListComponent implements OnInit {
     private ticketService: TicketService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -75,33 +69,47 @@ export class TicketListComponent implements OnInit {
     this.listAll();
   }
 
-  private listAll() {    
-      this.spinner.show();
+  public delete(id: string) {
+    this.spinner.show();
 
-      this.ticketService.getAll().subscribe({
-        next: (response) => {
-          this.tickets = response;
-          console.log(this.tickets);
-          this.ticketsCopy = this.tickets;
-          this.tituloDaPagina = "Chamados";
+    this.ticketService.delete(Number.parseInt(id)).subscribe({
+      next: (response) => {
+        this.sucesso = response['sucesso'];
+
+        //RETORNO BACK -> REGRAS DE NEGOCIO
+        if(this.sucesso == true){
+          this.mensagem = response['mensagem'];
+          this.notification.showSuccess(this.mensagem);
+          this.router.navigate(['/ticket']);
           this.spinner.hide();
-        },
-        error: (response) => {
-          this.success = response.error['sucesso'];
-          this.message = response.error['mensagem'];
-          this.erros = response.error['objeto'];
-          this.notification.showError('Erro ao obter dados');
-          this.spinner.hide();
+          console.log('1');
         }
-      });
-    }
+        else{
+          this.mensagem = response['mensagem'];
+          this.notification.showError(this.mensagem);
+          this.spinner.hide();
+          console.log('2');
+        }
+      },
+      error: (response) => {
+        //PEGA OS ERROS. FALHAS
+        this.sucesso = response.error['sucesso'];
+        this.mensagem = response.error['mensagem'];
+        this.erros = response.error['objeto'];
+      }
+    });
+  }
+
 
   newTicket() {
     this.router.navigate(['/ticket/open']);
   }
 
+  public edit(ticketId: string){
+    this.router.navigate([`/ticket/${ticketId}/edit`]);
+  }
+
   public cleanFilters(){
-    this.filterDisabledTicket = false;
     this.listAll();
   }
 
@@ -114,59 +122,51 @@ export class TicketListComponent implements OnInit {
 
     this.ticketService.getAll(/*name*/).subscribe({
       next: (response) => {
-        this.tickets = response;
+        this.chamados = response;
         this.spinner.hide();
       },
       error: (response) => {
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
+        this.sucesso = response.error['sucesso'];
+        this.mensagem = response.error['mensagem'];
         this.erros = response.error['objeto'];
         this.spinner.hide();
       }
     });
   }
 
-  public edit(ticketId: string){
-    this.router.navigate([`/ticket/edit/${ticketId}`]);
-  }
-
-  public delete(id: string) {
+  private listAll() {    
     this.spinner.show();
 
-    this.ticketService.delete(Number.parseInt(id)).subscribe({
+    this.ticketService.getAll().subscribe({
       next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.showSuccess(this.message);
-          this.router.navigate(['/ticket']);
-          this.spinner.hide();
-          console.log('1');
-        }
-        else{
-          this.message = response['mensagem'];
-          this.showError(this.message);
-          this.spinner.hide();
-          console.log('2');
-        }
+        this.chamados = response;
+        this.tituloDaPagina = "Chamados";
+        this.spinner.hide();
       },
       error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
+        this.chamados = response.error['sucesso'];
+        this.mensagem = response.error['mensagem'];
         this.erros = response.error['objeto'];
+        this.notification.showError('Erro ao obter dados');
+        this.spinner.hide();
       }
     });
   }
 
-  private showSuccess(message: string, title?: string){
-    this.toastr.success(message, title);
+
+  private listarTodos(){
+    this.spinner.show();
+    this.ticketService.getAll().subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.spinner.hide();
+      },
+      error: () => {
+        this.spinner.hide();
+        this.notification.showError('Ocorreu um erro');
+      }
+    })
   }
 
-  private showError(message: string, title?: string){
-    this.toastr.error(message, title);
-  }
 
 }

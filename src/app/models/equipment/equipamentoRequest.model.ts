@@ -15,8 +15,10 @@ export class EquipamentoRequest {
     public notaFiscal: number;
     public chaveNFe?: string;
     public dtCompra: string;
-    public valorCompra: string
-    public tempoGarantia?: string;
+    public dtRecebimento: string;
+    public garantiaExtendida?: number;
+    public garantiaContratual?: number;
+    public valorCompra: string;
     public anotacoes?: string;
     public foto?: string;
 }
