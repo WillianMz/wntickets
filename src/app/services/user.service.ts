@@ -12,7 +12,7 @@ import { ListarUsuarioModel } from '../models/user/listarUsuarioModel';
 import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
 import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
 
-const ENDERECO_API: string = `${environment.api}/api/usuario`;
+const ENDERECO_API: string = `${environment.api}/usuario`;
 
 @Injectable({
   providedIn: 'root'
