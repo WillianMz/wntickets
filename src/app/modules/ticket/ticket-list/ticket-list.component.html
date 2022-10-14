@@ -68,14 +68,14 @@
             </div>
 
             <swal
-            #excluirTicket 
-            title="Excluír {{ row.assunto }}?"
-            text="Esta ação não poderá ser desfeita"
-            icon="question"
-            [showCancelButton]="true"
-            [focusCancel]="true"
-            (confirm)="delete(row.id)">
-          </swal>
+              #excluirTicket 
+              title="Excluír {{ row.assunto }}?"
+              text="Esta ação não poderá ser desfeita"
+              icon="question"
+              [showCancelButton]="true"
+              [focusCancel]="true"
+              (confirm)="delete(row.id)">
+            </swal>
 
           </ng-template>
         </div>

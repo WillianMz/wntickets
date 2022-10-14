@@ -37,14 +37,14 @@ export class TicketService {
   public cancelar(motivo: CancelarRequest){
     return this.http.put(`${ENDERECO_API}/cancelar`, motivo);
   }
-
+  
   public finalizar(motivo: FinalizarRequest) {
     return this.http.put(`${ENDERECO_API}/finalizar`, motivo);
   }
-
+  
   public delete(id: number){
     return this.http.delete(`${ENDERECO_API}/${id}`);
-  }
+  }  
 
   public getById(id: number): Observable<ChamadoResponse> {
     return this.http.get<ChamadoResponse>(`${ENDERECO_API}/${id}`);
