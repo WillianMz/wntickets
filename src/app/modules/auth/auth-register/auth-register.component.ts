@@ -1,11 +1,12 @@
 import { LoginService } from './../../../services/login.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { NotificationService } from 'src/app/services/notification.service';
 import { CadastroUsuarioRequest } from 'src/app/models/user/cadastroUsuarioRequest.model';
 import { CadastroUsuarioResponse } from 'src/app/models/user/cadastroUsuarioResponse.model';
+import { FormValidations } from 'src/app/functions/form-validations';
 
 @Component({
   selector: 'app-auth-register',
@@ -24,7 +25,8 @@ export class AuthRegisterComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private formBuilder: FormBuilder
   ) {
     let newUser = new CadastroUsuarioRequest;
     newUser.email = '';
@@ -57,7 +59,7 @@ export class AuthRegisterComponent implements OnInit {
   }
 
   get confirmarSenha() {
-    return this.userForm.get('confirmaSenha');
+    return this.userForm.get('confirmarSenha');
   }
 
   public salvar(){
@@ -111,31 +113,27 @@ export class AuthRegisterComponent implements OnInit {
   }
 
   private startForm(usuario: CadastroUsuarioRequest){
-    this.userForm = new FormGroup({
-      email: new FormControl(usuario.email, [
+    this.userForm = this.formBuilder.group({
+      email: [usuario.email, [
         Validators.required,
         Validators.email
-      ]),
-      nome: new FormControl(usuario.nome, [
+      ]],
+      nome: [usuario.nome, [
         Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(150)
-      ]),
-      telefone: new FormControl(usuario.telefone, [
+        Validators.minLength(2),
+        Validators.maxLength(200)
+      ]],
+      telefone: [usuario.telefone, [
         Validators.required,
         Validators.minLength(11),
-        Validators.maxLength(11)
-      ]),
-      senha: new FormControl(usuario.senha, [
-        Validators.required, 
-        Validators.minLength(6), 
-        Validators.maxLength(150)
-      ]),
-      confirmaSenha: new FormControl(usuario.senhaConfirmacao, [
-        Validators.required, 
-        Validators.minLength(6), 
-        Validators.maxLength(150)
-      ])
+        Validators.maxLength(17)
+      ]],
+      senha: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{6,50}')]],
+      confirmarSenha: [null, [FormValidations.equalsTo('senha')]]
     });
+    
+    this.userForm.controls['senha'].valueChanges.forEach(() => {
+      this.userForm.controls['confirmarSenha'].updateValueAndValidity();
+    })
   }
 }
