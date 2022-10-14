@@ -70,7 +70,8 @@ export class EquipListComponent implements OnInit {
     this.configGrid();
     this.listarSetores();
     this.listarTipos();
-    this.procurar();
+    this.consultarEquipamentos(true);
+    //this.procurar();
   }
 
   //OK
@@ -246,7 +247,8 @@ export class EquipListComponent implements OnInit {
         if(this.success == true){
           this.message = response['mensagem'];
           this.notification.showInfo(this.message);
-          this.procurar();
+          //this.procurar();
+          this.consultarEquipamentos(true);
           this.spinner.hide();
         }
         else{
@@ -271,7 +273,8 @@ export class EquipListComponent implements OnInit {
         if(this.success == true){
           this.message = response['mensagem'];
           this.notification.showInfo(this.message);
-          this.procurar();
+          //this.procurar();
+          this.consultarEquipamentos(true);
           this.spinner.hide();
         }
         else{
@@ -299,7 +302,8 @@ export class EquipListComponent implements OnInit {
         if(this.success){
           this.notification.showSuccess(this.message);
           this.baixaForm.reset();
-          this.procurar();
+          //this.procurar();
+          this.consultarEquipamentos(true);
         }
         else{
           this.notification.showInfo(this.message);
@@ -354,6 +358,7 @@ export class EquipListComponent implements OnInit {
   }
 
   private consultarEquipamentos(ativo: boolean) {
+    this.spinner.show();
     this.equipamentoService.getAll(ativo).subscribe({
       next: (response) => {
         this.equipments = response;
