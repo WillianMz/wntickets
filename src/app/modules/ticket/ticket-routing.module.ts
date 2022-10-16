@@ -1,3 +1,4 @@
+import { TicketAnexoComponent } from './ticket-anexo/ticket-anexo.component';
 import { TicketOpenComponent } from './ticket-open/ticket-open.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TicketListComponent } from './ticket-list/ticket-list.component';
@@ -8,7 +9,8 @@ const routes: Routes = [
   { path:'', component: TicketListComponent },
   { path:'open', component: TicketOpenComponent },
   { path:':id/edit', component: TicketFormComponent },
-  { path:'detail', component: TicketFormComponent }
+  { path:'detail', component: TicketFormComponent },
+  { path:':id/anexo', component: TicketAnexoComponent }
 ];
 
 @NgModule({

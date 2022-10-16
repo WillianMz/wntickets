@@ -4,138 +4,130 @@
 
 <div class="container">
   <section class="pt-2 row">
-    <h2 class="col-12 mb-3">{{ tituloPagina }}</h2>
-    <h2 class="col-12 mb-3">TÍTULO ASSUNTO</h2>
+    <h2 class="col-12 mb-3">TRAZER ASSUNTO</h2>
   </section>
-
-  <!-- <div class="pt-2 pb-2 row" *ngIf="false">
-    <div class="col-12">
-      <div class="btn-group">
-        <button type="button" class="btn btn-outline-primary">Criar novo tiket</button>
-        <button type="button" class="btn btn-outline-primary">Editar</button>
-        <button type="button" class="btn btn-outline-primary">Histórico</button>
-        <button type="button" class="btn btn-outline-primary">Comentários</button>
-        <button type="button" class="btn btn-outline-primary">Anexos</button>
-      </div>
-    </div>
-  </div> -->
 
   <div class="row g-5">
 
     <div class="col-md-7 col-lg-8">
-      <form class="needs-validation" novalidate="">
+      <form [formGroup]="ticketForm">
         <div class="row g-3">
 
           <!-- DESCRICAO DO PROBLEMA -->
           <div class="col-12">
-            <label for="username" class="form-label">Descrição</label>
-            <div class="input-group ">
-              <!-- <span class="input-group-text">@</span> -->
-              <textarea type="text" class="form-control" id="username" placeholder="Descrição do problema"
-                required="" disabled="true"></textarea>
-              <div class="invalid-feedback">
-                Your username is required.
-              </div>
-            </div>
-          </div>
-
-          <!-- CRIADOR DO TICKET -->
-          <div class="col-sm-12">
-            <label for="lastName" class="form-label">Criado por</label>
-            <input type="text" class="form-control" id="lastName"
-               value="" required="" disabled="true">
-            <div class="invalid-feedback">
-              Valid last name is required.
+            <label class="form-label">Descrição</label>
+            <div class="input-group">
+              <textarea type="text" class="form-control" formControlName="descricao" placeholder="Descrição do problema"
+                value="" required=""></textarea>
             </div>
           </div>
 
           <!-- DATA ABERTURA -->
-          <div class="col-sm-4">
-            <label for="firstName" class="form-label">Data de abertura</label>
-            <input type="text" class="form-control" id="firstName" placeholder="09/12/2021" value="" required="" disabled="true">
-            <div class="invalid-feedback">
-              Valid first name is required.
-            </div>
+          <div class="col-sm-3">
+            <label class="form-label">Data abertura</label>
+            <input type="text" class="form-control" formControlName="dataAbertura" placeholder="09/12/2021"
+              value="" required="">
+          </div>
+
+          <!-- CRIADOR DO TICKET -->
+          <div class="col-sm-3">
+            <label class="form-label">Criado por</label>
+            <input type="text" class="form-control" formControlName="criador" placeholder="Criador"
+              value="" required="">
           </div>
 
           <!-- STATUS -->
-          <div class="col-sm-4">
-            <label for="lastName" class="form-label">Status</label>
-            <select class="form-select" id="country" required="" disabled="true">
-              <option value="">Selecione...</option>
-              <option>Option 1</option>
-            </select>
-            <div class="invalid-feedback">
-              Please select a valid country.
-            </div>
+          <div class="col-sm-3">
+            <label for="status" class="form-label">Status</label>
+            <input type="text" class="form-control" formControlName="status" placeholder="Status"
+              required="">
+
+            <!-- FAZER COM SELECT PARA CASOS DE EDIÇÃO -->
+
+            <!-- <select class="form-select campo-obrigatorio" formControlName="status" placeholder="Status" required="">
+              <option selected>Selecione o status desejado</option>
+              <option value="1">Novo</option>
+              <option value="2">Pendente</option>
+              <option value="3">EmAtendimento</option>
+              <option value="4">Finalizado</option>
+              <option value="5">Cancelado</option>
+              <option value="6">Fechado</option>
+              <option value="7">Reaberto</option>
+            </select> -->
           </div>
 
           <!-- PRIORIDADE -->
-          <div class="col-sm-4">
-            <label for="lastName" class="form-label">Prioridade</label>
-            <select class="form-select" id="country" required="" disabled="true">
-              <option value="">Selecione...</option>
-              <option>Option 1</option>
-            </select>
-            <div class="invalid-feedback">
-              Please select a valid country.
-            </div>
+          <div class="col-sm-3">
+            <label for="prioridade" class="form-label">Prioridade</label>
+            <input type="text" class="form-control" formControlName="prioridade" placeholder="Prioridade"
+              required="">
+
+            <!-- FAZER COM SELECT PARA CASOS DE EDIÇÃO -->
+
+            <!-- <select class="form-select campo-obrigatorio" formControlName="prioridade" placeholder="Prioridade" required="">
+              <option selected>Selecione a prioridade desejada</option>
+              <option value="1">Baixa</option>
+              <option value="2">Normal</option>
+              <option value="3">Alta</option>
+              <option value="4">Urgente</option>
+            </select> -->
           </div>
+
 
           <!-- SETOR -->
-          <div class="col-sm-6">
-            <label for="lastName" class="form-label">Setor</label>
-            <select class="form-select" id="country" required="" disabled="true">
-              <option value="">Selecione...</option>
-              <option>Option 1</option>
+          <div class="col-sm-5">
+            <label>Laboratório<!-- <span class="text-danger">*</span> --></label>
+            <select class="form-select campo-obrigatorio" formControlName="setor" placeholder="Setor"
+              required="">
+              <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
             </select>
-            <div class="invalid-feedback">
-              Please select a valid country.
-            </div>
           </div>
-
-          
 
           <!-- DATA FECHAMENTO -->
-          <div class="col-sm-4">
-            <label for="firstName" class="form-label">Data de fechamento</label>
-            <input type="text" class="form-control" id="firstName" placeholder="NAO INFOMAADO" value="" required="" disabled="true">
-            <div class="invalid-feedback">
-              Valid first name is required.
-            </div>
+          <div class="col-sm-3">
+            <label class="form-label">Data fechamento</label>
+            <input type="text" class="form-control" formControlName="dataFechamento" readonly>
           </div>
-
 
           <!-- SOLUÇÃO DO PROBLEMA -->
           <div class="col-sm-12">
-            <label for="firstName" class="form-label">Solução aplicada</label>
-            <input type="text" class="form-control" id="firstName"
-              placeholder="solucao aplicada" value="" required="" disabled="true">
-            <div class="invalid-feedback">
-              Valid first name is required.
-            </div>
+            <label class="form-label">Solução aplicada</label>
+            <input type="text" class="form-control" formControlName="solucao" placeholder="Solucao aplicada"
+              value="" required="">
           </div>
+
         </div>
         <hr class="my-4">
       </form>
+
+      <div class="row mt-2">
+        <div class="col">
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">Cancelar</button>
+            <button type="button" class="btn btn-outline-primary"
+              (click)="salvar()">Salvar</button>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="col-md-5 col-lg-4 order-md-last">
       <ul class="list-group mb-3">
         <li class="list-group-item">
           <div>
-            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="newTicket()">Novo ticket</button>
+            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="newTicket()">Novo Chamado</button>
           </div>
         </li>
         <li class="list-group-item">
           <div>
-            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="goAttachments()">Anexos</button>
+            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="anexo(ticketId)">Anexos</button>
           </div>
         </li>
         <li class="list-group-item">
           <div>
             <button type="button" class="w-100 btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop_1">
-              Cancelar
+              Cancelar Chamado
             </button>
           </div>
         </li>
@@ -143,7 +135,7 @@
         <li class="list-group-item">
           <div>
             <button type="button" class="w-100 btn btn-outline-success btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop_2">
-              Finalizar
+              Finalizar Chamado
             </button>
           </div>
         </li>

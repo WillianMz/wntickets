@@ -5,14 +5,36 @@ import { CriadorResponse } from './criadorResponse.model';
 export class ChamadoResponse {
     public id?: number;
     public dataAbertura: string;
-    public tipo?: string;
+    public tipo?: TipoEnum;
     public criador: CriadorResponse;
     public setor: SetorResponse;
     public assunto: string;
     public descricao: string;
-    public status?: string;
-    public prioridade?: string;
+    public status?: StatusEnum;
+    public prioridade?: PrioridadeEnum;
     public dataFechamento?: string;
     public solucao?: string;
     public operador?: OperadorResponse;
+}
+
+export enum StatusEnum {
+    Novo = 1,
+    Pendente = 2,
+    EmAtendimento = 3,
+    Finalizado = 4,
+    Cancelado = 5,
+    Fechado = 6,
+    Reaberto = 7
+}
+
+export enum TipoEnum {
+    Publico = 1,
+    Interno = 2
+}
+
+export enum PrioridadeEnum {
+    Baixa = 1,
+    Normal = 2,
+    Alta = 3,
+    Urgente = 4
 }
