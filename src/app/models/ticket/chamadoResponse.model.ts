@@ -10,9 +10,19 @@ export class ChamadoResponse {
     public setor: SetorResponse;
     public assunto: string;
     public descricao: string;
-    public status?: string;
+    public status?: StatusEnum;
     public prioridade?: string;
     public dataFechamento?: string;
     public solucao?: string;
     public operador?: OperadorResponse;
+}
+
+export enum StatusEnum {
+    Novo = 1,
+    Pendente = 2,
+    EmAtendimento = 3,
+    Finalizado = 4,
+    Cancelado = 5,
+    Fechado = 6,
+    Reaberto = 7
 }
