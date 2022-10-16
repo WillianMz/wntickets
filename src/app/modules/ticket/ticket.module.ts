@@ -8,13 +8,15 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { TableModule } from 'ngx-easy-table';
 import { TicketOpenComponent } from './ticket-open/ticket-open.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { TicketAnexoComponent } from './ticket-anexo/ticket-anexo.component';
 
 
 @NgModule({
   declarations: [
     TicketListComponent,
     TicketFormComponent,
-    TicketOpenComponent
+    TicketOpenComponent,
+    TicketAnexoComponent
   ],
   imports: [
     CommonModule,

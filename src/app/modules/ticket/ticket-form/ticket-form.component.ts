@@ -199,16 +199,16 @@ export class TicketFormComponent implements OnInit {
     this.router.navigate(['/ticket/open']);
   }
 
-  goHistoric(){
+  /* goHistoric(){
     this.router.navigate(['tickets/1/historic']);
   }
 
-  /* goComments(){
+  goComments(){
     this.router.navigate(['tickets/1/comments']);
   } */
 
-  goAttachments(){
-    this.router.navigate(['tickets/1/attachments']);
+  anexo(ticketId: number){
+    this.router.navigate([`/ticket/${ticketId}/anexo`]);
   }
 
   cancelarTicket(){
