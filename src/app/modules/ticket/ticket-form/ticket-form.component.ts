@@ -2,7 +2,7 @@ import { SectorService } from './../../../services/sector.service';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { ChamadoRequest } from './../../../models/ticket/chamadoRequest.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ChamadoResponse, StatusEnum } from './../../../models/ticket/chamadoResponse.model';
+import { ChamadoResponse, StatusEnum, TipoEnum, PrioridadeEnum } from './../../../models/ticket/chamadoResponse.model';
 import { CancelarRequest } from './../../../models/ticket/cancelarRequest.model';
 import { ErroServidor } from './../../../models/erroServidor';
 import { NotificationService } from './../../../services/notification.service';
@@ -18,7 +18,7 @@ import { FinalizarRequest } from 'src/app/models/ticket/finalizarRequest.model';
 })
 export class TicketFormComponent implements OnInit {
 
-  // @Input() 
+  // @Input()
   ticketId: number;
   tituloPagina: string = 'Detalhes do Chamado';
   ticketAssunto: string = 'Assunto chamado';
@@ -46,16 +46,20 @@ export class TicketFormComponent implements OnInit {
     this.configurarForm();
   }
 
+  /* get equipamentoId() {
+    return this.ticketForm.get('equipamentoId');
+  } */
+
   get setorId() {
-    return this.ticketForm.get('setorId');
+    return this.ticketForm.get('setor');
   }
 
   get tipoId() {
-    return this.ticketForm.get('tipoId');
+    return this.ticketForm.get('TipoEnum');
   }
 
   get prioridade() {
-    return this.ticketForm.get('prioridade');
+    return this.ticketForm.get('PrioridadeEnum');
   }
 
   get assunto() {
@@ -67,11 +71,12 @@ export class TicketFormComponent implements OnInit {
   }
 
   get operadorId() {
-    return this.ticketForm.get('operadorId');
+    return this.ticketForm.get('operador');
   }
 
   salvar(){
     const chamado = new ChamadoRequest();
+    chamado.ticketId = this.ticketId;
     chamado.setorId = this.setorId?.value;
     chamado.tipoId = this.tipoId?.value;
     chamado.prioridade = this.prioridade?.value;
@@ -184,7 +189,7 @@ export class TicketFormComponent implements OnInit {
         Validators.minLength(15),
         Validators.maxLength(2000)
       ]),
-      operador: new FormControl(ticket.operador, [
+      operador: new FormControl(ticket.operador?.id, [
         Validators.required
       ])
     });
