@@ -72,7 +72,7 @@ export class TicketOpenComponent implements OnInit {
 
         if(this.sucesso){
           this.notification.showSuccess(this.mensagem);
-          this.notification.alertSucesso('Novo chamado', this.mensagem, 2000, true);
+          //this.notification.alertSucesso('Novo chamado', this.mensagem, 2000, true);
           this.router.navigate(['/ticket']);
         }
         else{

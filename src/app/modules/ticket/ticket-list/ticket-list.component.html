@@ -1,4 +1,5 @@
 <app-load [text]="'obtendo dados...'"></app-load>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
 <div class="container">
   <div class="row">
@@ -38,7 +39,6 @@
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="bi bi-funnel"></i> Filtro Avançado
           </button>
-          
         </div>
       </div>
 
@@ -59,24 +59,13 @@
                  <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="excluirTicket.fire()">Excluir</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Detalhes</a></li>
                 </ul>
               </div>
               
             </div>
-
-            <swal
-              #excluirTicket 
-              title="Excluír {{ row.assunto }}?"
-              text="Esta ação não poderá ser desfeita"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="delete(row.id)">
-            </swal>
-
           </ng-template>
         </div>
       </div>

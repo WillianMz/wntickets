@@ -11,7 +11,8 @@ import { NgxCurrencyModule } from "ngx-currency";
 import {TabViewModule} from 'primeng/tabview';
 import { EquipTipoListComponent } from './equip-tipo-list/equip-tipo-list.component';
 import { EquipTipoFormComponent } from './equip-tipo-form/equip-tipo-form.component';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     NgxMaskModule.forChild(),
     NgxCurrencyModule,
     TabViewModule,
-    SweetAlert2Module
+    ConfirmDialogModule
+  ],
+  providers: [
+    ConfirmationService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -165,18 +165,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Fechar</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="cancelarTickets.fire()">Cancelar Ticket</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="cancelarTicket()">Cancelar Ticket</button>
             </div>
-
-            <swal
-                #cancelarTickets 
-                title="Tem certeza que deseja cancelar o ticket?"
-                text="Esta ação não poderá ser desfeita"
-                icon="question"
-                [showCancelButton]="true"
-                [focusCancel]="true"
-                (confirm)="cancelarTicket()">
-            </swal>
 
           </div>
         </div>
@@ -196,18 +186,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="finalizarTickets.fire()">Finalizar Ticket</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="finalizarTicket()">Finalizar Ticket</button>
             </div>
-
-            <swal
-              #finalizarTickets
-              title="Tem certeza que deseja finalizar o ticket?"
-              text="Esta ação não poderá ser desfeita"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="finalizarTicket()">
-            </swal>
 
           </div>
         </div>

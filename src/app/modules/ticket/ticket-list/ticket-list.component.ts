@@ -8,6 +8,8 @@ import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { ToastrService } from 'ngx-toastr';
 import { TicketService } from 'src/app/services/ticket.service';
 
+import {ConfirmationService} from 'primeng/api';
+
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
@@ -32,7 +34,8 @@ export class TicketListComponent implements OnInit {
     private ticketService: TicketService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -65,37 +68,51 @@ export class TicketListComponent implements OnInit {
     ];
   }
 
+  confirm() {
+    this.confirmationService.confirm({
+        message: 'Are you sure that you want to perform this action?',
+        accept: () => {
+            //Actual logic to perform a confirmation
+            alert('OK');
+        }
+    });
+  }
+
   private list() {
     this.listAll();
   }
 
   public delete(id: string) {
-    this.spinner.show();
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.spinner.show();
+        this.ticketService.delete(Number.parseInt(id)).subscribe({
+          next: (response) => {
+            this.sucesso = response['sucesso'];
 
-    this.ticketService.delete(Number.parseInt(id)).subscribe({
-      next: (response) => {
-        this.sucesso = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.sucesso == true){
-          this.mensagem = response['mensagem'];
-          this.notification.showSuccess(this.mensagem);
-          this.router.navigate(['/ticket']);
-          this.spinner.hide();
-          console.log('1');
-        }
-        else{
-          this.mensagem = response['mensagem'];
-          this.notification.showError(this.mensagem);
-          this.spinner.hide();
-          console.log('2');
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.sucesso = response.error['sucesso'];
-        this.mensagem = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.sucesso == true){
+              this.mensagem = response['mensagem'];
+              this.notification.showSuccess(this.mensagem);
+              this.router.navigate(['/ticket']);
+              this.spinner.hide();
+              console.log('1');
+            }
+            else{
+              this.mensagem = response['mensagem'];
+              this.notification.showError(this.mensagem);
+              this.spinner.hide();
+              console.log('2');
+            }
+          },
+          error: (response) => {
+            //PEGA OS ERROS. FALHAS
+            this.sucesso = response.error['sucesso'];
+            this.mensagem = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+          }
+        });
       }
     });
   }

@@ -1,5 +1,6 @@
 
 <app-load [text]="'obtendo dados...'"></app-load>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
 <div class="container">
   <div class="row">
@@ -77,54 +78,16 @@
                   </button>              
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
-                    <li><a class="dropdown-item" type="button" (click)="ativarSetor.fire()" *ngIf="row.ativo == false">Ativar</a></li>
-                    <li><a class="dropdown-item" type="button" (click)="desativarSetor.fire()"*ngIf="row.ativo == true">Desativar</a></li>
-                    <li><a class="dropdown-item" type="button" (click)="excluirSetor.fire()">Excluir</a></li>
+                    <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="row.ativo == false">Ativar</a></li>
+                    <li><a class="dropdown-item" type="button" (click)="desativar(row.id)"*ngIf="row.ativo == true">Desativar</a></li>
+                    <li><a class="dropdown-item" type="button" (click)="excluir(row.id)">Excluir</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" type="button" (click)="consultarEquipamentos(row.id, row.ativo)">Equipamentos</a></li>
                   </ul>
                 </div>
             </div>
-
-            <swal
-              #ativarSetor
-              title="Ativar {{ row.nome  }}?"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="ativar(row.id)">
-            </swal>
-            
-            <swal
-              #desativarSetor  
-              title="Desativar {{ row.nome  }}?"
-              text="Posteriormente você poderá reativar."
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="desativar(row.id)">
-            </swal>
-
-            <swal
-              #excluirSetor 
-              title="Excluír {{ row.nome  }}?"
-              text="Esta ação não poderá ser desfeita"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="excluir(row.id)">
-            </swal>
-
           </ng-template>
         </div>
-
-       <!--  <button [swal]="deleteSwal" (confirm)="deleteFile(file)">
-          Delete {{ file.name }}
-        </button>
-         -->
-        
-
-
         <!-- AVISOS -->
         <div class="row pt-2" *ngIf="!sectors?.length">
           <app-alert [mensagem]="'Nenhum resultado encontrado!'" [color]="'alert-info'"></app-alert>

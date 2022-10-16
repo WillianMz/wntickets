@@ -7,7 +7,8 @@ import { SectorFormComponent } from './sector-form/sector-form.component';
 import { SectorListComponent } from './sector-list/sector-list.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 
 @NgModule({
@@ -22,7 +23,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     ReactiveFormsModule,
     ComponentsModule,
     TableModule,
-    SweetAlert2Module
+    ConfirmDialogModule
+  ],
+  providers: [
+    ConfirmationService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

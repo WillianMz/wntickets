@@ -6,6 +6,7 @@ import { SectorService } from 'src/app/services/sector.service';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-sector-list',
@@ -29,7 +30,8 @@ export class SectorListComponent implements OnInit {
     private sectorService: SectorService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -80,82 +82,96 @@ export class SectorListComponent implements OnInit {
   }
 
   public ativar(id: string) {
-    this.spinner.show();
-  
-    this.sectorService.enable(parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.notification.showSuccess(this.message);
-          this.listarSetores(true);
-          this.spinner.hide();
-        }
-        else{
-          this.notification.showError(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.spinner.show();
+        this.sectorService.enable(parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listarSetores(true);
+              this.spinner.hide();
+            }
+            else{
+              this.notification.showError(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: (response) => {
+            //PEGA OS ERROS. FALHAS
+            this.success = response.error['sucesso'];
+            this.message = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+          }
+        });
       }
     });
   }
 
   public desativar(id: string) {
-    this.spinner.show();
 
-    this.sectorService.disable(parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.notification.showSuccess(this.message);
-          this.listarSetores(true);
-          this.spinner.hide();
-        }
-        else{
-          this.notification.showWarning(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.spinner.show();
+        this.sectorService.disable(parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listarSetores(true);
+              this.spinner.hide();
+            }
+            else{
+              this.notification.showWarning(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: (response) => {
+            //PEGA OS ERROS. FALHAS
+            this.success = response.error['sucesso'];
+            this.message = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+          }
+        });
       }
     });
   }
   
   public excluir(id: string){
-    this.spinner.show();
-
-    this.sectorService.delete(parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.notification.showSuccess(this.message);
-          this.listarSetores(true);
-          this.spinner.hide();
-        }
-        else{
-          this.notification.showWarning(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.spinner.show();
+        this.sectorService.delete(parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listarSetores(true);
+              this.spinner.hide();
+            }
+            else{
+              this.notification.showWarning(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: (response) => {
+            //PEGA OS ERROS. FALHAS
+            this.success = response.error['sucesso'];
+            this.message = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+          }
+        });
       }
     });
   }

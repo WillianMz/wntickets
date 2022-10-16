@@ -12,6 +12,7 @@ import { EquipamentoService } from 'src/app/services/equipamento.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-equip-list',
@@ -51,7 +52,8 @@ export class EquipListComponent implements OnInit {
     private router: Router,
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private confirmationService: ConfirmationService
   ) { 
     const filtro = new FiltroEquipamento()
     this.validarFormulario(filtro);
@@ -210,109 +212,130 @@ export class EquipListComponent implements OnInit {
   }
 
   public desativar(id: string){
-    this.spinner.show();
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.spinner.show();
 
-    this.equipamentoService.desativar(Number.parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.notification.showInfo(this.message);
-          this.procurar();
-          this.spinner.hide();
-        }
-        else{
-          this.message = response['mensagem'];
-          this.notification.showError(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: () => {
-        //MELHORAR ESTA PARTE
-        this.notification.showError('Ocorreu um erro');
+        this.equipamentoService.desativar(Number.parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+    
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.message = response['mensagem'];
+              this.notification.showInfo(this.message);
+              //this.procurar();
+              this.consultarEquipamentos(true);
+              this.spinner.hide();
+            }
+            else{
+              this.message = response['mensagem'];
+              this.notification.showError(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: () => {
+            //MELHORAR ESTA PARTE
+            this.notification.showError('Ocorreu um erro');
+          }
+        });
       }
     });
   }
 
   public ativar(id: string){
-    this.spinner.show();
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.spinner.show();
 
-    this.equipamentoService.ativar(Number.parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.notification.showInfo(this.message);
-          //this.procurar();
-          this.consultarEquipamentos(true);
-          this.spinner.hide();
-        }
-        else{
-          this.message = response['mensagem'];
-          this.notification.showError(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: () => {
-        //MELHORAR ESTA PARTE
-        this.notification.showError('Ocorreu um erro');
+        this.equipamentoService.ativar(Number.parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+    
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.message = response['mensagem'];
+              this.notification.showInfo(this.message);
+              //this.procurar();
+              this.consultarEquipamentos(true);
+              this.spinner.hide();
+            }
+            else{
+              this.message = response['mensagem'];
+              this.notification.showError(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: () => {
+            //MELHORAR ESTA PARTE
+            this.notification.showError('Ocorreu um erro');
+          }
+        });
       }
     });
   }
 
   public excluir(id: string){
-    this.equipamentoService.excluir(Number.parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.message = response['mensagem'];
-          this.notification.showInfo(this.message);
-          //this.procurar();
-          this.consultarEquipamentos(true);
-          this.spinner.hide();
-        }
-        else{
-          this.message = response['mensagem'];
-          this.notification.showError(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: () => {
-        //MELHORAR ESTA PARTE
-        this.notification.showError('Ocorreu um erro');
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.equipamentoService.excluir(Number.parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+    
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.message = response['mensagem'];
+              this.notification.showInfo(this.message);
+              //this.procurar();
+              this.consultarEquipamentos(true);
+              this.spinner.hide();
+            }
+            else{
+              this.message = response['mensagem'];
+              this.notification.showError(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: () => {
+            //MELHORAR ESTA PARTE
+            this.notification.showError('Ocorreu um erro');
+          }
+        });
       }
     });
   }
 
   public baixar(id: string){
-    const equipBaixa = new BaixarEquipamentoRequest();
-    equipBaixa.equipamentoId = parseInt(id);
-    equipBaixa.motivo = this.motivo;
-
-    this.equipamentoService.baixar(equipBaixa).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        if(this.success){
-          this.notification.showSuccess(this.message);
-          this.baixaForm.reset();
-          //this.procurar();
-          this.consultarEquipamentos(true);
-        }
-        else{
-          this.notification.showInfo(this.message);
-        }
-      },
-      error: () => {
-        this.notification.showError('Erro ao baixar equipamento');
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        const equipBaixa = new BaixarEquipamentoRequest();
+        equipBaixa.equipamentoId = parseInt(id);
+        equipBaixa.motivo = this.motivo;
+    
+        this.equipamentoService.baixar(equipBaixa).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            if(this.success){
+              this.notification.showSuccess(this.message);
+              this.baixaForm.reset();
+              //this.procurar();
+              this.consultarEquipamentos(true);
+            }
+            else{
+              this.notification.showInfo(this.message);
+            }
+          },
+          error: () => {
+            this.notification.showError('Erro ao baixar equipamento');
+          }
+        });
       }
-    })
+    });
   }
 
   public detalhes(){
