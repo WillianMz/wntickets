@@ -63,7 +63,7 @@ export class SectorListComponent implements OnInit {
   public procurarPorNome(){
     this.listByNome(this.sectorName);
   }
- 
+
   public consultarEquipamentos(sectorId: string, ativo: boolean){
     this.router.navigate(['equipment'], {queryParams: { sector: sectorId, ativo: ativo}});
   }
@@ -84,7 +84,7 @@ export class SectorListComponent implements OnInit {
   public ativar(id: string) {
 
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      message: 'Ativar laboratório?',
       accept: () => {
         this.spinner.show();
         this.sectorService.enable(parseInt(id)).subscribe({
@@ -116,7 +116,7 @@ export class SectorListComponent implements OnInit {
   public desativar(id: string) {
 
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      message: 'Desativar laboratório?',
       accept: () => {
         this.spinner.show();
         this.sectorService.disable(parseInt(id)).subscribe({
@@ -144,10 +144,11 @@ export class SectorListComponent implements OnInit {
       }
     });
   }
-  
+
   public excluir(id: string){
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      message: 'Confirma a exclusão do laboratório? Esta ação não poderá ser desfeita!',
+
       accept: () => {
         this.spinner.show();
         this.sectorService.delete(parseInt(id)).subscribe({
