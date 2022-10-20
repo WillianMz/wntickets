@@ -1,11 +1,23 @@
-<!-- <div class="sticky-top ">
-  <app-navbar titlePage="Tickets Pendentes"></app-navbar>
-</div> -->
-
 <div class="container">
-  <section class="pt-2 row">
-    <h2 class="col-12 mb-3">TRAZER ASSUNTO</h2>
-  </section>
+
+    <!-- AVISOS -->
+    <div class="row pt-2" *ngIf="boolAviso">
+      <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+    </div>
+
+    <!-- NOTIFICACOES DO SERVIDOR -->
+    <div class="row mt-2" *ngIf="erros?.length">
+      <div class="alert alert-danger" role="alert">
+        <h5>{{ message }}</h5>
+        <ul *ngFor="let e of erros">
+          <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="boolTitulo">
+      <h3>{{ tituloPagina }} - Trarar assunto</h3>
+    </div>
 
   <div class="row g-5">
 
@@ -26,51 +38,46 @@
           <div class="col-sm-3">
             <label class="form-label">Data abertura</label>
             <input type="text" class="form-control" formControlName="dataAbertura" placeholder="09/12/2021"
-              value="" required="">
+              value="" required="" readonly>
           </div>
 
           <!-- CRIADOR DO TICKET -->
           <div class="col-sm-3">
             <label class="form-label">Criado por</label>
             <input type="text" class="form-control" formControlName="criador" placeholder="Criador"
-              value="" required="">
+              value="" required="" readonly>
           </div>
 
           <!-- STATUS -->
           <div class="col-sm-3">
             <label for="status" class="form-label">Status</label>
-            <input type="text" class="form-control" formControlName="status" placeholder="Status"
-              required="">
+            <select class="form-select campo-obrigatorio" formControlName="status" required="">
+              <option value="Novo">Novo</option>
+              <option value="Pendente">Pendente</option>
+              <option value="EmAtendimento">EmAtendimento</option>
+              <option value="Finalizado">Finalizado</option>
+              <option value="Cancelado">Cancelado</option>
+              <option value="Fechado">Fechado</option>
+              <option value="Reaberto">Reaberto</option>
+            </select>
+          </div>
 
-            <!-- FAZER COM SELECT PARA CASOS DE EDIÇÃO -->
-
-            <!-- <select class="form-select campo-obrigatorio" formControlName="status" placeholder="Status" required="">
-              <option selected>Selecione o status desejado</option>
-              <option value="1">Novo</option>
-              <option value="2">Pendente</option>
-              <option value="3">EmAtendimento</option>
-              <option value="4">Finalizado</option>
-              <option value="5">Cancelado</option>
-              <option value="6">Fechado</option>
-              <option value="7">Reaberto</option>
-            </select> -->
+          <!-- OPERADOR DO TICKET -->
+          <div class="col-sm-3">
+            <label class="form-label">Operado por</label>
+            <input type="text" class="form-control" formControlName="operador" placeholder="Operador"
+              value="" required="" readonly>
           </div>
 
           <!-- PRIORIDADE -->
           <div class="col-sm-3">
             <label for="prioridade" class="form-label">Prioridade</label>
-            <input type="text" class="form-control" formControlName="prioridade" placeholder="Prioridade"
-              required="">
-
-            <!-- FAZER COM SELECT PARA CASOS DE EDIÇÃO -->
-
-            <!-- <select class="form-select campo-obrigatorio" formControlName="prioridade" placeholder="Prioridade" required="">
-              <option selected>Selecione a prioridade desejada</option>
-              <option value="1">Baixa</option>
-              <option value="2">Normal</option>
-              <option value="3">Alta</option>
-              <option value="4">Urgente</option>
-            </select> -->
+            <select class="form-select campo-obrigatorio" formControlName="prioridade" required="">
+              <option value="Baixa">Baixa</option>
+              <option value="Normal">Normal</option>
+              <option value="Alta">Alta</option>
+              <option value="Urgente">Urgente</option>
+            </select>
           </div>
 
 

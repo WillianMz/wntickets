@@ -18,7 +18,6 @@ import { FinalizarRequest } from 'src/app/models/ticket/finalizarRequest.model';
 })
 export class TicketFormComponent implements OnInit {
 
-  // @Input()
   ticketId: number;
   tituloPagina: string = 'Detalhes do Chamado';
   ticketAssunto: string = 'Assunto chamado';
@@ -29,6 +28,9 @@ export class TicketFormComponent implements OnInit {
   success: boolean;
   erros: ErroServidor[];
 
+  //campos visiveis
+  boolTitulo: boolean = true;
+  boolAviso: boolean = false;
 
   constructor(
     private ticketService: TicketService,
@@ -71,7 +73,7 @@ export class TicketFormComponent implements OnInit {
   }
 
   get operadorId() {
-    return this.ticketForm.get('operador');
+    return this.ticketForm.get('operadorId');
   }
 
   salvar(){
@@ -189,7 +191,10 @@ export class TicketFormComponent implements OnInit {
         Validators.minLength(15),
         Validators.maxLength(2000)
       ]),
-      operador: new FormControl(ticket.operador?.id, [
+      operador: new FormControl(ticket.operador?.nome, [
+        Validators.required
+      ]),
+      operadorId: new FormControl(ticket.operador?.id, [
         Validators.required
       ])
     });
