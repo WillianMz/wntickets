@@ -54,7 +54,7 @@ export class EquipListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private confirmationService: ConfirmationService
-  ) { 
+  ) {
     const filtro = new FiltroEquipamento()
     this.validarFormulario(filtro);
     this.validarFormBaixa('');
@@ -213,14 +213,16 @@ export class EquipListComponent implements OnInit {
 
   public desativar(id: string){
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Confirma a desativação deste equipamento?',
       accept: () => {
         this.spinner.show();
 
         this.equipamentoService.desativar(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.success = response['sucesso'];
-    
+
             //RETORNO BACK -> REGRAS DE NEGOCIO
             if(this.success == true){
               this.message = response['mensagem'];
@@ -246,14 +248,16 @@ export class EquipListComponent implements OnInit {
 
   public ativar(id: string){
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Confirma a ativação deste equipamento?',
       accept: () => {
         this.spinner.show();
 
         this.equipamentoService.ativar(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.success = response['sucesso'];
-    
+
             //RETORNO BACK -> REGRAS DE NEGOCIO
             if(this.success == true){
               this.message = response['mensagem'];
@@ -279,12 +283,14 @@ export class EquipListComponent implements OnInit {
 
   public excluir(id: string){
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Confirma a exclusão deste equipamento? Está ação não poderá ser desfeita!',
       accept: () => {
         this.equipamentoService.excluir(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.success = response['sucesso'];
-    
+
             //RETORNO BACK -> REGRAS DE NEGOCIO
             if(this.success == true){
               this.message = response['mensagem'];
@@ -310,12 +316,14 @@ export class EquipListComponent implements OnInit {
 
   public baixar(id: string){
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Confirma a baixa deste equipamento?',
       accept: () => {
         const equipBaixa = new BaixarEquipamentoRequest();
         equipBaixa.equipamentoId = parseInt(id);
         equipBaixa.motivo = this.motivo;
-    
+
         this.equipamentoService.baixar(equipBaixa).subscribe({
           next: (response) => {
             this.success = response['sucesso'];

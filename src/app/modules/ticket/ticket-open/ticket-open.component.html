@@ -9,14 +9,13 @@
             <label for="equipamento" class="col-sm-3 col-md-2 col-form-label">Equipamento</label>
             <div class="col-sm-6 col-md-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Nº do equipamento" aria-label="Equipamento"
-                        id="equipamento" formControlName="equipamento">
-                    <button class="btn btn-outline-success" type="button" id="btnIdentificar"
-                        (click)="identificarEquipamento()">Identificar</button>
+                    <input type="text" class="form-control" placeholder="Nº do equipamento" aria-label="Equipamento" id="equipamento" formControlName="equipamento">
+                    <!-- <button class="btn btn-outline-success" type="button" id="btnIdentificar" (click)="identificarEquipamento()">
+                      Identificar
+                    </button> -->
                 </div>
                 <div class="text-danger" *ngIf="inputEquipamento?.errors">
-                    <div
-                        *ngIf="inputEquipamento?.errors?.required && (inputEquipamento?.dirty || inputEquipamento?.touched)">
+                    <div *ngIf="inputEquipamento?.errors?.required && (inputEquipamento?.dirty || inputEquipamento?.touched)">
                         Identifique o equipamento
                     </div>
                 </div>
@@ -107,6 +106,10 @@
         </div>
 
         <!-- <app-ticket-attachments></app-ticket-attachments> -->
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Anexar arquivo</label>
+          <input class="form-control" type="file" id="formFile">
+        </div>
 
         <div class="row mt-2">
             <div class="col">

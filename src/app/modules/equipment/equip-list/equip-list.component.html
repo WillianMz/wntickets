@@ -1,5 +1,5 @@
 <app-load [text]="'obtendo dados...'"></app-load>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-confirmDialog acceptButtonStyleClass="p-button-success" rejectButtonStyleClass="p-button-warning"></p-confirmDialog>
 
 <div class="container">
   <div class="row">
@@ -49,14 +49,14 @@
             <input type="text" class="form-control form-control-sm" formControlName="texto"
                   placeholder="nome, descrição, marca, modelo, fabricante, serial...">
           </div>
-  
+
           <div class="col-6">
             <button class="btn btn-sm btn-outline-secondary" type="button" (click)="procurar()">
               <i class="bi bi-search"></i> Procurar
             </button>
           </div>
 
-        </div>      
+        </div>
       </form>
 
       <!-- BOTOES DE ACOES -->
@@ -127,7 +127,7 @@
               </div>
             </div>
 
-            
+
           </ng-template>
         </div>
       </div>

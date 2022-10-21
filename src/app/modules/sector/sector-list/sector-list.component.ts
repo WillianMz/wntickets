@@ -84,6 +84,8 @@ export class SectorListComponent implements OnInit {
   public ativar(id: string) {
 
     this.confirmationService.confirm({
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
       message: 'Ativar laboratório?',
       accept: () => {
         this.spinner.show();
@@ -116,6 +118,8 @@ export class SectorListComponent implements OnInit {
   public desativar(id: string) {
 
     this.confirmationService.confirm({
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
       message: 'Desativar laboratório?',
       accept: () => {
         this.spinner.show();
@@ -147,8 +151,9 @@ export class SectorListComponent implements OnInit {
 
   public excluir(id: string){
     this.confirmationService.confirm({
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
       message: 'Confirma a exclusão do laboratório? Esta ação não poderá ser desfeita!',
-
       accept: () => {
         this.spinner.show();
         this.sectorService.delete(parseInt(id)).subscribe({

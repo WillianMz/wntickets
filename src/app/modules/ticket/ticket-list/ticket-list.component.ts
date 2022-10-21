@@ -84,7 +84,9 @@ export class TicketListComponent implements OnInit {
 
   public delete(id: string) {
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Confirma a exclusão deste chamado?',
       accept: () => {
         this.spinner.show();
         this.ticketService.delete(Number.parseInt(id)).subscribe({
@@ -151,7 +153,7 @@ export class TicketListComponent implements OnInit {
     });
   }
 
-  private listAll() {    
+  private listAll() {
     this.spinner.show();
 
     this.ticketService.getAll().subscribe({
