@@ -16,7 +16,7 @@
     </div>
 
     <div class="row" *ngIf="boolTitulo">
-      <h3>{{ tituloPagina }} - Trarar assunto</h3>
+      <h3>{{ tituloPagina }}</h3>
     </div>
 
   <div class="row g-5">
@@ -24,6 +24,13 @@
     <div class="col-md-7 col-lg-8">
       <form [formGroup]="ticketForm">
         <div class="row g-3">
+
+          <!-- ASSUNTO -->
+          <div class="col-sm-12">
+            <label class="form-label">Assunto</label>
+            <input type="text" class="form-control" formControlName="assunto" placeholder="Assunto"
+              value="" required="" readonly>
+          </div>
 
           <!-- DESCRICAO DO PROBLEMA -->
           <div class="col-12">
@@ -99,7 +106,7 @@
           <!-- SOLUÇÃO DO PROBLEMA -->
           <div class="col-sm-12">
             <label class="form-label">Solução aplicada</label>
-            <input type="text" class="form-control" formControlName="solucao" placeholder="Solucao aplicada"
+            <input type="text" class="form-control" formControlName="solucao" placeholder="Solução aplicada"
               value="" required="">
           </div>
 
