@@ -8,17 +8,17 @@ body {
 }
 
 .profile-button {
-  background: rgb(99, 39, 120);
+  background: rgb(47, 16, 221);
   box-shadow: none;
   border: none
 }
 
 .profile-button:hover {
-  background: #682773
+  background: #278004
 }
 
 .profile-button:focus {
-  background: #682773;
+  background: #026648;
   box-shadow: none
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 .labels {
-  font-size: 11px
+  font-size: 15px
 }
 
 .add-experience:hover {
@@ -41,4 +41,25 @@ body {
   color: #fff;
   cursor: pointer;
   border: solid 1px #BA68C8
+}
+
+.sr-only {
+  border:0;
+  clip:rect(0,0,0,0);
+  height:1px;
+  margin:-1px;
+  overflow:hidden;
+  padding:0;
+  position:absolute;
+  width:1px;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  clip:auto;
+  height:auto;
+  margin:0;
+  overflow:visible;
+  position:static;
+  width:auto
 }

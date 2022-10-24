@@ -11,6 +11,7 @@ import { UserPageAdminComponent } from './user-page-admin/user-page-admin.compon
 import { TableModule } from 'ngx-easy-table';
 import { UserFormComponent } from './user-form/user-form.component';
 import { NgxMaskModule } from 'ngx-mask';
+import {TabViewModule} from 'primeng/tabview';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { NgxMaskModule } from 'ngx-mask';
     ComponentsModule,
     TableModule,
     NgxMaskModule.forChild(),
+    TabViewModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })

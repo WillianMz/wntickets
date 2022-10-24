@@ -1,6 +1,11 @@
 export class PerfilRequest {
   public id?: number;
-  public nome: string;
-  public email:string;
-
+  public nomeCompleto: string;
+  public email: string;
+  public telefone: string;
+  public cidade: string;
+  public uf: string;
+  public pais: string;
+  public contaUsuarioId: string;
+  public imgPerfil?: string;
 }
