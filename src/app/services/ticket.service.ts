@@ -38,8 +38,8 @@ export class TicketService {
     return this.http.put(`${ENDERECO_API}/cancelar`, motivo);
   }
   
-  public finalizar(motivo: FinalizarRequest) {
-    return this.http.put(`${ENDERECO_API}/finalizar`, motivo);
+  public finalizar(solucao: FinalizarRequest) {
+    return this.http.put(`${ENDERECO_API}/finalizar`, solucao);
   }
   
   public delete(id: number){
@@ -61,4 +61,27 @@ export class TicketService {
   public fazerVerificacoes(){
     return this.http.post(`${ENDERECO_API}/verificar`, null);
   }
+
+  // FILTROS
+
+  public getBySetor(setor: number) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/setor?setorId=${setor}`);
+  }
+
+  public getByTipo(tipo: number) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/tipo?tipoId=${tipo}`);
+  }
+
+  public getByAssunto(assunto: string) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/assunto?assunto=${assunto}`);
+  }
+
+  public getByDescricao(descricao: string) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/descricao?descricao=${descricao}`);
+  }
+
+  public getBySolucao(solucao: string) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/solucao?solucao=${solucao}`);
+  }
+
 }

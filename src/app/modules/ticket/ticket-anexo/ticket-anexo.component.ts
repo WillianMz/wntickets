@@ -1,3 +1,5 @@
+import { AnexoRequest } from './../../../models/ticket/anexoRequest.model';
+import { TicketService } from 'src/app/services/ticket.service';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class TicketAnexoComponent implements OnInit {
 
   tituloPagina: string = 'Anexos';
+
   //campos visiveis
   boolTitulo: boolean = true;
   boolAviso: boolean = false;
@@ -17,9 +20,18 @@ export class TicketAnexoComponent implements OnInit {
   success: boolean;
   erros: ErroServidor[];
 
-  constructor() { }
+  constructor(private ticketService: TicketService) { }
 
   ngOnInit(): void {
+
   }
 
+   selectAnexo() {
+
+  }
+
+  uploadAnexo() {
+
+  }
+  
 }

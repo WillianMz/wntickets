@@ -26,10 +26,21 @@
             <form>
                 <div class="form-group">
                   <label for="anexo"></label>
-                  <input type="file" class="form-control-file" id="anexo">
+                  <input type="file" (change)="selectAnexo()" class="form-control">
                 </div>
             </form>
+
+            <div class="row mt-2">
+                <div class="col">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">Cancelar</button>
+                    <button type="button" class="btn btn-outline-primary"  (click)="uploadAnexo()">Enviar arquivo</button>
+                  </div>
+                </div>
+            </div>
 
         </div>
     </div>
 </div>
+
+
