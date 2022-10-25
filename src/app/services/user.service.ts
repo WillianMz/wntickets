@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { ListarUsuarioModel } from '../models/user/listarUsuarioModel';
 import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
 import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
+import { ListarIdUsuarioModel } from '../models/user/listarIdUsuarioModel';
 
 const ENDERECO_API: string = `${environment.api}/usuario`;
 
@@ -32,7 +33,6 @@ export class UserService {
   }
 
   public adicionar(usuario: CadastroUsuarioRequest): Observable<CadastroUsuarioResponse | null>{
-    console.log(usuario);
     return this.http.post(`${ENDERECO_API}`, usuario);
   }
 
@@ -73,8 +73,8 @@ export class UserService {
     return this.http.get<UsuarioModel>(`${this.url}/${id}/details`);
   } */
 
-  public getById(id: string): Observable<UsuarioModel> {
-    return this.http.get<UsuarioModel>(`${ENDERECO_API}/${id}`);
+  public getById(id: string): Observable<ListarIdUsuarioModel> {
+    return this.http.get<ListarIdUsuarioModel>(`${ENDERECO_API}/${id}`);
   }
 
 

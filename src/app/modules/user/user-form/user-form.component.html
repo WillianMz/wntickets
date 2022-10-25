@@ -39,7 +39,7 @@
           <div class="row mt-2">
             <div class="col-sm-4" *ngIf="boolCod">
               <label>Código</label>
-              <input type="text" class="form-control" formControlName="contaUsuarioId" placeholder="Código" ng-disabled="!boolCod">
+              <input type="text" class="form-control" formControlName="contaUsuarioId" placeholder="Código" [disabled]="!boolCod">
             </div>
           </div>
   
@@ -101,11 +101,7 @@
               <!-- VALIDACAO -->
               <div class="text-danger" *ngIf="email?.errors">
                 <div *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe o email</div>
-                <div *ngIf="email?.errors?.minlength && (email?.dirty || email?.touched)">
-                    Email deve conter no mínimo {{ email?.errors?.minlength.requiredLength }} caracteres
-                </div>
-                <div *ngIf="email?.errors?.maxlength && (email?.dirty || email?.touched)">
-                    Email deve conter no máximo {{ email?.errors?.maxlength.requiredLength }} caracteres</div>
+                <div *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">O email informado é inválido!</div>
               </div>
             </div>
           </div>
@@ -141,7 +137,8 @@
       <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
         <div class="btn-group">
           <button type="button" class="btn btn-outline-primary" [disabled]="!userForm.valid" (click)="salvar()">Salvar</button>
-          <button type="button" class="btn btn-outline-danger" [routerLink]="['/users']">Cancelar</button>
+          <button type="button" class="btn btn-outline-danger" *ngIf="!boolCod" [routerLink]="['/users']">Cancelar</button>
+          <button type="button" class="btn btn-outline-danger" *ngIf="boolCod" [routerLink]="['/users/list']">Cancelar</button>
         </div>
       </div>  
     </div>
