@@ -28,37 +28,63 @@
           <!-- ASSUNTO -->
           <div class="col-sm-12">
             <label class="form-label">Assunto</label>
-            <input type="text" class="form-control" formControlName="assunto" placeholder="Assunto"
-              value="" required="" readonly>
+            <input type="text" class="form-control" formControlName="assunto" placeholder="Assunto">
+
+            <!-- VALIDACAO -->
+            <div class="text-danger" *ngIf="assunto?.errors">
+              <ul>
+                <li *ngIf="assunto?.errors?.required && (assunto?.dirty || assunto?.touched)">
+                  Informe o assunto
+                </li>
+                <li *ngIf="assunto?.errors?.minlength && (assunto?.dirty || assunto?.touched)">
+                  Tamanho mínimo {{ assunto?.errors?.minlength.requiredLength }} caracteres
+                </li>
+                <li *ngIf="assunto?.errors?.maxlength && (assunto?.dirty || assunto?.touched)">
+                  Tamanho máximo {{ assunto?.errors?.maxlength.requiredLength }} caracteres
+                </li>
+              </ul>
+            </div>
           </div>
 
           <!-- DESCRICAO DO PROBLEMA -->
           <div class="col-12">
             <label class="form-label">Descrição</label>
             <div class="input-group">
-              <textarea type="text" class="form-control" formControlName="descricao" placeholder="Descrição do problema"
-                value="" required=""></textarea>
+              <textarea type="text" class="form-control" formControlName="descricao" placeholder="Descrição do problema">
+              </textarea>
+              <!-- VALIDACAO -->
+              <div class="text-danger" *ngIf="descricao?.errors">
+                <ul>
+                  <li *ngIf="descricao?.errors?.required && (descricao?.dirty || descricao?.touched)">
+                    Informe a descrição
+                  </li>
+                  <li *ngIf="descricao?.errors?.minlength && (descricao?.dirty || descricao?.touched)">
+                    Tamanho mínimo {{ descricao?.errors?.minlength.requiredLength }} caracteres
+                  </li>
+                  <li *ngIf="descricao?.errors?.maxlength && (descricao?.dirty || descricao?.touched)">
+                    Tamanho máximo {{ descricao?.errors?.maxlength.requiredLength }} caracteres
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
           <!-- DATA ABERTURA -->
           <div class="col-sm-3">
             <label class="form-label">Data abertura</label>
-            <input type="text" class="form-control" formControlName="dataAbertura" placeholder="09/12/2021"
-              value="" required="" readonly>
+            <input type="text" class="form-control" formControlName="dataAbertura" readonly>
           </div>
 
           <!-- CRIADOR DO TICKET -->
           <div class="col-sm-3">
             <label class="form-label">Criado por</label>
-            <input type="text" class="form-control" formControlName="criador" placeholder="Criador"
-              value="" required="" readonly>
+            <input type="text" class="form-control" formControlName="criador" placeholder="Criador" readonly>
           </div>
 
           <!-- STATUS -->
           <div class="col-sm-3">
             <label for="status" class="form-label">Status</label>
-            <select class="form-select campo-obrigatorio" formControlName="status" required="">
+            <select class="form-select campo-obrigatorio" formControlName="status">
               <option value="Novo">Novo</option>
               <option value="Pendente">Pendente</option>
               <option value="EmAtendimento">EmAtendimento</option>
@@ -72,14 +98,13 @@
           <!-- OPERADOR DO TICKET -->
           <div class="col-sm-3">
             <label class="form-label">Operado por</label>
-            <input type="text" class="form-control" formControlName="operador" placeholder="Operador"
-              value="" required="" readonly>
+            <input type="text" class="form-control" formControlName="operador" placeholder="Operador" readonly>
           </div>
 
           <!-- PRIORIDADE -->
           <div class="col-sm-3">
             <label for="prioridade" class="form-label">Prioridade</label>
-            <select class="form-select campo-obrigatorio" formControlName="prioridade" required="">
+            <select class="form-select campo-obrigatorio" formControlName="prioridade">
               <option value="Baixa">Baixa</option>
               <option value="Normal">Normal</option>
               <option value="Alta">Alta</option>
@@ -91,8 +116,7 @@
           <!-- SETOR -->
           <div class="col-sm-5">
             <label>Laboratório<!-- <span class="text-danger">*</span> --></label>
-            <select class="form-select campo-obrigatorio" formControlName="setor" placeholder="Setor"
-              required="">
+            <select class="form-select campo-obrigatorio" formControlName="setor" placeholder="Setor">
               <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
             </select>
           </div>
@@ -106,8 +130,7 @@
           <!-- SOLUÇÃO DO PROBLEMA -->
           <div class="col-sm-12">
             <label class="form-label">Solução aplicada</label>
-            <input type="text" class="form-control" formControlName="solucao" placeholder="Solução aplicada"
-              value="" required="">
+            <input type="text" class="form-control" formControlName="solucao" placeholder="Solução aplicada" readonly>
           </div>
 
         </div>
@@ -166,8 +189,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <label>Motivo</label>
-              <input type="text" class="form-control" placeholder="Motivo"> <!-- TRATAR INFORMAÇÃO DIGITADA -->
+              <form [formGroup]="ticketForm">
+                <label>Motivo</label>
+                <input type="text" class="form-control" formControlName="solucao" placeholder="Motivo" value="" required="">
+              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Fechar</button>
@@ -197,8 +222,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <label>Solução</label>
-              <input type="text" class="form-control" placeholder="Solução"> <!-- TRATAR INFORMAÇÃO DIGITADA -->
+              <form [formGroup]="ticketForm">
+                <label>Solução</label>
+                <input type="text" class="form-control" formControlName="solucao" placeholder="Solução aplicada" value="" required="">
+              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>

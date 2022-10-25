@@ -76,6 +76,14 @@ export class TicketFormComponent implements OnInit {
     return this.ticketForm.get('operadorId');
   }
 
+  get solucao() {
+    return this.ticketForm.get('solucao');
+  }
+
+  get motivo() {
+    return this.ticketForm.get('motivo');
+  }
+
   salvar(){
     const chamado = new ChamadoRequest();
     chamado.ticketId = this.ticketId;
@@ -154,17 +162,18 @@ export class TicketFormComponent implements OnInit {
   private validarFormulario(ticket: ChamadoResponse){
     this.ticketForm = new FormGroup({
       dataAbertura: new FormControl(ticket.dataAbertura, [
-        Validators.minLength(4),
-        Validators.maxLength(4)
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10)
       ]),
       tipo: new FormControl(ticket.tipo, [ 
-        Validators.required
+        /* Validators.required */
       ]),
       criador: new FormControl(ticket.criador?.nome, [
-        Validators.required
+        /* Validators.required */
       ]),
       setor: new FormControl(ticket.setor?.id, [
-        Validators.required
+        /* Validators.required */
       ]),
       assunto: new FormControl(ticket.assunto, [
         Validators.required,
@@ -174,28 +183,29 @@ export class TicketFormComponent implements OnInit {
       descricao: new FormControl(ticket.descricao, [
         Validators.required,
         Validators.minLength(15),
-        Validators.maxLength(2000)
+        Validators.maxLength(200)
       ]),
       status: new FormControl(ticket.status, [
-        Validators.required
+        /* Validators.required */
       ]),
       prioridade: new FormControl(ticket.prioridade, [
-        Validators.required
+        /* Validators.required */
       ]),
       dataFechamento: new FormControl(ticket.dataFechamento, [
-        Validators.minLength(4),
-        Validators.maxLength(4)
+        /* Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10) */
       ]),
       solucao: new FormControl(ticket.solucao, [
-        Validators.required,
+        /* Validators.required,
         Validators.minLength(15),
-        Validators.maxLength(2000)
+        Validators.maxLength(2000) */
       ]),
       operador: new FormControl(ticket.operador?.nome, [
-        Validators.required
+        /* Validators.required */
       ]),
       operadorId: new FormControl(ticket.operador?.id, [
-        Validators.required
+        /* Validators.required */
       ])
     });
   }
@@ -219,6 +229,7 @@ export class TicketFormComponent implements OnInit {
   cancelarTicket(){
     const ticket = new CancelarRequest();
     ticket.ticketId = this.ticketId;
+    ticket.motivo = this.solucao?.value;
 
     this.ticketService.cancelar(ticket).subscribe({
       next: (response) =>{
@@ -242,6 +253,7 @@ export class TicketFormComponent implements OnInit {
   finalizarTicket(){
     const ticket = new FinalizarRequest();
     ticket.ticketId = this.ticketId;
+    ticket.solucao = this.solucao?.value;
 
     this.ticketService.finalizar(ticket).subscribe({
       next: (response) =>{

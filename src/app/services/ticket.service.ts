@@ -38,8 +38,8 @@ export class TicketService {
     return this.http.put(`${ENDERECO_API}/cancelar`, motivo);
   }
   
-  public finalizar(motivo: FinalizarRequest) {
-    return this.http.put(`${ENDERECO_API}/finalizar`, motivo);
+  public finalizar(solucao: FinalizarRequest) {
+    return this.http.put(`${ENDERECO_API}/finalizar`, solucao);
   }
   
   public delete(id: number){
