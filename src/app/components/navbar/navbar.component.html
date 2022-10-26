@@ -38,7 +38,12 @@
         <li class="nav-item dropdown">
           <a class="nav-link active dropdown-toggle ms-2" href="#" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <img src="{{usuario.img || 'https://github.com/mdo.png'}}" alt="mdo" class="rounded-circle" width="32" height="32">
+            <img *ngIf="perfil?.imgPerfil"
+              class="rounded-circle" 
+              width="32" 
+              height="32"
+              alt="mdo"
+              [src]="perfil.imgPerfil || 'https://github.com/mdo.png'" >
             {{usuario.nome}}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">

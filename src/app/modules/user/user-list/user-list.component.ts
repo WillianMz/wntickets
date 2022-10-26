@@ -122,7 +122,7 @@ export class UserListComponent implements OnInit {
         if(this.success == true){
           this.message = response['mensagem'];
           this.showSuccess(this.message);
-          this.router.navigate(['/users']);
+          this.listAll();
           this.spinner.hide();
         }
         else{
@@ -136,6 +136,42 @@ export class UserListComponent implements OnInit {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+      }
+    });
+  }
+
+  public bloquear(id: string){
+    this.userService.bloquear(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
+      }
+    });
+  }
+
+  public desbloquear(id: string){
+    this.userService.desbloquear(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
+      }
+    });
+  }
+
+  public solicitarAtivacao(email: string) {
+    this.userService.solicitarCodigo(email).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
       }
     });
   }

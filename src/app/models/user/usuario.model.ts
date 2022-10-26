@@ -3,5 +3,5 @@ export class Usuario {
     public nome?: string;
     public email?: string;
     public perfil?: any[];
-    public img?: string;
+    public imgPerfil?: string;
 }

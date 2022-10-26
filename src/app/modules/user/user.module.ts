@@ -12,6 +12,8 @@ import { TableModule } from 'ngx-easy-table';
 import { UserFormComponent } from './user-form/user-form.component';
 import { NgxMaskModule } from 'ngx-mask';
 import {TabViewModule} from 'primeng/tabview';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 
 @NgModule({
@@ -30,7 +32,11 @@ import {TabViewModule} from 'primeng/tabview';
     ComponentsModule,
     TableModule,
     NgxMaskModule.forChild(),
-    TabViewModule
+    TabViewModule,
+    ConfirmDialogModule
+  ],
+  providers: [
+    ConfirmationService
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })

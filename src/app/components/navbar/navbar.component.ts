@@ -1,3 +1,5 @@
+import { PerfilResponse } from './../../models/pessoa/perfilResponse.model';
+import { PessoaService } from './../../services/pessoa.service';
 import { Usuario } from './../../models/user/usuario.model';
 import { LoginService } from './../../services/login.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -12,6 +14,7 @@ export class NavbarComponent implements OnInit {
   @Input() menus: boolean = true;
 
   usuario: Usuario;
+  perfil: PerfilResponse;
   public modulos = [
     { titulo: 'Home', url: '/home', icone: 'bi bi-house' },
     { titulo: 'Laboratórios', url: '/labs', icone: 'bi bi-binoculars-fill' },
@@ -20,7 +23,10 @@ export class NavbarComponent implements OnInit {
     { titulo: 'Usuários', url: '/users', icone: 'bi bi-people' }
   ];
 
-  constructor(private loginService: LoginService) { }
+  constructor(
+    private loginService: LoginService,
+    private pessoaService: PessoaService
+  ) { }
 
   ngOnInit(): void {
     this.titlePage = "SUPORTE TI";
@@ -32,9 +38,18 @@ export class NavbarComponent implements OnInit {
     if(user){
       this.usuario = user;
     }
+    this.carregarPerfil();
   }
 
   sair(){
     this.loginService.fazerLogout();
+  }
+
+  private carregarPerfil(){
+    this.pessoaService.meuPerfil().subscribe({
+      next: (response) => {
+        this.perfil = response;
+      }
+    });
   }
 }

@@ -1,22 +1,30 @@
+<p-confirmDialog acceptButtonStyleClass="p-button-success" rejectButtonStyleClass="p-button-warning"></p-confirmDialog>
+
 <div class="container rounded bg-white mt-1 mb-5">
   <div class="row">
     <!-- IMAGEM -->
     <div class="col-md-3 border-right">
       <form [formGroup]="perfilForm">
         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-          <img
+          <img *ngIf="perfil?.imgPerfil"
             class="rounded-circle mt-5"
             width="150px"
-            src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-          />
+            [src]="perfil.imgPerfil"/>
           <span class="font-weight-bold" *ngIf="perfil?.nomeCompleto">{{perfil.nomeCompleto}}</span>
           <span class="text-black-50">@{{usuario.nome}}</span><span> </span>
-          <label class="btn btn-primary btn-sm btn-upload" for="inputImage" title="Upload image file">
-            <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+          <label class="btn btn-primary btn-sm btn-upload" for="ImagemUpload" title="Upload image file">
+            <input type="file" class="sr-only" 
+                  id="ImagemUpload"
+                  name="ImagemUpload"
+                  #fileInput (change)="upload(fileInput.files)"
+                >
+            
+            
             <span class="docs-tooltip" data-toggle="tooltip" data-original-title="Import image with Blob URLs">
               <strong>ATUALIZAR FOTO</strong>&nbsp;<span class="fa fa-upload"></span>
             </span>
           </label>
+          <!-- <button (click)="atualizarFoto()">Carregar Foto</button> -->
         </div>
     </form>
     </div>
@@ -26,18 +34,11 @@
         <p-tabPanel header="Dados pessoais">
           <form [formGroup]="perfilForm">
             <div class="mt-1">
-              <!-- <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="text-right">Perfil do Usuário</h4>
-              </div> -->
               <div class="row mt-2">
                 <div class="col-md-12">
                   <label class="labels">Nome completo</label>
                   <input type="text" class="form-control" formControlName="nome"/>
                 </div>
-                <!-- <div class="col-md-12  mt-2">
-                  <label class="labels">Email</label>
-                  <input type="text" class="form-control" formControlName="email">
-                </div> -->
                 <div class="col-md-12  mt-2">
                   <label class="labels">Telefone/Celular</label>
                   <input type="text" class="form-control" formControlName="telefone">
@@ -73,29 +74,21 @@
           <form [formGroup]="userForm">
             <div class="row mt-2">
               <div class="col-md-12">
-                <label class="labels">Id</label>
-                <input type="text" class="form-control" formControlName="user_id"/>
+                <label class="labels">Senha Atual</label>
+                <input type="password" class="form-control" formControlName="senhaAtual"/>
               </div>
               <div class="col-md-12">
-                <label class="labels">Username</label>
-                <input type="text" class="form-control" formControlName="user_nome"/>
+                <label class="labels">Nova Senha</label>
+                <input type="password" class="form-control" formControlName="novaSenha"/>
               </div>
               <div class="col-md-12">
-                <label class="labels">Email</label>
-                <input type="text" class="form-control" formControlName="user_email"/>
-              </div>
-              <div class="col-md-12">
-                <label class="labels">Senha</label>
-                <input type="text" class="form-control" formControlName="nome"/>
-              </div>
-              <div class="col-md-12">
-                <label class="labels">Confirmar senha</label>
-                <input type="text" class="form-control" formControlName="nome"/>
+                <label class="labels">Confirmar Senha</label>
+                <input type="password" class="form-control" formControlName="confirmaNovaSenha"/>
               </div>
             </div>
 
             <div class="mt-5 text-center">
-              <button class="btn btn-primary profile-button" type="button" [disabled]="!userForm.valid" (click)="salvar()">
+              <button class="btn btn-primary profile-button" type="button" [disabled]="!userForm.valid" (click)="alterarSenha()">
                 Salvar
               </button>
             </div>
