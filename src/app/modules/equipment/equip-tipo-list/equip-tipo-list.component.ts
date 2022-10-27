@@ -83,4 +83,8 @@ export class EquipTipoListComponent implements OnInit {
       }
     });
   }
+
+  public voltar() {
+    this.router.navigate(['equipment']);
+  }
 }

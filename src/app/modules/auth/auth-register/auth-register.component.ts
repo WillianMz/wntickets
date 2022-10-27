@@ -19,6 +19,7 @@ export class AuthRegisterComponent implements OnInit {
   success: boolean;
   erros: ErroServidor[];
 
+  tituloPagina: string = 'Novo usuário';
   userForm: FormGroup;
   cadastroUsuarioResponse: CadastroUsuarioResponse;
 
