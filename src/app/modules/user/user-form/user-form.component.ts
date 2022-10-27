@@ -31,6 +31,7 @@ export class UserFormComponent implements OnInit {
   erros: ErroServidor[];
   usuario: UsuarioModel;
   //campos visiveis
+  boolAtiva: boolean = true;
   boolTitulo: boolean = true;
   boolAviso: boolean = false;
   boolCod: boolean = false;
@@ -40,6 +41,7 @@ export class UserFormComponent implements OnInit {
   boolFone: boolean = true;
   boolSenha: boolean = true;
   boolSenhaConf: boolean = true;
+  boolVoltaList: boolean = true;
 
   cadastroUsuarioResponse: CadastroUsuarioResponse;
 
@@ -59,7 +61,8 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    const id = this.activatedRoute.snapshot.paramMap.get('id'),
+          origem = this.activatedRoute.snapshot.paramMap.get('origem');
     if (id) {
       this.userID = id;
       this.tituloPagina = 'Detalhes do Usuário';
@@ -68,7 +71,11 @@ export class UserFormComponent implements OnInit {
       this.tituloPagina = 'Novo Usuário';
       this.boolCod = false;
       this.boolApelido = false;
+      this.boolAtiva = false;
     }
+
+    this.boolVoltaList = origem == 'list' || id ? true : false;
+
   }
 
   //GETS
@@ -227,7 +234,12 @@ export class UserFormComponent implements OnInit {
             this.message = response['mensagem'];
             this.cadastroUsuarioResponse = response;
             this.notificationService.showSuccess(this.message);
-            this.router.navigate(['/users']);
+            if (this.boolVoltaList) {
+              this.router.navigate(['/users/list']);
+            } else {
+              this.router.navigate(['/users']);
+            }
+            
           } else {
             this.cadastroUsuarioResponse.erros = response.erros;
             this.notificationService.showWarning(this.message);
@@ -263,7 +275,11 @@ export class UserFormComponent implements OnInit {
         if(this.success == true){
           this.message = response['mensagem'];
           this.showSuccess(this.message);
-          this.router.navigate(['/users']);
+          if (this.boolVoltaList) {
+            this.router.navigate(['/users/list']);
+          } else {
+            this.router.navigate(['/users']);
+          }
         }
         else{
           this.message = response['mensagem'];
