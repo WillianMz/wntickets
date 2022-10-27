@@ -7,8 +7,9 @@ import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { TableModule } from 'ngx-easy-table';
 import { TicketOpenComponent } from './ticket-open/ticket-open.component';
-import { ConfirmationService } from 'primeng/api';
+import {TabViewModule} from 'primeng/tabview';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ReactiveFormsModule,
     ComponentsModule,
     TableModule,
+    TabViewModule,
     ConfirmDialogModule
   ],
   providers: [

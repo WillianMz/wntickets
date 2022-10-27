@@ -31,7 +31,6 @@ export class AuthRegisterComponent implements OnInit {
     let newUser = new CadastroUsuarioRequest;
     newUser.email = '';
     newUser.nome = '';
-    newUser.telefone = '';
     newUser.senha = '';
     newUser.senhaConfirmacao = '';
 
@@ -50,10 +49,6 @@ export class AuthRegisterComponent implements OnInit {
     return this.userForm.get('nome');
   }
 
-  get telefone() {
-    return this.userForm.get('telefone');
-  }
-
   get senha() {
     return this.userForm.get('senha');
   }
@@ -66,7 +61,6 @@ export class AuthRegisterComponent implements OnInit {
     let usuario = new CadastroUsuarioRequest();
     usuario.email = this.email?.value;
     usuario.nome = this.nome?.value;
-    usuario.telefone = this.telefone?.value;
     usuario.senha = this.senha?.value;
     usuario.senhaConfirmacao = this.confirmarSenha?.value;
     console.log(usuario);
@@ -77,7 +71,8 @@ export class AuthRegisterComponent implements OnInit {
           this.cadastroUsuarioResponse = response;
           if(this.cadastroUsuarioResponse.sucesso == true){
             this.notificationService.showSuccess('Conta de usuário criada com sucesso!','Novo Usuário');
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login/ativar'], {queryParams: { email: usuario.email}});
+            //this.router.navigate(['/login']);
           }
           else if(response.sucesso == false){
             console.log(response.erros);
@@ -122,11 +117,6 @@ export class AuthRegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(200)
-      ]],
-      telefone: [usuario.telefone, [
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(17)
       ]],
       senha: [null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{6,50}')]],
       confirmarSenha: [null, [FormValidations.equalsTo('senha')]]

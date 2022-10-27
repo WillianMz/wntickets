@@ -7,4 +7,5 @@ export class ChamadoRequest {
   public assunto: string;
   public descricao: string;
   public operadorId?: number;
+  public anexo?: string;
 }

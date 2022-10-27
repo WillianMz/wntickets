@@ -105,7 +105,7 @@ export class UserAccountComponent implements OnInit {
     let formdata = new FormData();
     formdata.append('file', this.imagemForm, this.imagemNome);
 
-    this.uploadService.file(formdata).subscribe({
+    this.uploadService.imagem(formdata).subscribe({
       next: (response) => {
         /* console.log(response);
         alert(response['objeto']); */
@@ -189,8 +189,11 @@ export class UserAccountComponent implements OnInit {
   private carregarPerfil(){
     this.pessoaService.meuPerfil().subscribe({
       next: (response) => {
-        this.perfil = response;
-        this.validarFormulario(this.perfil);
+        if(response){
+          this.perfil = response;
+          this.urlFotoPerfil = this.perfil.imgPerfil!;
+          this.validarFormulario(this.perfil);
+        }
       }
     });
   }
@@ -199,7 +202,7 @@ export class UserAccountComponent implements OnInit {
     this.perfilForm = new FormGroup({
       nome: new FormControl(perfil.nomeCompleto, [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(5),
         Validators.maxLength(150)
       ]),
       email: new FormControl(perfil.email, [

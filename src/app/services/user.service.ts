@@ -1,3 +1,4 @@
+import { AtivarUsuarioRequest } from './../models/user/ativarUsuarioRequest.model';
 import { AlterarSenhaRequest } from './../models/user/alterarSenhaRequest';
 import { UsuarioRoleRequest } from './../models/user/usuarioRoleRequest.model';
 import { Observable } from 'rxjs';
@@ -62,8 +63,8 @@ export class UserService {
     return this.http.post(`${ENDERECO_API}/alterar-senha`, senha);
   }
 
-  public ativarConta(email: string, codigo: string) {
-    return this.http.post(`${ENDERECO_API}/ativar-conta?email=${email}&codigo=${codigo}`, null);
+  public ativarConta(ativarUsuario: AtivarUsuarioRequest) {
+    return this.http.post(`${ENDERECO_API}/ativar-conta`, ativarUsuario);
   }
 
   public solicitarCodigo(email: string) {

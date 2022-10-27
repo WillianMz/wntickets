@@ -1,3 +1,4 @@
+import { UploadService } from './../../../services/upload.service';
 import { Router } from '@angular/router';
 import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
@@ -23,12 +24,16 @@ export class TicketOpenComponent implements OnInit {
   selecionarPrioridade: boolean = false;
   sucesso: boolean;
   mensagem: string;
+  anexoForm: any;
+  anexoNome: string;
+  urlAnexo: string;
 
   constructor(
     private setorService: SectorService,
     private equipamentoService: EquipamentoService,
     private chamadoService: TicketService,
     private notification: NotificationService,
+    private uploadService: UploadService,
     private router: Router
   ) { 
     const chamado = new ChamadoRequest();
@@ -59,11 +64,34 @@ export class TicketOpenComponent implements OnInit {
     //this.obterSetores();
   }
 
+  public upload(file: any){
+    this.anexoForm = file[0];
+    this.anexoNome = file[0].name;
+    this.obterUrlAnexo();
+  }
+
+  private obterUrlAnexo(){
+    let formdata = new FormData();
+    formdata.append('file', this.anexoForm, this.anexoNome);
+
+    this.uploadService.arquivo(formdata).subscribe({
+      next: (response) => {
+        if(response){
+          this.urlAnexo = response['objeto'];
+        }
+      },
+      error: (response) => {
+        console.log(response);
+      }
+    });  
+  }
+
   public salvar(){
     const chamadoRequest = new ChamadoRequest();
     chamadoRequest.equipamentoId = this.inputEquipamento?.value;
-    chamadoRequest.assunto = this.inputAssunto?.value;
+    chamadoRequest.assunto = this.inputAssunto?.value || 'Chamado para equipamento';
     chamadoRequest.descricao = this.inputDescricao?.value;
+    chamadoRequest.anexo = this.urlAnexo;
 
     this.chamadoService.chamadoEquipamento(chamadoRequest).subscribe({
       next: (response) => {
@@ -72,7 +100,6 @@ export class TicketOpenComponent implements OnInit {
 
         if(this.sucesso){
           this.notification.showSuccess(this.mensagem);
-          //this.notification.alertSucesso('Novo chamado', this.mensagem, 2000, true);
           this.router.navigate(['/ticket']);
         }
         else{
@@ -126,9 +153,9 @@ export class TicketOpenComponent implements OnInit {
       setor: new FormControl(chamado.setorId),
       prioridade: new FormControl(chamado.prioridade),
       assunto: new FormControl(chamado.assunto, [
-        Validators.required,
+        /* Validators.required,
         Validators.minLength(15),
-        Validators.maxLength(100)
+        Validators.maxLength(100) */
       ]),
       descricao: new FormControl(chamado.descricao,[
         Validators.required,

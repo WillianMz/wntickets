@@ -12,22 +12,11 @@ export class UploadService {
 
   constructor(private http: HttpClient) { }
 
-  public imagem(file: File): Observable<any> {
-    /* console.log(image);
-    return this.http.post(`${ENDERECO_API}/image`, image); */
-    /* const formData = new FormData();
-    formData.append('file', image, image.name); */
-
-    console.log('aqui');
-    const formData: FormData = new FormData();
-    console.log(file.name);
-    console.log(file);
-    formData.append('image', file);
-
+  public imagem(file: FormData) {
     return this.http.post(`${ENDERECO_API}/image`, file);
   }
 
-  public file(file: FormData) {
-    return this.http.post(`${ENDERECO_API}/image`, file);
+  public arquivo(file: FormData) {
+    return this.http.post(`${ENDERECO_API}/file`, file);
   }
 }

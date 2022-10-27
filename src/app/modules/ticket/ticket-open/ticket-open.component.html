@@ -104,11 +104,17 @@
                 </div>
             </div>
         </div>
-
-        <!-- <app-ticket-attachments></app-ticket-attachments> -->
+        
         <div class="mb-3">
           <label for="formFile" class="form-label">Anexar arquivo</label>
-          <input class="form-control" type="file" id="formFile">
+          <input
+                class="form-control" 
+                type="file"
+                id="formFile"
+                id="ImagemUpload"
+                name="fileUpload"
+                #fileInput (change)="upload(fileInput.files)"
+            >
         </div>
 
         <div class="row mt-2">

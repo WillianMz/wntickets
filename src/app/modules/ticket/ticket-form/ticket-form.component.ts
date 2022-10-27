@@ -1,6 +1,5 @@
 import { CancelarRequest } from './../../../models/ticket/cancelarRequest.model';
 import { ErroServidor } from './../../../models/erroServidor';
-import { ChamadoRequest } from './../../../models/ticket/chamadoRequest.model';
 import { NotificationService } from './../../../services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -15,7 +14,7 @@ import { FinalizarRequest } from 'src/app/models/ticket/finalizarRequest.model';
 export class TicketFormComponent implements OnInit {
 
   @Input() ticketID: number;
-  tituloPagina: string = 'Detalhes do Chamado';
+  tituloPagina: string = 'Editando Chamado';
   message: string;
   success: boolean;
   erros: ErroServidor[];
@@ -31,7 +30,6 @@ export class TicketFormComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id){
       this.ticketID = parseInt(id);
-      this.tituloPagina = 'Detalhes do Chamado';
       }
       else{
         //
@@ -100,4 +98,20 @@ export class TicketFormComponent implements OnInit {
     });
   }
 
+
+  private listarSetores(){
+
+  }
+
+  private listarEquipamentos(){
+
+  }
+
+  private listarOperadores(){
+
+  }
+
+  private listarPrioridades(){
+
+  }
 }

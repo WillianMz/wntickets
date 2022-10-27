@@ -213,7 +213,6 @@ export class UserFormComponent implements OnInit {
     usuario = {
       nome: user.nome,
       email: user.email,
-      telefone: user.telefone,
       senha: user.senha == null ? "" : user.senha,
       senhaConfirmacao: user.senhaConfirmacao == null ? "" : user.senhaConfirmacao
     }
