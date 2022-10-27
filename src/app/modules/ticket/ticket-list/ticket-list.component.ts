@@ -34,9 +34,17 @@ export class TicketListComponent implements OnInit {
   nomeBotaoFiltro: string = 'Filtro';
   sectorId: number;
   tipoId: number;
+  criadorId: number;
+  prioridadeId: number;
+  statusId: number;
+  operadorId: number;
   verGrid: boolean = false;
   verComboboxSetores: boolean = false;
   verComboboxTipos: boolean = false;
+  verComboboxCriadores: boolean = false;
+  verComboboxPrioridades: boolean = false;
+  verComboboxStatus: boolean = false;
+  verComboboxOperadores: boolean = false;
   campo_pesquisa: boolean = true;
   erros: ErroServidor[];
   public configuration: Config;
@@ -60,6 +68,10 @@ export class TicketListComponent implements OnInit {
       params => {
         this.sectorId = parseInt(params.sector);
         this.tipoId = parseInt(params.tipo);
+        this.criadorId = parseInt(params.criador);
+        this.prioridadeId = parseInt(params.prioridade);
+        this.statusId = parseInt(params.status);
+        this.operadorId = parseInt(params.operador);
       }
     );
 
@@ -105,6 +117,22 @@ export class TicketListComponent implements OnInit {
     return this.filtroForm.get('tipo')?.value;
   }
 
+  get criadorID(){
+    return this.filtroForm.get('criador')?.value;
+  }
+
+  get prioridadeID(){
+    return this.filtroForm.get('prioridade')?.value;
+  }
+
+  get statusID(){
+    return this.filtroForm.get('status')?.value;
+  }
+
+  get operadorID(){
+    return this.filtroForm.get('operador')?.value;
+  }
+  
   showDialog() {
     this.display = true;
   }
@@ -203,6 +231,10 @@ export class TicketListComponent implements OnInit {
       this.nomeBotaoFiltro = 'Todos';
         this.verComboboxSetores = false;
         this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
         this.campo_pesquisa = true;
         this.consultarTicket();
         break;
@@ -210,32 +242,92 @@ export class TicketListComponent implements OnInit {
         this.nomeBotaoFiltro = 'Filtrando por laboratório';
         this.verComboboxSetores = true;
         this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
         this.campo_pesquisa = false;
         break;
       case 3://TIPO
         this.nomeBotaoFiltro = 'Filtrando por tipo';
         this.verComboboxSetores = false;
         this.verComboboxTipos = true;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
         this.campo_pesquisa = false;
         break;
       case 4://DESCRIÇÃO
         this.nomeBotaoFiltro = 'Filtrando por descrição';
         this.verComboboxSetores = false;
         this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
         this.campo_pesquisa = true;
         this.consultarPorDescricao(this.texto);
         break;
-        case 5://SOLUÇÃO
+      case 5://SOLUÇÃO
         this.nomeBotaoFiltro = 'Filtrando por solução';
         this.verComboboxSetores = false;
         this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
         this.campo_pesquisa = true;
         this.consultarPorSolucao(this.texto);
+        break;
+      case 6://CRIADOR
+        this.nomeBotaoFiltro = 'Filtrando por criador';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        this.verComboboxCriadores = true;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
+        this.campo_pesquisa = false;
+        break;
+      case 7://PRIORIDADE
+        this.nomeBotaoFiltro = 'Filtrando por prioridade';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = true;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
+        this.campo_pesquisa = false;
+        break;
+      case 8://STATUS
+        this.nomeBotaoFiltro = 'Filtrando por status';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = true;
+        this.verComboboxOperadores = false;
+        this.campo_pesquisa = false;
+        break;
+      case 9://OPERADOR
+        this.nomeBotaoFiltro = 'Filtrando por operador';
+        this.verComboboxSetores = false;
+        this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = true;
+        this.campo_pesquisa = false;
         break;
       default:
         this.nomeBotaoFiltro = 'Todos';
         this.verComboboxSetores = false;
         this.verComboboxTipos = false;
+        this.verComboboxCriadores = false;
+        this.verComboboxPrioridades = false;
+        this.verComboboxStatus = false;
+        this.verComboboxOperadores = false;
         this.campo_pesquisa = true;
         break;
     }
@@ -245,6 +337,10 @@ export class TicketListComponent implements OnInit {
     this.nomeBotaoFiltro = 'Padrão';
     this.verComboboxSetores = false;
     this.verComboboxTipos = false;
+    this.verComboboxCriadores = false;
+    this.verComboboxPrioridades = false;
+    this.verComboboxStatus = false;
+    this.verComboboxOperadores = false;
     this.campo_pesquisa = true;
     this.router.navigate(['ticket']);
     this.consultarTicket();
@@ -254,11 +350,11 @@ export class TicketListComponent implements OnInit {
     if(this.setorID){
       this.consultarPorSetor(this.setorID);
     }
-    if(this.tipoID){
-      this.consultarPorTipo(this.tipoID);
-    }
     if(this.sectorId){
       this.consultarPorSetor(this.sectorId);
+    }    
+    if(this.tipoID){
+      this.consultarPorTipo(this.tipoID);
     }
     if(this.tipoId){
       this.consultarPorTipo(this.tipoId);
@@ -271,6 +367,30 @@ export class TicketListComponent implements OnInit {
     }
     if(this.texto){
       this.consultarPorSolucao(this.texto);
+    }
+    if(this.criadorID){
+      this.consultarPorCriador(this.criadorID);
+    }
+    if(this.criadorId){
+      this.consultarPorCriador(this.criadorId);
+    }
+    if(this.prioridadeID){
+      this.consultarPorPrioridade(this.prioridadeID);
+    }
+    if(this.prioridadeId){
+      this.consultarPorPrioridade(this.prioridadeId);
+    }
+    if(this.statusID){
+      this.consultarPorStatus(this.statusID);
+    }
+    if(this.statusId){
+      this.consultarPorStatus(this.statusId);
+    }
+    if(this.operadorID){
+      this.consultarPorOperador(this.operadorID);
+    }
+    if(this.operadorId){
+      this.consultarPorOperador(this.operadorId);
     }
   }
 
@@ -289,7 +409,10 @@ export class TicketListComponent implements OnInit {
       texto: new FormControl(filtro.texto),
       setor: new FormControl(filtro.setor),
       tipo: new FormControl(filtro.tipo),
-      ativo: new FormControl(filtro.ativo)
+      criador: new FormControl(filtro.criador),
+      prioridade: new FormControl(filtro.prioridade),
+      status: new FormControl(filtro.status),
+      operador: new FormControl(filtro.operador)
     });
   }
 
@@ -385,6 +508,66 @@ export class TicketListComponent implements OnInit {
   private consultarPorSolucao(texto: string){
     this.spinner.show();
     this.ticketService.getBySolucao(texto).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private consultarPorCriador(criadorId: number){
+    this.spinner.show();
+    this.ticketService.getByCriador(criadorId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private consultarPorPrioridade(prioridadeId: number){
+    this.spinner.show();
+    this.ticketService.getByPrioridade(prioridadeId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private consultarPorStatus(statusId: number){
+    this.spinner.show();
+    this.ticketService.getByStatus(statusId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+        this.spinner.hide();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorOperador(operadorId: number){
+    this.spinner.show();
+    this.ticketService.getByOperador(operadorId).subscribe({
       next: (response) => {
         this.chamados = response;
         this.configPagina();

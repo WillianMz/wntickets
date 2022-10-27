@@ -84,4 +84,28 @@ export class TicketService {
     return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/solucao?solucao=${solucao}`);
   }
 
+  public getByCriador(criador: number) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/criador?criadorId=${criador}`);
+  }
+
+  public getByPrioridade(prioridade: number) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/prioridade?prioridadeId=${prioridade}`);
+  }
+
+  public getByStatus(status: number) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/status?statusId=${status}`);
+  }
+
+  public getByOperador(operador: number) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/operador?operadorId=${operador}`);
+  }
+
+  public getByAberto(aberto: string) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/aberto?abertoEm=${aberto}`);
+  }
+
+  public getByFechado(fechado: string) : Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/fechado?fechadoEm=${fechado}`);
+  }
+
 }
