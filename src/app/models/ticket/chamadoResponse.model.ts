@@ -33,8 +33,8 @@ export enum TipoEnum {
 }
 
 export enum PrioridadeEnum {
-    Baixa = 1,
-    Normal = 2,
-    Alta = 3,
-    Urgente = 4
+    Baixa = 0,
+    Normal = 1,
+    Alta = 2,
+    Urgente = 3
 }

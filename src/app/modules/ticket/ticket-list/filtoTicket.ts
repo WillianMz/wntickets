@@ -2,5 +2,8 @@ export class FiltroTicket {
     texto?: string;
     setor?: number;
     tipo?: number;
-    ativo?: number;
+    criador?: number;
+    prioridade?: number;
+    status?: number;
+    operador?: number;
 }

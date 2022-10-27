@@ -32,7 +32,7 @@
           <div class="col-12">
             <div class="btn-group ">
               <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-funnel"></i> {{nomeBotaoFiltro}}
+                <i class="bi bi-funnel"></i> {{ nomeBotaoFiltro }}
               </button>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" type="button" (click)="filtrarPor(1)">Padrão</a></li>
@@ -40,6 +40,10 @@
                 <li><a class="dropdown-item" type="button" (click)="filtrarPor(3)">Por Tipo</a></li>
                 <li><a class="dropdown-item" type="button" (click)="filtrarPor(4)">Por Descrição</a></li>
                 <li><a class="dropdown-item" type="button" (click)="filtrarPor(5)">Por Solução</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(6)">Por Criador</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(7)">Por Prioridade</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(8)">Por Status</a></li>
+                <li><a class="dropdown-item" type="button" (click)="filtrarPor(9)">Por Operador</a></li>
 
                 <li>
                   <hr class="dropdown-divider">
@@ -67,6 +71,43 @@
           <div class="col-6 col-sm-6" *ngIf="campo_pesquisa">
             <input type="text" class="form-control form-control-sm" formControlName="texto"
                   placeholder="assunto, descrição, solução...">
+          </div>
+
+          <div class="col-6" *ngIf="verComboboxCriadores">
+            <select class="form-select form-select-sm" formControlName="criador" [ngModel]="0">
+              <option value='0' disabled>Selecione o criador</option>
+              <option *ngFor="let chamado of chamados" [value]="chamado.criador?.id">{{ chamado.criador?.nome }}</option>
+            </select>
+          </div>
+
+          <div class="col-6" *ngIf="verComboboxPrioridades">
+            <select class="form-select form-select-sm" formControlName="prioridade" [ngModel]="0">
+              <option value='0' disabled>Selecione a prioridade</option>
+              <option value="0">Baixa</option>
+              <option value="1">Normal</option>
+              <option value="2">Alta</option>
+              <option value="3">Urgente</option>
+            </select>
+          </div>
+
+          <div class="col-6" *ngIf="verComboboxStatus">
+            <select class="form-select form-select-sm" formControlName="status" [ngModel]="0">
+              <option value='0' disabled>Selecione o status</option>
+              <option value="1">Novo</option>
+              <option value="2">Pendente</option>
+              <option value="3">EmAtendimento</option>
+              <option value="4">Finalizado</option>
+              <option value="5">Cancelado</option>
+              <option value="6">Fechado</option>
+              <option value="7">Reaberto</option>
+            </select>
+          </div>
+
+          <div class="col-6" *ngIf="verComboboxOperadores">
+            <select class="form-select form-select-sm" formControlName="operador" [ngModel]="0">
+              <option value='0' disabled>Selecione o operador</option>
+              <option *ngFor="let chamado of chamados" [value]="chamado.operador?.id">{{ chamado.operador?.nome }}</option>
+            </select>
           </div>
   
           <div class="col-6">
