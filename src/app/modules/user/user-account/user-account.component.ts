@@ -205,10 +205,10 @@ export class UserAccountComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(150)
       ]),
-      email: new FormControl(perfil.email, [
+      /* email: new FormControl(perfil.email, [
         Validators.required,
         Validators.email
-      ]),
+      ]), */
       telefone: new FormControl(perfil.telefone, [
         Validators.required,
         Validators.minLength(10),

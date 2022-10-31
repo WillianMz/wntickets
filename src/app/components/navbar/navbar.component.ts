@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { PerfilResponse } from './../../models/pessoa/perfilResponse.model';
 import { PessoaService } from './../../services/pessoa.service';
 import { Usuario } from './../../models/user/usuario.model';
@@ -25,7 +26,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private pessoaService: PessoaService
+    private pessoaService: PessoaService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -48,7 +50,12 @@ export class NavbarComponent implements OnInit {
   private carregarPerfil(){
     this.pessoaService.meuPerfil().subscribe({
       next: (response) => {
-        this.perfil = response;
+        if(response){
+          this.perfil = response;
+        }
+        else{
+          this.router.navigate(['/users/account']);
+        }
       }
     });
   }

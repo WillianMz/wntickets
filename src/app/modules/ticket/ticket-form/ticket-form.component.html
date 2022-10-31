@@ -6,11 +6,13 @@
     <h3>{{ tituloPagina }}</h3>
   </div>
 
+  <form [formGroup]="ticketForm">
+
   <div class="row mt-2">
     <p-tabView>
 
       <p-tabPanel header="Principal">
-        <form>
+        
 
           <div class="row mt-2">
             <div class="col-sm-12">
@@ -24,17 +26,17 @@
 
             <div class="col-sm-2">
               <label>Id</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" formControlName="id">
             </div>
 
             <div class="col-sm-4">
               <label>Status</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" formControlName="status">
             </div>
 
             <div class="col-sm-4">
               <label>Prioridade</label>
-              <select class="form-select">
+              <select class="form-select" formControlName="prioridade">
                 <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
               </select>
             </div>
@@ -43,43 +45,37 @@
           <div class="row mt-2">
             <div class="col-sm-8">
               <label>Assunto</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" formControlName="assunto">
             </div>
           </div>
 
           <div class="row mt-2">
             <div class="col-sm-12">
               <label for="descricao" class="col-sm-2 col-form-label">Problema</label>
-              <textarea type="text" class="form-control" rows="5" id="descricao"></textarea>
+              <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao"></textarea>
             </div>
           </div>
 
           <div class="row mt-2">
             <div class="col-sm-4">
               <label>Laboratório</label>
-                <select class="form-select">
+                <select class="form-select" formControlName="setor">
                   <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
                 </select>
             </div>
 
             <div class="col-sm-4">
               <label>Equipamento</label>
-              <select class="form-select">
+              <select class="form-select" formControlName="equipamento">
                 <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
               </select>
             </div>
 
             <div class="col-sm-4">
               <label>Responsável</label>
-              <select class="form-select">
+              <select class="form-select" formControlName="operador">
                 <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
               </select>
-            </div>
-          </div>
-
-          <div class="row mt-2">
-            <div class="col-sm-4">
-              <button class="btn btn-primary">Ver Anexo</button>
             </div>
           </div>
 
@@ -91,24 +87,14 @@
             </div>
           </div>
 
-        </form>
       </p-tabPanel>
 
       <p-tabPanel header="Solução">
 
-        <form>
-          <div class="row mt-2">
-            <div class="col-sm-12">
-              <label>Motivo de Cancelamento</label>
-              <input type="text" class="form-control">
-            </div>
-          </div>
-
-
           <div class="row mt-2">
             <div class="col-sm-12">
               <label for="descricao" class="col-sm-2 col-form-label">Solução Aplicada</label>
-              <textarea type="text" class="form-control" rows="5" id="descricao"></textarea>
+              <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="solucao"></textarea>
             </div>
           </div>
 
@@ -119,10 +105,19 @@
               </p>
             </div>
           </div>
-        </form>
+      </p-tabPanel>
+
+      <p-tabPanel header="Anexos">
+        <div class="row mt-2">
+          <div class="col-sm-4">
+            <button class="btn btn-primary">Ver Anexo</button>
+          </div>
+        </div>
       </p-tabPanel>
 
     </p-tabView>
   </div>
+
+  </form>
   
 </div>

@@ -67,32 +67,16 @@ export class TicketOpenComponent implements OnInit {
   public upload(file: any){
     this.anexoForm = file[0];
     this.anexoNome = file[0].name;
-    this.obterUrlAnexo();
+    this.fazerUpload();
   }
 
-  private obterUrlAnexo(){
-    let formdata = new FormData();
-    formdata.append('file', this.anexoForm, this.anexoNome);
-
-    this.uploadService.arquivo(formdata).subscribe({
-      next: (response) => {
-        if(response){
-          this.urlAnexo = response['objeto'];
-        }
-      },
-      error: (response) => {
-        console.log(response);
-      }
-    });  
-  }
-
-  public salvar(){
+  public async salvar(){
     const chamadoRequest = new ChamadoRequest();
     chamadoRequest.equipamentoId = this.inputEquipamento?.value;
     chamadoRequest.assunto = this.inputAssunto?.value || 'Chamado para equipamento';
     chamadoRequest.descricao = this.inputDescricao?.value;
     chamadoRequest.anexo = this.urlAnexo;
-
+    
     this.chamadoService.chamadoEquipamento(chamadoRequest).subscribe({
       next: (response) => {
         this.sucesso = response['sucesso'];
@@ -110,6 +94,25 @@ export class TicketOpenComponent implements OnInit {
         this.notification.showError('Erro');
       }
     });
+  }
+
+  private fazerUpload(){
+    //if(this.anexoForm){
+      let formdata = new FormData();
+      formdata.append('file', this.anexoForm, this.anexoNome);
+  
+      this.uploadService.arquivo(formdata).subscribe({
+        next: (response) => {
+          if(response){
+            this.urlAnexo = response['objeto'];
+            console.log(this.urlAnexo);
+          }
+        },
+        error: (response) => {
+          console.log(response);
+        }
+      });
+    //}
   }
 
   private obterEquipamento(id: string){

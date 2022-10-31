@@ -1,3 +1,7 @@
+import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
+import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
+import { FormGroup, FormControl } from '@angular/forms';
 import { CancelarRequest } from './../../../models/ticket/cancelarRequest.model';
 import { ErroServidor } from './../../../models/erroServidor';
 import { NotificationService } from './../../../services/notification.service';
@@ -19,12 +23,20 @@ export class TicketFormComponent implements OnInit {
   success: boolean;
   erros: ErroServidor[];
 
+  ticketForm: FormGroup;
+  setores: SetorResponse[];
+  equipamentos: EquipamentoResponse[];
+  
+
   constructor(
     private ticketService: TicketService,
     private notification: NotificationService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    const chamado = new ChamadoResponse();
+    this.validarFormulario(chamado);
+  }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -43,10 +55,6 @@ export class TicketFormComponent implements OnInit {
   goHistoric(){
     this.router.navigate(['tickets/1/historic']);
   }
-
-  /* goComments(){
-    this.router.navigate(['tickets/1/comments']);
-  } */
 
   goAttachments(){
     this.router.navigate(['tickets/1/attachments']);
@@ -113,5 +121,22 @@ export class TicketFormComponent implements OnInit {
 
   private listarPrioridades(){
 
+  }
+
+  private validarFormulario(chamado: ChamadoResponse){
+    this.ticketForm = new FormGroup({
+      id: new FormControl(chamado.id),
+      dtAbertura: new FormControl(chamado.dataAbertura),
+      criador: new FormControl(chamado.criador),
+      setor: new FormControl(chamado.setor),
+      assunto: new FormControl(chamado.assunto),
+      descricao: new FormControl(chamado.descricao),
+      status: new FormControl(chamado.status),
+      prioridade: new FormControl(chamado.prioridade),
+      dtFechamento: new FormControl(chamado.dataFechamento),
+      solucao: new FormControl(chamado.solucao),
+      operador: new FormControl(chamado.operador),
+      equipamento: new FormControl(chamado.equipamento)
+    })
   }
 }
