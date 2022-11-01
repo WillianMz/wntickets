@@ -12,81 +12,75 @@
     <p-tabView>
 
       <p-tabPanel header="Principal">
-        
 
-          <div class="row mt-2">
-            <div class="col-sm-12">
-              <p>
-                <strong>Aberto em 27/10/2022 por WILLIAN MAZZORANA</strong>
-              </p>
-            </div>
+        <div class="row mt-2">
+          <div class="col-sm-4">
+            <label>Laboratório</label>
+              <select class="form-select" formControlName="setor">
+                <option *ngFor="let setor of setores" [value]="setor.id" [disabled]="bloquearEdicao">{{ setor.nome }}</option>
+              </select>
           </div>
+
+          <div class="col-sm-4">
+            <label>Responsável</label>
+            <select class="form-select" formControlName="operador">
+              <option *ngFor="let operador of operadores" [value]="operador.id" [disabled]="bloquearEdicao">{{ operador.nome }}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <label>Prioridade</label>
+            <select class="form-select" formControlName="prioridade">
+              <option [value]="0" [disabled]="bloquearEdicao">Baixa</option>
+              <option [value]="1" [disabled]="bloquearEdicao">Normal</option>
+              <option [value]="2" [disabled]="bloquearEdicao">Alta</option>
+              <option [value]="3" [disabled]="bloquearEdicao">Urgente</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-sm-10">
+            <label>Assunto</label>
+            <input type="text" class="form-control" formControlName="assunto" readonly="bloquearEdicao">
+          </div>
+
           
-          <div class="row mt-2">
-
-            <div class="col-sm-2">
-              <label>Id</label>
-              <input type="text" class="form-control" formControlName="id">
-            </div>
-
-            <div class="col-sm-4">
-              <label>Status</label>
+          <div class="col-sm-2">
+            <label>Status</label>
+            <fieldset disabled>
               <input type="text" class="form-control" formControlName="status">
-            </div>
-
-            <div class="col-sm-4">
-              <label>Prioridade</label>
-              <select class="form-select" formControlName="prioridade">
-                <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
-              </select>
-            </div>
+            </fieldset>
+            
           </div>
+        </div>
 
+        <div class="row mt-2">
+          <div class="col-sm-12">
+            <label for="descricao" class="col-sm-2 col-form-label">Descrição</label>
+            <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao" readonly="bloquearEdicao"></textarea>
+          </div>
+        </div>
+
+        <fieldset disabled>
           <div class="row mt-2">
-            <div class="col-sm-8">
-              <label>Assunto</label>
-              <input type="text" class="form-control" formControlName="assunto">
+            <div class="col-sm-4 mb-3">
+              <label for="disabledTextInput" class="form-label">Criador</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="criador">
+            </div>
+  
+            <div class="col-sm-2 mb-3">
+              <label for="disabledTextInput" class="form-label">Data de abertura</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="dtAbertura">
+            </div>
+
+            <div class="col-sm-6 mb-3">
+              <label for="disabledTextInput" class="form-label">Equipamento</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="equipamento">
             </div>
           </div>
-
-          <div class="row mt-2">
-            <div class="col-sm-12">
-              <label for="descricao" class="col-sm-2 col-form-label">Problema</label>
-              <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao"></textarea>
-            </div>
-          </div>
-
-          <div class="row mt-2">
-            <div class="col-sm-4">
-              <label>Laboratório</label>
-                <select class="form-select" formControlName="setor">
-                  <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
-                </select>
-            </div>
-
-            <div class="col-sm-4">
-              <label>Equipamento</label>
-              <select class="form-select" formControlName="equipamento">
-                <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
-              </select>
-            </div>
-
-            <div class="col-sm-4">
-              <label>Responsável</label>
-              <select class="form-select" formControlName="operador">
-                <!-- <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option> -->
-              </select>
-            </div>
-          </div>
-
-          <div class="mt-5 text-center">
-            <div class="btn-group">
-              <button class="btn btn-success profile-button" type="button">Salvar</button>
-              <button class="btn btn-warning profile-button" type="button">Cancelar</button>
-              <button class="btn btn-secondary profile-button" type="button">Finalizar</button>
-            </div>
-          </div>
-
+        </fieldset>
+   
       </p-tabPanel>
 
       <p-tabPanel header="Solução">
@@ -99,10 +93,9 @@
           </div>
 
           <div class="row mt-2">
-            <div class="col-sm-12">
-              <p>
-                <strong>Finalizado em 27/10/2022 por WILLIAN MAZZORANA</strong>
-              </p>
+            <div class="col-sm-4 mb-3">
+              <label for="disabledTextInput" class="form-label">Finalizado por</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="criador">
             </div>
           </div>
       </p-tabPanel>
@@ -114,6 +107,14 @@
           </div>
         </div>
       </p-tabPanel>
+
+      <div class="mt-2">
+        <div class="btn-group">
+          <button class="btn btn-outline-primary" type="button" (click)="salvar()" [disabled]="!ticketForm.valid">Salvar</button>
+          <!-- <button class="btn btn-outline-danger" type="button">Cancelar</button>
+          <button class="btn btn-outline-warning" type="button">Finalizar</button> -->
+        </div>
+      </div>
 
     </p-tabView>
   </div>

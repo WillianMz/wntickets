@@ -19,10 +19,10 @@ export class TicketService {
 
   public salvar(chamado: ChamadoRequest) {
     if(chamado.ticketId){
-      return this.http.put(`${ENDERECO_API}/ticket`, chamado);
+      return this.http.put(`${ENDERECO_API}`, chamado);
     }
     else{
-      return this.http.post(`${ENDERECO_API}/ticket`, chamado);  
+      return this.http.post(`${ENDERECO_API}`, chamado);  
     }
   }
 

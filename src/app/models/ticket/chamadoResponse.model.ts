@@ -15,5 +15,6 @@ export class ChamadoResponse {
     public dataFechamento?: string;
     public solucao?: string;
     public operador?: OperadorResponse;
-    public equipamento?: number;
+    public equipamentoId?: number;
+    public equipamentoNome?: string;
 }

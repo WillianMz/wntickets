@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Pais } from '../models/pessoa/pais.model';
 import { Uf } from '../models/pessoa/uf.model';
+import { OperadorResponse } from '../models/ticket/operadorResponse.model';
 
 const ENDERECO_API: string = `${environment.api}/pessoa`;
 
@@ -63,5 +64,9 @@ export class PessoaService {
     ];
 
     return estados;
+  }
+
+  public getOperadores(ativo: boolean): Observable<OperadorResponse[]>{
+    return this.http.get<OperadorResponse[]>(`${ENDERECO_API}/operadores?ativo=${ativo}`)
   }
 }
