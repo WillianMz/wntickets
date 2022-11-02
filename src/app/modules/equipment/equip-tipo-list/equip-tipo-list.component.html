@@ -18,7 +18,7 @@
       <div class="row" *ngIf="true">
         <div class="col-12">
           <div class="btn-group">
-            <button type="button" class="btn  btn-sm btn-outline-primary" (click)="adicionar()">
+            <button type="button" class="btn  btn-sm btn-outline-primary" (click)="adicionar()" *ngIf="verificarPermissao(['Admin','Gerente'])">
               <i class="bi bi-plus-lg"></i> Adicionar
             </button>
             <button type="button" class="btn  btn-sm btn-outline-primary" (click)="listarTiposDeEquipamentos(true)">
@@ -26,7 +26,7 @@
             </button>
 
             <!-- BOTAO DE FILTROS PREDEFENIDOS -->
-            <div class="btn-group">
+            <div class="btn-group" *ngIf="verificarPermissao(['Admin','Gerente'])">
               <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-funnel"></i> Filtrar
               </button>
@@ -52,18 +52,20 @@
             </div>
           </div>
           <ng-template #actionTpl let-row let-rowIndex="rowIndex">
-            <div class="btn-group">
-              <div class="btn-group">
+              <div class="btn-group" *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
                 <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Mais detalhes
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
+                  <li *ngIf="verificarPermissao(['Admin','Gerente'])">
+                    <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>
+                  </li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="equipamentos(row.id)">Equipamentos</a></li>
+                  <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
+                    <a class="dropdown-item" type="button" (click)="equipamentos(row.id)">Equipamentos</a>
+                  </li>
                 </ul>
               </div>
-            </div>
           </ng-template>
         </div>
       </div>

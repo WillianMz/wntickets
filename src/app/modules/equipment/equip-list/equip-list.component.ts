@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfirmationService } from 'primeng/api';
+import { LoginService } from 'src/app/services/login.service';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 
 @Component({
   selector: 'app-equip-list',
@@ -53,7 +55,8 @@ export class EquipListComponent implements OnInit {
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private loginService: LoginService
   ) {
     const filtro = new FiltroEquipamento()
     this.validarFormulario(filtro);
@@ -74,6 +77,12 @@ export class EquipListComponent implements OnInit {
     this.listarTipos();
     this.consultarEquipamentos(true);
     //this.procurar();
+  }
+
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
   }
 
   //OK

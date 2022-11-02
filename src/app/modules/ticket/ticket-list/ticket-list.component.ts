@@ -1,3 +1,4 @@
+import { LoginService } from './../../../services/login.service';
 import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
 import { NotificationService } from './../../../services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -9,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TicketService } from 'src/app/services/ticket.service';
 
 import {ConfirmationService} from 'primeng/api';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 
 @Component({
   selector: 'app-ticket-list',
@@ -35,7 +37,8 @@ export class TicketListComponent implements OnInit {
     private router: Router,
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -66,6 +69,12 @@ export class TicketListComponent implements OnInit {
       { key: 'setor.nome', title: 'Laboratório' },
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled: false }
     ];
+  }
+
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
   }
 
   confirm() {

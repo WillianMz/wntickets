@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse justify-content-center" id="topNavBar" *ngIf="menus">
       <ul class="navbar-nav ">
         <li class="nav-item" *ngFor="let m of modulos">
-          <a class="nav-link" [routerLink]="[m.url]" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="[m.url]" routerLinkActive="active" *ngIf="m.visivel">
             <i class="{{m.icone}}"></i> {{m.titulo}}
           </a>
         </li>
@@ -26,14 +26,14 @@
     <!-- DADOS PARA O USUARIO LOGADO -->
     <div class="collapse navbar-collapse justify-content-end" id="topNavBar" *ngIf="menus">
       <ul class="navbar-nav">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link active" routerLinkActive="/login">
             <button type="button" class="btn btn-sm btn-outline-light position-relative">
               <i class="bi bi-bell-fill"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">99+</span>
             </button>
           </a>
-        </li>
+        </li> -->
         <!-- OPCOES DO USUARIO -->
         <li class="nav-item dropdown">
           <a class="nav-link active dropdown-toggle ms-2" href="#" role="button" data-bs-toggle="dropdown"

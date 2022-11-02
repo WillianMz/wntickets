@@ -1,3 +1,4 @@
+import { RoleResponse } from './../../../models/user/roleResponse.model';
 import { UserService } from 'src/app/services/user.service';
 import { AlterarSenhaRequest } from './../../../models/user/alterarSenhaRequest';
 import { UploadService } from './../../../services/upload.service';
@@ -12,6 +13,7 @@ import { Pais } from 'src/app/models/pessoa/pais.model';
 import { PerfilRequest } from 'src/app/models/pessoa/perfilRequest.model';
 import { Usuario } from 'src/app/models/user/usuario.model';
 import { ConfirmationService } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-account',
@@ -22,7 +24,8 @@ export class UserAccountComponent implements OnInit {
 
   perfil: PerfilResponse;
   perfilForm: FormGroup;
-  userForm: FormGroup;
+  alterarSenhaForm: FormGroup;
+  usuarioForm: FormGroup;
   usuario: Usuario;
   estados: Uf[];
   paises: Pais[];
@@ -32,6 +35,8 @@ export class UserAccountComponent implements OnInit {
   imagemNome: string;
   urlFotoPerfil: string;
   fotoPerfil: string;
+  pessoaId: number;
+  roles: RoleResponse[];
 
   constructor(
     private pessoaService: PessoaService,
@@ -39,19 +44,35 @@ export class UserAccountComponent implements OnInit {
     private uploadService: UploadService,
     private notification: NotificationService,
     private usuarioService: UserService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.dadosDoUsuarioLogado();
     this.carregarPerfil();
     const perfil = new PerfilRequest();
     this.validarFormulario(perfil);
     const alterarSenha = new AlterarSenhaRequest()
-    this.validarFormUsuario(alterarSenha);
+    this.validarFormSenha(alterarSenha);
   }
 
   ngOnInit(): void {
     this.paises = this.pessoaService.getPaises();
     this.estados = this.pessoaService.getEstados();
+    
+    this.listarRoles();
+
+    this.activatedRoute.queryParams.subscribe(
+      params => {
+        this.pessoaId = parseInt(params.pessoa);
+      }
+    );
+    
+    if(this.pessoaId){
+
+    }
+    else{
+
+    }
   }
 
   get nome (){
@@ -79,15 +100,15 @@ export class UserAccountComponent implements OnInit {
   }
 
   get senhaAtual() {
-    return this.userForm.get('senhaAtual');
+    return this.alterarSenhaForm.get('senhaAtual');
   }
 
   get novaSenha(){
-    return this.userForm.get('novaSenha');
+    return this.alterarSenhaForm.get('novaSenha');
   }
 
   get confirmaSenha() {
-    return this.userForm.get('confirmaNovaSenha');
+    return this.alterarSenhaForm.get('confirmaNovaSenha');
   }
 
   upload(file: any) {
@@ -198,6 +219,16 @@ export class UserAccountComponent implements OnInit {
     });
   }
 
+  private listarRoles(){
+    this.usuarioService.getRoles().subscribe({
+      next: (response) =>{
+        if(response){
+          this.roles = response;
+        }
+      }
+    })
+  }
+
   private validarFormulario(perfil: PerfilRequest){
     this.perfilForm = new FormGroup({
       nome: new FormControl(perfil.nomeCompleto, [
@@ -205,10 +236,6 @@ export class UserAccountComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(150)
       ]),
-      /* email: new FormControl(perfil.email, [
-        Validators.required,
-        Validators.email
-      ]), */
       telefone: new FormControl(perfil.telefone, [
         Validators.required,
         Validators.minLength(10),
@@ -225,12 +252,16 @@ export class UserAccountComponent implements OnInit {
     });
   }
 
-  private validarFormUsuario(conta: AlterarSenhaRequest){
-    this.userForm = new FormGroup({
+  private validarFormSenha(conta: AlterarSenhaRequest){
+    this.alterarSenhaForm = new FormGroup({
       senhaAtual: new FormControl(conta.senhaAtual, [Validators.required]),
       novaSenha: new FormControl(conta.novaSenha, [Validators.required]),
       confirmaNovaSenha: new FormControl()
     });
+  }
+
+  private validarFormUsuario(){
+
   }
 
 }

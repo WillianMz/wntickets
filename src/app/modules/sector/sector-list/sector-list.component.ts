@@ -1,3 +1,5 @@
+import { VerificarPermissoes } from './../../../functions/verificarPermissoes';
+import { LoginService } from './../../../services/login.service';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
@@ -31,7 +33,8 @@ export class SectorListComponent implements OnInit {
     private router: Router,
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +56,12 @@ export class SectorListComponent implements OnInit {
       { key: 'ativoString', title: 'Status'},
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
+  }
+
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
   }
 
   public limparFiltros(){

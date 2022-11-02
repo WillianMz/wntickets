@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService } from 'primeng/api';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { ListarUsuarioModel } from 'src/app/models/user/listarUsuarioModel';
 import { Usuario } from 'src/app/models/user/usuario.model';
@@ -35,6 +36,7 @@ export class UserListComponent implements OnInit {
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -54,8 +56,6 @@ export class UserListComponent implements OnInit {
       { key: 'id', title: 'Código' },
       { key: 'nome', title: 'Nome' },
       { key: 'email', title: 'Email' },
-/*       { key: 'tipo', title: 'Tipo' },
-      { key: 'login', title: 'Login' }, */
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
