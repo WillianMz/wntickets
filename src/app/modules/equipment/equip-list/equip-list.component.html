@@ -1,4 +1,5 @@
 <app-load [text]="'obtendo dados...'"></app-load>
+<p-confirmDialog acceptButtonStyleClass="p-button-success" rejectButtonStyleClass="p-button-warning"></p-confirmDialog>
 
 <div class="container">
   <div class="row">
@@ -48,24 +49,24 @@
             <input type="text" class="form-control form-control-sm" formControlName="texto"
                   placeholder="nome, descrição, marca, modelo, fabricante, serial...">
           </div>
-  
+
           <div class="col-6">
             <button class="btn btn-sm btn-outline-secondary" type="button" (click)="procurar()">
               <i class="bi bi-search"></i> Procurar
             </button>
           </div>
 
-        </div>      
+        </div>
       </form>
 
       <!-- BOTOES DE ACOES -->
       <div class="row mt-4" *ngIf="true">
         <div class="col-12">
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-primary" (click)="adicionar()">
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="adicionar()" *ngIf="verificarPermissao(['Admin','Gerente'])">
               <i class="bi bi-plus-lg"></i> Adicionar
             </button>
-            <button type="button" class="btn btn-sm btn-outline-primary" (click)="tiposDeEquipamentos()">
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="tiposDeEquipamentos()" *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
               <i class="bi bi-pc-display"></i> Tipos de Equipamentos
             </button>
           </div>
@@ -86,49 +87,31 @@
             </div>
           </div>
           <ng-template #actionTpl let-row let-rowIndex="rowIndex">
-            <div class="btn-group">
-              <div class="btn-group">
-                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Mais detalhes
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="ativarEquip.fire()" *ngIf="row.ativo == false">Ativar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="desativarEquip.fire()" *ngIf="row.ativo == true">Desativar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="excluirEquip.fire()">Excluir</a></li>
-                  <li><a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#baixaEquipamentoModal">Baixar</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button">Detalhes</a></li>
-                </ul>
-              </div>
+            <div class="btn-group" *ngIf="verificarPermissao(['Admin','Gerente'])">
+              <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Mais detalhes
+              </button>
+              <ul class="dropdown-menu">
+                <li *ngIf="verificarPermissao(['Admin','Gerente'])">
+                  <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>
+                </li>
+                <li *ngIf="verificarPermissao(['Admin','Gerente'])">
+                  <a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="row.ativo == false">Ativar</a>
+                </li>
+                <li *ngIf="verificarPermissao(['Admin','Gerente'])">
+                  <a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo == true">Desativar</a>
+                </li>
+                <li *ngIf="verificarPermissao(['Admin'])">
+                  <a class="dropdown-item" type="button" (click)="excluir(row.id)">Excluir</a>
+                </li>
+                <li *ngIf="verificarPermissao(['Admin','Gerente'])">
+                  <a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#baixaEquipamentoModal">Baixar</a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li *ngIf="verificarPermissao(['Admin','Gerente'])">
+                  <a class="dropdown-item" type="button">Detalhes</a></li>
+              </ul>
             </div>
-
-            <swal
-              #ativarEquip
-              title="Ativar {{ row.nome  }}?"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="ativar(row.id)">
-            </swal>
-
-            <swal
-              #desativarEquip
-              title="Desativar {{ row.nome  }}?"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="desativar(row.id)">
-            </swal>
-
-            <swal
-              #excluirEquip
-              title="Excluir {{ row.nome  }}?"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="excluir(row.id)">
-            </swal>
 
             <div class="modal fade " id="baixaEquipamentoModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="baixaEquipamentoModal" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -153,7 +136,7 @@
               </div>
             </div>
 
-            
+
           </ng-template>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { VerificarPermissoes } from './../../../functions/verificarPermissoes';
+import { LoginService } from './../../../services/login.service';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ErroServidor } from 'src/app/models/erroServidor';
@@ -6,6 +8,7 @@ import { SectorService } from 'src/app/services/sector.service';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-sector-list',
@@ -29,7 +32,9 @@ export class SectorListComponent implements OnInit {
     private sectorService: SectorService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +58,12 @@ export class SectorListComponent implements OnInit {
     ];
   }
 
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
+  }
+
   public limparFiltros(){
     this.listarSetores(true);
     this.tituloDaPagina = "Laboratórios";
@@ -61,7 +72,7 @@ export class SectorListComponent implements OnInit {
   public procurarPorNome(){
     this.listByNome(this.sectorName);
   }
- 
+
   public consultarEquipamentos(sectorId: string, ativo: boolean){
     this.router.navigate(['equipment'], {queryParams: { sector: sectorId, ativo: ativo}});
   }
@@ -80,82 +91,102 @@ export class SectorListComponent implements OnInit {
   }
 
   public ativar(id: string) {
-    this.spinner.show();
-  
-    this.sectorService.enable(parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.notification.showSuccess(this.message);
-          this.listarSetores(true);
-          this.spinner.hide();
-        }
-        else{
-          this.notification.showError(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+
+    this.confirmationService.confirm({
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Ativar laboratório?',
+      accept: () => {
+        this.spinner.show();
+        this.sectorService.enable(parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listarSetores(true);
+              this.spinner.hide();
+            }
+            else{
+              this.notification.showError(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: (response) => {
+            //PEGA OS ERROS. FALHAS
+            this.success = response.error['sucesso'];
+            this.message = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+          }
+        });
       }
     });
   }
 
   public desativar(id: string) {
-    this.spinner.show();
 
-    this.sectorService.disable(parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.notification.showSuccess(this.message);
-          this.listarSetores(true);
-          this.spinner.hide();
-        }
-        else{
-          this.notification.showWarning(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+    this.confirmationService.confirm({
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Desativar laboratório?',
+      accept: () => {
+        this.spinner.show();
+        this.sectorService.disable(parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listarSetores(true);
+              this.spinner.hide();
+            }
+            else{
+              this.notification.showWarning(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: (response) => {
+            //PEGA OS ERROS. FALHAS
+            this.success = response.error['sucesso'];
+            this.message = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+          }
+        });
       }
     });
   }
-  
-  public excluir(id: string){
-    this.spinner.show();
 
-    this.sectorService.delete(parseInt(id)).subscribe({
-      next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        //RETORNO BACK -> REGRAS DE NEGOCIO
-        if(this.success == true){
-          this.notification.showSuccess(this.message);
-          this.listarSetores(true);
-          this.spinner.hide();
-        }
-        else{
-          this.notification.showWarning(this.message);
-          this.spinner.hide();
-        }
-      },
-      error: (response) => {
-        //PEGA OS ERROS. FALHAS
-        this.success = response.error['sucesso'];
-        this.message = response.error['mensagem'];
-        this.erros = response.error['objeto'];
+  public excluir(id: string){
+    this.confirmationService.confirm({
+      header: 'Atenção',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Confirma a exclusão do laboratório? Esta ação não poderá ser desfeita!',
+      accept: () => {
+        this.spinner.show();
+        this.sectorService.delete(parseInt(id)).subscribe({
+          next: (response) => {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            //RETORNO BACK -> REGRAS DE NEGOCIO
+            if(this.success == true){
+              this.notification.showSuccess(this.message);
+              this.listarSetores(true);
+              this.spinner.hide();
+            }
+            else{
+              this.notification.showWarning(this.message);
+              this.spinner.hide();
+            }
+          },
+          error: (response) => {
+            //PEGA OS ERROS. FALHAS
+            this.success = response.error['sucesso'];
+            this.message = response.error['mensagem'];
+            this.erros = response.error['objeto'];
+          }
+        });
       }
     });
   }

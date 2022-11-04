@@ -31,6 +31,7 @@ export class UserFormComponent implements OnInit {
   erros: ErroServidor[];
   usuario: UsuarioModel;
   //campos visiveis
+  //campos visiveis
   boolAtiva: boolean = true;
   boolTitulo: boolean = true;
   boolAviso: boolean = false;
@@ -161,16 +162,7 @@ export class UserFormComponent implements OnInit {
     console.log(id);
      this.usuarioService.getById(id).subscribe({
       next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-        this.cadastroUsuarioResponse = response;
-        //this.notificationService.showSuccess(this.message);
-        this.usuario = new UsuarioModel;
-        this.usuario.contaUsuarioId = response.objeto.id;
-        this.usuario.ativa = response.objeto.ativo;
-        this.usuario.email = response.objeto.email;
-        this.usuario.nome = response.objeto.nome;
-        
+       // this.usuario = response;        
         if(this.usuario != null){
           this.start(this.usuario);
           this.setUserApelidoValidators();
@@ -221,7 +213,6 @@ export class UserFormComponent implements OnInit {
     usuario = {
       nome: user.nome,
       email: user.email,
-      telefone: user.telefone,
       senha: user.senha == null ? "" : user.senha,
       senhaConfirmacao: user.senhaConfirmacao == null ? "" : user.senhaConfirmacao
     }

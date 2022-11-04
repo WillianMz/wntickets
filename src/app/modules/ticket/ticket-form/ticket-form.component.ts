@@ -1,8 +1,12 @@
-import { SectorService } from './../../../services/sector.service';
-import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { ChamadoRequest } from './../../../models/ticket/chamadoRequest.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ChamadoResponse, StatusEnum, TipoEnum, PrioridadeEnum } from './../../../models/ticket/chamadoResponse.model';
+import { CriadorResponse } from './../../../models/ticket/criadorResponse.model';
+import { SectorService } from './../../../services/sector.service';
+import { PessoaService } from './../../../services/pessoa.service';
+import { OperadorResponse } from './../../../models/ticket/operadorResponse.model';
+import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
+import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
+import { FormGroup, FormControl } from '@angular/forms';
 import { CancelarRequest } from './../../../models/ticket/cancelarRequest.model';
 import { ErroServidor } from './../../../models/erroServidor';
 import { NotificationService } from './../../../services/notification.service';
@@ -18,239 +22,118 @@ import { FinalizarRequest } from 'src/app/models/ticket/finalizarRequest.model';
 })
 export class TicketFormComponent implements OnInit {
 
-  ticketId: number;
-  tituloPagina: string = 'Detalhes do Chamado';
-  ticketAssunto: string = 'Assunto chamado';
+  @Input() ticketID: number;
+  tituloPagina: string = 'Editando Chamado';
+  erros: ErroServidor[];
+
   ticketForm: FormGroup;
   chamado: ChamadoResponse;
   setores: SetorResponse[];
-  message: string;
-  success: boolean;
-  erros: ErroServidor[];
-
-  //campos visiveis
-  boolTitulo: boolean = true;
-  boolAviso: boolean = false;
+  equipamentos: EquipamentoResponse[];
+  operadores: OperadorResponse[];
+  chamadoId: number;
+  equipamentoId: number;
+  criador: CriadorResponse;
+  sucesso: boolean;
+  mensagem: string;
+  bloquearEdicao: boolean = false;
 
   constructor(
     private ticketService: TicketService,
-    private sectorService: SectorService,
+    private pessoaService: PessoaService,
+    private setorService: SectorService,
     private notification: NotificationService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    const novoTicket = new ChamadoResponse();
-    this.validarFormulario(novoTicket);
+    const chamado = new ChamadoResponse();
+    this.validarFormulario(chamado);
   }
 
   ngOnInit(): void {
-    this.obterSetores(true);
+    this.listarSetores(true);
+    this.listarOperadores(true);
     this.configurarForm();
   }
 
-  /* get equipamentoId() {
-    return this.ticketForm.get('equipamentoId');
-  } */
-
-  get setorId() {
+  get setor(){
     return this.ticketForm.get('setor');
   }
 
-  get tipoId() {
-    return this.ticketForm.get('TipoEnum');
+  get operador(){
+    return this.ticketForm.get('operador');
   }
 
-  get prioridade() {
-    return this.ticketForm.get('PrioridadeEnum');
+  get prioridade(){
+    return this.ticketForm.get('prioridade');
   }
 
-  get assunto() {
+  get assunto(){
     return this.ticketForm.get('assunto');
   }
 
-  get descricao() {
+  get descricao(){
     return this.ticketForm.get('descricao');
   }
 
-  get operadorId() {
-    return this.ticketForm.get('operadorId');
-  }
-
-  get solucao() {
-    return this.ticketForm.get('solucao');
-  }
-
-  get motivo() {
-    return this.ticketForm.get('motivo');
-  }
-
-  salvar(){
+  public salvar(){
     const chamado = new ChamadoRequest();
-    chamado.ticketId = this.ticketId;
-    chamado.setorId = this.setorId?.value;
-    chamado.tipoId = this.tipoId?.value;
+    chamado.ticketId = this.chamadoId;
+    chamado.equipamentoId = this.equipamentoId || 0;
+    chamado.setorId = this.setor?.value  || 0;
     chamado.prioridade = this.prioridade?.value;
     chamado.assunto = this.assunto?.value;
     chamado.descricao = this.descricao?.value;
-    chamado.operadorId = this.operadorId?.value;
+    chamado.operadorId = this.operador?.value  || 0;
+
+    console.log(chamado);
 
     this.ticketService.salvar(chamado).subscribe({
       next: (response) => {
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
-
-        if(this.success){
-          this.notification.showSuccess(this.message);
-          this.router.navigate(['/ticket']);
-        }
-        else{
-          this.notification.showWarning(this.message);
-        }
-      },
-      error: () => {
-        this.notification.showError('Erro ao salvar ticket');
-      }
-    })
-  }
-
-  private configurarForm(){
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if(id){
-      this.tituloPagina = 'Editando o Chamado';
-      this.ticketId = parseInt(id);
-      this.carregarObjeto(this.ticketId);
-    }
-    else{
-      this.router.navigate(['/ticket/open']);
-    }
-  }
-
-  private obterSetores(ativo: boolean){
-    this.sectorService.getAll(ativo).subscribe({
-      next: (response) => {
-        if(response) {
-          this.setores = response;
-        }
-        else{
-          this.setores = [];
-          this.notification.showWarning('Nenhum setor encontrado!');
-        }
-      },
-      error: () => {
-        this.notification.showError('Erro ao consultar setores');
-      }
-    })
-  }
-
-  private carregarObjeto(id: number){
-    this.ticketService.getById(id).subscribe({
-      next: (response) => {
         if(response){
-          this.chamado = response;
-          this.validarFormulario(this.chamado);
-        }
-        else{
-          this.notification.showWarning('Ticket não encontrado');
+          this.sucesso = response['sucesso'];
+          this.mensagem = response['mensagem'];
+
+          if(this.sucesso){
+            this.notification.showSuccess(this.mensagem);
+            this.router.navigate(['/ticket']);
+          }
+          else{
+            this.notification.showWarning(this.mensagem);
+          }
         }
       },
       error: () => {
-        this.notification.showError('Erro ao carregar dados do ticket');
+        this.notification.showError('Erro ao salvar chamado!');
       }
-    });
+    })
   }
 
-  private validarFormulario(ticket: ChamadoResponse){
-    this.ticketForm = new FormGroup({
-      dataAbertura: new FormControl(ticket.dataAbertura, [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(10)
-      ]),
-      tipo: new FormControl(ticket.tipo, [ 
-        /* Validators.required */
-      ]),
-      criador: new FormControl(ticket.criador?.nome, [
-        /* Validators.required */
-      ]),
-      setor: new FormControl(ticket.setor?.id, [
-        /* Validators.required */
-      ]),
-      assunto: new FormControl(ticket.assunto, [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(100)
-      ]),
-      descricao: new FormControl(ticket.descricao, [
-        Validators.required,
-        Validators.minLength(15),
-        Validators.maxLength(200)
-      ]),
-      status: new FormControl(ticket.status, [
-        /* Validators.required */
-      ]),
-      prioridade: new FormControl(ticket.prioridade, [
-        /* Validators.required */
-      ]),
-      dataFechamento: new FormControl(ticket.dataFechamento, [
-        /* Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(10) */
-      ]),
-      solucao: new FormControl(ticket.solucao, [
-        /* Validators.required,
-        Validators.minLength(15),
-        Validators.maxLength(2000) */
-      ]),
-      operador: new FormControl(ticket.operador?.nome, [
-        /* Validators.required */
-      ]),
-      operadorId: new FormControl(ticket.operador?.id, [
-        /* Validators.required */
-      ])
-    });
-  }
-
-  newTicket() {
-    this.router.navigate(['/ticket/open']);
-  }
-
-  /* goHistoric(){
-    this.router.navigate(['tickets/1/historic']);
-  }
-
-  goComments(){
-    this.router.navigate(['tickets/1/comments']);
-  } */
-
-  anexo(ticketId: number){
-    this.router.navigate([`/ticket/${ticketId}/anexo`]);
-  }
-
-  cancelarTicket(){
+  /* cancelarTicket(){
     const ticket = new CancelarRequest();
     ticket.ticketId = this.ticketId;
     ticket.motivo = this.solucao?.value;
 
     this.ticketService.cancelar(ticket).subscribe({
       next: (response) =>{
-        this.success = response['sucesso'];
-        this.message = response['mensagem'];
+        this.sucesso = response['sucesso'];
+        this.mensagem = response['mensagem'];
 
-        if(this.success){
-          this.notification.showSuccess(this.message);
+        if(this.sucesso){
+          this.notification.showSuccess(this.mensagem);
           this.router.navigate(['/ticket']);
         }
         else{
-          this.notification.showWarning(this.message);
+          this.notification.showWarning(this.mensagem);
         }
       },
       error: () => {
         this.notification.showError('Erro ao cancelar o chamado');
       }
     });
-  }
+  } */
 
-  finalizarTicket(){
+  /* finalizarTicket(){
     const ticket = new FinalizarRequest();
     ticket.ticketId = this.ticketId;
     ticket.solucao = this.solucao?.value;
@@ -272,6 +155,81 @@ export class TicketFormComponent implements OnInit {
         this.notification.showError('Erro ao finalizar o chamado');
       }
     });
+  } */
+
+  private configurarForm(){
+    
+    const url = document.URL;
+    console.log(url);
+    const newURL = new URL(url);
+    const host = newURL.hostname;
+    console.log(host);
+    const path = newURL.pathname;
+    console.log(path);
+
+    //pega o id na URL
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id){
+      this.chamadoId = parseInt(id);
+      this.carregarChamado(this.chamadoId);
+    }
   }
 
+  private listarSetores(ativo: boolean){
+    this.setorService.getAll(ativo).subscribe({
+      next: (response) => {
+        if(response){
+          this.setores = response;
+        }
+      },
+      error: () => {
+        console.log('Erro ao consultar setores');
+      }
+    })
+  }
+
+  private listarOperadores(ativo: boolean){
+    this.pessoaService.getOperadores(ativo).subscribe({
+      next: (response) => {
+        if(response){
+          this.operadores = response;
+        }
+      },
+      error: () => {
+        console.log('Erro ao obter operadores');
+      }
+    })
+  }
+
+  private carregarChamado(id: number){
+    this.ticketService.getById(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.chamado = response;
+          this.criador = this.chamado.criador;
+          this.chamadoId = this.chamado.id!;
+          this.equipamentoId = this.chamado.equipamentoId!;
+          console.log(this.chamado);
+          this.validarFormulario(this.chamado);
+        }
+      }
+    })
+  }
+
+  private validarFormulario(chamado: ChamadoResponse){
+    this.ticketForm = new FormGroup({
+      id: new FormControl(chamado.id),
+      dtAbertura: new FormControl(chamado.dataAbertura),
+      criador: new FormControl(chamado.criador?.nome),
+      setor: new FormControl(chamado.setor?.id),
+      assunto: new FormControl(chamado.assunto),
+      descricao: new FormControl(chamado.descricao),
+      status: new FormControl(chamado.status),
+      prioridade: new FormControl(chamado.prioridade),
+      dtFechamento: new FormControl(chamado.dataFechamento),
+      solucao: new FormControl(chamado.solucao),
+      operador: new FormControl(chamado.operador?.id),
+      equipamento: new FormControl(`${chamado.equipamentoId}-${chamado.equipamentoNome}`)
+    });
+  }
 }

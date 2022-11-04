@@ -52,7 +52,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-spinner/animations/ball-clip-rotate.css",
               "./node_modules/primeicons/primeicons.css",
-              "./node_modules/primeng/resources/themes/md-light-indigo/theme.css",
+              "./node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css",
               "./node_modules/primeng/resources/primeng.min.css"
             ],
             "scripts": [
@@ -65,8 +65,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",

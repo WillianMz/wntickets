@@ -4,13 +4,33 @@ import { RouterModule, Routes } from '@angular/router';
 import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { NgModule } from '@angular/core';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
-  { path:'', component: TicketListComponent },
-  { path:'open', component: TicketOpenComponent },
-  { path:':id/edit', component: TicketFormComponent },
-  { path:'detail', component: TicketFormComponent },
-  { path:':id/anexo', component: TicketAnexoComponent }
+  { 
+    path:'',
+    canActivate: [AuthGuard],
+    component: TicketListComponent,
+    data: {
+      roles: ['Usuario','Suporte','Gerente','Admin']
+    }
+  },
+  { 
+    path:'open',
+    canActivate: [AuthGuard],
+    component: TicketOpenComponent,
+    data: {
+      roles: ['Usuario','Suporte','Gerente','Admin']
+    }
+  },
+  { 
+    path:':id/edit',
+    canActivate: [AuthGuard],
+    component: TicketFormComponent,
+    data: {
+      roles: ['Suporte','Gerente','Admin']
+    }
+  }
 ];
 
 @NgModule({

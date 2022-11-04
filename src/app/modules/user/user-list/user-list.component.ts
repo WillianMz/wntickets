@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService } from 'primeng/api';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { ListarUsuarioModel } from 'src/app/models/user/listarUsuarioModel';
 import { Usuario } from 'src/app/models/user/usuario.model';
@@ -35,6 +36,7 @@ export class UserListComponent implements OnInit {
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -54,8 +56,6 @@ export class UserListComponent implements OnInit {
       { key: 'id', title: 'Código' },
       { key: 'nome', title: 'Nome' },
       { key: 'email', title: 'Email' },
-/*       { key: 'tipo', title: 'Tipo' },
-      { key: 'login', title: 'Login' }, */
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
@@ -87,7 +87,7 @@ export class UserListComponent implements OnInit {
   }
 
   public edit(usuarioId: number) {
-    this.router.navigate([`users/edit/${usuarioId}`]);
+    this.router.navigate(['users/account/'], {queryParams: { user: usuarioId}});
   }
 
   public ativar(id: number) {
@@ -122,7 +122,7 @@ export class UserListComponent implements OnInit {
         if(this.success == true){
           this.message = response['mensagem'];
           this.showSuccess(this.message);
-          this.router.navigate(['/users']);
+          this.listAll();
           this.spinner.hide();
         }
         else{
@@ -136,6 +136,42 @@ export class UserListComponent implements OnInit {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+      }
+    });
+  }
+
+  public bloquear(id: string){
+    this.userService.bloquear(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
+      }
+    });
+  }
+
+  public desbloquear(id: string){
+    this.userService.desbloquear(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
+      }
+    });
+  }
+
+  public solicitarAtivacao(email: string) {
+    this.userService.solicitarCodigo(email).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
       }
     });
   }

@@ -1,3 +1,4 @@
+import { EquipamentoAnexo } from './../../../models/equipment/equipamentoAnexo.model';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
@@ -22,6 +23,7 @@ export class EquipFormComponent implements OnInit {
   sucesso: boolean;
   mensagem: string;  
   equipamento: EquipamentoResponse;
+  anexos: EquipamentoAnexo[];
   setores: SetorResponse[];
   tipos: TipoEquipamentoResponse[];
   equipamentoId: number;
@@ -269,6 +271,7 @@ export class EquipFormComponent implements OnInit {
       next: (response) => {
         if(response){
           this.equipamento = response;
+          this.anexos = this.equipamento?.anexos!;
           this.validarFormulario(this.equipamento);
         }
         else{

@@ -9,5 +9,6 @@ export class ChamadoRequest {
   public prioridade?: number;
   public assunto: string;
   public descricao: string;
-  public operadorId?: OperadorResponse;
+  public operadorId?: number;
+  public anexo?: string;
 }

@@ -1,21 +1,16 @@
 <app-load [text]="'obtendo dados...'"></app-load>
+<p-confirmDialog acceptButtonStyleClass="p-button-success" rejectButtonStyleClass="p-button-warning"></p-confirmDialog>
 
 <div class="container">
   <div class="row">
     <div class="col-12">
-
-      <!-- AVISOS -->
-      <div class="row pt-2" *ngIf="false">
-        <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
-      </div>
-
       <!-- TITULO DA PAGINA -->
-      <div class="row mt-2 col-10">
+      <div class="row mt-2 col-10" *ngIf="tituloVisivel">
         <h2>{{ tituloDaPagina }}</h2>
       </div>
 
       <!-- INPUT PARA PESQUISA -->
-      <!-- <div class="row mt-2">
+      <!-- <div class="row mt-2" *ngIf="campoPesquisaVisivel">
         <div class="col-xs-5 col-sm-10 col-lg-5">
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Procurar..." [(ngModel)]="descricao">
@@ -27,8 +22,8 @@
         </div>
       </div> -->
 
-      <form [formGroup]="filtroForm">
-        <div class="row row-cols-lg-auto g-3 align-items-center">
+      <form [formGroup]="filtroForm" *ngIf="campoPesquisaVisivel">
+        <div class="row row-cols-lg-auto g-3 align-items-center" *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
           <div class="col-12">
             <div class="btn-group ">
               <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,8 +62,7 @@
                 <option value="2">Interno</option>
               </select>
           </div>
-
-          <div class="col-6 col-sm-6" *ngIf="campo_pesquisa">
+          <div class="col-12 col-sm-10" *ngIf="campo_pesquisa">
             <input type="text" class="form-control form-control-sm" formControlName="texto"
                   placeholder="assunto, descrição, solução...">
           </div>
@@ -76,7 +70,7 @@
           <div class="col-6" *ngIf="verComboboxCriadores">
             <select class="form-select form-select-sm" formControlName="criador" [ngModel]="0">
               <option value='0' disabled>Selecione o criador</option>
-              <option *ngFor="let chamado of chamados" [value]="chamado.criador?.id">{{ chamado.criador?.nome }}</option>
+              <option *ngFor="let chamado of chamados" [value]="chamado.criador.id">{{ chamado.criador.nome }}</option>
             </select>
           </div>
 
@@ -118,14 +112,12 @@
 
         </div>
       </form>
-
-
       <!-- BOTOES DE ACOES -->
-      <div class="row mt-4" *ngIf="true">
+      <div class="row mt-2" *ngIf="true">
         <div class="col-12">
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-primary" (click)="newTicket()">
-              <i class="bi bi-plus-lg"></i> Adicionar
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="newTicket()" *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
+              <i class="bi bi-plus-lg"></i> Novo chamado
             </button>
             <button type="button" class="btn btn-sm btn-outline-primary" (click)="cleanFilters()">
               <i class="bi bi-arrow-clockwise"></i> Atualizar
@@ -133,6 +125,7 @@
           </div>
         </div>
       </div>
+
 
       <!-- GRID / TABELA -->
       <div class="row mt-2">
@@ -143,56 +136,28 @@
             </div>
           </div>
           <ng-template #actionTpl let-row let-rowIndex="rowIndex">
-            <div class="btn-group">
-              <div class="btn-group">
-                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Mais detalhes
-                </button>              
-                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="excluirTicket.fire()">Excluir</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Detalhes</a></li>
-                </ul>
-              </div>
-              
+            <div class="btn-group" *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
+              <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Mais detalhes
+              </button>
+              <ul class="dropdown-menu">
+                <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
+                  <a class="dropdown-item" type="button">Visualizar</a>
+                </li>
+                <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
+                  <a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a>
+                </li>
+                <li *ngIf="verificarPermissao(['Admin','Gerente'])">
+                  <a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a>
+                </li>
+                <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
+                  <a class="dropdown-item" type="button" (click)="edit(row.id)">Detalhes</a>
+                </li>
+              </ul>
             </div>
-
-            <swal
-              #excluirTicket 
-              title="Excluír {{ row.assunto }}?"
-              text="Esta ação não poderá ser desfeita"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="delete(row.id)">
-            </swal>
-
           </ng-template>
         </div>
       </div>
-
-      <!-- Modal -->
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Filtrar Chamados</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <app-ticket-filter></app-ticket-filter>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aplicar</button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
 
     </div>
   </div>

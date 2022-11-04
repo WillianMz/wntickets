@@ -7,10 +7,13 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UserFormComponent } from './user-form/user-form.component';
 
 const routes: Routes = [
-  { path:'', component: UserPageAdminComponent },
-  { path:'new/:origem', component: UserFormComponent },
+  { path:'', component: UserListComponent },
+  { path:':id/edit', component: UserAccountComponent },
+  
+  { path:'new', component: UserAccountComponent },
   { path:'edit/:id', component: UserFormComponent },
   { path:'account', component: UserAccountComponent },
+  { path:'minha-conta/:id', component: UserAccountComponent },
   { path:'list', component: UserListComponent },
   { path:'roles', component: UserRoleComponent }
 ];

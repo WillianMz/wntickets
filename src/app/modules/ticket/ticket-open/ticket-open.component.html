@@ -9,14 +9,13 @@
             <label for="equipamento" class="col-sm-3 col-md-2 col-form-label">Equipamento</label>
             <div class="col-sm-6 col-md-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Nº do equipamento" aria-label="Equipamento"
-                        id="equipamento" formControlName="equipamento">
-                    <button class="btn btn-outline-success" type="button" id="btnIdentificar"
-                        (click)="identificarEquipamento()">Identificar</button>
+                    <input type="text" class="form-control" placeholder="Nº do equipamento" aria-label="Equipamento" id="equipamento" formControlName="equipamento">
+                    <!-- <button class="btn btn-outline-success" type="button" id="btnIdentificar" (click)="identificarEquipamento()">
+                      Identificar
+                    </button> -->
                 </div>
                 <div class="text-danger" *ngIf="inputEquipamento?.errors">
-                    <div
-                        *ngIf="inputEquipamento?.errors?.required && (inputEquipamento?.dirty || inputEquipamento?.touched)">
+                    <div *ngIf="inputEquipamento?.errors?.required && (inputEquipamento?.dirty || inputEquipamento?.touched)">
                         Identifique o equipamento
                     </div>
                 </div>
@@ -105,19 +104,30 @@
                 </div>
             </div>
         </div>
+        
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Anexar arquivo</label>
+          <input
+                class="form-control" 
+                type="file"
+                id="formFile"
+                id="ImagemUpload"
+                name="fileUpload"
+                #fileInput (change)="upload(fileInput.files)"
+            >
+        </div>
 
-        <!-- <app-ticket-attachments></app-ticket-attachments> -->
-
-        <div class="row mt-2">
+        <div class="row mt-2 text-end">
             <div class="col">
               <div class="btn-group">
-                <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">
-                    Cancelar
-                </button>
                 <button type="button" class="btn btn-outline-primary" [disabled]="!chamadoForm.valid" (click)="salvar()">
-                  <i class="bi bi-check"></i>
-                  Salvar
-                </button>
+                    <i class="bi bi-check"></i>
+                    Salvar
+                  </button>
+                <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">
+                    <i class="bi bi-x"></i>
+                    Cancelar
+                </button>                
               </div>
             </div>
         </div>

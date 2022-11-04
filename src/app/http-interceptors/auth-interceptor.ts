@@ -26,9 +26,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
         //retorno o request com o erro tratado
         return next.handle(request)
-            .pipe(
+            /* .pipe(
                 catchError(this.handleError)
-            );
+            ); */
     }
 
     private handleError(error: HttpErrorResponse){
