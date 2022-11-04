@@ -62,7 +62,21 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.configurarForm();
+    const id = this.activatedRoute.snapshot.paramMap.get('id'),
+          origem = this.activatedRoute.snapshot.paramMap.get('origem');
+    if (id) {
+      this.userID = id;
+      this.tituloPagina = 'Detalhes do Usuário';
+      this.carregarDados(this.userID);
+    } else {
+      this.tituloPagina = 'Novo Usuário';
+      this.boolCod = false;
+      this.boolApelido = false;
+      this.boolAtiva = false;
+    }
+
+    this.boolVoltaList = origem == 'list' || id ? true : false;
+
   }
 
   //GETS
@@ -92,22 +106,6 @@ export class UserFormComponent implements OnInit {
 
   get senhaConfirmacao() {
     return this.userForm.get('senhaConfirmacao') as FormGroup;
-  }
-
-  //CONFIGURA A APARENCIA DA PAGINA A SER EXIBIDA AO USUARIO
-  private configurarForm(){
-    //pega o id na URL
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if(id){
-      this.tituloPagina = 'Editando usuário';
-      this.userID = id;
-      this.carregarDados(this.userID);
-    }
-    else{
-      this.tituloPagina = 'Novo usuário';
-      this.boolCod = false;
-      this.boolApelido = false;
-    }
   }
 
   //VERIFICAR OS TAMANHOS DOS CAMPOS -> VER NO BANCO DE DADOS
@@ -161,17 +159,16 @@ export class UserFormComponent implements OnInit {
 
   //CARREGA OBJETO E PREENCHE OS DADOS NA TELA
   private carregarDados(id: string){
+    console.log(id);
      this.usuarioService.getById(id).subscribe({
       next: (response) => {
-       // this.usuario = response;
-        
+       // this.usuario = response;        
         if(this.usuario != null){
           this.start(this.usuario);
           this.setUserApelidoValidators();
         }
         else{
-          //MELHORAR AQUI
-          this.showError('Não foi possível obter os dados do usuário');
+          this.notificationService.showWarning(this.message);
         }
       }
     });
@@ -223,24 +220,29 @@ export class UserFormComponent implements OnInit {
     this.usuarioService.adicionar(usuario).subscribe({
       next: (response) => {
         if (response) {
-          this.cadastroUsuarioResponse = response;
-          if(this.cadastroUsuarioResponse.sucesso == true){
-            this.notificationService.showSuccess('Conta de usuário criada com sucesso!','Novo Usuário');
-            this.router.navigate(['/users']);
-          }
-          else if(response.sucesso == false){
-            console.log(response.erros);
+          if (response?.sucesso == true) {
+            this.success = response['sucesso'];
+            this.message = response['mensagem'];
+            this.cadastroUsuarioResponse = response;
+            this.notificationService.showSuccess(this.message);
+            if (this.boolVoltaList) {
+              this.router.navigate(['/users/list']);
+            } else {
+              this.router.navigate(['/users']);
+            }
+            
+          } else {
             this.cadastroUsuarioResponse.erros = response.erros;
-            this.notificationService.showError('Erro ao criar conta de usuário. Tente novamente!','Novo usuário');
+            this.notificationService.showWarning(this.message);
           }
         }
       },
       error: (response) => {
         //PEGA OS ERROS. FALHAS
-        console.log(response.error);
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+        this.notificationService.showError('Erro ao salvar usuário: ' + this.message);
       }
     });
   }
@@ -264,13 +266,15 @@ export class UserFormComponent implements OnInit {
         if(this.success == true){
           this.message = response['mensagem'];
           this.showSuccess(this.message);
-          this.router.navigate(['/users']);
-          console.log('1');
+          if (this.boolVoltaList) {
+            this.router.navigate(['/users/list']);
+          } else {
+            this.router.navigate(['/users']);
+          }
         }
         else{
           this.message = response['mensagem'];
           this.showError(this.message);
-          console.log('2');
         }
       },
       error: (response) => {

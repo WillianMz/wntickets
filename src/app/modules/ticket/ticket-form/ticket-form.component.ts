@@ -111,7 +111,8 @@ export class TicketFormComponent implements OnInit {
 
   /* cancelarTicket(){
     const ticket = new CancelarRequest();
-    ticket.ticketId = this.ticketID;
+    ticket.ticketId = this.ticketId;
+    ticket.motivo = this.solucao?.value;
 
     this.ticketService.cancelar(ticket).subscribe({
       next: (response) =>{
@@ -134,7 +135,8 @@ export class TicketFormComponent implements OnInit {
 
   /* finalizarTicket(){
     const ticket = new FinalizarRequest();
-    ticket.ticketId = this.ticketID;
+    ticket.ticketId = this.ticketId;
+    ticket.solucao = this.solucao?.value;
 
     this.ticketService.finalizar(ticket).subscribe({
       next: (response) =>{

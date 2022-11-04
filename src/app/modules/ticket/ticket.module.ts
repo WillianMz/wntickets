@@ -15,7 +15,8 @@ import { ConfirmationService } from 'primeng/api';
   declarations: [
     TicketListComponent,
     TicketFormComponent,
-    TicketOpenComponent
+    TicketOpenComponent,
+    TicketAnexoComponent
   ],
   imports: [
     CommonModule,

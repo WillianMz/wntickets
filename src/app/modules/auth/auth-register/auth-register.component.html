@@ -28,6 +28,12 @@
                       <label for="Email">E-mail</label>
                       <input placeholder="Ex: email@email.com" autocomplete="false" class="form-control" type="email"
                         id="email" formControlName="email" required>
+  
+                      <!-- VALIDACAO -->
+                      <div class="text-danger" *ngIf="email?.errors">
+                        <div *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe o email</div>
+                        <div *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">O email informado é inválido!</div>
+                      </div>
                     </div>
                   </div>
 

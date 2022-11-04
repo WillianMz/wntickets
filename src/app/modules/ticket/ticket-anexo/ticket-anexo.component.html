@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+  
+        <!-- AVISOS -->
+        <div class="row pt-2" *ngIf="boolAviso">
+            <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
+        </div>
+  
+        <!-- NOTIFICACOES DO SERVIDOR -->
+        <div class="row mt-2" *ngIf="erros?.length">
+        <div class="alert alert-danger" role="alert">
+            <h5>{{ message }}</h5>
+            <ul *ngFor="let e of erros">
+            <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+            </ul>
+        </div>
+        </div>
+  
+        <div class="row" *ngIf="boolTitulo">
+        <h3>{{ tituloPagina }}</h3>
+        </div>
+  
+  
+        <div class="col-sm-12">
+
+            <form>
+                <div class="form-group">
+                  <label for="anexo"></label>
+                  <input type="file" (change)="selectAnexo()" class="form-control">
+                </div>
+            </form>
+
+            <div class="row mt-2">
+                <div class="col">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">Cancelar</button>
+                    <button type="button" class="btn btn-outline-primary"  (click)="uploadAnexo()">Enviar arquivo</button>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

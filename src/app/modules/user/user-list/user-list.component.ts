@@ -83,7 +83,7 @@ export class UserListComponent implements OnInit {
   }
 
   public new() {
-    this.router.navigate(['users/new']);
+    this.router.navigate(['users/new/list']);
   }
 
   public edit(usuarioId: number) {

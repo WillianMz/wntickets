@@ -27,9 +27,11 @@ export class TicketListComponent implements OnInit {
   @Input() campoPesquisaVisivel: boolean;
   @Input() statusChamado: number = 0;
 
+  display: boolean = false;
   tituloDaPagina: string = 'Chamados';
   chamados: ChamadoResponse[];
   chamado: ChamadoResponse;
+  setores: SetorResponse[];
   chamadoId: number;
   sucesso: boolean;
   mensagem: string;
@@ -59,6 +61,7 @@ export class TicketListComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
+    private setorService: SectorService,
     private router: Router,
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
@@ -391,14 +394,14 @@ export class TicketListComponent implements OnInit {
     this.listarTodos();
   }
 
-  public search(){
-    this.listByName(/* this.ticketName */);
-  }
+  /* public search(){
+    this.listByName();
+  } */
 
-  private listByName(/* name: string */) {
+  /* private listByName() {
     this.spinner.show();
 
-    this.ticketService.getAll(/*name*/).subscribe({
+    this.ticketService.getAll().subscribe({
       next: (response) => {
         this.chamados = response;
         this.spinner.hide();
@@ -410,7 +413,7 @@ export class TicketListComponent implements OnInit {
         this.spinner.hide();
       }
     });
-  }
+  } */
 
   private configPagina(){
     if(this.chamados.length > 0){
@@ -469,12 +472,23 @@ export class TicketListComponent implements OnInit {
         }
       },
       error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+
+  private consultarPorDescricao(texto: string){
+    this.spinner.show();
+    this.ticketService.getByDescricao(texto).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
         this.spinner.hide();
         this.notification.showError('Ocorreu um erro ao consultar seus chamados!');
       }
-    })
+    });
   }
-
     /*CONSULTAS **********************************************************/
 
     private consultarTicket() {
@@ -638,6 +652,4 @@ export class TicketListComponent implements OnInit {
         }
       });
     }
-
-
 }

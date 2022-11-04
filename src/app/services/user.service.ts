@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { ListarUsuarioModel } from '../models/user/listarUsuarioModel';
 import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
 import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
+import { ListarIdUsuarioModel } from '../models/user/listarIdUsuarioModel';
 
 const ENDERECO_API: string = `${environment.api}/usuario`;
 
@@ -40,7 +41,6 @@ export class UserService {
   }
 
   public adicionar(usuario: CadastroUsuarioRequest): Observable<CadastroUsuarioResponse | null>{
-    console.log(usuario);
     return this.http.post(`${ENDERECO_API}`, usuario);
   }
 
