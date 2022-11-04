@@ -31,15 +31,18 @@ export class UserFormComponent implements OnInit {
   erros: ErroServidor[];
   usuario: UsuarioModel;
   //campos visiveis
+  //campos visiveis
+  boolAtiva: boolean = true;
   boolTitulo: boolean = true;
   boolAviso: boolean = false;
-  boolCod: boolean = true;
+  boolCod: boolean = false;
   boolNome: boolean = true;
   boolApelido: boolean = true;
   boolEmail: boolean = true;
   boolFone: boolean = true;
   boolSenha: boolean = true;
   boolSenhaConf: boolean = true;
+  boolVoltaList: boolean = true;
 
   cadastroUsuarioResponse: CadastroUsuarioResponse;
 
@@ -160,7 +163,7 @@ export class UserFormComponent implements OnInit {
   private carregarDados(id: string){
      this.usuarioService.getById(id).subscribe({
       next: (response) => {
-        this.usuario = response;
+       // this.usuario = response;
         
         if(this.usuario != null){
           this.start(this.usuario);

@@ -14,6 +14,7 @@ import { PerfilRequest } from 'src/app/models/pessoa/perfilRequest.model';
 import { Usuario } from 'src/app/models/user/usuario.model';
 import { ConfirmationService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 
 @Component({
   selector: 'app-user-account',
@@ -22,6 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserAccountComponent implements OnInit {
 
+  tituloPagina: string;
   perfil: PerfilResponse;
   perfilForm: FormGroup;
   alterarSenhaForm: FormGroup;
@@ -35,7 +37,8 @@ export class UserAccountComponent implements OnInit {
   imagemNome: string;
   urlFotoPerfil: string;
   fotoPerfil: string;
-  pessoaId: number;
+  pessoaId: string;
+  contaId: number;
   roles: RoleResponse[];
 
   constructor(
@@ -53,6 +56,8 @@ export class UserAccountComponent implements OnInit {
     this.validarFormulario(perfil);
     const alterarSenha = new AlterarSenhaRequest()
     this.validarFormSenha(alterarSenha);
+    const usuario = new Usuario();
+    this.validarFormUsuario(usuario);
   }
 
   ngOnInit(): void {
@@ -63,16 +68,41 @@ export class UserAccountComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(
       params => {
-        this.pessoaId = parseInt(params.pessoa);
+        this.pessoaId = params.user;
+        this.contaId = params.conta;
+        console.log(this.contaId);
       }
     );
+
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id){
+      this.contaId = parseInt(id);
+    }
     
     if(this.pessoaId){
-
+      this.tituloPagina = 'Detalhes do usuário';
+      console.log('aqui 1');
+      this.carregarDados(this.pessoaId);
+    }
+    else if(this.contaId){
+      console.log('aqui 2');
+      this.tituloPagina = 'Meu perfil';
+      this.carregarPerfil();
     }
     else{
-
+      console.log('aqui 3');
+      this.tituloPagina = 'Novo usuário';
+      const perfil = new PerfilRequest();
+      this.validarFormulario(perfil);
     }
+    this.carregarDados(this.pessoaId);
+    
+  }
+
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
   }
 
   get nome (){
@@ -219,6 +249,23 @@ export class UserAccountComponent implements OnInit {
     });
   }
 
+  private carregarDados(id: string){
+    this.usuarioService.getById(id).subscribe({
+     next: (response) => {
+       this.usuario = response;
+       
+       if(this.usuario != null){
+         this.validarFormUsuario(this.usuario);
+       }
+       else{
+         //MELHORAR AQUI
+         //this.showError('Não foi possível obter os dados do usuário');
+       }
+     }
+   });
+ }
+
+
   private listarRoles(){
     this.usuarioService.getRoles().subscribe({
       next: (response) =>{
@@ -260,8 +307,17 @@ export class UserAccountComponent implements OnInit {
     });
   }
 
-  private validarFormUsuario(){
-
+  private validarFormUsuario(usuario: Usuario){
+    this.usuarioForm = new FormGroup({
+      id: new FormControl(usuario.id),
+      nome: new FormControl(usuario.nome),
+      email: new FormControl(usuario.email),
+      tipo: new FormControl(usuario.perfil),
+      perfil: new FormControl(),
+      ativo: new FormControl(),
+      bloqueado: new FormControl(),
+      emailConf: new FormControl()
+    });
   }
 
 }

@@ -1,3 +1,4 @@
+import { TicketModule } from './../ticket/ticket.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,7 +27,8 @@ import {TabViewModule} from 'primeng/tabview';
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TabViewModule
+    TabViewModule,
+    TicketModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

@@ -117,16 +117,17 @@
             >
         </div>
 
-        <div class="row mt-2">
+        <div class="row mt-2 text-end">
             <div class="col">
               <div class="btn-group">
-                <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">
-                    Cancelar
-                </button>
                 <button type="button" class="btn btn-outline-primary" [disabled]="!chamadoForm.valid" (click)="salvar()">
-                  <i class="bi bi-check"></i>
-                  Salvar
-                </button>
+                    <i class="bi bi-check"></i>
+                    Salvar
+                  </button>
+                <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">
+                    <i class="bi bi-x"></i>
+                    Cancelar
+                </button>                
               </div>
             </div>
         </div>

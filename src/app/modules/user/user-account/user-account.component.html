@@ -11,7 +11,7 @@
             width="150px"
             [src]="perfil.imgPerfil"/>
           <span class="font-weight-bold" *ngIf="perfil?.nomeCompleto">{{perfil.nomeCompleto}}</span>
-          <span class="text-black-50">@{{usuario.nome}}</span><span> </span>
+          <!-- <span class="text-black-50">@{{usuario.nome}}</span><span> </span> -->
           <label class="btn btn-primary btn-sm btn-upload" for="ImagemUpload" title="Upload image file">
             <input type="file" class="sr-only" 
                   id="ImagemUpload"
@@ -30,7 +30,7 @@
     </div>
 
     <div class="col-md-8 border-right">  
-    <h3>Perfil</h3>
+    <h3>{{tituloPagina}}</h3>
       <p-tabView>
         <p-tabPanel header="Dados pessoais">
           <form [formGroup]="perfilForm">
@@ -63,7 +63,7 @@
               </div>
 
               <div class="mt-5 text-center">
-                <button class="btn btn-primary profile-button" type="button" [disabled]="!perfilForm.valid" (click)="salvar()">
+                <button class="btn btn-outline-primary" type="button" [disabled]="!perfilForm.valid" (click)="salvar()">
                   Salvar
                 </button>
               </div>
@@ -89,21 +89,21 @@
             </div>
 
             <div class="mt-5 text-center">
-              <button class="btn btn-primary profile-button" type="button" [disabled]="!alterarSenhaForm.valid" (click)="alterarSenha()">
+              <button class="btn btn-outline-primary" type="button" [disabled]="!alterarSenhaForm.valid" (click)="alterarSenha()">
                 Salvar
               </button>
             </div>
           </form>
         </p-tabPanel>
 
-        <p-tabPanel header="Dados de Usuário">
-          <form [formGroup]="perfilForm">
+        <p-tabPanel header="Dados de Usuário" *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
+          <form [formGroup]="usuarioForm">
             <div class="mt-1">
               <div class="row mt-2">
                 
                 <div class="col-md-12 mt-2">
                   <label class="labels">Id Conta</label>
-                  <input type="text" class="form-control" formControlName="nome"/>
+                  <input type="text" class="form-control" formControlName="id"/>
                 </div>
                 <div class="col-md-12 mt-2">
                   <label class="labels">Login</label>
@@ -111,11 +111,11 @@
                 </div>
                 <div class="col-md-12 mt-2">
                   <label class="labels">Email</label>
-                  <input type="text" class="form-control" formControlName="telefone">
+                  <input type="text" class="form-control" formControlName="email">
                 </div>
                 <div class="col-md-6 mt-2">
                   <label class="labels">Tipo</label>
-                  <select class="form-select" formControlName="uf">
+                  <select class="form-select" formControlName="perfil">
                     <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
                   </select>
                 </div>
@@ -123,27 +123,27 @@
 
               <div class="row mt-2">
                 <div class="col-md-12">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkAtivo">
+                  <!-- <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkAtivo" formControlName="ativo">
                     <label class="form-check-label" for="checkAtivo">Ativo</label>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="col-md-12">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado">
+                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
                     <label class="form-check-label" for="checkBloqueado">Bloqueado</label>
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkEmailConfirmado">
+                    <input class="form-check-input" type="checkbox" value="" id="checkEmailConfirmado" formControlName="emailConf">
                     <label class="form-check-label" for="checkEmailConfirmado">Email confirmado</label>
                   </div>
                 </div>
               </div>
 
               <div class="mt-5 text-center">
-                <button class="btn btn-primary profile-button" type="button" [disabled]="!perfilForm.valid" (click)="salvar()">
+                <button class="btn btn-outline-primary" type="button" [disabled]="!perfilForm.valid" (click)="salvar()">
                   Salvar
                 </button>
               </div>

@@ -451,16 +451,20 @@
     </div>
   </div>
 
-  <div class="row mt-2">
+  <div class="row mt-2 text-end">
     <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto"> -->
     <div class="col">
       <div class="btn-group">
-        <button type="button" class="btn btn-outline-danger" [routerLink]="['/equipment']">Cancelar</button>
-        <button type="button" class="btn btn-outline-primary" [disabled]="!equipForm.valid"
-          (click)="salvar()">Salvar</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" [disabled]="!equipForm.valid" (click)="salvar()">
+          <i class="bi bi-check"></i>
+          Salvar
+        </button>
+        <button type="button" class="btn  btn-sm btn-outline-danger" [routerLink]="['/equipment']">
+          <i class="bi bi-x"></i>
+          Cancelar
+        </button>
       </div>
     </div>
   </div>
-
 </div>
 <br>

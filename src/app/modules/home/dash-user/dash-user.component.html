@@ -1,23 +1,17 @@
 <h2>Home</h2>
-<!-- <h3>Olá! {{usuario.nome | lowercase}}</h3>
-<hr> -->
 
-
-<div class="mt-2 mb-2">
+<!-- <div class="mt-2 mb-2">
     <button class="btn btn-sm btn-outline-primary" [routerLink]="'/ticket/open'">Abrir Chamado</button>
-</div>
+</div> -->
 
 <p-tabView>
-    <p-tabPanel header="Meus Chamados">
-        <h4>Todas os seus chamados</h4>
-    </p-tabPanel>
     <p-tabPanel header="Chamados Pendentes">
-        <h4>Chamados pendentes</h4>
+        <app-ticket-list [tituloVisivel]="false" [campoPesquisaVisivel]="false" [statusChamado]="1"></app-ticket-list>
+    </p-tabPanel>
+    <p-tabPanel header="Meus Chamados">
+        <app-ticket-list [tituloVisivel]="false" [campoPesquisaVisivel]="false" [statusChamado]="0"></app-ticket-list>
     </p-tabPanel>
     <p-tabPanel header="Chamados Finalizados">
-        <h4>Chamados finalizados</h4>
-    </p-tabPanel>
-    <p-tabPanel header="Chamados Cancelados">
-        <h4>Chamados cancelados</h4>
+        <app-ticket-list [tituloVisivel]="false" [campoPesquisaVisivel]="false" [statusChamado]="6"></app-ticket-list>
     </p-tabPanel>
 </p-tabView>

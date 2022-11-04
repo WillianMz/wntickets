@@ -1,3 +1,4 @@
+import { Usuario } from 'src/app/models/user/usuario.model';
 import { AtivarUsuarioRequest } from './../models/user/ativarUsuarioRequest.model';
 import { AlterarSenhaRequest } from './../models/user/alterarSenhaRequest';
 import { UsuarioRoleRequest } from './../models/user/usuarioRoleRequest.model';
@@ -51,8 +52,8 @@ export class UserService {
     return this.http.put(`${ENDERECO_API}`, usuario);
   }
 
-  public getById(id: string): Observable<UsuarioModel> {
-    return this.http.get<UsuarioModel>(`${ENDERECO_API}/${id}`);
+  public getById(id: string): Observable<Usuario> {
+    return this.http.get<Usuario>(`${ENDERECO_API}/${id}`);
   }
 
   public delete(id: string){

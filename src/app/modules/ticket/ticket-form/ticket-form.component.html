@@ -108,11 +108,20 @@
         </div>
       </p-tabPanel>
 
-      <div class="mt-2">
+      <div class="mt-2 text-end">
         <div class="btn-group">
-          <button class="btn btn-outline-primary" type="button" (click)="salvar()" [disabled]="!ticketForm.valid">Salvar</button>
-          <!-- <button class="btn btn-outline-danger" type="button">Cancelar</button>
-          <button class="btn btn-outline-warning" type="button">Finalizar</button> -->
+          <button class="btn btn-sm btn-outline-primary" type="button" (click)="salvar()" [disabled]="!ticketForm.valid">
+            <i class="bi bi-check"></i>
+            Salvar
+          </button>
+          <button class="btn btn-sm btn-outline-danger" type="button">
+            <i class="bi bi-x"></i>
+            Cancelar
+          </button>
+          <button class="btn btn-sm btn-outline-success" type="button">
+            <i class="bi bi-check-all"></i>
+            Finalizar
+          </button>
         </div>
       </div>
 

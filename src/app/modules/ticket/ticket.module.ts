@@ -27,6 +27,9 @@ import { ConfirmationService } from 'primeng/api';
     TabViewModule,
     ConfirmDialogModule
   ],
+  exports:[
+    TicketListComponent
+  ],
   providers: [
     ConfirmationService
   ],

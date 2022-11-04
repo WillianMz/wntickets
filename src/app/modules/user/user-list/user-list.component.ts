@@ -87,7 +87,7 @@ export class UserListComponent implements OnInit {
   }
 
   public edit(usuarioId: number) {
-    this.router.navigate([`users/edit/${usuarioId}`]);
+    this.router.navigate(['users/account/'], {queryParams: { user: usuarioId}});
   }
 
   public ativar(id: number) {

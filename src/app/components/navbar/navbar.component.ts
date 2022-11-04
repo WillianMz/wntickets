@@ -43,6 +43,10 @@ export class NavbarComponent implements OnInit {
     this.loginService.fazerLogout();
   }
 
+  public minhaConta() {
+    this.router.navigate([`users/minha-conta/${this.perfil.id}`]);
+  }
+
   public verificarPermissao(roleFuncionalidade: string[]): boolean{
     const usuarioLogado = this.loginService.usuarioLogado();
     const role = usuarioLogado?.perfil;
