@@ -1,4 +1,3 @@
-import { TicketAnexoComponent } from './ticket-anexo/ticket-anexo.component';
 import { TicketOpenComponent } from './ticket-open/ticket-open.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TicketListComponent } from './ticket-list/ticket-list.component';

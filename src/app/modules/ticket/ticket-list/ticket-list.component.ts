@@ -38,7 +38,6 @@ export class TicketListComponent implements OnInit {
   descricao: string;
   usuarioLogado: Usuario;
   erros: ErroServidor[];
-  setores: SetorResponse[];
   filtroForm: FormGroup;
   nomeBotaoFiltro: string = 'Filtro';
   sectorId: number;
@@ -61,7 +60,6 @@ export class TicketListComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private setorService: SectorService,
     private router: Router,
     private notification: NotificationService,
     private spinner: NgxSpinnerService,
@@ -478,17 +476,7 @@ export class TicketListComponent implements OnInit {
     });
   }
 
-  private consultarPorDescricao(texto: string){
-    this.spinner.show();
-    this.ticketService.getByDescricao(texto).subscribe({
-      next: (response) => {
-        this.chamados = response;
-        this.configPagina();
-        this.spinner.hide();
-        this.notification.showError('Ocorreu um erro ao consultar seus chamados!');
-      }
-    });
-  }
+
     /*CONSULTAS **********************************************************/
 
     private consultarTicket() {
