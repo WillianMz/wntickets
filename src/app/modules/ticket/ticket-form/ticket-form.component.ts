@@ -7,13 +7,11 @@ import { EquipamentoResponse } from './../../../models/equipment/equipamentoResp
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CancelarRequest } from './../../../models/ticket/cancelarRequest.model';
 import { ErroServidor } from './../../../models/erroServidor';
 import { NotificationService } from './../../../services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FinalizarRequest } from 'src/app/models/ticket/finalizarRequest.model';
 
 @Component({
   selector: 'app-ticket-form',
@@ -85,8 +83,6 @@ export class TicketFormComponent implements OnInit {
     chamado.assunto = this.assunto?.value;
     chamado.descricao = this.descricao?.value;
     chamado.operadorId = this.operador?.value  || 0;
-
-    console.log(chamado);
 
     this.ticketService.salvar(chamado).subscribe({
       next: (response) => {

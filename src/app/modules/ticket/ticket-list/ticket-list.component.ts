@@ -62,7 +62,6 @@ export class TicketListComponent implements OnInit {
     private ticketService: TicketService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
     private loginService: LoginService,
     private activatedRoute: ActivatedRoute,
@@ -353,7 +352,6 @@ export class TicketListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       message: 'Confirma a exclusão deste chamado?',
       accept: () => {
-        this.spinner.show();
         this.ticketService.delete(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.sucesso = response['sucesso'];
@@ -363,13 +361,11 @@ export class TicketListComponent implements OnInit {
               this.mensagem = response['mensagem'];
               this.notification.showSuccess(this.mensagem);
               this.router.navigate(['/ticket']);
-              this.spinner.hide();
               console.log('1');
             }
             else{
               this.mensagem = response['mensagem'];
               this.notification.showError(this.mensagem);
-              this.spinner.hide();
               console.log('2');
             }
           },
@@ -437,7 +433,6 @@ export class TicketListComponent implements OnInit {
   
 
   private listarTodos(){
-    this.spinner.show();
     this.ticketService.getAll().subscribe({
       next: (response) => {
         if(response){
@@ -446,27 +441,24 @@ export class TicketListComponent implements OnInit {
         else {
           this.notification.showWarning('Não foi possível consultar todos os chamados!');
         }
-
-        this.spinner.hide();
       },
       error: () => {
-        this.spinner.hide();
         this.notification.showError('Ocorreu um erro');
       }
     });
   }
 
   private listarMeusChamados(status: number){
-    this.spinner.show();
+    /* this.spinner.show(); */
     this.ticketService.getMeusChamados(status).subscribe({
       next: (response) => {
         if(response){
           this.chamados = response;
-          this.spinner.hide();
+          /* this.spinner.hide(); */
         }
         else{
           this.notification.showWarning('Não foi possível obter os chamados!')
-          this.spinner.hide();
+          /* this.spinner.hide(); */
         }
       },
       error: () => {
@@ -480,12 +472,10 @@ export class TicketListComponent implements OnInit {
     /*CONSULTAS **********************************************************/
 
     private consultarTicket() {
-      this.spinner.show();
       this.ticketService.getAll().subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -495,12 +485,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorSetor(setorId: number){
-      this.spinner.show();
       this.ticketService.getBySetor(setorId).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -522,12 +510,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorTipo(tipoId: number){
-      this.spinner.show();
       this.ticketService.getByTipo(tipoId).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -537,12 +523,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorAssunto(texto: string){
-      this.spinner.show();
       this.ticketService.getByAssunto(texto).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -552,12 +536,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorDescricao(texto: string){
-      this.spinner.show();
       this.ticketService.getByDescricao(texto).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -567,12 +549,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorSolucao(texto: string){
-      this.spinner.show();
       this.ticketService.getBySolucao(texto).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -582,12 +562,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorCriador(criadorId: number){
-      this.spinner.show();
       this.ticketService.getByCriador(criadorId).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -597,12 +575,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorPrioridade(prioridadeId: number){
-      this.spinner.show();
       this.ticketService.getByPrioridade(prioridadeId).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -612,12 +588,10 @@ export class TicketListComponent implements OnInit {
     }
   
     private consultarPorStatus(statusId: number){
-      this.spinner.show();
       this.ticketService.getByStatus(statusId).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE
@@ -627,12 +601,10 @@ export class TicketListComponent implements OnInit {
     }
     
     private consultarPorOperador(operadorId: number){
-      this.spinner.show();
       this.ticketService.getByOperador(operadorId).subscribe({
         next: (response) => {
           this.chamados = response;
           this.configPagina();
-          this.spinner.hide();
         },
         error: () => {
           //MELHORAR ESTA PARTE

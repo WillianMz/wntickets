@@ -29,7 +29,6 @@ export class EquipTipoListComponent implements OnInit {
     private equipamentoService: EquipamentoService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService,
     private loginService: LoginService
   ) { }
 
@@ -73,7 +72,7 @@ export class EquipTipoListComponent implements OnInit {
   }
 
   public listarTiposDeEquipamentos(ativo: boolean){
-    this.spinner.show();
+    
     this.equipamentoService.getTipos(ativo).subscribe({
       next: (response) => {
         this.tiposDeEquipamentos = response.map(item => {
@@ -83,12 +82,10 @@ export class EquipTipoListComponent implements OnInit {
             ativoString: item.ativo ? 'Ativo' : 'Inativo'
           }
         });
-        this.spinner.hide();
       },
       error: (response) => {
         this.notification.showError('Erro ao consultar tipos de equipamentos');
         console.error(response);
-        this.spinner.hide();
       }
     });
   }

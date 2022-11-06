@@ -1,17 +1,23 @@
 import { LoginService } from 'src/app/services/login.service';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { finalize } from 'rxjs/operators';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     
     constructor(
-        private loginService: LoginService
+        private loginService: LoginService,
+        private spinner: NgxSpinnerService
     ){}
 
     //MELHORAR
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        this.spinner.show();
+        
         const token = this.loginService.obterToken();
         let request: HttpRequest<any> = req;
 
@@ -24,8 +30,12 @@ export class AuthInterceptor implements HttpInterceptor {
             });
         }
 
+        return next.handle(request).pipe(
+            finalize(() => this.spinner.hide()),
+        );
+
         //retorno o request com o erro tratado
-        return next.handle(request)
+        //return next.handle(request)
             /* .pipe(
                 catchError(this.handleError)
             ); */

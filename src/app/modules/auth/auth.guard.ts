@@ -14,8 +14,8 @@ export class AuthGuard implements CanActivate {
     private loginService: LoginService
   ) {}
   
- /*  canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    //const token = window.localStorage.getItem('token');
+  canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const token = window.localStorage.getItem('token');
     if(this.loginService.usuarioEstaLogado()){
       return true;
     }
@@ -23,11 +23,11 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['login']);
       return false;
     }
-  } */
-
-  public canActivate(activated: ActivatedRouteSnapshot): Observable<boolean> {
-    return this.checarRota(activated);
   }
+
+  /* public canActivate(activated: ActivatedRouteSnapshot): Observable<boolean> {
+    return this.checarRota(activated);
+  } */
 
   public canActivatedChild(childRoute: ActivatedRouteSnapshot): Observable<boolean> {
     return this.checarRota(childRoute);
