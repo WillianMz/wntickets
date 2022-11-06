@@ -1,3 +1,4 @@
+import { ModulosGuard } from './guards/modulos.guard';
 import { HttpInterceptorProviders } from './http-interceptors/index';
 import { ComponentsModule } from './components/components.module';
 import { CommonModule } from '@angular/common';
@@ -57,7 +58,8 @@ import { HomeComponent } from './layouts/home/home.component';
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
   ],
   providers: [
-    HttpInterceptorProviders
+    HttpInterceptorProviders,
+    ModulosGuard
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -1,3 +1,4 @@
+import { ModulosGuard } from './../../guards/modulos.guard';
 import { EquipTipoFormComponent } from './equip-tipo-form/equip-tipo-form.component';
 import { EquipTipoListComponent } from './equip-tipo-list/equip-tipo-list.component';
 import { EquipFormComponent } from './equip-form/equip-form.component';
@@ -7,49 +8,49 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
-  { 
+  {
     path:'',
-    canActivate: [AuthGuard],
     component: EquipListComponent,
+//    canActivateChild: [ModulosGuard]
     data: {
-      roles: ['Suporte','Gerente','Admin']
+      roles: ['Gerente','Admin','Suporte']
     }
   },
-  { 
+  {
     path:'new',
-    canActivate: [AuthGuard],
+    //canActivateChild: [ModulosGuard],
     component: EquipFormComponent,
     data: {
       roles: ['Gerente','Admin']
     }
   },
-  { 
+  {
     path:'edit/:id',
-    canActivate: [AuthGuard],
+    //canActivateChild: [ModulosGuard],
     component: EquipFormComponent,
     data: {
       roles: ['Gerente','Admin']
     }
   },
-  { 
+  {
     path:'tipo',
-    canActivate: [AuthGuard],
+    //canActivateChild: [ModulosGuard],
     component: EquipTipoListComponent,
     data: {
       roles: ['Suporte','Gerente','Admin']
     }
   },
-  { 
+  {
     path:'tipo/new',
-    canActivate: [AuthGuard],
+    //canActivateChild: [ModulosGuard],
     component: EquipTipoFormComponent,
     data: {
       roles: ['Gerente','Admin']
     }
   },
-  { 
+  {
     path:'tipo/:id/edit',
-    canActivate: [AuthGuard],
+    //canActivateChild: [ModulosGuard],
     component: EquipTipoFormComponent,
     data: {
       roles: ['Gerente','Admin']
