@@ -14,10 +14,12 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
+        canActivateChild: [ModulosGuard],
         path:'home',
         loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
       },
       {
+        canActivateChild: [ModulosGuard],
         path:'labs',
         loadChildren: () => import('./modules/sector/sector.module').then(m => m.SectorModule)
       },
@@ -27,10 +29,12 @@ const routes: Routes = [
         loadChildren: () => import('./modules/equipment/equipment.module').then(m => m.EquipmentModule)
       },
       {
+        canActivateChild: [ModulosGuard],
         path:'ticket',
         loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)
       },
       {
+        canActivateChild: [ModulosGuard],
         path:'users',
         loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
       },

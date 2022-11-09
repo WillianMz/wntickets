@@ -1,3 +1,5 @@
+import { EsqueciMinhaSenha } from './../models/user/esqueciMinhaSenha.model';
+import { RecuperarSenha } from './../models/user/recuperarSenha.model';
 import { Usuario } from 'src/app/models/user/usuario.model';
 import { AtivarUsuarioRequest } from './../models/user/ativarUsuarioRequest.model';
 import { AlterarSenhaRequest } from './../models/user/alterarSenhaRequest';
@@ -78,6 +80,14 @@ export class UserService {
 
   public desbloquear(conta: string) {
     return this.http.post(`${ENDERECO_API}/desbloquear?usuarioId=${conta}`, null);
+  }
+
+  public esqueciMinhaSenha(email: EsqueciMinhaSenha) {
+    return this.http.post(`${ENDERECO_API}/esqueci-minha-senha`, email);
+  }
+
+  public recuperarSenha(recuperar: RecuperarSenha) {
+    return this.http.post(`${ENDERECO_API}/confirmar-esqueci-senha`, recuperar);
   }
 
 }

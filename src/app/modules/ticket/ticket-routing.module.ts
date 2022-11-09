@@ -3,12 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { NgModule } from '@angular/core';
-import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   { 
     path:'',
-    canActivate: [AuthGuard],
     component: TicketListComponent,
     data: {
       roles: ['Usuario','Suporte','Gerente','Admin']
@@ -16,7 +14,6 @@ const routes: Routes = [
   },
   { 
     path:'open',
-    canActivate: [AuthGuard],
     component: TicketOpenComponent,
     data: {
       roles: ['Usuario','Suporte','Gerente','Admin']
@@ -24,7 +21,6 @@ const routes: Routes = [
   },
   { 
     path:':id/edit',
-    canActivate: [AuthGuard],
     component: TicketFormComponent,
     data: {
       roles: ['Suporte','Gerente','Admin']

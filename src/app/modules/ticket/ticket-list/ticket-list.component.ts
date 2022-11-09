@@ -25,7 +25,7 @@ export class TicketListComponent implements OnInit {
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
   @Input() tituloVisivel: boolean;
   @Input() campoPesquisaVisivel: boolean;
-  @Input() statusChamado: number = 0;
+  @Input() statusChamado: number;
 
   display: boolean = false;
   tituloDaPagina: string = 'Chamados';
@@ -74,13 +74,6 @@ export class TicketListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let user = this.loginService.usuarioLogado();
-    if(user){
-      this.usuarioLogado = user;
-      this.configGrid();
-      this.list();
-    }
-
     this.activatedRoute.queryParams.subscribe(
       params => {
         this.sectorId = parseInt(params.sector);
@@ -92,9 +85,23 @@ export class TicketListComponent implements OnInit {
       }
     );
 
+    let user = this.loginService.usuarioLogado();
+    if(user){
+      this.usuarioLogado = user;
+      
+      //this.list();
+      this.listarMeusChamados(this.statusChamado);
+      this.configGrid();
+    }
+    else{
+      this.listarSetores();
+      this.configGrid();
+      //this.list();
+    }
+
+    /* this.listarSetores();
     this.configGrid();
-    this.list();
-    this.listarSetores();
+    this.list(); */
   }
 
   get texto(){
@@ -344,6 +351,7 @@ export class TicketListComponent implements OnInit {
   private list() {
     //this.listarTodos();
     this.listarMeusChamados(this.statusChamado);
+    this.configGrid(); 
   }
 
   public delete(id: string) {
@@ -449,20 +457,16 @@ export class TicketListComponent implements OnInit {
   }
 
   private listarMeusChamados(status: number){
-    /* this.spinner.show(); */
     this.ticketService.getMeusChamados(status).subscribe({
       next: (response) => {
         if(response){
           this.chamados = response;
-          /* this.spinner.hide(); */
         }
         else{
-          this.notification.showWarning('Não foi possível obter os chamados!')
-          /* this.spinner.hide(); */
+          this.notification.showWarning('Não foi possível obter os chamados!');
         }
       },
       error: () => {
-        //MELHORAR ESTA PARTE
         this.notification.showError('Ocorreu um erro');
       }
     });
