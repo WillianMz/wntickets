@@ -22,7 +22,7 @@ const routes: Routes = [
     }
   },
   { 
-    path:'new', component: UserAccountComponent,
+    path:'new', component: UserFormComponent,
     data: {
       roles: ['Admin']
     }

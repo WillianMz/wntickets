@@ -1,11 +1,11 @@
 import { ModulosGuard } from './guards/modulos.guard';
 import { AcessoNegadoComponent } from './components/acesso-negado/acesso-negado.component';
-import { AuthGuard } from './modules/auth/auth.guard';
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
 import { HomeComponent } from './layouts/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotfoundComponent } from './components/not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {

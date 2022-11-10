@@ -24,7 +24,7 @@ import { AuthNewPasswordComponent } from './auth-new-password/auth-new-password.
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMaskModule.forChild(),
+    NgxMaskModule.forChild()
   ]
 })
 export class AuthModule { }

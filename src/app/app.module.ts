@@ -16,6 +16,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
 import { HomeComponent } from './layouts/home/home.component';
+import { AuthGuard } from './guards/auth.guard';
 
   export const customCurrencyMaskConfig = {
     align: "left",
@@ -59,6 +60,7 @@ import { HomeComponent } from './layouts/home/home.component';
   ],
   providers: [
     HttpInterceptorProviders,
+    AuthGuard,
     ModulosGuard
   ],
   bootstrap: [AppComponent],

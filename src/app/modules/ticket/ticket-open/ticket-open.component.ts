@@ -1,5 +1,5 @@
 import { UploadService } from './../../../services/upload.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { TicketService } from 'src/app/services/ticket.service';
@@ -20,6 +20,7 @@ export class TicketOpenComponent implements OnInit {
   chamadoForm: FormGroup;
   setores: SetorResponse[];
   equipamento: EquipamentoResponse;
+  informarEquipamento: boolean = true;
   selecionarSetor: boolean = false;
   selecionarPrioridade: boolean = false;
   sucesso: boolean;
@@ -27,6 +28,7 @@ export class TicketOpenComponent implements OnInit {
   anexoForm: any;
   anexoNome: string;
   urlAnexo: string;
+  setorId: number;
 
   constructor(
     private setorService: SectorService,
@@ -34,13 +36,25 @@ export class TicketOpenComponent implements OnInit {
     private chamadoService: TicketService,
     private notification: NotificationService,
     private uploadService: UploadService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { 
+
+    this.activatedRoute.queryParams.subscribe(
+      params => {
+        this.setorId = parseInt(params.setorId);
+      }
+    );
     const chamado = new ChamadoRequest();
     this.validarFormulario(chamado);
   }
 
   ngOnInit(): void {
+    if(this.setorId){
+      this.informarEquipamento = false;
+      this.selecionarSetor = true;
+      this.obterSetores();
+    }
   }
 
   get inputEquipamento(){
@@ -59,11 +73,6 @@ export class TicketOpenComponent implements OnInit {
     return this.chamadoForm.get('descricao');
   }
 
-  public identificarEquipamento(){
-    this.obterEquipamento(this.inputEquipamento?.value);
-    //this.obterSetores();
-  }
-
   public upload(file: any){
     this.anexoForm = file[0];
     this.anexoNome = file[0].name;
@@ -72,28 +81,53 @@ export class TicketOpenComponent implements OnInit {
 
   public async salvar(){
     const chamadoRequest = new ChamadoRequest();
-    chamadoRequest.equipamentoId = this.inputEquipamento?.value;
-    chamadoRequest.assunto = this.inputAssunto?.value || 'Chamado para equipamento';
     chamadoRequest.descricao = this.inputDescricao?.value;
     chamadoRequest.anexo = this.urlAnexo;
-    
-    this.chamadoService.chamadoEquipamento(chamadoRequest).subscribe({
-      next: (response) => {
-        this.sucesso = response['sucesso'];
-        this.mensagem = response['mensagem'];
 
-        if(this.sucesso){
-          this.notification.showSuccess(this.mensagem);
-          this.router.navigate(['/ticket']);
+    if(this.setorId){
+      chamadoRequest.setorId = this.setorId;
+      chamadoRequest.assunto = this.inputAssunto?.value || 'Chamado para laboratório';
+
+      this.chamadoService.salvar(chamadoRequest).subscribe({
+        next: (response) => {
+          this.sucesso = response['sucesso'];
+          this.mensagem = response['mensagem'];
+  
+          if(this.sucesso){
+            this.notification.showSuccess(this.mensagem);
+            this.router.navigate(['/ticket']);
+          }
+          else{
+            this.notification.showWarning(this.mensagem);
+          }
+        },
+        error: () => {
+          this.notification.showError('Erro ao abrir chamado');
         }
-        else{
-          this.notification.showWarning(this.mensagem);
+      });
+    }
+    else {
+      chamadoRequest.equipamentoId = this.inputEquipamento?.value;
+      chamadoRequest.assunto = this.inputAssunto?.value || 'Chamado para equipamento';
+    
+      this.chamadoService.chamadoEquipamento(chamadoRequest).subscribe({
+        next: (response) => {
+          this.sucesso = response['sucesso'];
+          this.mensagem = response['mensagem'];
+
+          if(this.sucesso){
+            this.notification.showSuccess(this.mensagem);
+            this.router.navigate(['/ticket']);
+          }
+          else{
+            this.notification.showWarning(this.mensagem);
+          }
+        },
+        error: () => {
+          this.notification.showError('Erro ao abrir chamado');
         }
-      },
-      error: () => {
-        this.notification.showError('Erro');
-      }
-    });
+      });
+    }
   }
 
   private fazerUpload(){
@@ -151,20 +185,31 @@ export class TicketOpenComponent implements OnInit {
   }
 
   private validarFormulario(chamado: ChamadoRequest){
+   if(this.setorId){
     this.chamadoForm = new FormGroup({
-      equipamento: new FormControl(chamado.equipamentoId, [Validators.required]),
-      setor: new FormControl(chamado.setorId),
+      equipamento: new FormControl(chamado.equipamentoId),
+      setor: new FormControl(chamado.setorId, [Validators.required]),
       prioridade: new FormControl(chamado.prioridade),
-      assunto: new FormControl(chamado.assunto, [
-        /* Validators.required,
-        Validators.minLength(15),
-        Validators.maxLength(100) */
-      ]),
+      assunto: new FormControl(chamado.assunto),
       descricao: new FormControl(chamado.descricao,[
         Validators.required,
         Validators.minLength(35),
         Validators.maxLength(2000)
       ])
     });
+   }
+   else{
+    this.chamadoForm = new FormGroup({
+      equipamento: new FormControl(chamado.equipamentoId, [Validators.required]),
+      setor: new FormControl(chamado.setorId),
+      prioridade: new FormControl(chamado.prioridade),
+      assunto: new FormControl(chamado.assunto),
+      descricao: new FormControl(chamado.descricao,[
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(2000)
+      ])
+    });
+   }
   }
 }

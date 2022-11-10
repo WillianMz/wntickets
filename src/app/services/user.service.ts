@@ -1,3 +1,4 @@
+import { UsuarioResponse } from './../models/user/usuarioResponse.model';
 import { EsqueciMinhaSenha } from './../models/user/esqueciMinhaSenha.model';
 import { RecuperarSenha } from './../models/user/recuperarSenha.model';
 import { Usuario } from 'src/app/models/user/usuario.model';
@@ -46,8 +47,8 @@ export class UserService {
     return this.http.post(`${ENDERECO_API}`, usuario);
   }
 
-  public getAll(): Observable<ListarUsuarioModel[]>{
-    return this.http.get<ListarUsuarioModel[]>(`${ENDERECO_API}`);
+  public getAll(): Observable<UsuarioResponse[]>{
+    return this.http.get<UsuarioResponse[]>(`${ENDERECO_API}`);
   }
 
   public editar(usuario: EditarUsuarioModel) {

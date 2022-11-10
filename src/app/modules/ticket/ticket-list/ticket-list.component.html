@@ -116,7 +116,7 @@
       <div class="row mt-2" *ngIf="true">
         <div class="col-12">
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-primary" (click)="newTicket()" *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="abrirChamado()" *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
               <i class="bi bi-plus-lg"></i> Novo chamado
             </button>
             <button type="button" class="btn btn-sm btn-outline-primary" (click)="cleanFilters()">

@@ -9,7 +9,7 @@ const routes: Routes = [
     path:'',
     component: TicketListComponent,
     data: {
-      roles: ['Usuario','Suporte','Gerente','Admin']
+      roles: ['Suporte','Gerente','Admin']
     }
   },
   { 

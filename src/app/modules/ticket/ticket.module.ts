@@ -10,12 +10,15 @@ import { TicketOpenComponent } from './ticket-open/ticket-open.component';
 import {TabViewModule} from 'primeng/tabview';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { MeusTicketsComponent } from './meus-tickets/meus-tickets.component';
+
 
 @NgModule({
   declarations: [
     TicketListComponent,
     TicketFormComponent,
-    TicketOpenComponent
+    TicketOpenComponent,
+    MeusTicketsComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +31,8 @@ import { ConfirmationService } from 'primeng/api';
     ConfirmDialogModule
   ],
   exports:[
-    TicketListComponent
+    TicketListComponent,
+    MeusTicketsComponent
   ],
   providers: [
     ConfirmationService

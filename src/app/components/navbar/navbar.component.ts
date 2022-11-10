@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit {
       { titulo: 'Home', url: '/home', icone: 'bi bi-house', visivel: this.verificarPermissao(['Usuario'])},
       { titulo: 'Laboratórios', url: '/labs', icone: 'bi bi-binoculars-fill', visivel: this.verificarPermissao(['Usuario','Suporte','Gerente','Admin']) },
       { titulo: 'Equipamentos', url: '/equipment', icone: 'bi bi-pc-display', visivel: this.verificarPermissao(['Suporte','Gerente','Admin']) },
-      { titulo: 'Chamados', url: '/ticket', icone: 'bi bi-ticket-detailed-fill', visivel: this.verificarPermissao(['Usuario','Suporte','Gerente','Admin']) },
+      { titulo: 'Chamados', url: '/ticket', icone: 'bi bi-ticket-detailed-fill', visivel: this.verificarPermissao(['Suporte','Gerente','Admin']) },
       { titulo: 'Usuários', url: '/users', icone: 'bi bi-people', visivel: this.verificarPermissao(['Admin']) }
     ];
   }

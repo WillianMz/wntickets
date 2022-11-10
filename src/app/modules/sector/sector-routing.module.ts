@@ -1,4 +1,3 @@
-import { AuthGuard } from './../auth/auth.guard';
 import { SectorFormComponent } from './sector-form/sector-form.component';
 import { SectorListComponent } from './sector-list/sector-list.component';
 

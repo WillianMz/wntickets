@@ -25,7 +25,7 @@ export class TicketListComponent implements OnInit {
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
   @Input() tituloVisivel: boolean;
   @Input() campoPesquisaVisivel: boolean;
-  @Input() statusChamado: number;
+  @Input() statusChamado: number = 0;
 
   display: boolean = false;
   tituloDaPagina: string = 'Chamados';
@@ -85,23 +85,23 @@ export class TicketListComponent implements OnInit {
       }
     );
 
-    let user = this.loginService.usuarioLogado();
-    if(user){
-      this.usuarioLogado = user;
+    //let user = this.loginService.usuarioLogado();
+    //if(user){
+      //this.usuarioLogado = user;
       
       //this.list();
-      this.listarMeusChamados(this.statusChamado);
-      this.configGrid();
-    }
-    else{
+      /* this.listarMeusChamados(this.statusChamado);
+      this.configGrid(); */
+    //}
+    /* else{
       this.listarSetores();
       this.configGrid();
       //this.list();
-    }
+    } */
 
-    /* this.listarSetores();
+    this.listarSetores();
     this.configGrid();
-    this.list(); */
+    this.list();
   }
 
   get texto(){
@@ -158,23 +158,12 @@ export class TicketListComponent implements OnInit {
   }
 
   public verificarPermissao(roleFuncionalidade: string[]): boolean{
-    //const usuarioLogado = this.loginService.usuarioLogado();
-    const role = this.usuarioLogado?.perfil;
-    //this.usuario = usuarioLogado!;
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
     return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
   }
 
-  confirm() {
-    this.confirmationService.confirm({
-        message: 'Are you sure that you want to perform this action?',
-        accept: () => {
-            //Actual logic to perform a confirmation
-            alert('OK');
-        }
-    });
-  }
-
-  newTicket() {
+  abrirChamado() {
     this.router.navigate(['/ticket/open']);
   }
 
@@ -349,9 +338,9 @@ export class TicketListComponent implements OnInit {
 
 
   private list() {
-    //this.listarTodos();
-    this.listarMeusChamados(this.statusChamado);
-    this.configGrid(); 
+    this.listarTodos();
+    //this.listarMeusChamados(this.statusChamado);
+    //this.configGrid();  */
   }
 
   public delete(id: string) {
@@ -466,8 +455,9 @@ export class TicketListComponent implements OnInit {
           this.notification.showWarning('Não foi possível obter os chamados!');
         }
       },
-      error: () => {
-        this.notification.showError('Ocorreu um erro');
+      error: (response) => {
+        console.log(response);
+        this.notification.showError('Ocorreu um erro asdfasd');
       }
     });
   }
