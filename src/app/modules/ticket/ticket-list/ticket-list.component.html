@@ -151,9 +151,9 @@
                 <li *ngIf="verificarPermissao(['Admin','Gerente'])">
                   <a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a>
                 </li>
-                <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
+                <!-- <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
                   <a class="dropdown-item" type="button" (click)="edit(row.id)">Detalhes</a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </ng-template>

@@ -1,3 +1,4 @@
+import { PessoaResponse } from './../../../models/pessoa/pessoaResponse.model';
 import { RoleResponse } from './../../../models/user/roleResponse.model';
 import { UserService } from 'src/app/services/user.service';
 import { AlterarSenhaRequest } from './../../../models/user/alterarSenhaRequest';
@@ -13,7 +14,7 @@ import { Pais } from 'src/app/models/pessoa/pais.model';
 import { PerfilRequest } from 'src/app/models/pessoa/perfilRequest.model';
 import { Usuario } from 'src/app/models/user/usuario.model';
 import { ConfirmationService } from 'primeng/api';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 
 @Component({
@@ -24,7 +25,8 @@ import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 export class UserAccountComponent implements OnInit {
 
   tituloPagina: string;
-  perfil: PerfilResponse;
+  perfil: PessoaResponse;
+  //pessoa: PessoaResponse;
   perfilForm: FormGroup;
   alterarSenhaForm: FormGroup;
   usuarioForm: FormGroup;
@@ -48,11 +50,10 @@ export class UserAccountComponent implements OnInit {
     private notification: NotificationService,
     private usuarioService: UserService,
     private confirmationService: ConfirmationService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
-    this.dadosDoUsuarioLogado();
-    this.carregarPerfil();
-    const perfil = new PerfilRequest();
+    const perfil = new PessoaResponse();
     this.validarFormulario(perfil);
     const alterarSenha = new AlterarSenhaRequest()
     this.validarFormSenha(alterarSenha);
@@ -63,40 +64,25 @@ export class UserAccountComponent implements OnInit {
   ngOnInit(): void {
     this.paises = this.pessoaService.getPaises();
     this.estados = this.pessoaService.getEstados();
-    
     this.listarRoles();
 
     this.activatedRoute.queryParams.subscribe(
       params => {
-        this.pessoaId = params.user;
-        this.contaId = params.conta;
-        console.log(this.contaId);
+        this.pessoaId = params.pessoaId;
       }
     );
-
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if(id){
-      this.contaId = parseInt(id);
-    }
     
     if(this.pessoaId){
-      this.tituloPagina = 'Detalhes do usuário';
+      this.tituloPagina = 'Detalhes do Usuário';
       console.log('aqui 1');
-      this.carregarDados(this.pessoaId);
-    }
-    else if(this.contaId){
-      console.log('aqui 2');
-      this.tituloPagina = 'Meu perfil';
-      this.carregarPerfil();
+      this.carregarDadosDaPessoa(this.pessoaId);
+      this.carregarDadosDoUsuario(this.pessoaId);
     }
     else{
-      console.log('aqui 3');
-      this.tituloPagina = 'Novo usuário';
-      const perfil = new PerfilRequest();
-      this.validarFormulario(perfil);
-    }
-    this.carregarDados(this.pessoaId);
-    
+      this.tituloPagina = 'Meu Perfil';
+      this.dadosDoUsuarioLogado();
+      this.carregarPerfil();
+    }    
   }
 
   public verificarPermissao(roleFuncionalidade: string[]): boolean{
@@ -173,7 +159,7 @@ export class UserAccountComponent implements OnInit {
 
   alterarSenha(){
     const alterarSenha = new AlterarSenhaRequest();
-    alterarSenha.email = this.perfil?.email;
+    alterarSenha.email = this.perfil?.email!;
     alterarSenha.senhaAtual = this.senhaAtual?.value;
     alterarSenha.novaSenha = this.novaSenha?.value;
 
@@ -249,7 +235,23 @@ export class UserAccountComponent implements OnInit {
     });
   }
 
-  private carregarDados(id: string){
+  private carregarDadosDaPessoa(id: string){
+    this.pessoaService.getById(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.perfil = response;
+          this.urlFotoPerfil = this.perfil.imgPerfil!;
+          this.validarFormulario(this.perfil);
+        }
+        else{
+          alert('Pessoa não possuí perfil cadastrado!');
+          this.router.navigate(['/users']);
+        }
+      }
+    })
+  }
+
+  private carregarDadosDoUsuario(id: string){
     this.usuarioService.getById(id).subscribe({
      next: (response) => {
        this.usuario = response;
@@ -276,26 +278,26 @@ export class UserAccountComponent implements OnInit {
     })
   }
 
-  private validarFormulario(perfil: PerfilRequest){
+  private validarFormulario(pessoa: PessoaResponse){
     this.perfilForm = new FormGroup({
-      nome: new FormControl(perfil.nomeCompleto, [
+      nome: new FormControl(pessoa.nomeCompleto, [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(150)
       ]),
-      telefone: new FormControl(perfil.telefone, [
+      telefone: new FormControl(pessoa.telefone, [
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(14)
       ]),
-      cidade: new FormControl(perfil.cidade, [
+      cidade: new FormControl(pessoa.cidade, [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(200)
       ]),
-      uf: new FormControl(perfil.uf, [ Validators.required ]),
-      pais: new FormControl(perfil.pais, [ Validators.required ]),
-      imagem: new FormControl(perfil.imgPerfil)
+      uf: new FormControl(pessoa.uf, [ Validators.required ]),
+      pais: new FormControl(pessoa.pais, [ Validators.required ]),
+      imagem: new FormControl(pessoa.imgPerfil)
     });
   }
 

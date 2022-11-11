@@ -3,6 +3,38 @@
 
         <div class="row mt-2">
             <p-tabView>
+
+                <p-tabPanel header="Chamados Atribuídos">
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-primary" (click)="abrirChamado()">
+                                    <i class="bi bi-plus-lg"></i> Novo chamado
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="columns">
+                                <div class="column col-12" *ngIf="chamadosAtribuidos?.length">
+                                    <ngx-table [configuration]="configuration" [data]="chamadosAtribuidos" [columns]="columns"> </ngx-table>
+                                </div>
+                            </div>
+                            <ng-template #actionTpl let-row let-rowIndex="rowIndex">
+                                <button type="button" class="btn btn-sm btn-outline-primary">
+                                    Detalhes
+                                </button>
+                            </ng-template>
+                        </div>
+                        <!-- AVISOS -->
+                        <div class="row pt-2" *ngIf="!chamadosAtribuidos?.length">
+                            <app-alert [mensagem]="'Nenhum chamado aberto foi encontrado!'" [color]="'alert-info'"></app-alert>
+                        </div>
+                    </div>
+                </p-tabPanel>
+
                 <p-tabPanel header="Chamados Pendentes">
                     <div class="row mt-2">
                         <div class="col-12">

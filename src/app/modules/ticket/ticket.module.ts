@@ -11,6 +11,7 @@ import {TabViewModule} from 'primeng/tabview';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MeusTicketsComponent } from './meus-tickets/meus-tickets.component';
+import {DialogModule} from 'primeng/dialog';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { MeusTicketsComponent } from './meus-tickets/meus-tickets.component';
     ComponentsModule,
     TableModule,
     TabViewModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DialogModule
   ],
   exports:[
     TicketListComponent,

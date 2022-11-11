@@ -22,6 +22,8 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
   chamados: ChamadoResponse[];
   chamadosPendentes: ChamadoResponse[];
   chamadosFinalizados: ChamadoResponse[];
+  chamadosAtribuidos: ChamadoResponse[];
+
   usuarioLogado: Usuario;
   public configuration: Config;
   public columns: Columns[];
@@ -34,6 +36,7 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.configGrid();
+    this.listarAtribuidos();
     this.listarMeusChamados();
     this.listarPendentes();
     this.listarFinalizados();
@@ -84,7 +87,23 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
   abrirChamado() {
     this.router.navigate(['/ticket/open']);
   }
-
+  
+  private listarAtribuidos(){
+    this.chamadosSub = this.ticketService.getByOperador(1).subscribe({
+      next: (response) => {
+        if(response){
+          this.chamadosAtribuidos = response;
+          console.log(response);
+        }
+        else{
+          this.chamadosAtribuidos = [];
+        }
+      },
+      error: () => {
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
   private listarMeusChamados(){
     this.chamadosSub = this.ticketService.getMeusChamados(0).subscribe({
       next: (response) => {

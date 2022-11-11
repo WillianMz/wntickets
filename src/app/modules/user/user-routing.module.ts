@@ -15,7 +15,7 @@ const routes: Routes = [
     }
   },
   {
-    path:':id/edit',
+    path:'edit',
     component: UserAccountComponent,
     data: {
       roles: ['Admin']

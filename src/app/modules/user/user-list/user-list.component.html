@@ -46,7 +46,7 @@
                   Mais detalhes
                 </button>              
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="!row.ativo">Ativar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo">Desativar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>

@@ -62,7 +62,7 @@ export class UserListComponent implements OnInit {
       { key:'id', title:'Código' },
       { key:'nome', title:'Login' },
       { key:'email', title:'Email' },
-      { key:'ativoString', title:'Ativo'},
+      { key:'ativoString', title:'Status'},
       { key:'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
@@ -94,8 +94,8 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['users/new']);
   }
 
-  public edit(usuarioId: number) {
-    this.router.navigate([`users/edit/${usuarioId}`], {queryParams: { user: usuarioId}});
+  public editar(usuarioId: number) {
+    this.router.navigate([`users/edit`], {queryParams: { pessoaId: usuarioId}});
   }
 
   public ativar(id: number) {
