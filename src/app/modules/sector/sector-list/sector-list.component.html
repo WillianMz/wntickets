@@ -1,5 +1,5 @@
 
-<app-load [text]="'obtendo dados...'"></app-load>
+<!-- <app-load [text]="'obtendo dados...'"></app-load> -->
 <p-confirmDialog acceptButtonStyleClass="p-button-success" rejectButtonStyleClass="p-button-warning"></p-confirmDialog>
 
 <div class="container">
@@ -78,7 +78,7 @@
                   </button>
                   <ul class="dropdown-menu">
                     <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
-                      <a class="dropdown-item" type="button">Abrir chamado</a>
+                      <a class="dropdown-item" type="button" (click)="abrirChamado(row.id)">Abrir chamado</a>
                     </li>
                     <li *ngIf="verificarPermissao(['Admin'])">
                       <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>

@@ -16,9 +16,10 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class AuthLoginComponent implements OnInit {
 
   loginForm:  FormGroup;
-  message: string;
-  success: boolean;
+  mensagem: string;
+  sucesso: boolean;
   erros: ErroServidor[];
+  mensagemDeErro: string;
 
   constructor(
     private userService: UserService,
@@ -43,6 +44,10 @@ export class AuthLoginComponent implements OnInit {
     return this.loginForm.get('senha');
   }
 
+  esqueciMinhaSenha(){
+    this.router.navigate(['/login/recuperar']);
+  }
+
   public entrar(){
     let login = new LoginRequest;
     login.email = this.email?.value;
@@ -50,9 +55,17 @@ export class AuthLoginComponent implements OnInit {
 
     this.loginService.fazerLogin(login).subscribe({
       next: (response) => {
-        if(response?.sucesso == true) {
-          this.loginService.salvarToken(response.token);
-          this.router.navigate(['']);
+        if(response) {
+          this.sucesso = response['sucesso'];
+          if(this.sucesso){
+            const token = response['mensagem'];
+            this.loginService.salvarToken(token);
+            this.router.navigate(['']);
+          }
+          else{
+            this.mensagemDeErro = response['mensagem'];
+            this.notification.showInfo(this.mensagemDeErro);
+          }
         }
       }
     });

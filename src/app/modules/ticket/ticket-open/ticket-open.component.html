@@ -5,7 +5,7 @@
     <hr>
 
     <form [formGroup]="chamadoForm">
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="informarEquipamento">
             <label for="equipamento" class="col-sm-3 col-md-2 col-form-label">Equipamento</label>
             <div class="col-sm-6 col-md-4">
                 <div class="input-group">
@@ -24,8 +24,8 @@
         <div class="row mb-3" *ngIf="selecionarSetor">
             <label for="setor" class="col-sm-2 col-form-label">Laboratório</label>
             <div class="col-sm-6">
-                <select class="form-select" id="setor" formControlName="setor" [ngModel]="0">
-                    <option value='0' disabled>Selecione o laboratório</option>
+                <select class="form-select" id="setor" formControlName="setor" [ngModel]="setorId">
+                    <!-- <option value='0' disabled>Selecione o laboratório</option> -->
                     <option *ngFor="let setor of setores" [value]="setor.id">{{setor.nome}}</option>
                 </select>
                 <!-- VALIDACAO -->

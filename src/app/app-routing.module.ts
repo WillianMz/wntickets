@@ -1,10 +1,11 @@
+import { ModulosGuard } from './guards/modulos.guard';
 import { AcessoNegadoComponent } from './components/acesso-negado/acesso-negado.component';
-import { AuthGuard } from './modules/auth/auth.guard';
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
 import { HomeComponent } from './layouts/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotfoundComponent } from './components/not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -12,23 +13,45 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: HomeComponent,
     children: [
-      { 
-        path:'home', 
+      {
+        canActivateChild: [ModulosGuard],
+        path:'home',
         loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
       },
-      { path:'labs', loadChildren: () => import('./modules/sector/sector.module').then(m => m.SectorModule)},
-      { path:'equipment', loadChildren: () => import('./modules/equipment/equipment.module').then(m => m.EquipmentModule)},
-      { path:'ticket', loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)},
-      { path:'users', loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)},
-      { path: '', redirectTo: 'home', pathMatch: 'full'},
+      {
+        canActivateChild: [ModulosGuard],
+        path:'labs',
+        loadChildren: () => import('./modules/sector/sector.module').then(m => m.SectorModule)
+      },
+      {
+        canActivateChild: [ModulosGuard],
+        path:'equipment',
+        loadChildren: () => import('./modules/equipment/equipment.module').then(m => m.EquipmentModule)
+      },
+      {
+        canActivateChild: [ModulosGuard],
+        path:'ticket',
+        loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)
+      },
+      {
+        canActivateChild: [ModulosGuard],
+        path:'users',
+        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+      },
+      {
+        path: '', redirectTo: 'home', pathMatch: 'full'
+      },
     ],
-    
+
   },
   {
     path:'',
     component: AuthenticationComponent,
     children: [
-      { path:'login', loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)}
+      {
+        path:'login',
+        loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
+      }
     ]
   },
   { path: '404', component: NotfoundComponent },

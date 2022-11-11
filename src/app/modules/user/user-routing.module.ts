@@ -7,15 +7,56 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UserFormComponent } from './user-form/user-form.component';
 
 const routes: Routes = [
-  { path:'', component: UserListComponent },
-  { path:':id/edit', component: UserAccountComponent },
-  
-  { path:'new', component: UserAccountComponent },
-  { path:'edit/:id', component: UserFormComponent },
-  { path:'account', component: UserAccountComponent },
-  { path:'minha-conta/:id', component: UserAccountComponent },
-  { path:'list', component: UserListComponent },
-  { path:'roles', component: UserRoleComponent }
+  { 
+    path:'',
+    component: UserListComponent,
+    data: {
+      roles: ['Admin']
+    }
+  },
+  {
+    path:'edit',
+    component: UserAccountComponent,
+    data: {
+      roles: ['Admin']
+    }
+  },
+  { 
+    path:'new', component: UserFormComponent,
+    data: {
+      roles: ['Admin']
+    }
+  },
+  { 
+    path:'edit/:id', component: UserFormComponent,
+    data: {
+      roles: ['Admin']
+    }
+  },
+  { 
+    path:'account', component: UserAccountComponent,
+    data: {
+      roles: ['Gerente','Admin','Suporte','Usuario']
+    }
+  },
+  { 
+    path:'minha-conta/:id', component: UserAccountComponent,
+    data: {
+      roles: ['Gerente','Admin','Suporte','Usuario']
+    }
+  },
+  { 
+    path:'list', component: UserListComponent,
+    data: {
+      roles: ['Admin']
+    }
+  },
+  { 
+    path:'roles', component: UserRoleComponent,
+    data: {
+      roles: ['Admin']
+    }
+  }
 ];
 
 @NgModule({

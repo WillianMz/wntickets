@@ -58,6 +58,10 @@ export class AuthRegisterComponent implements OnInit {
     return this.userForm.get('confirmarSenha');
   }
 
+  cancelar() {
+    this.router.navigate(['/login']);
+  }
+
   public salvar(){
     let usuario = new CadastroUsuarioRequest();
     usuario.email = this.email?.value;

@@ -31,7 +31,7 @@ export class LoginService {
   }
 
   //OK
-  fazerLogin(login: LoginRequest): Observable<LoginResponse | null>{
+  fazerLogin(login: LoginRequest) {
     return this.http.post(`${ENDERECO_API}/login`, login);
   }
 

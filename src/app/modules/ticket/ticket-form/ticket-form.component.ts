@@ -7,13 +7,12 @@ import { EquipamentoResponse } from './../../../models/equipment/equipamentoResp
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CancelarRequest } from './../../../models/ticket/cancelarRequest.model';
 import { ErroServidor } from './../../../models/erroServidor';
 import { NotificationService } from './../../../services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FinalizarRequest } from 'src/app/models/ticket/finalizarRequest.model';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-ticket-form',
@@ -38,13 +37,16 @@ export class TicketFormComponent implements OnInit {
   mensagem: string;
   bloquearEdicao: boolean = false;
 
+  display: boolean = false;
+
   constructor(
     private ticketService: TicketService,
     private pessoaService: PessoaService,
     private setorService: SectorService,
     private notification: NotificationService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService
   ) {
     const chamado = new ChamadoResponse();
     this.validarFormulario(chamado);
@@ -86,8 +88,6 @@ export class TicketFormComponent implements OnInit {
     chamado.descricao = this.descricao?.value;
     chamado.operadorId = this.operador?.value  || 0;
 
-    console.log(chamado);
-
     this.ticketService.salvar(chamado).subscribe({
       next: (response) => {
         if(response){
@@ -106,7 +106,26 @@ export class TicketFormComponent implements OnInit {
       error: () => {
         this.notification.showError('Erro ao salvar chamado!');
       }
-    })
+    });
+  }
+
+  cancelar() {
+    this.display = true;
+    /* this.confirmationService.confirm({
+        message: 'Confirma o cancelamento deste chamado?',
+        accept: () => {
+            //Actual logic to perform a confirmation
+        }
+    }); */
+  }
+
+  finalizar() {
+    this.confirmationService.confirm({
+      message: 'Confirma a finalização deste chamado?',
+      accept: () => {
+          //Actual logic to perform a confirmation
+      }
+  });
   }
 
   /* cancelarTicket(){

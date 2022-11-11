@@ -1,4 +1,4 @@
-<app-load [text]="'obtendo dados...'"></app-load>
+<!-- <app-load [text]="'obtendo dados...'"></app-load> -->
 
 <div class="container">
   <div class="row">
@@ -18,7 +18,7 @@
       <div class="row" *ngIf="true">
         <div class="col-12">
           <div class="btn-group">
-            <button type="button" class="btn  btn-sm btn-outline-primary" (click)="adicionar()" *ngIf="verificarPermissao(['Admin','Gerente'])">
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="adicionar()" *ngIf="verificarPermissao(['Admin','Gerente'])">
               <i class="bi bi-plus-lg"></i> Adicionar
             </button>
             <button type="button" class="btn  btn-sm btn-outline-primary" (click)="listarTiposDeEquipamentos(true)">
@@ -39,7 +39,7 @@
               </ul>
             </div>
             
-            <button type="button" class="btn btn-outline-primary" (click)="voltar()">
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="voltar()">
               <i class="bi bi-arrow-return-left"></i> Voltar
             </button>
           </div>

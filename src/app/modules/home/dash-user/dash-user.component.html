@@ -4,14 +4,19 @@
     <button class="btn btn-sm btn-outline-primary" [routerLink]="'/ticket/open'">Abrir Chamado</button>
 </div> -->
 
-<p-tabView>
+<app-meus-tickets></app-meus-tickets>
+
+<!-- <p-tabView>
     <p-tabPanel header="Chamados Pendentes">
-        <app-ticket-list [tituloVisivel]="false" [campoPesquisaVisivel]="false" [statusChamado]="1"></app-ticket-list>
+        <app-ticket-list [campoPesquisaVisivel]="false" [tituloVisivel]="false"></app-ticket-list>
     </p-tabPanel>
     <p-tabPanel header="Meus Chamados">
-        <app-ticket-list [tituloVisivel]="false" [campoPesquisaVisivel]="false" [statusChamado]="0"></app-ticket-list>
     </p-tabPanel>
     <p-tabPanel header="Chamados Finalizados">
-        <app-ticket-list [tituloVisivel]="false" [campoPesquisaVisivel]="false" [statusChamado]="6"></app-ticket-list>
+        <app-ticket-list 
+            [campoPesquisaVisivel]="false"
+            [tituloVisivel]="false"
+            [statusChamado]="1">
+        </app-ticket-list>
     </p-tabPanel>
-</p-tabView>
+</p-tabView> -->

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="false">
     <div class="row">
   
       <!-- AVISOS -->
@@ -52,14 +52,14 @@
                 <input type="text" class="form-control" formControlName="apelido" placeholder="Apelido">
   
                 <!-- VALIDACAO -->
-                <div class="text-danger" *ngIf="apelido?.errors">
+                <!-- <div class="text-danger" *ngIf="apelido?.errors">
                   <div *ngIf="apelido?.errors?.required && (apelido?.dirty || apelido?.touched)">Informe o apelido</div>
                   <div *ngIf="apelido?.errors?.minlength && (apelido?.dirty || apelido?.touched)">
                     Apelido deve conter no mínimo {{ apelido?.errors?.minlength.requiredLength }} caracteres
                   </div>
                   <div *ngIf="apelido?.errors?.maxlength && (apelido?.dirty || apelido?.touched)">
                     Apelido deve conter no máximo {{ apelido?.errors?.maxlength.requiredLength }} caracteres</div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -125,9 +125,9 @@
                   formControlName="senhaConfirmacao">
 
                 <!-- VALIDACAO -->
-                <div class="text-danger" *ngIf="senhaConfirmacao?.errors">
+               <!--  <div class="text-danger" *ngIf="senhaConfirmacao?.errors">
                   <div *ngIf="senhaConfirmacao?.errors?.equalsTo">Senha não é igual</div>
-                </div>
+                </div> -->
               </div>
 
             </div>
@@ -149,3 +149,135 @@
   
   </div>
   <br>
+
+
+<div class="container">
+  <div class="row">
+
+    <!-- NOTIFICACOES DO SERVIDOR -->
+    <div class="row mt-2" *ngIf="erros?.length">
+      <div class="alert alert-danger" role="alert">
+        <h5>{{ message }}</h5>
+        <ul *ngFor="let e of erros">
+          <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="boolTitulo">
+      <h3>{{ tituloPagina }}</h3>
+    </div>
+
+    <div class="col-sm-12">
+      <form [formGroup]="userForm">
+        <!-- EMAIL -->
+        <div class="row">
+          <div class="form-group">
+            <label for="Email">E-mail</label>
+            <input placeholder="Ex: email@email.com" autocomplete="false" class="form-control" type="email"
+              id="email" formControlName="email" required>
+
+            <!-- VALIDACAO -->
+            <ul class="text-danger" *ngIf="email?.errors">
+              <li *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe o email</li>
+              <li *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">O email informado é
+                inválido!</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- NOME -->
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+              <label for="Nome">Nome de Usuário</label>
+              <input placeholder="Nome" autocomplete="off" class="form-control" type="text" id="nome"
+                formControlName="nome">
+
+              <!-- VALIDACAO -->
+              <ul class="text-danger" *ngIf="nome?.errors">
+                <li *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o nome</li>
+              </ul>
+
+            </div>
+          </div>
+
+
+          <!-- TELEFONE -->
+          <!-- <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input placeholder="Telefone" mask="(00) 0 0000-0000 || (00) 0000-0000" autocomplete="off" class="form-control" type="text" id="telefone"
+                formControlName="telefone">
+            </div>
+          </div> -->
+        </div>
+
+        <!-- SENHA -->
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="Password">Senha</label>
+              <input autocomplete="off" class="form-control" type="password" id="senha"
+                formControlName="senha">
+
+              <!-- VALIDACAO -->
+              <div class="text-danger" *ngIf="senha?.errors">
+                <ul *ngIf="senha?.errors?.pattern && (senha?.dirty || senha?.touched)">
+                  <li>Senha deve ter entre 6 e 50 caracteres</li>
+                  <li>Incluír pelo menos 1 número</li>
+                  <li>1 letra maiúscula</li>
+                  <li>1 letra minúscula</li>
+                  <li>1 caracter especial</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIRMACAO DE SENHA -->
+        <div class="row mt-2">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="ConfirmPassword">Confirme a Senha</label>
+              <input autocomplete="off" class="form-control" type="password" id="confirmarSenha"
+                formControlName="confirmarSenha">
+
+              <!-- VALIDACAO -->
+              <!-- <ul class="text-danger" *ngIf="confirmarSenha?.errors">
+                <li *ngIf="confirmarSenha?.errors?.equalsTo && (confirmarSenha?.dirty || confirmarSenha?.touched)">Senha não é igual</li>
+              </ul> -->
+            </div>
+
+          </div>
+        </div>
+
+        <!-- <hr> -->
+
+        <!-- <div class="row">
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" [disabled]="!userForm.valid" (click)="salvar()">Confirmar</button>
+            <button class="btn btn-outline-secondary" type="button" >Cancelar</button>
+          </div>
+        </div> -->
+
+        <div class="row mt-2 text-end">
+          <div class="col">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-primary" [disabled]="!userForm.valid" (click)="salvar()">
+                <i class="bi bi-check"></i>
+                Salvar
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger" [routerLink]="['/users']">
+                <i class="bi bi-x"></i>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

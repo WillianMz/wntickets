@@ -50,9 +50,9 @@
                     </div>
                   </div> -->
 
-                  <!-- <div class="col-sm-6">
-                    <a href="#" class="float-end text-primary">Recuperar senha?</a>
-                  </div> -->
+                  <div class="col">
+                    <a class="float-end text-primary" (click)="esqueciMinhaSenha()">Esqueci minha senha</a>
+                  </div>
 
                   <!-- BOTAO ENTRAR -->
                   <div class="col-sm-12">
@@ -62,6 +62,10 @@
                   </div>
 
                   <hr>
+
+                  <p class="text-center text-danger" *ngIf="mensagemDeErro?.length">
+                    <strong>{{mensagemDeErro}}</strong>
+                  </p>
 
                   <!-- BOTAO CRIAR NOVA CONTA -->
                   <div class="col-sm-12">

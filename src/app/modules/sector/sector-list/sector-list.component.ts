@@ -77,6 +77,10 @@ export class SectorListComponent implements OnInit {
     this.router.navigate(['equipment'], {queryParams: { sector: sectorId, ativo: ativo}});
   }
 
+  abrirChamado(setor: string) {
+    this.router.navigate(['/ticket/open'], { queryParams: {setorId: setor}});
+  }
+
   public adicionar(){
     this.router.navigate(['labs/new']);
   }

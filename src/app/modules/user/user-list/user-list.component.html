@@ -1,4 +1,4 @@
-<app-load [text]="'obtendo dados...'"></app-load>
+<!-- <app-load [text]="'obtendo dados...'"></app-load> -->
 
 <div class="container">
   <div class="row">
@@ -36,7 +36,7 @@
         <div class="col-12">
           <div class="columns">
             <div class="column col-12">
-              <ngx-table [configuration]="configuration" [data]="users" [columns]="columns"> </ngx-table>
+              <ngx-table [configuration]="configuration" [data]="usuarios" [columns]="columns"> </ngx-table>
             </div>
           </div>
           <ng-template #actionTpl let-row let-rowIndex="rowIndex">
@@ -46,7 +46,7 @@
                   Mais detalhes
                 </button>              
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="!row.ativo">Ativar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo">Desativar</a></li>
                   <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>

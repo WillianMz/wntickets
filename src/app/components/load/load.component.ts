@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-load',
@@ -8,7 +10,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class LoadComponent implements OnInit {
   @Input() text: string;
 
-  constructor() { }
+  public loading: Subject<boolean> = this.loaderService.isLoading;
+
+  constructor(
+    private loaderService: LoaderService
+  ) { }
 
   ngOnInit(): void {
   }

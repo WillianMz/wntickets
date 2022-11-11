@@ -1,3 +1,4 @@
+import { ModulosGuard } from './guards/modulos.guard';
 import { HttpInterceptorProviders } from './http-interceptors/index';
 import { ComponentsModule } from './components/components.module';
 import { CommonModule } from '@angular/common';
@@ -15,6 +16,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
 import { HomeComponent } from './layouts/home/home.component';
+import { AuthGuard } from './guards/auth.guard';
 
   export const customCurrencyMaskConfig = {
     align: "left",
@@ -57,7 +59,9 @@ import { HomeComponent } from './layouts/home/home.component';
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
   ],
   providers: [
-    HttpInterceptorProviders
+    HttpInterceptorProviders,
+    AuthGuard,
+    ModulosGuard
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

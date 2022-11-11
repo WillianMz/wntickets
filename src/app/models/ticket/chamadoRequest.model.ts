@@ -4,7 +4,7 @@ import { OperadorResponse } from "./operadorResponse.model";
 export class ChamadoRequest {
   public ticketId?: number;
   public equipamentoId?: number;
-  public setorId?: SetorResponse;
+  public setorId?: number;
   public tipoId?: number;
   public prioridade?: number;
   public assunto: string;
