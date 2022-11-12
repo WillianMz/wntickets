@@ -36,7 +36,7 @@ export class EquipTipoFormComponent implements OnInit {
     if(id){
       this.tipoEquipamentoID = parseInt(id);
       this.carregarObjeto(this.tipoEquipamentoID);
-      this.tituloPagina = 'Editando registro';
+      this.tituloPagina = 'Editando tipo de equipamento';
     }
     else{
       this.tituloPagina = 'Novo tipo de equipamento';
