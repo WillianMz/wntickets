@@ -22,7 +22,7 @@ export class TicketService {
       return this.http.put(`${ENDERECO_API}`, chamado);
     }
     else{
-      return this.http.post(`${ENDERECO_API}/ticket`, chamado);  
+      return this.http.post(`${ENDERECO_API}`, chamado);  
     }
   }
 
@@ -62,50 +62,59 @@ export class TicketService {
     return this.http.post(`${ENDERECO_API}/verificar`, null);
   }
 
-  // FILTROS
-
-  public getBySetor(setor: number) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/setor?setorId=${setor}`);
+  public getByTipo(id: number): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/tipo?tipoId=${id}`);
   }
 
-  public getByTipo(tipo: number) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/tipo?tipoId=${tipo}`);
+  public getBySetor(id: number): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/setor?setorId=${id}`);
   }
 
-  public getByAssunto(assunto: string) : Observable<ChamadoResponse[]>{
+  public getByCriador(id: number): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/criador?criadorId=${id}`);
+  }
+
+  public getByPrioridade(id: number): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/prioridade?prioridadeId=${id}`);
+  }
+
+  public getByStatus(id: number): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/status?statusId=${id}`);
+  }
+  
+  public getByPeriodo(inicio: string, fim: string): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/periodo?inicio=${inicio}&fim=${fim}`);
+  }
+
+  public getByOperador(id: number): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/operador?operadorId=${id}`);
+  }
+
+  public atribuirOperador(chamado: number, operador: number) {
+    return this.http.post(`${ENDERECO_API}/operador`, {chamadoId: chamado, operadorId: operador});
+  }
+
+  public getByDataAbertura(data: string): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/aberto?data=${data}`);
+  }
+
+  public getByDataFechamento(data: string): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/fechado?data=${data}`);
+  }
+
+  public getByAssunto(assunto: string): Observable<ChamadoResponse[]>{
     return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/assunto?assunto=${assunto}`);
   }
 
-  public getByDescricao(descricao: string) : Observable<ChamadoResponse[]>{
+  public getByDescricao(descricao: string): Observable<ChamadoResponse[]>{
     return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/descricao?descricao=${descricao}`);
   }
 
-  public getBySolucao(solucao: string) : Observable<ChamadoResponse[]>{
+  public getBySolucao(solucao: string): Observable<ChamadoResponse[]>{
     return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/solucao?solucao=${solucao}`);
   }
 
-  public getByCriador(criador: number) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/criador?criadorId=${criador}`);
+  public getMeusChamados(status: number): Observable<ChamadoResponse[]>{
+    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/meus-tickets?status=${status}`);
   }
-
-  public getByPrioridade(prioridade: number) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/prioridade?prioridadeId=${prioridade}`);
-  }
-
-  public getByStatus(status: number) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/status?statusId=${status}`);
-  }
-
-  public getByOperador(operador: number) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/operador?operadorId=${operador}`);
-  }
-
-  public getByAberto(aberto: string) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/aberto?abertoEm=${aberto}`);
-  }
-
-  public getByFechado(fechado: string) : Observable<ChamadoResponse[]>{
-    return this.http.get<ChamadoResponse[]>(`${ENDERECO_API}/fechado?fechadoEm=${fechado}`);
-  }
-
 }

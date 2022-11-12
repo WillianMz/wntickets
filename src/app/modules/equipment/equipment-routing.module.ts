@@ -6,12 +6,48 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path:'', component: EquipListComponent },
-  { path:'new', component: EquipFormComponent },
-  { path:'edit/:id', component: EquipFormComponent },
-  { path:'tipo', component: EquipTipoListComponent },
-  { path:'tipo/new', component: EquipTipoFormComponent},
-  { path:'tipo/:id/edit', component: EquipTipoFormComponent}
+  {
+    path:'',
+    component: EquipListComponent,
+    data: {
+      roles: ['Gerente','Admin','Suporte']
+    }
+  },
+  {
+    path:'new',
+    component: EquipFormComponent,
+    data: {
+      roles: ['Gerente','Admin']
+    }
+  },
+  {
+    path:'edit/:id',
+    component: EquipFormComponent,
+    data: {
+      roles: ['Gerente','Admin']
+    }
+  },
+  {
+    path:'tipo',
+    component: EquipTipoListComponent,
+    data: {
+      roles: ['Suporte','Gerente','Admin']
+    }
+  },
+  {
+    path:'tipo/new',
+    component: EquipTipoFormComponent,
+    data: {
+      roles: ['Gerente','Admin']
+    }
+  },
+  {
+    path:'tipo/:id/edit',
+    component: EquipTipoFormComponent,
+    data: {
+      roles: ['Gerente','Admin']
+    }
+  }
 ];
 
 @NgModule({

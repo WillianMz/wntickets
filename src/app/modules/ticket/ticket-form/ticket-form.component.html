@@ -1,250 +1,135 @@
 <div class="container">
 
-    <!-- AVISOS -->
-    <div class="row pt-2" *ngIf="boolAviso">
-      <app-alert [mensagem]="'Página em Desenvolvimento'" [color]="'alert-danger'"></app-alert>
-    </div>
-
-    <!-- NOTIFICACOES DO SERVIDOR -->
-    <div class="row mt-2" *ngIf="erros?.length">
-      <div class="alert alert-danger" role="alert">
-        <h5>{{ message }}</h5>
-        <ul *ngFor="let e of erros">
-          <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="row" *ngIf="boolTitulo">
-      <h3>{{ tituloPagina }}</h3>
-    </div>
-
-  <div class="row g-5">
-
-    <div class="col-md-7 col-lg-8">
-      <form [formGroup]="ticketForm">
-        <div class="row g-3">
-
-          <!-- ASSUNTO -->
-          <div class="col-sm-12">
-            <label class="form-label">Assunto</label>
-            <input type="text" class="form-control" formControlName="assunto" placeholder="Assunto">
-
-            <!-- VALIDACAO -->
-            <div class="text-danger" *ngIf="assunto?.errors">
-              <ul>
-                <li *ngIf="assunto?.errors?.required && (assunto?.dirty || assunto?.touched)">
-                  Informe o assunto
-                </li>
-                <li *ngIf="assunto?.errors?.minlength && (assunto?.dirty || assunto?.touched)">
-                  Tamanho mínimo {{ assunto?.errors?.minlength.requiredLength }} caracteres
-                </li>
-                <li *ngIf="assunto?.errors?.maxlength && (assunto?.dirty || assunto?.touched)">
-                  Tamanho máximo {{ assunto?.errors?.maxlength.requiredLength }} caracteres
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- DESCRICAO DO PROBLEMA -->
-          <div class="col-12">
-            <label class="form-label">Descrição</label>
-            <div class="input-group">
-              <textarea type="text" class="form-control" formControlName="descricao" placeholder="Descrição do problema">
-              </textarea>
-              <!-- VALIDACAO -->
-              <div class="text-danger" *ngIf="descricao?.errors">
-                <ul>
-                  <li *ngIf="descricao?.errors?.required && (descricao?.dirty || descricao?.touched)">
-                    Informe a descrição
-                  </li>
-                  <li *ngIf="descricao?.errors?.minlength && (descricao?.dirty || descricao?.touched)">
-                    Tamanho mínimo {{ descricao?.errors?.minlength.requiredLength }} caracteres
-                  </li>
-                  <li *ngIf="descricao?.errors?.maxlength && (descricao?.dirty || descricao?.touched)">
-                    Tamanho máximo {{ descricao?.errors?.maxlength.requiredLength }} caracteres
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- DATA ABERTURA -->
-          <div class="col-sm-3">
-            <label class="form-label">Data abertura</label>
-            <input type="text" class="form-control" formControlName="dataAbertura" readonly>
-          </div>
-
-          <!-- CRIADOR DO TICKET -->
-          <div class="col-sm-3">
-            <label class="form-label">Criado por</label>
-            <input type="text" class="form-control" formControlName="criador" placeholder="Criador" readonly>
-          </div>
-
-          <!-- STATUS -->
-          <div class="col-sm-3">
-            <label for="status" class="form-label">Status</label>
-            <select class="form-select campo-obrigatorio" formControlName="status">
-              <option value="Novo">Novo</option>
-              <option value="Pendente">Pendente</option>
-              <option value="EmAtendimento">EmAtendimento</option>
-              <option value="Finalizado">Finalizado</option>
-              <option value="Cancelado">Cancelado</option>
-              <option value="Fechado">Fechado</option>
-              <option value="Reaberto">Reaberto</option>
-            </select>
-          </div>
-
-          <!-- OPERADOR DO TICKET -->
-          <div class="col-sm-3">
-            <label class="form-label">Operado por</label>
-            <input type="text" class="form-control" formControlName="operador" placeholder="Operador" readonly>
-          </div>
-
-          <!-- PRIORIDADE -->
-          <div class="col-sm-3">
-            <label for="prioridade" class="form-label">Prioridade</label>
-            <select class="form-select campo-obrigatorio" formControlName="prioridade">
-              <option value="Baixa">Baixa</option>
-              <option value="Normal">Normal</option>
-              <option value="Alta">Alta</option>
-              <option value="Urgente">Urgente</option>
-            </select>
-          </div>
-
-
-          <!-- SETOR -->
-          <div class="col-sm-5">
-            <label>Laboratório<!-- <span class="text-danger">*</span> --></label>
-            <select class="form-select campo-obrigatorio" formControlName="setor" placeholder="Setor">
-              <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
-            </select>
-          </div>
-
-          <!-- DATA FECHAMENTO -->
-          <div class="col-sm-3">
-            <label class="form-label">Data fechamento</label>
-            <input type="text" class="form-control" formControlName="dataFechamento" readonly>
-          </div>
-
-          <!-- SOLUÇÃO DO PROBLEMA -->
-          <div class="col-sm-12">
-            <label class="form-label">Solução aplicada</label>
-            <input type="text" class="form-control" formControlName="solucao" placeholder="Solução aplicada" readonly>
-          </div>
-
-        </div>
-        <hr class="my-4">
-      </form>
-
-      <div class="row mt-2">
-        <div class="col">
-          <div class="btn-group">
-            <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">Cancelar</button>
-            <button type="button" class="btn btn-outline-primary"
-              (click)="salvar()">Salvar</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="col-md-5 col-lg-4 order-md-last">
-      <ul class="list-group mb-3">
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-primary btn-lg" type="submit" (click)="newTicket()">Novo Chamado</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button class="w-100 btn btn-outline-secondary btn-lg" type="submit" (click)="anexo(ticketId)">Anexos</button>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button type="button" class="w-100 btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop_1">
-              Cancelar Chamado
-            </button>
-          </div>
-        </li>
-
-        <li class="list-group-item">
-          <div>
-            <button type="button" class="w-100 btn btn-outline-success btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop_2">
-              Finalizar Chamado
-            </button>
-          </div>
-        </li>
-
-      </ul>
-    </div>
-
-      <!-- Modal Cancelar -->
-      <div class="modal fade" id="staticBackdrop_1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Cancelar o Ticket</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form [formGroup]="ticketForm">
-                <label>Motivo</label>
-                <input type="text" class="form-control" formControlName="solucao" placeholder="Motivo" value="" required="">
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Fechar</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="cancelarTickets.fire()">Cancelar Ticket</button>
-            </div>
-
-            <swal
-                #cancelarTickets 
-                title="Tem certeza que deseja cancelar o ticket?"
-                text="Esta ação não poderá ser desfeita"
-                icon="question"
-                [showCancelButton]="true"
-                [focusCancel]="true"
-                (confirm)="cancelarTicket()">
-            </swal>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Finalizar -->
-      <div class="modal fade" id="staticBackdrop_2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Finalizar o Ticket</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form [formGroup]="ticketForm">
-                <label>Solução</label>
-                <input type="text" class="form-control" formControlName="solucao" placeholder="Solução aplicada" value="" required="">
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="submit" (click)="finalizarTickets.fire()">Finalizar Ticket</button>
-            </div>
-
-            <swal
-              #finalizarTickets
-              title="Tem certeza que deseja finalizar o ticket?"
-              text="Esta ação não poderá ser desfeita"
-              icon="question"
-              [showCancelButton]="true"
-              [focusCancel]="true"
-              (confirm)="finalizarTicket()">
-            </swal>
-
-          </div>
-        </div>
-      </div>
-
+  <div class="row">
+    <h3>{{ tituloPagina }}</h3>
   </div>
+
+  <form [formGroup]="ticketForm">
+
+  <div class="row mt-2">
+    <p-tabView>
+
+      <p-tabPanel header="Principal">
+
+        <div class="row mt-2">
+          <div class="col-sm-4">
+            <label>Laboratório</label>
+              <select class="form-select" formControlName="setor">
+                <option *ngFor="let setor of setores" [value]="setor.id" [disabled]="bloquearEdicao">{{ setor.nome }}</option>
+              </select>
+          </div>
+
+          <div class="col-sm-4">
+            <label>Responsável</label>
+            <select class="form-select" formControlName="operador">
+              <option *ngFor="let operador of operadores" [value]="operador.id" [disabled]="bloquearEdicao">{{ operador.nome }}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <label>Prioridade</label>
+            <select class="form-select" formControlName="prioridade">
+              <option [value]="0" [disabled]="bloquearEdicao">Baixa</option>
+              <option [value]="1" [disabled]="bloquearEdicao">Normal</option>
+              <option [value]="2" [disabled]="bloquearEdicao">Alta</option>
+              <option [value]="3" [disabled]="bloquearEdicao">Urgente</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm-10">
+            <label>Assunto</label>
+            <input type="text" class="form-control" formControlName="assunto" readonly="bloquearEdicao">
+          </div>
+
+          
+          <div class="col-sm-2">
+            <label>Status</label>
+            <fieldset disabled>
+              <input type="text" class="form-control" formControlName="status">
+            </fieldset>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm-12">
+            <label for="descricao" class="col-sm-2 col-form-label">Descrição</label>
+            <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao" readonly="bloquearEdicao"></textarea>
+          </div>
+        </div>
+        <fieldset disabled>
+          <div class="row mt-2">
+            <div class="col-sm-4 mb-3">
+              <label for="disabledTextInput" class="form-label">Criador</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="criador">
+            </div>
+  
+            <div class="col-sm-2 mb-3">
+              <label for="disabledTextInput" class="form-label">Data de abertura</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="dtAbertura">
+            </div>
+
+            <div class="col-sm-6 mb-3">
+              <label for="disabledTextInput" class="form-label">Equipamento</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="equipamento">
+            </div>
+          </div>
+        </fieldset>
+   
+      </p-tabPanel>
+
+      <p-tabPanel header="Solução">
+
+          <div class="row mt-2">
+            <div class="col-sm-12">
+              <label for="descricao" class="col-sm-2 col-form-label">Solução Aplicada</label>
+              <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="solucao"></textarea>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm-4 mb-3">
+              <label for="disabledTextInput" class="form-label">Finalizado por</label>
+              <input type="text" id="disabledTextInput" class="form-control" formControlName="criador">
+            </div>
+          </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Anexos">
+        <div class="row mt-2">
+          <div class="col-sm-4">
+            <button class="btn btn-primary">Ver Anexo</button>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <div class="mt-2 text-end">
+        <div class="btn-group">
+          <button class="btn btn-sm btn-outline-primary" type="button" (click)="salvar()" [disabled]="!ticketForm.valid">
+            <i class="bi bi-check"></i>
+            Salvar
+          </button>
+          <button class="btn btn-sm btn-outline-danger" type="button" (click)="cancelar()">
+            <i class="bi bi-x"></i>
+            Cancelar
+          </button>
+          <button class="btn btn-sm btn-outline-success" type="button" (click)="finalizar()">
+            <i class="bi bi-check-all"></i>
+            Finalizar
+          </button>
+        </div>
+      </div>
+
+    </p-tabView>
+  </div>
+
+  </form>
+  
 </div>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-dialog header="Motivo de cancelamento" [(visible)]="display" [style]="{width: '50vw'}">
+    <textarea type="text" class="form-control" rows="5" ></textarea>
+  <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

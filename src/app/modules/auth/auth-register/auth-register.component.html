@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="row">
-                  <h3>{{ tituloPagina }}</h3>
+                  <h3>Novo usuário</h3>
                 </div>
 
                 <form [formGroup]="userForm">
@@ -28,12 +28,13 @@
                       <label for="Email">E-mail</label>
                       <input placeholder="Ex: email@email.com" autocomplete="false" class="form-control" type="email"
                         id="email" formControlName="email" required>
-  
+
                       <!-- VALIDACAO -->
-                      <div class="text-danger" *ngIf="email?.errors">
-                        <div *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe o email</div>
-                        <div *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">O email informado é inválido!</div>
-                      </div>
+                      <ul class="text-danger" *ngIf="email?.errors">
+                        <li *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Informe o email</li>
+                        <li *ngIf="email?.errors?.email && (email?.dirty || email?.touched)">O email informado é
+                          inválido!</li>
+                      </ul>
                     </div>
                   </div>
 
@@ -41,21 +42,27 @@
                   <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <div class="form-group">
-                        <label for="Nome">Nome</label>
+                        <label for="Nome">Nome de Usuário</label>
                         <input placeholder="Nome" autocomplete="off" class="form-control" type="text" id="nome"
                           formControlName="nome">
+
+                        <!-- VALIDACAO -->
+                        <ul class="text-danger" *ngIf="nome?.errors">
+                          <li *ngIf="nome?.errors?.required && (nome?.dirty || nome?.touched)">Informe o nome</li>
+                        </ul>
+
                       </div>
                     </div>
 
 
                     <!-- TELEFONE -->
-                    <div class="col-xs-12 col-sm-6 col-md-6">
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-6">
                       <div class="form-group">
                         <label for="telefone">Telefone</label>
                         <input placeholder="Telefone" mask="(00) 0 0000-0000 || (00) 0000-0000" autocomplete="off" class="form-control" type="text" id="telefone"
                           formControlName="telefone">
                       </div>
-                    </div>
+                    </div> -->
                   </div>
 
                   <!-- SENHA -->
@@ -65,27 +72,34 @@
                         <label for="Password">Senha</label>
                         <input autocomplete="off" class="form-control" type="password" id="senha"
                           formControlName="senha">
-            
+
                         <!-- VALIDACAO -->
                         <div class="text-danger" *ngIf="senha?.errors">
-                          <div *ngIf="senha?.errors?.pattern && (senha?.dirty || senha?.touched)">Senha deve possuir no mínimo 6 e no máximo 50 caracteres, incluindo pelo menos 1 número, 1 letra maiúscula, 1 letra minúscula e 1 caracter especial!</div>
+                          <ul *ngIf="senha?.errors?.pattern && (senha?.dirty || senha?.touched)">
+                            <li>Senha deve ter entre 6 e 50 caracteres</li>
+                            <li>Incluír pelo menos 1 número</li>
+                            <li>1 letra maiúscula</li>
+                            <li>1 letra minúscula</li>
+                            <li>1 caracter especial</li>
+                          </ul>
                         </div>
+
                       </div>
                     </div>
                   </div>
 
                   <!-- CONFIRMACAO DE SENHA -->
-                  <div class="row">
+                  <div class="row mt-2">
                     <div class="col-12">
                       <div class="form-group">
                         <label for="ConfirmPassword">Confirme a Senha</label>
                         <input autocomplete="off" class="form-control" type="password" id="confirmarSenha"
                           formControlName="confirmarSenha">
-  
+
                         <!-- VALIDACAO -->
-                        <div class="text-danger" *ngIf="confirmarSenha?.errors">
-                          <div *ngIf="confirmarSenha?.errors?.equalsTo">Senha não é igual</div>
-                        </div>
+                        <ul class="text-danger" *ngIf="confirmarSenha?.errors">
+                          <li *ngIf="confirmarSenha?.errors?.equalsTo && (confirmarSenha?.dirty || confirmarSenha?.touched)">Senha não é igual</li>
+                        </ul>
                       </div>
 
                     </div>
@@ -96,7 +110,7 @@
                   <div class="row">
                     <div class="d-grid gap-2">
                       <button class="btn btn-primary" [disabled]="!userForm.valid" (click)="salvar()">Confirmar</button>
-                    <button class="btn btn-outline-secondary" type="button" [routerLink]="['/login']">Cancelar</button>
+                      <button class="btn btn-outline-secondary" type="button" (click)="cancelar()">Cancelar</button>
                     </div>
                   </div>
 

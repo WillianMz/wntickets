@@ -5,9 +5,27 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path:'', component: SectorListComponent },
-  { path:'new', component: SectorFormComponent },
-  { path:':id/edit', component: SectorFormComponent }
+  { 
+    path:'',
+    component: SectorListComponent,
+    data: {
+      roles: ['Usuario','Suporte','Gerente','Admin']
+    }
+  },
+  {
+    path:'new',
+    component: SectorFormComponent,
+    data: {
+      roles: ['Admin']
+    }
+  },
+  {
+    path:':id/edit',
+    component: SectorFormComponent,
+    data: {
+      roles: ['Admin']
+    }
+  }
 ];
 
 @NgModule({

@@ -2,6 +2,7 @@ import { RoleResponse } from './../../../models/user/roleResponse.model';
 import { UserService } from 'src/app/services/user.service';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-role',
@@ -18,7 +19,8 @@ export class UserRoleComponent implements OnInit {
   public columns: Columns[];
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -54,10 +56,14 @@ export class UserRoleComponent implements OnInit {
     this.configuration.tableLayout.style = 'tiny';
     //colunas
     this.columns = [
-      { key: 'id', title: 'Id' },
+      { key: 'id', title: 'Código' },
       { key: 'name', title: 'Nome' },
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
+  }
+
+  public voltar() {
+    this.router.navigate(['users']);
   }
 
 }

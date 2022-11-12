@@ -7,13 +7,18 @@ import { LoadComponent } from './load/load.component';
 import { AlertComponent } from './alert/alert.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NotfoundComponent } from './not-found/not-found.component';
+import { AcessoNegadoComponent } from './acesso-negado/acesso-negado.component';
+import { LoaderComponent } from './loader/loader.component';
+
 
 @NgModule({
   declarations: [
     LoadComponent,
     AlertComponent,
     NavbarComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    AcessoNegadoComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +30,9 @@ import { NotfoundComponent } from './not-found/not-found.component';
     LoadComponent,
     AlertComponent,
     NavbarComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    AcessoNegadoComponent,
+    LoaderComponent
   ]
 })
 export class ComponentsModule {}

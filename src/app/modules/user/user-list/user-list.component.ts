@@ -1,8 +1,10 @@
+import { UsuarioResponse } from './../../../models/user/usuarioResponse.model';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService } from 'primeng/api';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { ListarUsuarioModel } from 'src/app/models/user/listarUsuarioModel';
 import { Usuario } from 'src/app/models/user/usuario.model';
@@ -19,7 +21,7 @@ export class UserListComponent implements OnInit {
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
 
   tituloDaPagina: string = 'Usuários';
-  users: ListarUsuarioModel[];
+  usuarios: UsuarioResponse[];
   success: boolean;
   message: string;
   erros: ErroServidor[];
@@ -33,8 +35,8 @@ export class UserListComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -45,18 +47,23 @@ export class UserListComponent implements OnInit {
   private configGrid(){
     this.configuration = { ...DefaultConfig };
     this.configuration.searchEnabled = true;
-    this.configuration.resizeColumn = true;
     this.configuration.fixedColumnWidth = false;
     this.configuration.selectRow = true;
-    this.configuration.rows = 5;
+    this.configuration.rows = 10;
+    this.configuration.columnReorder = true;
+    //bordas
+    this.configuration.tableLayout.borderless = false;
+    //hover
+    this.configuration.tableLayout.hover = true;
+    this.configuration.tableLayout.striped = true;
+    this.configuration.tableLayout.style = 'tiny';
     //colunas
     this.columns = [
-      { key: 'id', title: 'Código' },
-      { key: 'nome', title: 'Nome' },
-      { key: 'email', title: 'Email' },
-/*       { key: 'tipo', title: 'Tipo' },
-      { key: 'login', title: 'Login' }, */
-      { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
+      { key:'id', title:'Código' },
+      { key:'nome', title:'Login' },
+      { key:'email', title:'Email' },
+      { key:'ativoString', title:'Status'},
+      { key:'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
 
@@ -65,19 +72,20 @@ export class UserListComponent implements OnInit {
   }
 
   private listAll() {
-    this.spinner.show();
-
     this.userService.getAll().subscribe({
       next: (response) => {
-        this.users = response;
-        this.spinner.hide();
+        this.usuarios = response.map(item => {
+          return {
+            ...item,
+            ativoString: item.ativo ? 'Ativo' : 'Bloqueado'
+          }
+        });
       },
       error: (response) => {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
         this.notification.showError('Erro ao obter dados');
-        this.spinner.hide();
       }
     });
   }
@@ -86,8 +94,8 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['users/new']);
   }
 
-  public edit(usuarioId: number) {
-    this.router.navigate([`users/edit/${usuarioId}`]);
+  public editar(usuarioId: number) {
+    this.router.navigate([`users/edit`], {queryParams: { pessoaId: usuarioId}});
   }
 
   public ativar(id: number) {
@@ -112,8 +120,6 @@ export class UserListComponent implements OnInit {
   }
 
   public delete(id: string) {
-    this.spinner.show();
-
     this.userService.delete(id).subscribe({
       next: (response) => {
         this.success = response['sucesso'];
@@ -122,13 +128,11 @@ export class UserListComponent implements OnInit {
         if(this.success == true){
           this.message = response['mensagem'];
           this.showSuccess(this.message);
-          this.router.navigate(['/users']);
-          this.spinner.hide();
+          this.listAll();
         }
         else{
           this.message = response['mensagem'];
           this.showError(this.message);
-          this.spinner.hide();
         }
       },
       error: (response) => {
@@ -136,6 +140,42 @@ export class UserListComponent implements OnInit {
         this.success = response.error['sucesso'];
         this.message = response.error['mensagem'];
         this.erros = response.error['objeto'];
+      }
+    });
+  }
+
+  public bloquear(id: string){
+    this.userService.bloquear(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
+      }
+    });
+  }
+
+  public desbloquear(id: string){
+    this.userService.desbloquear(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
+      }
+    });
+  }
+
+  public solicitarAtivacao(email: string) {
+    this.userService.solicitarCodigo(email).subscribe({
+      next: (response) => {
+        if(response){
+          this.success = response['sucesso'];
+          this.message = response['mensagem'];
+          this.notification.showInfo(this.message);
+        }
       }
     });
   }

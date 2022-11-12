@@ -1,3 +1,4 @@
+import { EquipamentoAnexo } from './equipamentoAnexo.model';
 import { TipoEquipamentoResponse } from './tipoEquipamentoResponse.model';
 import { SetorResponse } from './../sector/setorResponse.model';
 
@@ -26,4 +27,5 @@ export class EquipamentoResponse {
     public anotacoes?: string;
     public foto?: string;
     public motivoBaixa?: string;
+    public anexos?: EquipamentoAnexo[];
 }

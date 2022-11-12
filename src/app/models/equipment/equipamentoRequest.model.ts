@@ -1,3 +1,5 @@
+import { EquipamentoAnexo } from "./equipamentoAnexo.model";
+
 export class EquipamentoRequest {
     public id?: number;
     public ativo?: boolean;
@@ -21,4 +23,5 @@ export class EquipamentoRequest {
     public valorCompra: string;
     public anotacoes?: string;
     public foto?: string;
+    public anexos?: EquipamentoAnexo[];
 }

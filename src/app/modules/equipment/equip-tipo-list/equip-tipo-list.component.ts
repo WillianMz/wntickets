@@ -1,3 +1,4 @@
+import { LoginService } from './../../../services/login.service';
 import { TipoEquipamentoResponse } from './../../../models/equipment/tipoEquipamentoResponse.model';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { EquipamentoService } from 'src/app/services/equipamento.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 
 @Component({
   selector: 'app-equip-tipo-list',
@@ -27,7 +29,7 @@ export class EquipTipoListComponent implements OnInit {
     private equipamentoService: EquipamentoService,
     private router: Router,
     private notification: NotificationService,
-    private spinner: NgxSpinnerService
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +53,12 @@ export class EquipTipoListComponent implements OnInit {
     ];
   }
 
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
+  }
+
   public adicionar(){
     this.router.navigate(['equipment/tipo/new']);
   }
@@ -64,7 +72,7 @@ export class EquipTipoListComponent implements OnInit {
   }
 
   public listarTiposDeEquipamentos(ativo: boolean){
-    this.spinner.show();
+    
     this.equipamentoService.getTipos(ativo).subscribe({
       next: (response) => {
         this.tiposDeEquipamentos = response.map(item => {
@@ -74,12 +82,10 @@ export class EquipTipoListComponent implements OnInit {
             ativoString: item.ativo ? 'Ativo' : 'Inativo'
           }
         });
-        this.spinner.hide();
       },
       error: (response) => {
         this.notification.showError('Erro ao consultar tipos de equipamentos');
         console.error(response);
-        this.spinner.hide();
       }
     });
   }
