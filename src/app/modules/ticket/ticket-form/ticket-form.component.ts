@@ -251,4 +251,9 @@ export class TicketFormComponent implements OnInit {
       equipamento: new FormControl(`${chamado.equipamentoId}-${chamado.equipamentoNome}`)
     });
   }
+
+  public voltar() {
+    this.router.navigate(['ticket']);
+  }
+
 }
