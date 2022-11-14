@@ -113,20 +113,36 @@
                   <label class="labels">Email</label>
                   <input type="text" class="form-control" formControlName="email">
                 </div>
-                <div class="col-md-6 mt-2">
+                <!-- <div class="col-md-6 mt-2">
                   <label class="labels">Tipo</label>
                   <select class="form-select" formControlName="perfil">
-                    <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+                    <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
                   </select>
-                </div>
+                </div> -->
               </div>
 
               <div class="row mt-2">
                 <div class="col-md-12">
-                  <!-- <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkAtivo" formControlName="ativo">
-                    <label class="form-check-label" for="checkAtivo">Ativo</label>
-                  </div> -->
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
+                    <label class="form-check-label" for="checkBloqueado">Usuário</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
+                    <label class="form-check-label" for="checkBloqueado">Suporte</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
+                    <label class="form-check-label" for="checkBloqueado">Gerente</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
+                    <label class="form-check-label" for="checkBloqueado">Administrador</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
+                    <label class="form-check-label" for="checkBloqueado">Fornecedor</label>
+                  </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-check">

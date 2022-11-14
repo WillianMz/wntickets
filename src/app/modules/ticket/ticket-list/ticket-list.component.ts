@@ -2,11 +2,10 @@ import { Usuario } from 'src/app/models/user/usuario.model';
 import { LoginService } from './../../../services/login.service';
 import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
 import { NotificationService } from './../../../services/notification.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ErroServidor } from './../../../models/erroServidor';
 import { Component, OnInit, TemplateRef, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { TicketService } from 'src/app/services/ticket.service';
 
 import {ConfirmationService} from 'primeng/api';
@@ -85,20 +84,6 @@ export class TicketListComponent implements OnInit {
       }
     );
 
-    //let user = this.loginService.usuarioLogado();
-    //if(user){
-      //this.usuarioLogado = user;
-      
-      //this.list();
-      /* this.listarMeusChamados(this.statusChamado);
-      this.configGrid(); */
-    //}
-    /* else{
-      this.listarSetores();
-      this.configGrid();
-      //this.list();
-    } */
-
     this.listarSetores();
     this.configGrid();
     this.list();
@@ -136,7 +121,7 @@ export class TicketListComponent implements OnInit {
     this.configuration = { ...DefaultConfig };
     this.configuration.searchEnabled = true;
     this.configuration.fixedColumnWidth = false;
-    this.configuration.selectRow = true;
+    this.configuration.selectRow = false;
     this.configuration.rows = 10;
     this.configuration.columnReorder = true;
     //bordas
