@@ -39,7 +39,7 @@
         <div class="row mt-2">
           <div class="col-sm-10">
             <label>Assunto</label>
-            <input type="text" class="form-control" formControlName="assunto" readonly="bloquearEdicao">
+            <input type="text" class="form-control" formControlName="assunto" [readonly]="bloquearEdicao">
           </div>
 
           
@@ -53,7 +53,7 @@
         <div class="row mt-2">
           <div class="col-sm-12">
             <label for="descricao" class="col-sm-2 col-form-label">Descrição</label>
-            <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao" readonly="bloquearEdicao"></textarea>
+            <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao" [readonly]="bloquearEdicao"></textarea>
           </div>
         </div>
         <fieldset disabled>
@@ -78,43 +78,104 @@
       </p-tabPanel>
 
       <p-tabPanel header="Solução">
-
           <div class="row mt-2">
             <div class="col-sm-12">
               <label for="descricao" class="col-sm-2 col-form-label">Solução Aplicada</label>
-              <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="solucao"></textarea>
+              <fieldset disabled>
+                <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="solucao"></textarea>
+              </fieldset>
             </div>
           </div>
           <div class="row mt-2">
             <div class="col-sm-4 mb-3">
-              <label for="disabledTextInput" class="form-label">Finalizado por</label>
-              <input type="text" id="disabledTextInput" class="form-control" formControlName="criador">
+              <label>Finalizado por</label>
+              <fieldset disabled>
+                <input ype="text" id="disabledTextInput" class="form-control" formControlName="finalizador">
+              </fieldset>
             </div>
           </div>
       </p-tabPanel>
 
       <p-tabPanel header="Anexos">
-        <div class="row mt-2">
+        <div class="row mt-2" *ngIf="status == 'Pendente'" >
           <div class="col-sm-4">
-            <button class="btn btn-primary">Ver Anexo</button>
+            <label class="btn btn-primary btn-sm" for="ImagemUpload" title="Upload image file">
+              <input type="file" class="sr-only" 
+                    id="ImagemUpload"
+                    name="ImagemUpload"
+                    #fileInput (change)="anexarArquivo(fileInput.files)">          
+              <span class="docs-tooltip" data-toggle="tooltip" data-original-title="Import image with Blob URLs">
+                <i class="bi bi-paperclip"></i>
+                  Anexar Arquivo
+              </span>
+            </label>
           </div>
         </div>
+
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Descrição</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let anx of chamado?.anexos">
+            <tr>
+              <td>{{anx.descricao}}</td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-secondary" (click)="download(anx.url!, anx.descricao!)">
+                    <i class="bi bi-cloud-download"></i>
+                    Download
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="removerAnexo(anx.id!)">
+                    <i class="bi bi-trash"></i>
+                    Remover
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
       </p-tabPanel>
 
-      <div class="mt-2 text-end">
-        <div class="btn-group">
-          <button class="btn btn-sm btn-outline-primary" type="button" (click)="salvar()" [disabled]="!ticketForm.valid">
-            <i class="bi bi-check"></i>
-            Salvar
-          </button>
-          <button class="btn btn-sm btn-outline-danger" type="button" (click)="cancelar()">
-            <i class="bi bi-x"></i>
-            Cancelar
-          </button>
-          <button class="btn btn-sm btn-outline-success" type="button" (click)="finalizar()">
-            <i class="bi bi-check-all"></i>
-            Finalizar
-          </button>
+      <div class="row-mt-2">
+        <div class="text-end">
+          <div class="btn-group">
+            <button class="btn btn-sm btn-outline-primary" type="button">
+              <i class="bi bi-printer"></i>
+              Imprimir
+            </button>
+            <button class="btn btn-sm btn-outline-danger"
+                    type="button" 
+                    (click)="cancelarDialog = true"
+                    *ngIf="status == 'Pendente'">
+              <i class="bi bi-x"></i>
+              Cancelar
+            </button>
+            <button class="btn btn-sm btn-outline-success" 
+                    type="button"
+                    (click)="finalizarDialog = true"
+                    *ngIf="status == 'Pendente'">
+              <i class="bi bi-check-all"></i>
+              Finalizar
+            </button>
+            <button class="btn btn-sm btn-outline-primary"
+                    type="button"
+                    (click)="salvar()"
+                    *ngIf="status == 'Pendente'"
+                    [disabled]="!ticketForm.valid">
+              <i class="bi bi-check"></i>
+              Salvar
+            </button>
+            <button class="btn btn-sm btn-outline-primary"
+                  type="button">
+              <i class="bi bi-box-arrow-left"></i>
+              Sair
+            </button>
+          </div>
         </div>
       </div>
 
@@ -127,9 +188,28 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
-<p-dialog header="Motivo de cancelamento" [(visible)]="display" [style]="{width: '50vw'}">
-    <textarea type="text" class="form-control" rows="5" ></textarea>
+<p-dialog 
+  header="Motivo de cancelamento"
+  [(visible)]="cancelarDialog"
+  [style]="{width: '50vw'}"
+  [modal]="true">
+    <form [formGroup]="cancelarForm">
+      <textarea type="text" class="form-control" rows="5" formControlName="motivoCancelamento" ></textarea>
+    </form>
   <ng-template pTemplate="footer">
-      <p-button icon="pi pi-check" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
+      <p-button icon="pi pi-check" (click)="cancelar()" label="Ok" styleClass="p-button-text"></p-button>
   </ng-template>
+</p-dialog>
+
+<p-dialog 
+  header="Solução aplicada"
+  [(visible)]="finalizarDialog"
+  [style]="{width: '50vw'}"
+  [modal]="true">
+  <form [formGroup]="solucaoForm">
+    <textarea type="text" class="form-control" rows="5" formControlName="solucaoAplicada"></textarea>
+  </form>
+<ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="finalizar()" label="Ok" styleClass="p-button-text"></p-button>
+</ng-template>
 </p-dialog>

@@ -19,6 +19,13 @@ const routes: Routes = [
       roles: ['Usuario','Suporte','Gerente','Admin']
     }
   },
+  {
+    path:':id/visualizar',
+    component: TicketFormComponent,
+    data: {
+      roles: ['Usuario','Suporte','Gerente','Admin']
+    }
+  },
   { 
     path:':id/edit',
     component: TicketFormComponent,

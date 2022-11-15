@@ -1,9 +1,12 @@
+import { PessoaService } from './../../../services/pessoa.service';
+import { CriadorResponse } from '../../../models/pessoa/criadorResponse.model';
+import { OperadorResponse } from './../../../models/ticket/operadorResponse.model';
 import { Usuario } from 'src/app/models/user/usuario.model';
 import { LoginService } from './../../../services/login.service';
 import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
 import { NotificationService } from './../../../services/notification.service';
 import { ErroServidor } from './../../../models/erroServidor';
-import { Component, OnInit, TemplateRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { TicketService } from 'src/app/services/ticket.service';
@@ -14,23 +17,30 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { FiltroTicket } from './filtoTicket';
 import { SectorService } from 'src/app/services/sector.service';
 import { SetorResponse } from 'src/app/models/sector/setorResponse.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.css']
 })
-export class TicketListComponent implements OnInit {
+export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
   @Input() tituloVisivel: boolean;
   @Input() campoPesquisaVisivel: boolean;
   @Input() statusChamado: number = 0;
 
-  display: boolean = false;
+  //Armazena assinatura do Observable
+  chamadoSub: Subscription;
+  setorSub: Subscription;
+  pessoaSub: Subscription;
+
   tituloDaPagina: string = 'Chamados';
   chamados: ChamadoResponse[];
-  chamado: ChamadoResponse;
+  //chamado: ChamadoResponse;
   setores: SetorResponse[];
+  operadores: OperadorResponse[];
+  criadores: CriadorResponse[];
   chamadoId: number;
   sucesso: boolean;
   mensagem: string;
@@ -59,6 +69,7 @@ export class TicketListComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
+    private pessoaService: PessoaService,
     private router: Router,
     private notification: NotificationService,
     private confirmationService: ConfirmationService,
@@ -83,10 +94,22 @@ export class TicketListComponent implements OnInit {
         this.operadorId = parseInt(params.operador);
       }
     );
-
-    this.listarSetores();
     this.configGrid();
-    this.list();
+    //this.list();
+  }
+
+  ngOnDestroy(): void {
+    if(this.chamadoSub){
+      this.chamadoSub.unsubscribe;
+    }
+
+    if(this.pessoaSub){
+      this.pessoaSub.unsubscribe;
+    }
+
+    if(this.setorSub){
+      this.setorSub.unsubscribe;
+    }
   }
 
   get texto(){
@@ -174,6 +197,7 @@ export class TicketListComponent implements OnInit {
         this.verComboboxStatus = false;
         this.verComboboxOperadores = false;
         this.campo_pesquisa = false;
+        this.listarSetores();
         break;
       case 3://TIPO
         this.nomeBotaoFiltro = 'Filtrando por tipo';
@@ -216,6 +240,7 @@ export class TicketListComponent implements OnInit {
         this.verComboboxStatus = false;
         this.verComboboxOperadores = false;
         this.campo_pesquisa = false;
+        this.listarCriadores(true);
         break;
       case 7://PRIORIDADE
         this.nomeBotaoFiltro = 'Filtrando por prioridade';
@@ -246,6 +271,7 @@ export class TicketListComponent implements OnInit {
         this.verComboboxStatus = false;
         this.verComboboxOperadores = true;
         this.campo_pesquisa = false;
+        this.listarOperadores(true);
         break;
       default:
         this.nomeBotaoFiltro = 'Todos';
@@ -370,27 +396,6 @@ export class TicketListComponent implements OnInit {
     this.listarTodos();
   }
 
-  /* public search(){
-    this.listByName();
-  } */
-
-  /* private listByName() {
-    this.spinner.show();
-
-    this.ticketService.getAll().subscribe({
-      next: (response) => {
-        this.chamados = response;
-        this.spinner.hide();
-      },
-      error: (response) => {
-        this.sucesso = response.error['sucesso'];
-        this.mensagem = response.error['mensagem'];
-        this.erros = response.error['objeto'];
-        this.spinner.hide();
-      }
-    });
-  } */
-
   private configPagina(){
     if(this.chamados.length > 0){
       this.verGrid = true;
@@ -430,7 +435,7 @@ export class TicketListComponent implements OnInit {
     });
   }
 
-  private listarMeusChamados(status: number){
+  /* private listarMeusChamados(status: number){
     this.ticketService.getMeusChamados(status).subscribe({
       next: (response) => {
         if(response){
@@ -445,150 +450,178 @@ export class TicketListComponent implements OnInit {
         this.notification.showError('Ocorreu um erro asdfasd');
       }
     });
+  } */
+
+
+  /*CONSULTAS **********************************************************/
+
+  private consultarTicket() {
+    this.chamadoSub = this.ticketService.getAll().subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorSetor(setorId: number){
+    this.chamadoSub = this.ticketService.getBySetor(setorId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        console.log(response);
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private listarSetores(){
+    this.setorSub = this.setorService.getAll(true).subscribe({
+      next: (response) => {
+        this.setores = response;
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorTipo(tipoId: number){
+    this.chamadoSub = this.ticketService.getByTipo(tipoId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorAssunto(texto: string){
+    this.chamadoSub = this.ticketService.getByAssunto(texto).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorDescricao(texto: string){
+    this.chamadoSub = this.ticketService.getByDescricao(texto).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorSolucao(texto: string){
+    this.chamadoSub = this.ticketService.getBySolucao(texto).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorCriador(criadorId: number){
+    this.chamadoSub = this.ticketService.getByCriador(criadorId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorPrioridade(prioridadeId: number){
+    this.chamadoSub = this.ticketService.getByPrioridade(prioridadeId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+  
+  private consultarPorStatus(statusId: number){
+    this.chamadoSub = this.ticketService.getByStatus(statusId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
+  }
+    
+  private consultarPorOperador(operadorId: number){
+    this.chamadoSub = this.ticketService.getByOperador(operadorId).subscribe({
+      next: (response) => {
+        this.chamados = response;
+        this.configPagina();
+      },
+      error: () => {
+        //MELHORAR ESTA PARTE
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
   }
 
+  private listarCriadores(ativo: boolean) {
+    this.pessoaSub = this.pessoaService.getUsuarios(ativo).subscribe({
+      next: (response) => {
+        if(response){
+          this.criadores = response;
+        }
+      },
+      error: () => {
+        this.notification.showError('Ocorreu um erro ao consultar os criadores de chamados','Consultar usuários');
+      }
+    });
+  }
 
-    /*CONSULTAS **********************************************************/
-
-    private consultarTicket() {
-      this.ticketService.getAll().subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
+  private listarOperadores(ativo: boolean) {
+    this.pessoaSub = this.pessoaService.getOperadores(ativo).subscribe({
+      next: (response) => {
+        if(response){
+          this.operadores = response;
+          console.log('Operadores');
         }
-      });
-    }
-  
-    private consultarPorSetor(setorId: number){
-      this.ticketService.getBySetor(setorId).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private listarSetores(){
-      this.setorService.getAll(true).subscribe({
-        next: (response) => {
-          this.setores = response;
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private consultarPorTipo(tipoId: number){
-      this.ticketService.getByTipo(tipoId).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private consultarPorAssunto(texto: string){
-      this.ticketService.getByAssunto(texto).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private consultarPorDescricao(texto: string){
-      this.ticketService.getByDescricao(texto).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private consultarPorSolucao(texto: string){
-      this.ticketService.getBySolucao(texto).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private consultarPorCriador(criadorId: number){
-      this.ticketService.getByCriador(criadorId).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private consultarPorPrioridade(prioridadeId: number){
-      this.ticketService.getByPrioridade(prioridadeId).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-  
-    private consultarPorStatus(statusId: number){
-      this.ticketService.getByStatus(statusId).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
-    
-    private consultarPorOperador(operadorId: number){
-      this.ticketService.getByOperador(operadorId).subscribe({
-        next: (response) => {
-          this.chamados = response;
-          this.configPagina();
-        },
-        error: () => {
-          //MELHORAR ESTA PARTE
-          this.notification.showError('Ocorreu um erro');
-        }
-      });
-    }
+      },
+      error: () => {
+        this.notification.showError('Ocorreu um erro ao consultar operadores','Consultar operadores');
+      }
+    });
+  }
 }
