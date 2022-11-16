@@ -83,23 +83,25 @@
       </form>
     </div>
   </div>
-  <div class="row mt-2">
+  <div class="row mt-2 text-end">
     <div class="col">
       <div class="btn-group">
         <button
           type="button"
-          class="btn btn-outline-danger"
-          (click)="cancelar()"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary"
+          class="btn btn-sm btn-outline-primary"
           [disabled]="!tipoForm.valid"
           (click)="salvar()"
         >
+        <i class="bi bi-check"></i>
           Salvar
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger"
+          (click)="cancelar()"
+        >
+        <i class="bi bi-check"></i>
+          Cancelar
         </button>
       </div>
     </div>

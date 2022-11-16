@@ -436,4 +436,9 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
       ])
     });
   }
+
+  public voltar() {
+    this.router.navigate(['ticket']);
+  }
+
 }
