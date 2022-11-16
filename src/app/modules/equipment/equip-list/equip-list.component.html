@@ -92,6 +92,9 @@
                 Mais detalhes
               </button>
               <ul class="dropdown-menu">
+                <li *ngIf="verificarPermissao(['Usuario', 'Suporte','Admin','Gerente'])">
+                  <a class="dropdown-item" type="button" (click)="editar(row.id)">Abrir chamado</a>
+                </li>
                 <li *ngIf="verificarPermissao(['Admin','Gerente'])">
                   <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>
                 </li>
@@ -107,9 +110,6 @@
                 <li *ngIf="verificarPermissao(['Admin','Gerente'])">
                   <a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#baixaEquipamentoModal">Baixar</a>
                 </li>
-                <li><hr class="dropdown-divider"></li>
-                <li *ngIf="verificarPermissao(['Admin','Gerente'])">
-                  <a class="dropdown-item" type="button">Detalhes</a></li>
               </ul>
             </div>
 

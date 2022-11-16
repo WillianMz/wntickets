@@ -159,22 +159,22 @@
             <button class="btn btn-sm btn-outline-danger"
                     type="button" 
                     (click)="cancelarDialog = true"
-                    *ngIf="status == 'Pendente' || 'Novo'">
+                    *ngIf="status == 'Pendente' || status == 'Novo'">
               <i class="bi bi-x"></i>
               Cancelar
             </button>
             <button class="btn btn-sm btn-outline-success" 
                     type="button"
                     (click)="finalizarDialog = true"
-                    *ngIf="status == 'Pendente' || 'Novo'">
+                    *ngIf="status == 'Pendente' || status == 'Novo'">
               <i class="bi bi-check-all"></i>
               Finalizar
             </button>
             <button class="btn btn-sm btn-outline-primary"
                     type="button"
                     (click)="salvar()"
-                    *ngIf="status == 'Pendente' || 'Novo'"
-                    [disabled]="!ticketForm.valid">
+                    [disabled]="!ticketForm.valid"
+                    *ngIf="status == 'Pendente' || status == 'Novo'">
               <i class="bi bi-check"></i>
               Salvar
             </button>

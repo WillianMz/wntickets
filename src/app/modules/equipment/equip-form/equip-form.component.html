@@ -374,68 +374,46 @@
           </p-tabPanel>
 
           <p-tabPanel header="Anexos">
-            
-
-            <!-- IMAGENS | BACKEND AINDA NAO SUPORTA-->
-            <div class="row mt-2" *ngIf="false">
-              <div class="col">
-                <div class="card">
-                  <div class="card-header">
-                    Imagens
-                  </div>
-                  <div class="card-body">
-                    <a type="button" class="btn btn-primary">Adicionar</a>
-                  </div>
-                </div>
+            <div class="row mt-2">
+              <div class="col-sm-4" *ngIf="permitirAnexarArquivo">
+                <label class="btn btn-primary btn-sm" for="ImagemUpload" title="Upload image file">
+                  <input type="file" class="sr-only" 
+                        id="ImagemUpload"
+                        name="ImagemUpload"
+                        #fileInput (change)="anexarArquivo(fileInput.files)">          
+                  <span class="docs-tooltip" data-toggle="tooltip" data-original-title="Import image with Blob URLs">
+                    <i class="bi bi-paperclip"></i>
+                      Anexar Arquivo
+                  </span>
+                </label>
               </div>
             </div>
 
-            <!-- <div class="row mt-2">
-              <div class="input-group">
-                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Visualizar</button>
-              </div>
-            </div> -->
+            <div class="row pt-2" *ngIf="!permitirAnexarArquivo">
+              <app-alert [mensagem]="'Salve o registro antes de inserir anexos!'" [color]="'alert-danger'"></app-alert>
+            </div>
 
-            <!-- <div class="row">
-              <div class="col-6">
-                <div class="mb-3">
-                  <label for="formFile" class="form-label">Default file input example</label>
-                  <input class="form-control" type="file" id="formFile">
-                </div>
-              </div>
-
-              <div class="col-6">
-                <div class="mb-3">
-                  <label class="form-label">Default file input example</label>
-                  <input class="form-control" type="text" id="">
-                </div>
-              </div>
-            </div> -->
-            
-
-            <label class="btn btn-primary btn-sm btn-upload" for="ImagemUpload" title="Upload image file">
-              <input type="file" class="sr-only" id="ImagemUpload" name="ImagemUpload">
-              <span class="docs-tooltip" data-toggle="tooltip" data-original-title="Import image with Blob URLs">
-                <i class="bi bi-paperclip"></i>
-                <strong>Adicionar Anexo</strong>&nbsp;<span class="fa fa-upload"></span>
-              </span>
-            </label>
-            
-            <table class="table table-sm table-hover">
+            <table class="table table-sm table-hover" *ngIf="equipamento?.anexos?.length">
               <thead>
                 <tr>
                   <th scope="col">Descrição</th>
                   <th scope="col">Ações</th>
                 </tr>
               </thead>
-              <tbody *ngFor="let anx of anexos">
+              <tbody *ngFor="let anx of equipamento?.anexos">
                 <tr>
                   <td>{{anx.descricao}}</td>
                   <td>
                     <div class="btn-group">
-                      <button class="btn btn-sm btn-outline-secondary">Visualizar</button>
-                      <button class="btn btn-sm btn-outline-danger">Remover</button>
+                      <button class="btn btn-sm btn-outline-secondary" (click)="download(anx.url!, anx.descricao!)">
+                        <i class="bi bi-cloud-download"></i>
+                        Download
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger" 
+                            (click)="removerAnexo(anx?.equipamentoId!)">
+                        <i class="bi bi-trash"></i>
+                        Remover
+                      </button>
                     </div>
                   </td>
                 </tr>

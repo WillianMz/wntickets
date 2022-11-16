@@ -8,7 +8,7 @@ import { NotificationService } from './../../../services/notification.service';
 import { ErroServidor } from './../../../models/erroServidor';
 import { Component, OnInit, TemplateRef, ViewChild, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { TicketService } from 'src/app/services/ticket.service';
 
 import {ConfirmationService} from 'primeng/api';
@@ -96,6 +96,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
     );
     this.configGrid();
     //this.list();
+    this.consultarPorStatus(1);
   }
 
   ngOnDestroy(): void {
@@ -173,6 +174,14 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   abrirChamado() {
     this.router.navigate(['/ticket/open']);
+  }
+
+  public editar(ticketId: string){
+    this.router.navigate([`/ticket/${ticketId}/edit`]);
+  }
+
+  public visualizar(id: number){
+    this.router.navigate([`/ticket/${id}/view`]);
   }
 
   public filtrarPor(filtro: number){
@@ -349,12 +358,13 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
 
   private list() {
-    this.listarTodos();
+    //this.listarTodos();
+    this.consultarPorStatus(2);
     //this.listarMeusChamados(this.statusChamado);
     //this.configGrid();  */
   }
 
-  public delete(id: string) {
+  public remover(id: string) {
     this.confirmationService.confirm({
       header: 'Atenção',
       icon: 'pi pi-exclamation-triangle',
@@ -363,33 +373,24 @@ export class TicketListComponent implements OnInit, OnDestroy {
         this.ticketService.delete(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.sucesso = response['sucesso'];
+            this.mensagem = response['mensagem'];
 
             //RETORNO BACK -> REGRAS DE NEGOCIO
             if(this.sucesso == true){
-              this.mensagem = response['mensagem'];
               this.notification.showSuccess(this.mensagem);
+              this.consultarPorStatus(1);
               this.router.navigate(['/ticket']);
-              console.log('1');
             }
             else{
-              this.mensagem = response['mensagem'];
               this.notification.showError(this.mensagem);
-              console.log('2');
             }
           },
-          error: (response) => {
-            //PEGA OS ERROS. FALHAS
-            this.sucesso = response.error['sucesso'];
-            this.mensagem = response.error['mensagem'];
-            this.erros = response.error['objeto'];
+          error: () => {
+            this.notification.showError('Erro ao excluír chamado');
           }
         });
       }
     });
-  }
- 
-  public edit(ticketId: string){
-    this.router.navigate([`/ticket/${ticketId}/edit`]);
   }
 
   public cleanFilters(){
@@ -418,7 +419,6 @@ export class TicketListComponent implements OnInit, OnDestroy {
     });
   }
   
-
   private listarTodos(){
     this.ticketService.getAll().subscribe({
       next: (response) => {
@@ -434,26 +434,6 @@ export class TicketListComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  /* private listarMeusChamados(status: number){
-    this.ticketService.getMeusChamados(status).subscribe({
-      next: (response) => {
-        if(response){
-          this.chamados = response;
-        }
-        else{
-          this.notification.showWarning('Não foi possível obter os chamados!');
-        }
-      },
-      error: (response) => {
-        console.log(response);
-        this.notification.showError('Ocorreu um erro asdfasd');
-      }
-    });
-  } */
-
-
-  /*CONSULTAS **********************************************************/
 
   private consultarTicket() {
     this.chamadoSub = this.ticketService.getAll().subscribe({
@@ -472,7 +452,6 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.chamadoSub = this.ticketService.getBySetor(setorId).subscribe({
       next: (response) => {
         this.chamados = response;
-        console.log(response);
         this.configPagina();
       },
       error: () => {
@@ -576,6 +555,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.chamadoSub = this.ticketService.getByStatus(statusId).subscribe({
       next: (response) => {
         this.chamados = response;
+        console.log(this.chamados);
         this.configPagina();
       },
       error: () => {

@@ -142,13 +142,13 @@
               </button>
               <ul class="dropdown-menu">
                 <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
-                  <a class="dropdown-item" type="button">Visualizar</a>
+                  <a class="dropdown-item" type="button" (click)="visualizar(row.id)">Visualizar</a>
                 </li>
                 <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
-                  <a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a>
+                  <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>
                 </li>
                 <li *ngIf="verificarPermissao(['Admin','Gerente'])">
-                  <a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a>
+                  <a class="dropdown-item" type="button" (click)="remover(row.id)">Excluir</a>
                 </li>
               </ul>
             </div>

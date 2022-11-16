@@ -324,18 +324,22 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
       this.permitirAnexarArquivo = true;
 
       if(this.status == 'Novo'){
+        console.log(this.status);
         this.bloquearEdicao = false;
       } 
       
       if(this.status == 'Pendente'){
+        console.log(this.status);
         this.bloquearEdicao = false;
       }
       
       if(this.status == 'Cancelado'){
+        console.log(this.status);
         this.bloquearEdicao == true;
       }
   
       if(this.status == 'Finalizado'){
+        console.log(this.status);
         this.bloquearEdicao == true;
       }
     }
