@@ -95,7 +95,7 @@ export class TicketOpenComponent implements OnInit {
   
           if(this.sucesso){
             this.notification.showSuccess(this.mensagem);
-            this.router.navigate(['/ticket']);
+            this.router.navigate(['']);
           }
           else{
             this.notification.showWarning(this.mensagem);
@@ -117,7 +117,7 @@ export class TicketOpenComponent implements OnInit {
 
           if(this.sucesso){
             this.notification.showSuccess(this.mensagem);
-            this.router.navigate(['/ticket']);
+            this.router.navigate(['']);
           }
           else{
             this.notification.showWarning(this.mensagem);

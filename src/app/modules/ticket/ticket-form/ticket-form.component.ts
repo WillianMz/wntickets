@@ -7,11 +7,9 @@ import { CriadorResponse } from '../../../models/pessoa/criadorResponse.model';
 import { SectorService } from './../../../services/sector.service';
 import { PessoaService } from './../../../services/pessoa.service';
 import { OperadorResponse } from './../../../models/ticket/operadorResponse.model';
-import { EquipamentoResponse } from './../../../models/equipment/equipamentoResponse.model';
 import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ErroServidor } from './../../../models/erroServidor';
 import { NotificationService } from './../../../services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -27,12 +25,15 @@ import { UploadService } from 'src/app/services/upload.service';
 })
 export class TicketFormComponent implements OnInit, OnDestroy  {
 
-  @Input() ticketID: number;
-  
+  //@Input() ticketID: number;
+  @Input() chamadoId: number;
+  @Input() naoExibir: boolean;
+  @Input() bloquearEdicao: boolean = true;
+
   //Armazena assinatura do Observable
   chamadoSub: Subscription;
 
-  tituloPagina: string = 'Editando Chamado';
+  tituloPagina: string = 'Detalhes do Chamado';
   //erros: ErroServidor[];
   ticketForm: FormGroup;
   cancelarForm: FormGroup;
@@ -41,19 +42,18 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
   setores: SetorResponse[];
   //equipamentos: EquipamentoResponse[];
   operadores: OperadorResponse[];
-  chamadoId: number;
   equipamentoId: number;
   criador: CriadorResponse;
   sucesso: boolean;
   mensagem: string;
   status: string;
-  bloquearEdicao: boolean = false;
-
   cancelarDialog: boolean = false;
   finalizarDialog: boolean = false;
   anexoForm: any;
   anexoNome: string;
   urlAnexo: string;
+  acaoAtual: string;
+  permitirAnexarArquivo: boolean;
 
   constructor(
     private ticketService: TicketService,
@@ -77,7 +77,28 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     this.listarSetores(true);
     this.listarOperadores(true);
-    this.configurarForm();
+    
+    const path = this.activatedRoute.snapshot.routeConfig?.path;
+    if(path?.includes('edit')){
+      this.acaoAtual = 'editar';
+    }
+    else if(path?.includes('view')){
+      this.acaoAtual = 'visualizar';
+    }
+    
+    //pega o id na URL
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id){
+      this.chamadoId = parseInt(id);
+      this.carregarChamado(this.chamadoId);
+    }
+    
+    if(this.chamadoId){
+      console.log('aqui: ' + this.chamadoId);
+      this.carregarChamado(this.chamadoId);
+    }
+
+    //this.configurarForm();
   }
 
   ngOnDestroy(): void {
@@ -155,28 +176,28 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
       icon: 'pi pi-exclamation-triangle',
       message: 'Confirma o cancelamento deste chamado?',
       accept: () => {
-          this.chamadoSub = this.ticketService.cancelar(cancelarRequest).subscribe({
-            next: (response) => {
-              if(response){
-                this.sucesso = response['sucesso'];
-                this.mensagem = response['mensagem'];
-                if(this.sucesso){
-                  this.notification.showSuccess(this.mensagem, 'Cancelamento de Chamado');
-                  this.carregarChamado(this.chamadoId);
-                }
-                else{
-                  this.notification.showWarning(this.mensagem,'Cancelamento de chamado');
-                }
+        this.chamadoSub = this.ticketService.cancelar(cancelarRequest).subscribe({
+          next: (response) => {
+            if(response){
+              this.sucesso = response['sucesso'];
+              this.mensagem = response['mensagem'];
+              if(this.sucesso){
+                this.notification.showSuccess(this.mensagem, 'Cancelamento de Chamado');
+                this.carregarChamado(this.chamadoId);
               }
-              this.cancelarDialog = false;
-              this.cancelarForm.reset();
-            },
-            error: () => {
-              this.notification.showError('Erro ao salvar chamado!');
+              else{
+                this.notification.showWarning(this.mensagem,'Cancelamento de chamado');
+              }
             }
-          });
-        }
-      });
+            this.cancelarDialog = false;
+            this.cancelarForm.reset();
+          },
+          error: () => {
+            this.notification.showError('Erro ao salvar chamado!');
+          }
+        });
+      }
+    });
   }
 
   public finalizar(){
@@ -244,8 +265,8 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
           }
         }
       },
-      error: (response) => {
-        console.log(response);
+      error: () => {
+        this.notification.showError('Não foi possível fazer o upload do anexo');
       }
     });
   }
@@ -298,15 +319,31 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
   }
 
   private configurarForm(){
-    //pega o id na URL
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if(id){
-      this.chamadoId = parseInt(id);
-      this.carregarChamado(this.chamadoId);
-    }
+    if(this.acaoAtual == 'editar'){
+      this.tituloPagina = 'Editando chamado';
+      this.permitirAnexarArquivo = true;
 
-    if(this.status != 'Pendente'){
+      if(this.status == 'Novo'){
+        this.bloquearEdicao = false;
+      } 
+      
+      if(this.status == 'Pendente'){
+        this.bloquearEdicao = false;
+      }
+      
+      if(this.status == 'Cancelado'){
+        this.bloquearEdicao == true;
+      }
+  
+      if(this.status == 'Finalizado'){
+        this.bloquearEdicao == true;
+      }
+    }
+    
+    if(this.acaoAtual == 'visualizar'){
+      this.tituloPagina = 'Detalhes chamado';
       this.bloquearEdicao = true;
+      this.permitirAnexarArquivo = false;
     }
   }
 
@@ -340,16 +377,24 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
     this.ticketService.getById(id).subscribe({
       next: (response) => {
         if(response){
+          console.log(response);
           this.chamado = response;
           this.criador = this.chamado.criador;
           this.chamadoId = this.chamado.id!;
           this.equipamentoId = this.chamado.equipamentoId!;
           this.status = this.chamado.status!;
-          console.log(this.chamado.anexos);
           this.validarFormulario(this.chamado);
+          this.configurarForm();
         }
+        else{
+          this.notification.showInfo('Chamado não encontrado!');
+          this.router.navigate(['/ticket']);
+        }
+      },
+      error: () => {
+        this.notification.showError('Não foi possível carregar os dados do chamado!');
       }
-    })
+    });
   }
 
   private validarFormulario(chamado: ChamadoResponse){

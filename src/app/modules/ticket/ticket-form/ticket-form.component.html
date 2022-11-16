@@ -1,6 +1,6 @@
 <div class="container">
 
-  <div class="row">
+  <div class="row" *ngIf="!naoExibir">
     <h3>{{ tituloPagina }}</h3>
   </div>
 
@@ -14,26 +14,32 @@
         <div class="row mt-2">
           <div class="col-sm-4">
             <label>Laboratório</label>
+            <fieldset [disabled]="bloquearEdicao">
               <select class="form-select" formControlName="setor">
-                <option *ngFor="let setor of setores" [value]="setor.id" [disabled]="bloquearEdicao">{{ setor.nome }}</option>
+                <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
               </select>
+            </fieldset>
           </div>
 
           <div class="col-sm-4">
             <label>Responsável</label>
-            <select class="form-select" formControlName="operador">
-              <option *ngFor="let operador of operadores" [value]="operador.id" [disabled]="bloquearEdicao">{{ operador.nome }}</option>
-            </select>
+            <fieldset [disabled]="bloquearEdicao">
+              <select class="form-select" formControlName="operador">
+                <option *ngFor="let operador of operadores" [value]="operador.id">{{ operador.nome }}</option>
+              </select>
+            </fieldset>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-4" *ngIf="!naoExibir">
             <label>Prioridade</label>
-            <select class="form-select" formControlName="prioridade">
-              <option [value]="0" [disabled]="bloquearEdicao">Baixa</option>
-              <option [value]="1" [disabled]="bloquearEdicao">Normal</option>
-              <option [value]="2" [disabled]="bloquearEdicao">Alta</option>
-              <option [value]="3" [disabled]="bloquearEdicao">Urgente</option>
-            </select>
+            <fieldset [disabled]="bloquearEdicao">
+              <select class="form-select" formControlName="prioridade">
+                <option [value]="0">Baixa</option>
+                <option [value]="1">Normal</option>
+                <option [value]="2">Alta</option>
+                <option [value]="3">Urgente</option>
+              </select>
+            </fieldset>
           </div>
         </div>
         <div class="row mt-2">
@@ -96,9 +102,9 @@
           </div>
       </p-tabPanel>
 
-      <p-tabPanel header="Anexos">
-        <div class="row mt-2" *ngIf="status == 'Pendente'" >
-          <div class="col-sm-4">
+      <p-tabPanel header="Anexos" *ngIf="!naoExibir">
+        <div class="row mt-2" *ngIf="status == 'Pendente' || status == 'Novo'">
+          <div class="col-sm-4" *ngIf="permitirAnexarArquivo">
             <label class="btn btn-primary btn-sm" for="ImagemUpload" title="Upload image file">
               <input type="file" class="sr-only" 
                     id="ImagemUpload"
@@ -112,7 +118,7 @@
           </div>
         </div>
 
-        <table class="table table-sm table-hover">
+        <table class="table table-sm table-hover" *ngIf="chamado?.anexos?.length">
           <thead>
             <tr>
               <th scope="col">Descrição</th>
@@ -128,7 +134,9 @@
                     <i class="bi bi-cloud-download"></i>
                     Download
                   </button>
-                  <button class="btn btn-sm btn-outline-danger" (click)="removerAnexo(anx.id!)">
+                  <button class="btn btn-sm btn-outline-danger" 
+                        (click)="removerAnexo(anx.id!)"
+                        *ngIf="status == 'Pendente' || status == 'Novo' && permitirAnexarArquivo">
                     <i class="bi bi-trash"></i>
                     Remover
                   </button>
@@ -141,7 +149,7 @@
 
       </p-tabPanel>
 
-      <div class="row-mt-2">
+      <div class="row-mt-2" *ngIf="!naoExibir">
         <div class="text-end">
           <div class="btn-group">
             <button class="btn btn-sm btn-outline-primary" type="button">
@@ -151,21 +159,21 @@
             <button class="btn btn-sm btn-outline-danger"
                     type="button" 
                     (click)="cancelarDialog = true"
-                    *ngIf="status == 'Pendente'">
+                    *ngIf="status == 'Pendente' || 'Novo'">
               <i class="bi bi-x"></i>
               Cancelar
             </button>
             <button class="btn btn-sm btn-outline-success" 
                     type="button"
                     (click)="finalizarDialog = true"
-                    *ngIf="status == 'Pendente'">
+                    *ngIf="status == 'Pendente' || 'Novo'">
               <i class="bi bi-check-all"></i>
               Finalizar
             </button>
             <button class="btn btn-sm btn-outline-primary"
                     type="button"
                     (click)="salvar()"
-                    *ngIf="status == 'Pendente'"
+                    *ngIf="status == 'Pendente' || 'Novo'"
                     [disabled]="!ticketForm.valid">
               <i class="bi bi-check"></i>
               Salvar

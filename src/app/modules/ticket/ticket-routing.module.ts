@@ -20,7 +20,7 @@ const routes: Routes = [
     }
   },
   {
-    path:':id/visualizar',
+    path:':id/view',
     component: TicketFormComponent,
     data: {
       roles: ['Usuario','Suporte','Gerente','Admin']
