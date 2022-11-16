@@ -4,7 +4,7 @@
         <div class="row mt-2">
             <p-tabView>
 
-                <p-tabPanel header="Chamados Atribuídos">
+                <p-tabPanel header="Chamados Atribuídos" *ngIf="false" >
                     <div class="row mt-2">
                         <div class="col-12">
                             <div class="btn-group">
@@ -35,7 +35,7 @@
                     </div>
                 </p-tabPanel>
 
-                <p-tabPanel header="Chamados Pendentes">
+                <p-tabPanel header="Chamados Pendentes" *ngIf="false">
                     <div class="row mt-2">
                         <div class="col-12">
                             <div class="btn-group">
@@ -74,6 +74,16 @@
                                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="abrirChamado()">
                                     <i class="bi bi-plus-lg"></i> Novo chamado
                                 </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-funnel"></i> Filtro: {{ nomeBotaoFiltro }}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" type="button" (click)="nomeBotaoFiltro = 'Novos'" (click)="listarMeusChamados(1)">Novo</a></li>
+                                    <li><a class="dropdown-item" type="button" (click)="nomeBotaoFiltro = 'Pendentes'" (click)="listarMeusChamados(2)">Pendente</a></li>
+                                    <li><a class="dropdown-item" type="button" (click)="nomeBotaoFiltro = 'Finalizados'" (click)="listarMeusChamados(4)">Finalizado</a></li>
+                                    <li><a class="dropdown-item" type="button" (click)="nomeBotaoFiltro = 'Cancelados'" (click)="listarMeusChamados(5)">Cancelado</a></li>
+                                    <li><a class="dropdown-item" type="button" (click)="nomeBotaoFiltro = 'Todos'" (click)="listarMeusChamados(0)">Todos</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -86,7 +96,7 @@
                                 </div>
                             </div>
                             <ng-template #actionTpl let-row let-rowIndex="rowIndex">
-                                <button type="button" class="btn btn-sm btn-outline-primary">
+                                <button type="button" class="btn btn-sm btn-outline-primary" (click)="showBasicDialog2(row.id)">
                                     Detalhes
                                 </button>
                             </ng-template>
@@ -100,7 +110,7 @@
                 </p-tabPanel>
 
 
-                <p-tabPanel header="Chamados Finalizados">
+                <p-tabPanel header="Chamados Finalizados" *ngIf="false">
 
                     <div class="row mt-2">
                         <div class="col-12">
@@ -135,7 +145,19 @@
             </p-tabView>
         </div>
 
-
-
     </div>
 </div>
+
+<p-dialog 
+    header="Detalhes do chamado #{{chamado}}"
+    [(visible)]="displayBasic2"
+    [style]="{width: '70vw'}"
+    [modal]="true"
+    [resizable]="false"
+    [maximizable]="true"
+    *ngIf="chamado > 0">
+    <app-ticket-form [bloquearEdicao]="true" [chamadoId]="chamado" [naoExibir]="true"></app-ticket-form>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayBasic2=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

@@ -1,3 +1,4 @@
+import { TicketFormComponent } from './../ticket-form/ticket-form.component';
 import { Router } from '@angular/router';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -24,7 +25,11 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
   chamadosFinalizados: ChamadoResponse[];
   chamadosAtribuidos: ChamadoResponse[];
 
-  usuarioLogado: Usuario;
+  displayBasic2: boolean;
+  chamado: number;
+  //usuarioLogado: Usuario;
+  nomeBotaoFiltro: string = 'Padrão';
+
   public configuration: Config;
   public columns: Columns[];
 
@@ -37,7 +42,7 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.configGrid();
     this.listarAtribuidos();
-    this.listarMeusChamados();
+    this.listarMeusChamados(1);
     this.listarPendentes();
     this.listarFinalizados();
   }
@@ -45,18 +50,44 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.chamadosSub) {
       this.chamadosSub.unsubscribe();
-      console.log('1');
     }
 
     if (this.pendentesSub) {
       this.pendentesSub.unsubscribe();
-      console.log('2');
     }
 
     if (this.finalizadosSub) {
       this.finalizadosSub.unsubscribe();
-      console.log('3');
     }
+  }
+
+  showBasicDialog2(id: number) {
+    this.chamado = id;
+    this.displayBasic2 = true;
+  }
+  
+  abrirChamado() {
+    this.router.navigate(['/ticket/open']);
+  }
+  
+  verDetalhes(id: number){
+    this.router.navigate([`/ticket/${id}/view`]);
+  }
+
+  listarMeusChamados(status: number){
+    this.chamadosSub = this.ticketService.getMeusChamados(status).subscribe({
+      next: (response) => {
+        if(response){
+          this.chamados = response;
+        }
+        else{
+          this.chamados = [];
+        }
+      },
+      error: () => {
+        this.notification.showError('Ocorreu um erro');
+      }
+    });
   }
 
   private configGrid() {
@@ -84,34 +115,15 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
     ];
   }
 
-  abrirChamado() {
-    this.router.navigate(['/ticket/open']);
-  }
-  
   private listarAtribuidos(){
     this.chamadosSub = this.ticketService.getByOperador(1).subscribe({
       next: (response) => {
         if(response){
           this.chamadosAtribuidos = response;
-          console.log(response);
+          //console.log(response);
         }
         else{
           this.chamadosAtribuidos = [];
-        }
-      },
-      error: () => {
-        this.notification.showError('Ocorreu um erro');
-      }
-    });
-  }
-  private listarMeusChamados(){
-    this.chamadosSub = this.ticketService.getMeusChamados(0).subscribe({
-      next: (response) => {
-        if(response){
-          this.chamados = response;
-        }
-        else{
-          this.chamados = [];
         }
       },
       error: () => {

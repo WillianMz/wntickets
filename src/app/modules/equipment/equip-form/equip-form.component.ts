@@ -10,6 +10,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { EquipamentoService } from 'src/app/services/equipamento.service';
+import { DownloadService } from 'src/app/services/download.service';
+import { UploadService } from 'src/app/services/upload.service';
 
 @Component({
   selector: 'app-equip-form',
@@ -18,7 +20,7 @@ import { EquipamentoService } from 'src/app/services/equipamento.service';
 })
 export class EquipFormComponent implements OnInit {
 
-  tituloPagina: string = 'Detalhes do Equipamento';
+  tituloPagina: string;
   equipForm: FormGroup;
   sucesso: boolean;
   mensagem: string;  
@@ -27,6 +29,12 @@ export class EquipFormComponent implements OnInit {
   setores: SetorResponse[];
   tipos: TipoEquipamentoResponse[];
   equipamentoId: number;
+  anexoForm: any;
+  anexoNome: string;
+  urlAnexo: string;
+  urlAnexos: EquipamentoAnexo[];
+  acaoAtual: string;
+  permitirAnexarArquivo: boolean;
 
   //campos visiveis
   boolTitulo: boolean = true;
@@ -58,7 +66,9 @@ export class EquipFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sectorService: SectorService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private downloadService: DownloadService,
+    private uploadService: UploadService
   ) {
 
     //PARA INICIAR O FORMULARIO
@@ -74,6 +84,28 @@ export class EquipFormComponent implements OnInit {
     this.obterSetores(true);
     this.obterTipos(true);
     this.configurarForm();
+
+    const path = this.activatedRoute.snapshot.routeConfig?.path;
+    if(path?.includes('edit')){
+      this.acaoAtual = 'editar';
+    }
+  
+    if(path?.includes('view')){
+      this.acaoAtual = 'visualizar';
+    }
+    
+    if(path?.includes('new')){
+      this.acaoAtual = 'novo';
+    }
+
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id){
+      this.equipamentoId = parseInt(id);
+      this.carregarEquipamento(this.equipamentoId);
+    }
+    else{
+      this.configurarForm();
+    }
   }
 
 //#region GETS
@@ -217,19 +249,120 @@ export class EquipFormComponent implements OnInit {
     })
   }
 
+  public download(url: string, nome: string){
+    this.downloadService.download(url).subscribe({
+      next: (response) => {
+        this.downloadService.handleFile(response, nome);
+      }
+    });
+  }
+
+  public anexarArquivo(file: any){
+    if(this.acaoAtual == 'editar'){
+      this.anexoForm = file[0];
+      this.anexoNome = file[0].name;
+      this.fazerUpload();
+    }
+  }
+
+  private fazerUpload(){
+    let formdata = new FormData();
+    formdata.append('file', this.anexoForm, this.anexoNome);
+    this.uploadService.arquivo(formdata).subscribe({
+      next: (response) => {
+        if(response){
+          this.mensagem = response['mensagem'];
+          this.sucesso = response['sucesso'];
+          if(this.sucesso){
+            this.urlAnexo = response['objeto'];
+            console.log(this.urlAnexo);
+            this.adicionarAnexo();
+          }
+        }
+      },
+      error: () => {
+        this.notification.showError('Não foi possível fazer o upload do anexo');
+      }
+    });
+  }
+
+  public adicionarAnexo(){
+    const anexo = new EquipamentoAnexo();
+    anexo.equipamentoId = this.equipamentoId
+    anexo.url = this.urlAnexo;
+    anexo.descricao = this.anexoNome;
+
+    this.equipamentoService.adicionarAnexo(anexo).subscribe({
+      next: (response) =>{
+        this.mensagem = response['mensagem'];
+        this.sucesso = response['sucesso'];
+        if(this.sucesso){
+          this.notification.showSuccess(this.mensagem);
+          this.carregarEquipamento(this.equipamentoId);
+        }
+        else{
+          this.notification.showInfo(this.mensagem);
+        }
+      },
+      error: () => {
+        this.notification.showError('Não foi possível adicionar o anexo!');
+      }
+    });
+  }
+
+  public removerAnexo(id: number ){
+    this.equipamentoService.removerAnexo(id).subscribe({
+      next: (response) => {
+        if(response){
+          this.mensagem = response['mensagem'];
+          this.sucesso = response['sucesso'];
+          if(this.sucesso){
+            this.notification.showSuccess(this.mensagem);
+            this.carregarEquipamento(this.equipamentoId);
+          }
+          else{
+            this.notification.showInfo(this.mensagem);
+          }
+        }
+        else{
+          this.notification.showWarning('Tente novamente!');
+        }
+      },
+      error: () => {
+        this.notification.showError('Ocorreu um erro!');
+      }
+    });
+  }
+
   //CONFIGURA A APARENCIA DA PAGINA A SER EXIBIDA AO USUARIO
   private configurarForm(){
     //pega o id na URL
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if(id){
+    //const id = this.activatedRoute.snapshot.paramMap.get('id');
+    /* if(id){
       this.tituloPagina = 'Editando equipamento';
       this.equipamentoId = parseInt(id);
-      this.carregarObjeto(this.equipamentoId);
+      this.carregarEquipamento(this.equipamentoId);
     }
     else{
       this.tituloPagina = 'Novo equipamento'
       this.boolMotivoBaixa = false
+    } */
+
+    if(this.acaoAtual == 'novo'){
+      this.tituloPagina = 'Novo equipamento';
+      this.permitirAnexarArquivo = false;
     }
+
+    if(this.acaoAtual == 'editar'){
+      this.tituloPagina = 'Editando equipamento';
+      this.permitirAnexarArquivo = true;
+    }
+
+    if(this.acaoAtual == 'visualizar'){
+      this.tituloPagina = 'Detalhes do equipamento';
+      this.permitirAnexarArquivo = false;
+    }
+
   }
 
   private obterSetores(ativo: boolean){
@@ -266,13 +399,14 @@ export class EquipFormComponent implements OnInit {
     });
   }
 
-  private carregarObjeto(id: number){
+  private carregarEquipamento(id: number){
     this.equipamentoService.getById(id).subscribe({
       next: (response) => {
         if(response){
           this.equipamento = response;
           this.anexos = this.equipamento?.anexos!;
           this.validarFormulario(this.equipamento);
+          this.configurarForm();
         }
         else{
           this.notification.showWarning('Equipamento não encontrado');

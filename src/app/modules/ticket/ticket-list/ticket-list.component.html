@@ -70,7 +70,7 @@
           <div class="col-6" *ngIf="verComboboxCriadores">
             <select class="form-select form-select-sm" formControlName="criador" [ngModel]="0">
               <option value='0' disabled>Selecione o criador</option>
-              <option *ngFor="let chamado of chamados" [value]="chamado.criador.id">{{ chamado.criador.nome }}</option>
+              <option *ngFor="let criador of criadores" [value]="criador.id">{{ criador.nome }}</option>
             </select>
           </div>
 
@@ -100,7 +100,7 @@
           <div class="col-6" *ngIf="verComboboxOperadores">
             <select class="form-select form-select-sm" formControlName="operador" [ngModel]="0">
               <option value='0' disabled>Selecione o operador</option>
-              <option *ngFor="let chamado of chamados" [value]="chamado.operador?.id">{{ chamado.operador?.nome }}</option>
+              <option *ngFor="let operador of operadores" [value]="operador.id">{{ operador.nome }}</option>
             </select>
           </div>
   
@@ -129,7 +129,6 @@
 
       <!-- GRID / TABELA -->
       <div class="row mt-2">
-        <app-load [text]="'obtendo dados...'"></app-load>
         <div class="col-12">
           <div class="columns">
             <div class="column col-12">
@@ -143,17 +142,14 @@
               </button>
               <ul class="dropdown-menu">
                 <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
-                  <a class="dropdown-item" type="button">Visualizar</a>
+                  <a class="dropdown-item" type="button" (click)="visualizar(row.id)">Visualizar</a>
                 </li>
                 <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
-                  <a class="dropdown-item" type="button" (click)="edit(row.id)">Editar</a>
+                  <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>
                 </li>
                 <li *ngIf="verificarPermissao(['Admin','Gerente'])">
-                  <a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a>
+                  <a class="dropdown-item" type="button" (click)="remover(row.id)">Excluir</a>
                 </li>
-                <!-- <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
-                  <a class="dropdown-item" type="button" (click)="edit(row.id)">Detalhes</a>
-                </li> -->
               </ul>
             </div>
           </ng-template>

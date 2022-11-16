@@ -1,3 +1,4 @@
+import { EquipamentoAnexo } from './../models/equipment/equipamentoAnexo.model';
 import { BaixarEquipamentoRequest } from './../models/equipment/baixarEquipamentoRequest.model';
 import { EquipamentoRequest } from './../models/equipment/equipamentoRequest.model';
 import { TipoEquipamentoResponse } from './../models/equipment/tipoEquipamentoResponse.model';
@@ -81,19 +82,12 @@ export class EquipamentoService {
     return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/setor?setorId=${setor}&ativo=${ativo}`);
   }
 
-  /* public getByMarca(marca: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
-    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/marca?marca=${marca}&ativo=${ativo}`);
+  public adicionarAnexo(anexo: EquipamentoAnexo) {
+    return this.http.post(`${ENDERECO_API}/anexo`, anexo);
   }
 
-  public getByModelo(modelo: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
-    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/modelo?modelo=${modelo}&ativo=${ativo}`);
+  public removerAnexo(id: number) {
+    return this.http.delete(`${ENDERECO_API}/anexo/${id}`);
   }
 
-  public getByFabricante(fabricante: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
-    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/fabricante?fabricante=${fabricante}&ativo=${ativo}`);
-  }
-
-  public getBySerial(serial: string, ativo: boolean) : Observable<EquipamentoResponse[]>{
-    return this.http.get<EquipamentoResponse[]>(`${ENDERECO_API}/serial?serial=${serial}&ativo=${ativo}`);
-  } */
 }

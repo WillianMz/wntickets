@@ -1,3 +1,5 @@
+import { AdminResponse } from './../models/pessoa/adminResponse.model';
+import { CriadorResponse } from './../models/pessoa/criadorResponse.model';
 import { PessoaRequest } from './../models/pessoa/pessoaRequest.model';
 import { PerfilRequest } from './../models/pessoa/perfilRequest.model';
 import { PerfilResponse } from './../models/pessoa/perfilResponse.model';
@@ -9,6 +11,7 @@ import { Pais } from '../models/pessoa/pais.model';
 import { Uf } from '../models/pessoa/uf.model';
 import { OperadorResponse } from '../models/ticket/operadorResponse.model';
 import { PessoaResponse } from '../models/pessoa/pessoaResponse.model';
+import { GerenteResponse } from '../models/pessoa/gerenteResponse.model';
 
 const ENDERECO_API: string = `${environment.api}/pessoa`;
 
@@ -41,6 +44,22 @@ export class PessoaService {
 
   public getAll(ativo: boolean, tipo: number): Observable<PessoaResponse[]> {
     return this.http.get<PessoaResponse[]>(`${ENDERECO_API}?ativa=${ativo}&tipo=${tipo}`);
+  }
+
+  public getUsuarios(ativo: boolean) : Observable<CriadorResponse[]> {
+    return this.http.get<CriadorResponse[]>(`${ENDERECO_API}/usuarios?ativo=${ativo}`);
+  }
+
+  public getOperadores(ativo: boolean): Observable<OperadorResponse[]>{
+    return this.http.get<OperadorResponse[]>(`${ENDERECO_API}/operadores?ativo=${ativo}`)
+  }
+
+  public getGerentes(ativo: boolean) : Observable<GerenteResponse[]> {
+    return this.http.get<GerenteResponse[]>(`${ENDERECO_API}/gerentes?ativo=${ativo}`);
+  }
+
+  public getAdministradores(ativo: boolean) : Observable<AdminResponse[]> {
+    return this.http.get<AdminResponse[]>(`${ENDERECO_API}/administradores?ativo=${ativo}`);
   }
 
   public getPaises (): Array<Pais> {
@@ -82,9 +101,5 @@ export class PessoaService {
     ];
 
     return estados;
-  }
-
-  public getOperadores(ativo: boolean): Observable<OperadorResponse[]>{
-    return this.http.get<OperadorResponse[]>(`${ENDERECO_API}/operadores?ativo=${ativo}`)
   }
 }

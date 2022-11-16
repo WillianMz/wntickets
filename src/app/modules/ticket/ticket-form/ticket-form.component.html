@@ -1,6 +1,6 @@
 <div class="container">
 
-  <div class="row">
+  <div class="row" *ngIf="!naoExibir">
     <h3>{{ tituloPagina }}</h3>
   </div>
 
@@ -14,32 +14,38 @@
         <div class="row mt-2">
           <div class="col-sm-4">
             <label>Laboratório</label>
+            <fieldset [disabled]="bloquearEdicao">
               <select class="form-select" formControlName="setor">
-                <option *ngFor="let setor of setores" [value]="setor.id" [disabled]="bloquearEdicao">{{ setor.nome }}</option>
+                <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
               </select>
+            </fieldset>
           </div>
 
           <div class="col-sm-4">
             <label>Responsável</label>
-            <select class="form-select" formControlName="operador">
-              <option *ngFor="let operador of operadores" [value]="operador.id" [disabled]="bloquearEdicao">{{ operador.nome }}</option>
-            </select>
+            <fieldset [disabled]="bloquearEdicao">
+              <select class="form-select" formControlName="operador">
+                <option *ngFor="let operador of operadores" [value]="operador.id">{{ operador.nome }}</option>
+              </select>
+            </fieldset>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-4" *ngIf="!naoExibir">
             <label>Prioridade</label>
-            <select class="form-select" formControlName="prioridade">
-              <option [value]="0" [disabled]="bloquearEdicao">Baixa</option>
-              <option [value]="1" [disabled]="bloquearEdicao">Normal</option>
-              <option [value]="2" [disabled]="bloquearEdicao">Alta</option>
-              <option [value]="3" [disabled]="bloquearEdicao">Urgente</option>
-            </select>
+            <fieldset [disabled]="bloquearEdicao">
+              <select class="form-select" formControlName="prioridade">
+                <option [value]="0">Baixa</option>
+                <option [value]="1">Normal</option>
+                <option [value]="2">Alta</option>
+                <option [value]="3">Urgente</option>
+              </select>
+            </fieldset>
           </div>
         </div>
         <div class="row mt-2">
           <div class="col-sm-10">
             <label>Assunto</label>
-            <input type="text" class="form-control" formControlName="assunto" readonly="bloquearEdicao">
+            <input type="text" class="form-control" formControlName="assunto" [readonly]="bloquearEdicao">
           </div>
 
           
@@ -53,7 +59,7 @@
         <div class="row mt-2">
           <div class="col-sm-12">
             <label for="descricao" class="col-sm-2 col-form-label">Descrição</label>
-            <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao" readonly="bloquearEdicao"></textarea>
+            <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="descricao" [readonly]="bloquearEdicao"></textarea>
           </div>
         </div>
         <fieldset disabled>
@@ -78,47 +84,104 @@
       </p-tabPanel>
 
       <p-tabPanel header="Solução">
-
           <div class="row mt-2">
             <div class="col-sm-12">
               <label for="descricao" class="col-sm-2 col-form-label">Solução Aplicada</label>
-              <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="solucao"></textarea>
+              <fieldset disabled>
+                <textarea type="text" class="form-control" rows="5" id="descricao" formControlName="solucao"></textarea>
+              </fieldset>
             </div>
           </div>
           <div class="row mt-2">
             <div class="col-sm-4 mb-3">
-              <label for="disabledTextInput" class="form-label">Finalizado por</label>
-              <input type="text" id="disabledTextInput" class="form-control" formControlName="criador">
+              <label>Finalizado por</label>
+              <fieldset disabled>
+                <input ype="text" id="disabledTextInput" class="form-control" formControlName="finalizador">
+              </fieldset>
             </div>
           </div>
       </p-tabPanel>
 
-      <p-tabPanel header="Anexos">
-        <div class="row mt-2">
-          <div class="col-sm-4">
-            <button class="btn btn-primary">Ver Anexo</button>
+      <p-tabPanel header="Anexos" *ngIf="!naoExibir">
+        <div class="row mt-2" *ngIf="status == 'Pendente' || status == 'Novo'">
+          <div class="col-sm-4" *ngIf="permitirAnexarArquivo">
+            <label class="btn btn-primary btn-sm" for="ImagemUpload" title="Upload image file">
+              <input type="file" class="sr-only" 
+                    id="ImagemUpload"
+                    name="ImagemUpload"
+                    #fileInput (change)="anexarArquivo(fileInput.files)">          
+              <span class="docs-tooltip" data-toggle="tooltip" data-original-title="Import image with Blob URLs">
+                <i class="bi bi-paperclip"></i>
+                  Anexar Arquivo
+              </span>
+            </label>
           </div>
         </div>
-      </p-tabPanel>
 
-      <div class="mt-2 text-end">
-        <div class="btn-group">
-          <button class="btn btn-sm btn-outline-primary" type="button" (click)="salvar()" [disabled]="!ticketForm.valid">
-            <i class="bi bi-check"></i>
-            Salvar
-          </button>
-          <button class="btn btn-sm btn-outline-secondary" type="button" (click)="voltar()">
+        <table class="table table-sm table-hover" *ngIf="chamado?.anexos?.length">
+          <thead>
+            <tr>
+              <th scope="col">Descrição</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let anx of chamado?.anexos">
+            <tr>
+              <td>{{anx.descricao}}</td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-secondary" (click)="download(anx.url!, anx.descricao!)">
+                    <i class="bi bi-cloud-download"></i>
+                    Download
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" 
+                        (click)="removerAnexo(anx.id!)"
+                        *ngIf="status == 'Pendente' || status == 'Novo' && permitirAnexarArquivo">
+                    <i class="bi bi-trash"></i>
+                    Remover
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </p-tabPanel>
+      <div class="row-mt-2" *ngIf="!naoExibir">
+        <div class="text-end">
+          <div class="btn-group">
+            <!-- <button class="btn btn-sm btn-outline-primary" type="button">
+              <i class="bi bi-printer"></i>
+              Imprimir
+            </button> -->
+            <button class="btn btn-sm btn-outline-danger"
+                    type="button" 
+                    (click)="cancelarDialog = true"
+                    *ngIf="status == 'Pendente' || status == 'Novo'">
+              <i class="bi bi-x"></i>
+              Cancelar
+            </button>
+            <button class="btn btn-sm btn-outline-success" 
+                    type="button"
+                    (click)="finalizarDialog = true"
+                    *ngIf="status == 'Pendente' || status == 'Novo'">
+              <i class="bi bi-check-all"></i>
+              Finalizar
+            </button>
+            <button class="btn btn-sm btn-outline-primary"
+                    type="button"
+                    (click)="salvar()"
+                    [disabled]="!ticketForm.valid"
+                    *ngIf="status == 'Pendente' || status == 'Novo'">
+              <i class="bi bi-check"></i>
+              Salvar
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" (click)="voltar()">
             <i class="bi bi-arrow-return-left"></i>
-            Voltar
-          </button>
-          <button class="btn btn-sm btn-outline-danger" type="button" (click)="cancelar()">
-            <i class="bi bi-x"></i>
-            Cancelar
-          </button>
-          <button class="btn btn-sm btn-outline-success" type="button" (click)="finalizar()">
-            <i class="bi bi-check-all"></i>
-            Finalizar
-          </button>
+              Voltar
+            </button>
+          </div>
         </div>
       </div>
 
@@ -131,9 +194,28 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
-<p-dialog header="Motivo de cancelamento" [(visible)]="display" [style]="{width: '50vw'}">
-    <textarea type="text" class="form-control" rows="5" ></textarea>
+<p-dialog 
+  header="Motivo de cancelamento"
+  [(visible)]="cancelarDialog"
+  [style]="{width: '50vw'}"
+  [modal]="true">
+    <form [formGroup]="cancelarForm">
+      <textarea type="text" class="form-control" rows="5" formControlName="motivoCancelamento" ></textarea>
+    </form>
   <ng-template pTemplate="footer">
-      <p-button icon="pi pi-check" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
+      <p-button icon="pi pi-check" (click)="cancelar()" label="Ok" styleClass="p-button-text"></p-button>
   </ng-template>
+</p-dialog>
+
+<p-dialog 
+  header="Solução aplicada"
+  [(visible)]="finalizarDialog"
+  [style]="{width: '50vw'}"
+  [modal]="true">
+  <form [formGroup]="solucaoForm">
+    <textarea type="text" class="form-control" rows="5" formControlName="solucaoAplicada"></textarea>
+  </form>
+<ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="finalizar()" label="Ok" styleClass="p-button-text"></p-button>
+</ng-template>
 </p-dialog>

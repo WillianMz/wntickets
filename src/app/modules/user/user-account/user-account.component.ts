@@ -254,8 +254,8 @@ export class UserAccountComponent implements OnInit {
   private carregarDadosDoUsuario(id: string){
     this.usuarioService.getById(id).subscribe({
      next: (response) => {
+      console.log(response);
        this.usuario = response;
-       
        if(this.usuario != null){
          this.validarFormUsuario(this.usuario);
        }
@@ -315,11 +315,13 @@ export class UserAccountComponent implements OnInit {
       nome: new FormControl(usuario.nome),
       email: new FormControl(usuario.email),
       tipo: new FormControl(usuario.perfil),
-      perfil: new FormControl(),
+      perfil: new FormControl(usuario.roles),
       ativo: new FormControl(),
-      bloqueado: new FormControl(),
-      emailConf: new FormControl()
+      bloqueado: new FormControl(usuario.bloqueado),
+      emailConf: new FormControl(usuario.emailConfirmado)
     });
+
+    console.log(this.usuarioForm.value);
   }
 
 }

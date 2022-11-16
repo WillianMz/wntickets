@@ -52,7 +52,8 @@ import { AuthGuard } from './guards/auth.guard';
     ToastrModule.forRoot({
       timeOut: 10000,
       preventDuplicates: true,
-      countDuplicates: true
+      countDuplicates: true,
+      positionClass: 'toast-bottom-right'
     }),
     NgxPopperjsModule,
     NgxMaskModule.forRoot({dropSpecialCharacters: false}),
