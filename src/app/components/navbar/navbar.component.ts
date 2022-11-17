@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public minhaConta() {
-    this.router.navigate([`users/minha-conta/${this.perfil.id}`]);
+    this.router.navigate(['/users/minha-conta']);
   }
 
   public verificarPermissao(roleFuncionalidade: string[]): boolean{

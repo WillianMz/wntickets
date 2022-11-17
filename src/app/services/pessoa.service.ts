@@ -1,3 +1,4 @@
+import { DefinirTipoRequest } from './../models/pessoa/definirTipoRequest.model';
 import { AdminResponse } from './../models/pessoa/adminResponse.model';
 import { CriadorResponse } from './../models/pessoa/criadorResponse.model';
 import { PessoaRequest } from './../models/pessoa/pessoaRequest.model';
@@ -60,6 +61,10 @@ export class PessoaService {
 
   public getAdministradores(ativo: boolean) : Observable<AdminResponse[]> {
     return this.http.get<AdminResponse[]>(`${ENDERECO_API}/administradores?ativo=${ativo}`);
+  }
+
+  public definirTipo(tipo: DefinirTipoRequest) {
+    return this.http.post(`${ENDERECO_API}/definir-tipo`, tipo);
   }
 
   public getPaises (): Array<Pais> {

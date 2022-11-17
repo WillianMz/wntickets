@@ -1,15 +1,12 @@
 import { LoginService } from 'src/app/services/login.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { UserService } from 'src/app/services/user.service';
 import { CadastroUsuarioRequest } from 'src/app/models/user/cadastroUsuarioRequest.model';
 import { UsuarioModel } from 'src/app/models/user/usuarioModel';
-import { NovoUsuarioModel } from 'src/app/models/user/novoUsuarioModel';
-import { EditarUsuarioModel } from 'src/app/models/user/editarUsuarioModel';
-import { NgxMaskModule } from 'ngx-mask';
 import { FormValidations } from 'src/app/functions/form-validations';
 import { CadastroUsuarioResponse } from 'src/app/models/user/cadastroUsuarioResponse.model';
 import { NotificationService } from 'src/app/services/notification.service';

@@ -40,7 +40,7 @@ const routes: Routes = [
     }
   },
   { 
-    path:'minha-conta/:id', component: UserAccountComponent,
+    path:'minha-conta', component: UserAccountComponent,
     data: {
       roles: ['Gerente','Admin','Suporte','Usuario']
     }
