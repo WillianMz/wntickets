@@ -1,3 +1,4 @@
+import { EditarUsuarioRequest } from './../models/user/editarUsuarioRequest.model';
 import { UsuarioResponse } from './../models/user/usuarioResponse.model';
 import { EsqueciMinhaSenha } from './../models/user/esqueciMinhaSenha.model';
 import { RecuperarSenha } from './../models/user/recuperarSenha.model';
@@ -10,13 +11,9 @@ import { RoleRequest } from './../models/user/roleRequest.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RoleResponse } from '../models/user/roleResponse.model';
-import { UsuarioModel } from '../models/user/usuarioModel';
-import { EditarUsuarioModel } from '../models/user/editarUsuarioModel';
 import { environment } from 'src/environments/environment';
-import { ListarUsuarioModel } from '../models/user/listarUsuarioModel';
 import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
 import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
-import { ListarIdUsuarioModel } from '../models/user/listarIdUsuarioModel';
 
 const ENDERECO_API: string = `${environment.api}/usuario`;
 
@@ -51,7 +48,7 @@ export class UserService {
     return this.http.get<UsuarioResponse[]>(`${ENDERECO_API}`);
   }
 
-  public editar(usuario: EditarUsuarioModel) {
+  public editar(usuario: EditarUsuarioRequest) {
     return this.http.put(`${ENDERECO_API}`, usuario);
   }
 

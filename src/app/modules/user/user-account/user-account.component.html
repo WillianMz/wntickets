@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-12  mt-2">
                   <label class="labels">Telefone/Celular</label>
-                  <input type="text" class="form-control" formControlName="telefone" mask="(00) 00000-0000 || (00) 0000-0000">
+                  <input type="text" class="form-control" formControlName="telefone">
                 </div>
                 <div class="col-md-12 mt-2">
                   <label class="labels">Cidade</label>
@@ -61,6 +61,27 @@
                   </select>
                 </div>
               </div>
+
+              <!-- <div class="row mt-2">
+                <div class="col-md-12">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkUsuario" formControlName="ehUsuario">
+                    <label class="form-check-label" for="checkUsuario">Usuário</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkSuporte" formControlName="ehSuporte">
+                    <label class="form-check-label" for="checkSuporte">Suporte</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkGerente" formControlName="ehGerente">
+                    <label class="form-check-label" for="checkGerente">Gerente</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="" id="checkAdmin" formControlName="ehAdmin">
+                    <label class="form-check-label" for="checkAdmin">Administrador</label>
+                  </div>
+                </div>
+              </div> -->
 
               <div class="mt-5 text-center">
                 <button class="btn btn-outline-primary" type="button" [disabled]="!perfilForm.valid" (click)="salvar()">
@@ -96,54 +117,45 @@
           </form>
         </p-tabPanel>
 
-        <p-tabPanel header="Dados de Usuário" *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
+        <p-tabPanel header="Dados de Usuário" *ngIf="verificarPermissao(['Admin','Gerente','Suporte']) && exibirDadosDoUsuario">
           <form [formGroup]="usuarioForm">
             <div class="mt-1">
-              <div class="row mt-2">
+              <div class="row">
                 
-                <div class="col-md-12 mt-2">
-                  <label class="labels">Id Conta</label>
-                  <input type="text" class="form-control" formControlName="id"/>
+                <!-- NOTIFICACOES DO SERVIDOR -->
+                <div class="col-md-12" *ngIf="errosEditarUsuario?.length">
+                  <div class="alert alert-danger" role="alert">
+                    <!-- <h5>{{ mensagem }}</h5> -->
+                    <ul *ngFor="let e of errosEditarUsuario">
+                      <li><strong>{{ e.code }}</strong> - {{ e.description }}</li>
+                    </ul>
+                  </div>
+                </div>
+                
+
+                <div class="col-md-12">
+                  <fieldset disabled>
+                    <label class="labels">Id Conta</label>
+                    <input type="text" class="form-control" formControlName="id"/>
+                  </fieldset>
                 </div>
                 <div class="col-md-12 mt-2">
                   <label class="labels">Login</label>
-                  <input type="text" class="form-control" formControlName="nome"/>
+                  <input type="text" class="form-control" formControlName="username"/>
                 </div>
                 <div class="col-md-12 mt-2">
                   <label class="labels">Email</label>
                   <input type="text" class="form-control" formControlName="email">
                 </div>
-                <div class="col-md-6 mt-2">
+                <!-- <div class="col-md-6 mt-2">
                   <label class="labels">Tipo</label>
                   <select class="form-select" formControlName="perfil">
                     <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
                   </select>
-                </div>
+                </div> -->
               </div>
 
-              <div class="row mt-2" *ngIf="false">
-                <div class="col-md-12">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
-                    <label class="form-check-label" for="checkBloqueado">Usuário</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
-                    <label class="form-check-label" for="checkBloqueado">Suporte</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
-                    <label class="form-check-label" for="checkBloqueado">Gerente</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
-                    <label class="form-check-label" for="checkBloqueado">Administrador</label>
-                  </div>
-                  <!-- <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
-                    <label class="form-check-label" for="checkBloqueado">Fornecedor</label>
-                  </div> -->
-                </div>
+              <div class="row mt-2">
                 <div class="col-md-12">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
@@ -157,14 +169,40 @@
                   </div>
                 </div>
               </div>
-
-              <div class="mt-5 text-center">
-                <button class="btn btn-outline-primary" type="button" [disabled]="!perfilForm.valid" (click)="salvar()">
-                  Salvar
-                </button>
+            </div>
+          </form>
+          <form [formGroup]="tipoForm">
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" value="" id="checkUsuario" formControlName="ehUsuario">
+                  <label class="form-check-label" for="checkUsuario">Usuário</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" value="" id="checkSuporte" formControlName="ehSuporte">
+                  <label class="form-check-label" for="checkSuporte">Suporte</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" value="" id="checkGerente" formControlName="ehGerente">
+                  <label class="form-check-label" for="checkGerente">Gerente</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" value="" id="checkAdmin" formControlName="ehAdmin">
+                  <label class="form-check-label" for="checkAdmin">Administrador</label>
+                </div>
+                <!-- <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" value="" id="checkBloqueado" formControlName="bloqueado">
+                  <label class="form-check-label" for="checkBloqueado">Fornecedor</label>
+                </div> -->
               </div>
             </div>
           </form>
+
+          <div class="mt-5 text-center">
+            <button class="btn btn-outline-primary" type="button" [disabled]="!perfilForm.valid" (click)="salvarTipo()">
+              Salvar
+            </button>
+          </div>
         </p-tabPanel>
 
       </p-tabView>
