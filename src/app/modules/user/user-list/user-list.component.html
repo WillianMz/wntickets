@@ -47,15 +47,15 @@
                 </button>              
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="!row.ativo">Ativar</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo">Desativar</a></li>
+                  <!-- <li><a class="dropdown-item" type="button" (click)="ativar(row.id)" *ngIf="!row.ativo">Ativar</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="desativar(row.id)" *ngIf="row.ativo">Desativar</a></li> -->
                   <li><a class="dropdown-item" type="button" (click)="delete(row.id)">Excluir</a></li>
                   <!-- <li><a class="dropdown-item" type="button" (click)="solicitarAtivacao(row.email)">Solicitar Cód.Ativação</a></li> -->
-                  <li><a class="dropdown-item" type="button" (click)="bloquear(row.id)">Bloquear</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="desbloquear(row.id)">Desbloquear</a></li>
-                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" type="button" (click)="bloquear(row.id)" *ngIf="row.ativo">Bloquear</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="desbloquear(row.id)" *ngIf="!row.ativo">Desbloquear</a></li>
+                  <!-- <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" type="button">Ver Perfil</a></li>
-                  <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li>
+                  <li><a class="dropdown-item" type="button" (click)="cleanFilters()">Detalhes</a></li> -->
                 </ul>
               </div>
               
