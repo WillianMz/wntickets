@@ -75,8 +75,12 @@ export class EquipListComponent implements OnInit {
     this.configGrid();
     this.listarSetores();
     this.listarTipos();
-    this.consultarEquipamentos(true);
-    //this.procurar();
+    if (this.sectorId) {
+      this.filtrarPor(2);
+      this.procurar();
+    } else {
+      this.consultarEquipamentos(true);
+    }
   }
 
   public verificarPermissao(roleFuncionalidade: string[]): boolean{
@@ -201,6 +205,10 @@ export class EquipListComponent implements OnInit {
   public procurar(){
     if(this.setorID){
       this.consultarPorSetor(this.setorID, this.somenteAtivos);
+      let teste = new FiltroEquipamento();
+      teste.ativo = 0;
+      teste.setor = this.setorID;
+      this.validarFormulario(teste);
     }
     if(this.tipoID){
       this.consultarPorTipo(this.tipoID, this.somenteAtivos);
@@ -210,6 +218,10 @@ export class EquipListComponent implements OnInit {
     }
     if(this.sectorId){
       this.consultarPorSetor(this.sectorId, this.somenteAtivos);
+      let teste = new FiltroEquipamento();
+      teste.ativo = 0;
+      teste.setor = this.sectorId;
+      this.validarFormulario(teste);
     }
     if(this.tipoId){
       this.consultarPorTipo(this.tipoId, this.somenteAtivos);

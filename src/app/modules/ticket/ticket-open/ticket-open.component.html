@@ -124,10 +124,14 @@
                     <i class="bi bi-check"></i>
                     Salvar
                   </button>
-                <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']">
+                <button type="button" class="btn btn-outline-danger" [routerLink]="['/ticket']" *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
                     <i class="bi bi-x"></i>
                     Cancelar
-                </button>                
+                </button>          
+                <button type="button" class="btn btn-outline-danger" [routerLink]="['/home']" *ngIf="verificarPermissao(['Usuario'])">
+                    <i class="bi bi-x"></i>
+                    Cancelar
+                </button>              
               </div>
             </div>
         </div>
