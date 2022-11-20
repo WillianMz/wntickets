@@ -459,6 +459,7 @@ export class EquipFormComponent implements OnInit {
         Validators.maxLength(40)
       ]),
       anoFabricacao: new FormControl(equip.anoFabricacao, [
+        Validators.required,
         Validators.minLength(4),
         Validators.maxLength(4)
       ]),
@@ -473,6 +474,7 @@ export class EquipFormComponent implements OnInit {
         Validators.maxLength(44)
       ]),
       dtCompra: new FormControl(equip.dtCompra, [
+        Validators.required,
         Validators.minLength(10),
         Validators.maxLength(10)
       ]),

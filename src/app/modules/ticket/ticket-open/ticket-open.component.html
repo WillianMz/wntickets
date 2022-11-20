@@ -129,7 +129,7 @@
                     <i class="bi bi-x"></i>
                     Cancelar
                 </button>          
-                <button type="button" class="btn btn-outline-danger" [routerLink]="['/home']" *ngIf="verificarPermissao(['Usuario'])">
+                <button type="button" class="btn btn-outline-danger" [routerLink]="['/home']" *ngIf="verificarPermissao(['Usuario']) && !verificarPermissao(['Admin','Gerente','Suporte'])">
                     <i class="bi bi-x"></i>
                     Cancelar
                 </button>              

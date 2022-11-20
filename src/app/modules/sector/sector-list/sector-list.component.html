@@ -78,7 +78,7 @@
                   </button>
                   <ul class="dropdown-menu">
                     <li *ngIf="verificarPermissao(['Admin','Gerente','Suporte','Usuario'])">
-                      <a class="dropdown-item" type="button" (click)="abrirChamado(row.id)">Abrir chamado</a>
+                      <a class="dropdown-item" type="button" (click)="abrirChamado(row.id)" *ngIf="row.ativo == true">Abrir chamado</a>
                     </li>
                     <li *ngIf="verificarPermissao(['Admin'])">
                       <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>

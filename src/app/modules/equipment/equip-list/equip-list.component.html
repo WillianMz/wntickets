@@ -34,13 +34,13 @@
           <div class="col-6" *ngIf="verComboboxSetores">
               <select class="form-select form-select-sm" formControlName="setor" >
                 <option value="null" disabled selected>Selecione o laboratório</option>
-                <option *ngFor="let setor of setores" [value]="setor.id" placeholder="Testes">{{ setor.nome }}</option>
+                <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
               </select>
           </div>
 
           <div class="col-6" *ngIf="verComboboxTipos">
-              <select class="form-select form-select-sm" formControlName="tipo" [ngModel]="0">
-                <option value='0' disabled>Selecione o tipo</option>
+              <select class="form-select form-select-sm" formControlName="tipo" >
+                <option value="null" disabled selected>Selecione o tipo</option>
                 <option *ngFor="let tipo of tiposEquipamentos" [value]="tipo.id">{{ tipo.descricao }}</option>
               </select>
           </div>
@@ -69,6 +69,9 @@
             <button type="button" class="btn btn-sm btn-outline-primary" (click)="tiposDeEquipamentos()" *ngIf="verificarPermissao(['Admin','Gerente','Suporte'])">
               <i class="bi bi-pc-display"></i> Tipos de Equipamentos
             </button>
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="limparFiltros()">
+              <i class="bi bi-arrow-clockwise"></i> Atualizar
+            </button>
           </div>
         </div>
       </div>
@@ -93,7 +96,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li *ngIf="verificarPermissao(['Usuario', 'Suporte','Admin','Gerente'])">
-                  <a class="dropdown-item" type="button" (click)="abrirChamado(row.id)">Abrir chamado</a>
+                  <a class="dropdown-item" type="button" (click)="abrirChamado(row.id)" *ngIf="row.ativo == true">Abrir chamado</a>
                 </li>
                 <li *ngIf="verificarPermissao(['Admin','Gerente'])">
                   <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>

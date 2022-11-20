@@ -66,7 +66,6 @@ export class SectorListComponent implements OnInit {
 
   public limparFiltros(){
     this.listarSetores(true);
-    this.tituloDaPagina = "Laboratórios";
   }
 
   public procurarPorNome(){
@@ -91,7 +90,6 @@ export class SectorListComponent implements OnInit {
 
   public filtrarDesativados(){
     this.listarSetores(false);
-    this.tituloDaPagina = "Laboratórios desativados";
   }
 
   public ativar(id: string) {
@@ -196,6 +194,12 @@ export class SectorListComponent implements OnInit {
   }
 
   private listarSetores(ativo: boolean) {
+    if (ativo) {
+      this.tituloDaPagina = "Laboratórios";
+    } else {
+      this.tituloDaPagina = "Laboratórios desativados";
+    }
+
     this.spinner.show();
     this.sectorService.getAll(ativo).subscribe({
       next: (response) => {
