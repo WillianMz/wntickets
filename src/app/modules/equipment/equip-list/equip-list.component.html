@@ -93,7 +93,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li *ngIf="verificarPermissao(['Usuario', 'Suporte','Admin','Gerente'])">
-                  <a class="dropdown-item" type="button" (click)="editar(row.id)">Abrir chamado</a>
+                  <a class="dropdown-item" type="button" (click)="abrirChamado(row.id)">Abrir chamado</a>
                 </li>
                 <li *ngIf="verificarPermissao(['Admin','Gerente'])">
                   <a class="dropdown-item" type="button" (click)="editar(row.id)">Editar</a>

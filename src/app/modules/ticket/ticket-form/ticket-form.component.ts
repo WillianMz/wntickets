@@ -12,7 +12,7 @@ import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model'
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from './../../../services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ import { UploadService } from 'src/app/services/upload.service';
   templateUrl: './ticket-form.component.html',
   styleUrls: ['./ticket-form.component.css']
 })
-export class TicketFormComponent implements OnInit, OnDestroy  {
+export class TicketFormComponent implements OnInit, OnDestroy, OnChanges  {
 
   //@Input() ticketID: number;
   @Input() chamadoId: number;
@@ -73,6 +73,12 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
     this.validarFormSolucao(finalizar);
     this.validarFormularioCancelar(cancelar);
   }
+  ngOnChanges(): void {
+    if(this.chamadoId){
+      console.log('aqui: ' + this.chamadoId);
+      this.carregarChamado(this.chamadoId);
+    }
+  }
 
   ngOnInit(): void {
     this.listarSetores(true);
@@ -93,10 +99,10 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
       this.carregarChamado(this.chamadoId);
     }
     
-    if(this.chamadoId){
+/*     if(this.chamadoId){
       console.log('aqui: ' + this.chamadoId);
       this.carregarChamado(this.chamadoId);
-    }
+    } */
 
     //this.configurarForm();
   }
@@ -105,6 +111,8 @@ export class TicketFormComponent implements OnInit, OnDestroy  {
     if(this.chamadoSub){
       this.chamadoSub.unsubscribe;
     }
+
+    this.chamado = new ChamadoResponse();
   }
   
   get setor(){

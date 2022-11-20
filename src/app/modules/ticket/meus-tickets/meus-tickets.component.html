@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <ng-template #actionTpl let-row let-rowIndex="rowIndex">
-                                <button type="button" class="btn btn-sm btn-outline-primary" (click)="showBasicDialog2(row.id)">
+                                <button type="button" class="btn btn-sm btn-outline-primary" (click)="verDetalhes(row.id)">
                                     Detalhes
                                 </button>
                             </ng-template>
@@ -150,14 +150,14 @@
 
 <p-dialog 
     header="Detalhes do chamado #{{chamado}}"
-    [(visible)]="displayBasic2"
+    [(visible)]="detalhesDialog"
     [style]="{width: '70vw'}"
     [modal]="true"
     [resizable]="false"
     [maximizable]="true"
     *ngIf="chamado > 0">
-    <app-ticket-form [bloquearEdicao]="true" [chamadoId]="chamado" [naoExibir]="true"></app-ticket-form>
+    <app-ticket-form [chamadoId]="chamado" [bloquearEdicao]="true" [naoExibir]="true"></app-ticket-form>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-check" (click)="displayBasic2=false" label="Ok" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="detalhesDialog=false" label="Ok" styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
