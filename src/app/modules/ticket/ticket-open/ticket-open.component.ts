@@ -9,6 +9,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { SectorService } from 'src/app/services/sector.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-ticket-open',
@@ -37,7 +39,8 @@ export class TicketOpenComponent implements OnInit {
     private notification: NotificationService,
     private uploadService: UploadService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private loginService: LoginService
   ) { 
 
     this.activatedRoute.queryParams.subscribe(
@@ -211,5 +214,11 @@ export class TicketOpenComponent implements OnInit {
       ])
     });
    }
+  }
+
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
   }
 }

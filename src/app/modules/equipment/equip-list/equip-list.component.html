@@ -32,9 +32,9 @@
           </div>
 
           <div class="col-6" *ngIf="verComboboxSetores">
-              <select class="form-select form-select-sm" formControlName="setor" [ngModel]="0">
-                <option value='0' disabled>Selecione o laboratório</option>
-                <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
+              <select class="form-select form-select-sm" formControlName="setor" >
+                <option value="null" disabled selected>Selecione o laboratório</option>
+                <option *ngFor="let setor of setores" [value]="setor.id" placeholder="Testes">{{ setor.nome }}</option>
               </select>
           </div>
 
