@@ -225,9 +225,9 @@ export class EquipListComponent implements OnInit {
     }
   }
 
-  abrirChamado(equipamento: string) {
+  /* abrirChamado(equipamento: string) {
     this.router.navigate(['/ticket/open'], { queryParams: {equipamentoId: equipamento}});
-  }
+  } */
 
   public editar(equipmentId: string){
     this.router.navigate([`equipment/edit/${equipmentId}`]);
