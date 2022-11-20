@@ -75,12 +75,19 @@ export class EquipListComponent implements OnInit {
     this.configGrid();
     this.listarSetores();
     this.listarTipos();
+    
     if (this.sectorId) {
       this.filtrarPor(2);
       this.procurar();
     } else {
-      this.consultarEquipamentos(true);
+      if (this.tipoId) {
+        this.filtrarPor(3);
+        this.procurar();
+      } else {
+        this.consultarEquipamentos(true);
+      }
     }
+    
   }
 
   public verificarPermissao(roleFuncionalidade: string[]): boolean{
@@ -136,10 +143,11 @@ export class EquipListComponent implements OnInit {
   public filtrarPor(filtro: number){
     switch(filtro) {
       case 1://TODOS ATIVOS
+        this.nomeBotaoFiltro = 'Filtro';
         this.verComboboxSetores = false;
         this.verComboboxTipos = false;
-        this.nomeBotaoFiltro = 'Ativos';
         this.somenteAtivos = true;
+        this.campo_pesquisa = true;
         this.consultarEquipamentos(true);
         break;
       case 2://SETOR
@@ -162,7 +170,7 @@ export class EquipListComponent implements OnInit {
         this.verComboboxTipos = false;
         this.campo_pesquisa = false;
         this.somenteAtivos = false;
-        this.tituloDaPagina = 'Equipamentos desativados';
+        /* this.tituloDaPagina = 'Equipamentos desativados'; */
         this.consultarEquipamentos(false);
         break;
       case 5://DESATIVADOS POR SETOR
@@ -180,7 +188,7 @@ export class EquipListComponent implements OnInit {
         this.somenteAtivos = false;
         break;
       default:
-        this.nomeBotaoFiltro = 'Ativos';
+        this.nomeBotaoFiltro = 'Filtro';
         this.verComboboxSetores = false;
         this.verComboboxTipos = false;
         this.campo_pesquisa = true;
@@ -190,7 +198,7 @@ export class EquipListComponent implements OnInit {
   }
 
   public limparFiltros(){
-    this.nomeBotaoFiltro = 'Padrão';
+    this.nomeBotaoFiltro = 'Filtro';
     this.verComboboxSetores = false;
     this.verComboboxTipos = false;
     this.campo_pesquisa = true;
@@ -209,6 +217,10 @@ export class EquipListComponent implements OnInit {
     }
     if(this.tipoID){
       this.consultarPorTipo(this.tipoID, this.somenteAtivos);
+      let teste = new FiltroEquipamento();
+      teste.ativo = 0;
+      teste.tipo = this.tipoID;
+      this.validarFormulario(teste);
     }
     if(this.texto){
       this.consultarPorNome(this.texto);
@@ -222,6 +234,10 @@ export class EquipListComponent implements OnInit {
     }
     if(this.tipoId){
       this.consultarPorTipo(this.tipoId, this.somenteAtivos);
+      let teste = new FiltroEquipamento();
+      teste.ativo = 0;
+      teste.tipo = this.tipoId;
+      this.validarFormulario(teste);
     }
   }
 
@@ -283,6 +299,7 @@ export class EquipListComponent implements OnInit {
               this.message = response['mensagem'];
               this.notification.showInfo(this.message);
               //this.procurar();
+              this.filtrarPor(1);
               this.consultarEquipamentos(true);
             }
             else{

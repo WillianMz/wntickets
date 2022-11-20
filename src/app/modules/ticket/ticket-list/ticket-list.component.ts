@@ -97,6 +97,10 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.configGrid();
     //this.list();
     this.consultarPorStatus(1);
+    this.filtrarPor(8);
+    let teste = new FiltroTicket();
+    teste.status = 1;
+    this.validarFormulario(teste);
   }
 
   ngOnDestroy(): void {
@@ -187,7 +191,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
   public filtrarPor(filtro: number){
     switch(filtro) {
       case 1://TODOS
-      this.nomeBotaoFiltro = 'Todos';
+        this.nomeBotaoFiltro = 'Todos';
         this.verComboboxSetores = false;
         this.verComboboxTipos = false;
         this.verComboboxCriadores = false;
@@ -304,11 +308,15 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.verComboboxStatus = false;
     this.verComboboxOperadores = false;
     this.campo_pesquisa = true;
+    let teste = new FiltroTicket();
+    teste.status = undefined;
+    this.validarFormulario(teste);
     this.router.navigate(['ticket']);
     this.consultarTicket();
   }
 
   public procurar(){
+
     if(this.setorID){
       this.consultarPorSetor(this.setorID);
     }
@@ -394,7 +402,8 @@ export class TicketListComponent implements OnInit, OnDestroy {
   }
 
   public cleanFilters(){
-    this.listarTodos();
+    /* this.listarTodos(); */
+    this.limparFiltros();
   }
 
   private configPagina(){

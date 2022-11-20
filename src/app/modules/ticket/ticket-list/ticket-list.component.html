@@ -85,8 +85,8 @@
           </div>
 
           <div class="col-6" *ngIf="verComboboxStatus">
-            <select class="form-select form-select-sm" formControlName="status" [ngModel]="0">
-              <option value='0' disabled>Selecione o status</option>
+            <select class="form-select form-select-sm" formControlName="status">
+              <option value="null" disabled selected>Selecione o status</option>
               <option value="1">Novo</option>
               <option value="2">Pendente</option>
               <option value="3">EmAtendimento</option>
