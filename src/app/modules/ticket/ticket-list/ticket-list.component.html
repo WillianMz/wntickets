@@ -126,11 +126,16 @@
         </div>
       </div>
 
+      <!-- AVISOS -->
+      <div class="row pt-2" *ngIf="!chamados?.length">
+        <app-alert [mensagem]="'Nenhum chamado encontrado!'" [color]="'alert-info'"></app-alert>
+      </div>
+
 
       <!-- GRID / TABELA -->
       <div class="row mt-2">
         <div class="col-12">
-          <div class="columns">
+          <div class="columns" *ngIf="verGrid">
             <div class="column col-12">
               <ngx-table [configuration]="configuration" [data]="chamados" [columns]="columns"> </ngx-table>
             </div>

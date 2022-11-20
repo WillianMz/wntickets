@@ -228,6 +228,10 @@ export class EquipListComponent implements OnInit {
     }
   }
 
+  abrirChamado(equipamento: string) {
+    this.router.navigate(['/ticket/open'], { queryParams: {equipamentoId: equipamento}});
+  }
+
   public editar(equipmentId: string){
     this.router.navigate([`equipment/edit/${equipmentId}`]);
   }
@@ -401,6 +405,7 @@ export class EquipListComponent implements OnInit {
   }
 
   /*CONSULTAS **********************************************************/
+
   private carregarSetor(id: number){
     this.setorService.getById(id).subscribe({
       next: (response) => {
