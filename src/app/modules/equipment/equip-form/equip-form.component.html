@@ -11,7 +11,7 @@
     <!-- NOTIFICACOES DO SERVIDOR -->
     <div class="row mt-2" *ngIf="erros?.length">
       <div class="alert alert-danger" role="alert">
-        <h5>{{ message }}</h5>
+        <h5>{{ mensagem }}</h5>
         <ul *ngFor="let e of erros">
           <li><strong>{{ e.key }}</strong> - {{ e.message }}</li>
         </ul>
@@ -77,14 +77,14 @@
               </div>
 
               <div class="col-sm-3" *ngIf="boolCod">
-                <label>Código Interno</label>
-                <input type="text" class="form-control" formControlName="codInterno" placeholder="Código Interno">
+                <label>Código Interno<span class="text-danger">*</span></label>
+                <input type="text" class="form-control campo-obrigatorio" formControlName="codInterno" placeholder="Código Interno">
                 <!-- VALIDACAO -->
                 <div class="text-danger" *ngIf="codInterno?.errors">
                   <ul>
-                    <!-- <li *ngIf="codInterno?.errors?.required && (codInterno?.dirty || codInterno?.touched)">
+                    <li *ngIf="codInterno?.errors?.required && (codInterno?.dirty || codInterno?.touched)">
                       Informe o Código
-                    </li> -->
+                    </li>
                     <li *ngIf="codInterno?.errors?.minlength && (codInterno?.dirty || codInterno?.touched)">
                       Tamanho mínimo {{ nome?.errors?.minlength.requiredLength }} caracteres
                     </li>
@@ -224,8 +224,8 @@
 
             <div class="row mt-2">
               <div class="col-sm-3" >
-                <label>Nota Fiscal</label>
-                <input type="text" class="form-control " formControlName="notaFiscal" placeholder="Nota Fiscal">
+                <label>Nota Fiscal<span class="text-danger">*</span></label>
+                <input type="text" class="form-control campo-obrigatorio" formControlName="notaFiscal" placeholder="Nota Fiscal">
                 <!-- VALIDACAO -->
                 <div class="text-danger" *ngIf="notaFiscal?.errors">
                   <ul>
@@ -265,8 +265,8 @@
             <!-- ANO FABRICACAO/DT.COMPRA/VALOR/COMPRA -->
             <div class="row mt-2">
               <div class="col-sm-3">
-                <label>Ano Fabricação</label>
-                <input type="text" mask="0000" class="form-control" formControlName="anoFabricacao" placeholder="Ano Fabricação">
+                <label>Ano Fabricação<span class="text-danger">*</span></label>
+                <input type="text" mask="0000" class="form-control campo-obrigatorio" formControlName="anoFabricacao" placeholder="Ano Fabricação">
                 <!-- VALIDACAO -->
                 <div class="text-danger" *ngIf="anoFabricacao?.errors">
                   <ul>
@@ -286,7 +286,7 @@
               <!-- data de compra -->
               <div class="col-sm-4 col-md-2">
                 <label>Data da Compra<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" formControlName="dtCompra" placeholder="dd/MM/aaaa" mask="d0/M0/0000">
+                <input type="text" class="form-control campo-obrigatorio" formControlName="dtCompra" placeholder="dd/MM/aaaa" mask="d0/M0/0000">
 
                 <!-- VALIDACAO -->
                 <div class="text-danger" *ngIf="dtCompra?.errors">
@@ -307,7 +307,7 @@
               <!-- data de recebimento -->
               <div class="col-sm-4 col-md-2">
                 <label>Data de Entrega<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" formControlName="dtRecebimento" placeholder="dd/mm/aaaa" mask="d0/M0/0000">
+                <input type="text" class="form-control campo-obrigatorio" formControlName="dtRecebimento" placeholder="dd/mm/aaaa" mask="d0/M0/0000">
 
                 <!-- VALIDACAO -->
                 <div class="text-danger" *ngIf="dtRecebimento?.errors">
@@ -330,7 +330,7 @@
                <!-- valor de compra -->
                <div class="col-sm-3">
                 <label>Valor da Compra<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" currencyMask formControlName="valorCompra">
+                <input type="text" class="form-control campo-obrigatorio" currencyMask formControlName="valorCompra">
                 <!-- VALIDACAO -->
                 <div class="text-danger" *ngIf="valorCompra?.errors">
                   <ul>

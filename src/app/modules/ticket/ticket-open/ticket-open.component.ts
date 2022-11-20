@@ -19,6 +19,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class TicketOpenComponent implements OnInit {
 
+  titulo = "Novo chamado";
   chamadoForm: FormGroup;
   setores: SetorResponse[];
   equipamento: EquipamentoResponse;
@@ -31,6 +32,8 @@ export class TicketOpenComponent implements OnInit {
   anexoNome: string;
   urlAnexo: string;
   setorId: number;
+  equipamentoId: number;
+  somenteLeitura: boolean = false;
 
   constructor(
     private setorService: SectorService,
@@ -46,6 +49,7 @@ export class TicketOpenComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(
       params => {
         this.setorId = parseInt(params.setorId);
+        this.equipamentoId = parseInt(params.equipamento);
       }
     );
     const chamado = new ChamadoRequest();
@@ -57,6 +61,15 @@ export class TicketOpenComponent implements OnInit {
       this.informarEquipamento = false;
       this.selecionarSetor = true;
       this.obterSetores();
+    }
+
+    if(this.equipamentoId){
+      this.informarEquipamento = true;
+      this.somenteLeitura = true;
+      this.selecionarSetor = false;
+      const chamado = new ChamadoRequest();
+      chamado.equipamentoId = this.equipamentoId;
+      this.validarFormulario(chamado);
     }
   }
 
@@ -110,9 +123,11 @@ export class TicketOpenComponent implements OnInit {
       });
     }
     else {
-      chamadoRequest.equipamentoId = this.inputEquipamento?.value;
+      chamadoRequest.equipamentoId = this.inputEquipamento?.value || this.equipamentoId;
       chamadoRequest.assunto = this.inputAssunto?.value || 'Chamado para equipamento';
     
+      console.log(chamadoRequest);
+
       this.chamadoService.chamadoEquipamento(chamadoRequest).subscribe({
         next: (response) => {
           this.sucesso = response['sucesso'];
@@ -197,6 +212,20 @@ export class TicketOpenComponent implements OnInit {
       descricao: new FormControl(chamado.descricao,[
         Validators.required,
         Validators.minLength(35),
+        Validators.maxLength(2000)
+      ])
+    });
+   }
+
+   if(this.equipamentoId){
+    this.chamadoForm = new FormGroup({
+      equipamento: new FormControl(chamado.equipamentoId),
+      setor: new FormControl(chamado.setorId),
+      prioridade: new FormControl(chamado.prioridade),
+      assunto: new FormControl(chamado.assunto),
+      descricao: new FormControl(chamado.descricao,[
+        Validators.required,
+        Validators.minLength(10),
         Validators.maxLength(2000)
       ])
     });

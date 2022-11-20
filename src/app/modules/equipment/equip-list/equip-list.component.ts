@@ -104,6 +104,7 @@ export class EquipListComponent implements OnInit {
       { key: 'nome', title: 'Nome' },
       { key: 'marca', title:'Marca'},
       { key: 'modelo', title: 'Modelo' },
+      { key:'setor.nome', title:'Laboratório'},
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];
   }
@@ -122,10 +123,6 @@ export class EquipListComponent implements OnInit {
 
   get motivo(){
     return this.baixaForm.get('motivo')?.value;
-  }
-
-  showDialog() {
-    this.display = true;
   }
 
   public adicionar(){
@@ -236,14 +233,16 @@ export class EquipListComponent implements OnInit {
     this.router.navigate([`equipment/edit/${equipmentId}`]);
   }
 
+  public abrirChamado(id: string){
+    this.router.navigate([`/ticket/open`], { queryParams: {equipamento: id}});
+  }
+
   public desativar(id: string){
     this.confirmationService.confirm({
       header: 'Atenção',
       icon: 'pi pi-exclamation-triangle',
       message: 'Confirma a desativação deste equipamento?',
       accept: () => {
-        this.spinner.show();
-
         this.equipamentoService.desativar(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.success = response['sucesso'];
@@ -254,12 +253,10 @@ export class EquipListComponent implements OnInit {
               this.notification.showInfo(this.message);
               //this.procurar();
               this.consultarEquipamentos(true);
-              this.spinner.hide();
             }
             else{
               this.message = response['mensagem'];
               this.notification.showError(this.message);
-              this.spinner.hide();
             }
           },
           error: () => {
@@ -277,8 +274,6 @@ export class EquipListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       message: 'Confirma a ativação deste equipamento?',
       accept: () => {
-        this.spinner.show();
-
         this.equipamentoService.ativar(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.success = response['sucesso'];
@@ -289,12 +284,10 @@ export class EquipListComponent implements OnInit {
               this.notification.showInfo(this.message);
               //this.procurar();
               this.consultarEquipamentos(true);
-              this.spinner.hide();
             }
             else{
               this.message = response['mensagem'];
               this.notification.showError(this.message);
-              this.spinner.hide();
             }
           },
           error: () => {
@@ -315,19 +308,16 @@ export class EquipListComponent implements OnInit {
         this.equipamentoService.excluir(Number.parseInt(id)).subscribe({
           next: (response) => {
             this.success = response['sucesso'];
-
             //RETORNO BACK -> REGRAS DE NEGOCIO
             if(this.success == true){
               this.message = response['mensagem'];
               this.notification.showInfo(this.message);
               //this.procurar();
               this.consultarEquipamentos(true);
-              this.spinner.hide();
             }
             else{
               this.message = response['mensagem'];
               this.notification.showError(this.message);
-              this.spinner.hide();
             }
           },
           error: () => {
@@ -371,10 +361,6 @@ export class EquipListComponent implements OnInit {
     });
   }
 
-  public detalhes(){
-    //falta desenvolver. Somente no final
-  }
-
   private configPagina(){
     if(this.equipments.length > 0){
       this.verGrid = true;
@@ -415,12 +401,10 @@ export class EquipListComponent implements OnInit {
   }
 
   private consultarEquipamentos(ativo: boolean) {
-    this.spinner.show();
     this.equipamentoService.getAll(ativo).subscribe({
       next: (response) => {
         this.equipments = response;
         this.configPagina();
-        this.spinner.hide();
       },
       error: () => {
         //MELHORAR ESTA PARTE
@@ -430,12 +414,10 @@ export class EquipListComponent implements OnInit {
   }
 
   private consultarPorNome(texto: string){
-    this.spinner.show();
     this.equipamentoService.getByNome(texto).subscribe({
       next: (response) => {
         this.equipments = response;
         this.configPagina();
-        this.spinner.hide();
       },
       error: () => {
         //MELHORAR ESTA PARTE
@@ -445,12 +427,10 @@ export class EquipListComponent implements OnInit {
   }
 
   private consultarPorSetor(setorId: number, ativo: boolean){
-    this.spinner.show();
     this.equipamentoService.getBySetor(setorId, ativo).subscribe({
       next: (response) => {
         this.equipments = response;
         this.configPagina();
-        this.spinner.hide();
       },
       error: () => {
         //MELHORAR ESTA PARTE
@@ -460,12 +440,10 @@ export class EquipListComponent implements OnInit {
   }
 
   private consultarPorTipo(tipoId: number, ativo: boolean){
-    this.spinner.show();
     this.equipamentoService.getByTipo(tipoId, ativo).subscribe({
       next: (response) => {
         this.equipments = response;
         this.configPagina();
-        this.spinner.hide();
       },
       error: () => {
         //MELHORAR ESTA PARTE

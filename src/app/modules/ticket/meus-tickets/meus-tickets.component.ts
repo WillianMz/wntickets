@@ -25,7 +25,7 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
   chamadosFinalizados: ChamadoResponse[];
   chamadosAtribuidos: ChamadoResponse[];
 
-  displayBasic2: boolean;
+  detalhesDialog: boolean;
   chamado: number;
   //usuarioLogado: Usuario;
   nomeBotaoFiltro: string = 'Padrão';
@@ -61,19 +61,16 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
     }
   }
 
-  showBasicDialog2(id: number) {
+  verDetalhes(id: number) {
     this.chamado = id;
-    this.displayBasic2 = true;
+    console.log(id);
+    this.detalhesDialog = true;
   }
   
   abrirChamado() {
     this.router.navigate(['/ticket/open']);
   }
   
-  verDetalhes(id: number){
-    this.router.navigate([`/ticket/${id}/view`]);
-  }
-
   listarMeusChamados(status: number){
     this.chamadosSub = this.ticketService.getMeusChamados(status).subscribe({
       next: (response) => {

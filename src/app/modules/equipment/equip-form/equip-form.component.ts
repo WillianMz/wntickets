@@ -57,8 +57,8 @@ export class EquipFormComponent implements OnInit {
   boolFornecedor: boolean = false;
   boolHistorico: boolean = false;
 
-  message: string;
-  success: boolean;
+  /* message: string;
+  success: boolean */;
   erros: ErroServidor[];
 
   constructor(
@@ -241,6 +241,7 @@ export class EquipFormComponent implements OnInit {
         }
         else{
           this.notification.showWarning(this.mensagem);
+          this.erros = response['objeto'];
         }
       },
       error: () => {
@@ -423,8 +424,8 @@ export class EquipFormComponent implements OnInit {
       ativo: new FormControl(equip.ativo),
       codInterno: new FormControl(equip.codInterno, [ 
         Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(15)
+        Validators.minLength(1),
+        Validators.maxLength(100)
       ]),
       tipo: new FormControl(equip.tipo?.id, [Validators.required]),
       setor: new FormControl(equip.setor?.id, [Validators.required]),
@@ -455,7 +456,7 @@ export class EquipFormComponent implements OnInit {
       ]),
       numSerial: new FormControl(equip.numSerial, [
         Validators.minLength(2),
-        Validators.maxLength(15)
+        Validators.maxLength(40)
       ]),
       anoFabricacao: new FormControl(equip.anoFabricacao, [
         Validators.minLength(4),
