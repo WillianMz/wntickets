@@ -61,6 +61,9 @@ export class TicketOpenComponent implements OnInit {
       this.informarEquipamento = false;
       this.selecionarSetor = true;
       this.obterSetores();
+      const chamado = new ChamadoRequest();
+      chamado.setorId = this.setorId;
+      this.validarFormulario(chamado);
     }
 
     if(this.equipamentoId){
@@ -69,6 +72,7 @@ export class TicketOpenComponent implements OnInit {
       this.selecionarSetor = false;
       const chamado = new ChamadoRequest();
       chamado.equipamentoId = this.equipamentoId;
+      chamado.setorId = this.setorId;
       this.validarFormulario(chamado);
     }
   }
@@ -203,6 +207,8 @@ export class TicketOpenComponent implements OnInit {
   }
 
   private validarFormulario(chamado: ChamadoRequest){
+    console.log(this.setorId);
+    console.log(chamado.setorId);
    if(this.setorId){
     this.chamadoForm = new FormGroup({
       equipamento: new FormControl(chamado.equipamentoId),
@@ -215,35 +221,37 @@ export class TicketOpenComponent implements OnInit {
         Validators.maxLength(2000)
       ])
     });
-   }
+   } else {
 
-   if(this.equipamentoId){
-    this.chamadoForm = new FormGroup({
-      equipamento: new FormControl(chamado.equipamentoId),
-      setor: new FormControl(chamado.setorId),
-      prioridade: new FormControl(chamado.prioridade),
-      assunto: new FormControl(chamado.assunto),
-      descricao: new FormControl(chamado.descricao,[
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(2000)
-      ])
-    });
+    if(this.equipamentoId){
+     this.chamadoForm = new FormGroup({
+       equipamento: new FormControl(chamado.equipamentoId),
+       setor: new FormControl(chamado.setorId),
+       prioridade: new FormControl(chamado.prioridade),
+       assunto: new FormControl(chamado.assunto),
+       descricao: new FormControl(chamado.descricao,[
+         Validators.required,
+         Validators.minLength(10),
+         Validators.maxLength(2000)
+       ])
+     });
+    }
+    else{
+     this.chamadoForm = new FormGroup({
+       equipamento: new FormControl(chamado.equipamentoId, [Validators.required]),
+       setor: new FormControl(chamado.setorId),
+       prioridade: new FormControl(chamado.prioridade),
+       assunto: new FormControl(chamado.assunto),
+       descricao: new FormControl(chamado.descricao,[
+         Validators.required,
+         Validators.minLength(10),
+         Validators.maxLength(2000)
+       ])
+     });
+    }
    }
-   else{
-    this.chamadoForm = new FormGroup({
-      equipamento: new FormControl(chamado.equipamentoId, [Validators.required]),
-      setor: new FormControl(chamado.setorId),
-      prioridade: new FormControl(chamado.prioridade),
-      assunto: new FormControl(chamado.assunto),
-      descricao: new FormControl(chamado.descricao,[
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(2000)
-      ])
-    });
+    
    }
-  }
 
   public verificarPermissao(roleFuncionalidade: string[]): boolean{
     const usuarioLogado = this.loginService.usuarioLogado();
