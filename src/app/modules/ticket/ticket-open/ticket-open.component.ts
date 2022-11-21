@@ -207,8 +207,6 @@ export class TicketOpenComponent implements OnInit {
   }
 
   private validarFormulario(chamado: ChamadoRequest){
-    console.log(this.setorId);
-    console.log(chamado.setorId);
    if(this.setorId){
     this.chamadoForm = new FormGroup({
       equipamento: new FormControl(chamado.equipamentoId),
