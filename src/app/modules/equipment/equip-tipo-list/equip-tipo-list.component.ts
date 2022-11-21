@@ -47,7 +47,7 @@ export class EquipTipoListComponent implements OnInit {
     this.columns = [
       { key: 'id', title: 'Código' },
       { key: 'descricao', title: 'Descrição' },
-      { key: 'controlarNumSerialString', title:'Controla Nº Serial'},
+      //{ key: 'controlarNumSerialString', title:'Controla Nº Serial'},
       { key: 'ativoString', title:'Status'},
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled:false }
     ];

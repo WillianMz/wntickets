@@ -37,8 +37,9 @@ export class LoginService {
 
   //OK
   fazerLogout(){
-    delete localStorage[CHAVE_TOKEN];
+    //delete localStorage[CHAVE_TOKEN];
     this.router.navigate(['/login']);
+    delete localStorage['wntickets'];
   }
   
   //OK

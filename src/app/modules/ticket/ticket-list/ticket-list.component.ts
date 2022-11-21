@@ -564,7 +564,6 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.chamadoSub = this.ticketService.getByStatus(statusId).subscribe({
       next: (response) => {
         this.chamados = response;
-        console.log(this.chamados);
         this.configPagina();
       },
       error: () => {

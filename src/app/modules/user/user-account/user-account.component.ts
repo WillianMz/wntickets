@@ -288,7 +288,6 @@ export class UserAccountComponent implements OnInit {
     perfil.nomeCompleto = this.nome?.value;
     perfil.email = this.email?.value;
     perfil.telefone = this.telefone?.value;
-    console.log(this.telefone?.value);
     perfil.cidade = this.cidade?.value;
     perfil.uf = this.uf?.value;
     perfil.pais = this.pais?.value;
@@ -301,7 +300,6 @@ export class UserAccountComponent implements OnInit {
       accept: () => {
         this.pessoaService.salvarPerfil(perfil).subscribe({
           next: (response) => {
-            console.log(response);
             this.sucesso = response['sucesso'];
             this.mensagem = response['mensagem'];
             if(this.sucesso){
@@ -334,7 +332,6 @@ export class UserAccountComponent implements OnInit {
         if(response){
           this.perfil = response;
           this.urlFotoPerfil = this.perfil.imgPerfil!;
-          console.log(this.perfil);
           this.validarFormulario(this.perfil);
         }
       }
@@ -345,7 +342,6 @@ export class UserAccountComponent implements OnInit {
   private carregarDadosDaPessoa(id: string){
     this.pessoaService.getById(id).subscribe({
       next: (response) => {
-        console.log(response)
         if(response){
           this.perfil = response;
           this.urlFotoPerfil = this.perfil.imgPerfil!;
@@ -363,9 +359,7 @@ export class UserAccountComponent implements OnInit {
   private carregarDadosDoUsuario(id: string){
     this.usuarioService.getById(id).subscribe({
      next: (response) => {
-      console.log('PESSOA' + response);
        this.usuario = response;
-       //console.log(this.usuario);
        if(this.usuario != null){
          this.validarFormUsuario(this.usuario);
        }

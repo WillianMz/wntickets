@@ -75,7 +75,6 @@ export class TicketFormComponent implements OnInit, OnDestroy, OnChanges  {
   }
   ngOnChanges(): void {
     if(this.chamadoId){
-      console.log('aqui: ' + this.chamadoId);
       this.carregarChamado(this.chamadoId);
     }
   }
@@ -332,22 +331,18 @@ export class TicketFormComponent implements OnInit, OnDestroy, OnChanges  {
       this.permitirAnexarArquivo = true;
 
       if(this.status == 'Novo'){
-        console.log(this.status);
         this.bloquearEdicao = false;
       } 
       
       if(this.status == 'Pendente'){
-        console.log(this.status);
         this.bloquearEdicao = false;
       }
       
       if(this.status == 'Cancelado'){
-        console.log(this.status);
         this.bloquearEdicao == true;
       }
   
       if(this.status == 'Finalizado'){
-        console.log(this.status);
         this.bloquearEdicao == true;
       }
     }
@@ -389,7 +384,6 @@ export class TicketFormComponent implements OnInit, OnDestroy, OnChanges  {
     this.ticketService.getById(id).subscribe({
       next: (response) => {
         if(response){
-          console.log(response);
           this.chamado = response;
           this.criador = this.chamado.criador;
           this.chamadoId = this.chamado.id!;

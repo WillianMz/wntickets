@@ -17,9 +17,7 @@ export class ModulosGuard implements CanActivateChild {
       const rolesRota = childRoute.data['roles'];
       const usuarioLogado = this.loginService.usuarioLogado();
       const role = usuarioLogado?.perfil;
-
-      console.log('child:' + childRoute);
-
+      
       return new Observable<boolean>(subscriber => {
         if(!VerificarPermissoes.temPermissao(rolesRota, role!)){
           subscriber.next(false);

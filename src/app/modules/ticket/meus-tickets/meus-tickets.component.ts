@@ -7,6 +7,8 @@ import { Usuario } from 'src/app/models/user/usuario.model';
 import { NotificationService } from 'src/app/services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { Subscription } from 'rxjs';
+import { LoginService } from 'src/app/services/login.service';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 
 @Component({
   selector: 'app-meus-tickets',
@@ -36,15 +38,16 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
   constructor(
     private ticketService: TicketService,
     private notification: NotificationService,
-    private router:Router
+    private router:Router,
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
     this.configGrid();
     this.listarAtribuidos();
     this.listarMeusChamados(1);
-    this.listarPendentes();
-    this.listarFinalizados();
+    //this.listarPendentes();
+    //this.listarFinalizados();
   }
 
   ngOnDestroy() {
@@ -61,9 +64,14 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
     }
   }
 
+  public verificarPermissao(roleFuncionalidade: string[]): boolean{
+    const usuarioLogado = this.loginService.usuarioLogado();
+    const role = usuarioLogado?.perfil;
+    return VerificarPermissoes.temPermissao(roleFuncionalidade, role!);
+  }
+
   verDetalhes(id: number) {
     this.chamado = id;
-    console.log(id);
     this.detalhesDialog = true;
   }
   
