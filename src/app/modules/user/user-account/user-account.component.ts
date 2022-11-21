@@ -71,7 +71,7 @@ export class UserAccountComponent implements OnInit {
   ngOnInit(): void {
     this.paises = this.pessoaService.getPaises();
     this.estados = this.pessoaService.getEstados();
-    this.listarRoles();
+    //this.listarRoles();
 
     this.activatedRoute.queryParams.subscribe(
       params => {

@@ -44,7 +44,7 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.configGrid();
-    this.listarAtribuidos();
+    //this.listarAtribuidos();
     this.listarMeusChamados(1);
     //this.listarPendentes();
     //this.listarFinalizados();
