@@ -1,3 +1,4 @@
+import { ObterData } from './../../../functions/obterData';
 import { LoginService } from './../../../services/login.service';
 import { LoginRequest } from './../../../models/auth/loginRequest.model';
 import { UserService } from 'src/app/services/user.service';
@@ -20,6 +21,7 @@ export class AuthLoginComponent implements OnInit {
   sucesso: boolean;
   erros: ErroServidor[];
   mensagemDeErro: string;
+  anoAtual: number;
 
   constructor(
     private userService: UserService,
@@ -34,6 +36,7 @@ export class AuthLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.anoAtual = ObterData.getYear();
   }
 
   get email(){
