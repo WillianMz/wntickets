@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxPopperjsModule } from 'ngx-popperjs';
 import { AdminComponent } from './layouts/admin/admin.component';
-import { NgxMaskModule } from 'ngx-mask';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { NgxCurrencyModule,CurrencyMaskInputMode } from "ngx-currency";
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
 import { HomeComponent } from './layouts/home/home.component';
@@ -56,13 +56,14 @@ import { AuthGuard } from './guards/auth.guard';
       positionClass: 'toast-bottom-right'
     }),
     NgxPopperjsModule,
-    NgxMaskModule.forRoot({dropSpecialCharacters: false}),
+    //NgxMaskModule.forRoot({dropSpecialCharacters: false}),
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
   ],
   providers: [
     HttpInterceptorProviders,
     AuthGuard,
-    ModulosGuard
+    ModulosGuard,
+    provideEnvironmentNgxMask()
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

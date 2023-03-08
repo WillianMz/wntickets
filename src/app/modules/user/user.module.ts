@@ -10,7 +10,7 @@ import { UserRoleComponent } from './user-role/user-role.component';
 import { UserPageAdminComponent } from './user-page-admin/user-page-admin.component';
 import { TableModule } from 'ngx-easy-table';
 import { UserFormComponent } from './user-form/user-form.component';
-import { NgxMaskModule } from 'ngx-mask';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 import {TabViewModule} from 'primeng/tabview';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -31,12 +31,13 @@ import { ConfirmationService } from 'primeng/api';
     ReactiveFormsModule,
     ComponentsModule,
     TableModule,
-    NgxMaskModule.forChild(),
+    //NgxMaskModule.forChild(),
     TabViewModule,
     ConfirmDialogModule
   ],
   providers: [
-    ConfirmationService
+    ConfirmationService,
+    provideEnvironmentNgxMask()
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
