@@ -7,7 +7,7 @@ import { AuthLoginComponent } from './auth-login/auth-login.component';
 import { AuthRecoverPasswordComponent } from './auth-recover-password/auth-recover-password.component';
 import { AuthUserActivateComponent } from './auth-user-activate/auth-user-activate.component';
 import { AuthRegisterComponent } from './auth-register/auth-register.component';
-import { NgxMaskModule } from 'ngx-mask';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { AuthNewPasswordComponent } from './auth-new-password/auth-new-password.component';
 
 
@@ -24,7 +24,10 @@ import { AuthNewPasswordComponent } from './auth-new-password/auth-new-password.
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMaskModule.forChild()
+    //NgxMaskModule.forChild()
+  ],
+  providers: [
+    provideEnvironmentNgxMask()
   ]
 })
 export class AuthModule { }

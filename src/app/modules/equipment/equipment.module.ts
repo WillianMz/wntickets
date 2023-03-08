@@ -6,7 +6,7 @@ import { EquipListComponent } from './equip-list/equip-list.component';
 import { EquipFormComponent } from './equip-form/equip-form.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { TableModule } from 'ngx-easy-table';
-import { NgxMaskModule } from 'ngx-mask';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { NgxCurrencyModule } from "ngx-currency";
 import {TabViewModule} from 'primeng/tabview';
 import { EquipTipoListComponent } from './equip-tipo-list/equip-tipo-list.component';
@@ -28,13 +28,14 @@ import { ConfirmationService } from 'primeng/api';
     ReactiveFormsModule,
     ComponentsModule,
     TableModule,
-    NgxMaskModule.forChild(),
+    //NgxMaskModule.forChild(),
     NgxCurrencyModule,
     TabViewModule,
     ConfirmDialogModule
   ],
   providers: [
-    ConfirmationService
+    ConfirmationService,
+    provideEnvironmentNgxMask()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

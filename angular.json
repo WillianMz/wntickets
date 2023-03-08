@@ -51,9 +51,11 @@
               "src/styles.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-spinner/animations/ball-clip-rotate.css",
+              "./node_modules/ngx-popperjs/css/theme-dark.css",
               "./node_modules/primeicons/primeicons.css",
               "./node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css",
-              "./node_modules/primeng/resources/primeng.min.css"
+              "./node_modules/primeng/resources/primeng.min.css",
+              "./node_modules/ngx-easy-table/style.css"
             ],
             "scripts": [
               "./node_modules/@popperjs/core/dist/umd/popper.min.js",
