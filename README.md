@@ -7,7 +7,7 @@ Aplicacao para gerenciamento de chamados e equipamentos de TI
 
 ``` bash
 NodeJs
-Angular 13
+Angular 15
 ```
 
 ![alt text](https://github.com/WillianMz/wntickets/blob/main/imagens/chamados.jpg)
