@@ -1,13 +1,12 @@
-import { Route, Router } from '@angular/router';
-import { Usuario } from './../models/user/usuario.model';
-import { LoginRequest } from './../models/auth/loginRequest.model';
-import { LoginResponse } from './../models/auth/loginResponse.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { CadastroUsuarioRequest } from '../models/user/cadastroUsuarioRequest.model';
 import { CadastroUsuarioResponse } from '../models/user/cadastroUsuarioResponse.model';
+import { environment } from './../../environments/environment';
+import { LoginRequest } from './../models/auth/loginRequest.model';
+import { Usuario } from './../models/user/usuario.model';
 
 import * as jwt_decode from 'jwt-decode';
 
@@ -38,8 +37,10 @@ export class LoginService {
   //OK
   fazerLogout(){
     //delete localStorage[CHAVE_TOKEN];
+    //delete localStorage['wntickets'];
+    delete localStorage.getItem['wntickets'];
     this.router.navigate(['/login']);
-    delete localStorage['wntickets'];
+    
   }
   
   //OK

@@ -1,14 +1,15 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthLoginComponent } from './auth-login/auth-login.component';
-import { AuthRecoverPasswordComponent } from './auth-recover-password/auth-recover-password.component';
-import { AuthUserActivateComponent } from './auth-user-activate/auth-user-activate.component';
-import { AuthRegisterComponent } from './auth-register/auth-register.component';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { AuthLoginComponent } from './auth-login/auth-login.component';
 import { AuthNewPasswordComponent } from './auth-new-password/auth-new-password.component';
+import { AuthRecoverPasswordComponent } from './auth-recover-password/auth-recover-password.component';
+import { AuthRegisterComponent } from './auth-register/auth-register.component';
+import { AuthRoutingModule } from './auth-routing.module';
+import { AuthUserActivateComponent } from './auth-user-activate/auth-user-activate.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { AuthNewPasswordComponent } from './auth-new-password/auth-new-password.
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ComponentsModule
     //NgxMaskModule.forChild()
   ],
   providers: [

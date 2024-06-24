@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="row mb-3" *ngIf="selecionarSetor">
-            <label for="setor" class="col-sm-2 col-form-label">Laboratório</label>
+            <label for="setor" class="col-sm-2 col-form-label">Setor</label>
             <div class="col-sm-6">
                 <select class="form-select" id="setor" formControlName="setor" [ngModel]="setorId">
                     <!-- <option value='0' disabled>Selecione o laboratório</option> -->
@@ -33,7 +33,7 @@
                 <div class="text-danger" *ngIf="inputSetor?.errors">
                     <ul>
                         <li *ngIf="inputSetor?.errors?.required && (inputSetor?.dirty || inputSetor?.touched)">
-                            Identifique o equipamento
+                            Identifique o setor
                         </li>
                         <li *ngIf="inputSetor?.errors?.minlength && (inputSetor?.dirty || inputSetor?.touched)">
                             Nome deve conter no mínimo {{ inputSetor?.errors?.minlength.requiredLength }} caracteres
@@ -43,19 +43,6 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-        </div>
-
-        <div class="row mb-3" *ngIf="selecionarPrioridade">
-            <label for="prioridade" class="col-sm-2 col-form-label">Prioridade</label>
-            <div class="col-sm-6">
-                <select class="form-select" id="prioridade" formControlName="prioridade" [ngModel]="0">
-                    <option value='0' disabled>Selecione a prioridade</option>
-                    <option value="0">BAIXA</option>
-                    <option value="1">NORMAL</option>
-                    <option value="2">ALTA</option>
-                    <option value="3">URGENTE</option>
-                </select>
             </div>
         </div>
 

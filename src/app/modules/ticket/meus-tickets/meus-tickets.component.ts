@@ -1,14 +1,12 @@
-import { TicketFormComponent } from './../ticket-form/ticket-form.component';
-import { Router } from '@angular/router';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { Subscription } from 'rxjs';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 import { ChamadoResponse } from 'src/app/models/ticket/chamadoResponse.model';
-import { Usuario } from 'src/app/models/user/usuario.model';
+import { LoginService } from 'src/app/services/login.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { TicketService } from 'src/app/services/ticket.service';
-import { Subscription } from 'rxjs';
-import { LoginService } from 'src/app/services/login.service';
-import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 
 @Component({
   selector: 'app-meus-tickets',
@@ -112,10 +110,10 @@ export class MeusTicketsComponent implements OnInit, OnDestroy {
     this.columns = [
       { key: 'id', title: 'Código' },
       { key: 'assunto', title: 'Assunto' },
-      { key: 'status', title: 'Status' },
-      { key: 'dataAbertura', title: 'Aberto em' },
-      { key: 'criador.nome', title: 'Criado por' },
-      { key: 'setor.nome', title: 'Laboratório' },
+      /* { key: 'status', title: 'Status' }, */
+      { key: 'dataAbertura', title: 'Dt.Abertura' },
+      { key: 'criador.nome', title: 'Autor' },
+      { key: 'setor.nome', title: 'Setor' },
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled: false }
     ];
   }

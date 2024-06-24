@@ -1,14 +1,14 @@
-import { VerificarPermissoes } from './../../../functions/verificarPermissoes';
-import { LoginService } from './../../../services/login.service';
-import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ErroServidor } from 'src/app/models/erroServidor';
-import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { SectorService } from 'src/app/services/sector.service';
 import { Router } from '@angular/router';
-import { NotificationService } from 'src/app/services/notification.service';
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfirmationService } from 'primeng/api';
+import { ErroServidor } from 'src/app/models/erroServidor';
+import { NotificationService } from 'src/app/services/notification.service';
+import { SectorService } from 'src/app/services/sector.service';
+import { VerificarPermissoes } from './../../../functions/verificarPermissoes';
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
+import { LoginService } from './../../../services/login.service';
 
 @Component({
   selector: 'app-sector-list',
@@ -18,7 +18,7 @@ import { ConfirmationService } from 'primeng/api';
 export class SectorListComponent implements OnInit {
 
   @ViewChild('actionTpl', { static: true }) actionTpl: TemplateRef<any>;
-  tituloDaPagina: string = 'Laboratórios';
+  tituloDaPagina: string = 'Setores';
   sectors: SetorResponse[];
   sectorId: number;
   sectorName: string;
@@ -195,9 +195,9 @@ export class SectorListComponent implements OnInit {
 
   private listarSetores(ativo: boolean) {
     if (ativo) {
-      this.tituloDaPagina = "Laboratórios";
+      this.tituloDaPagina = "Setores";
     } else {
-      this.tituloDaPagina = "Laboratórios desativados";
+      this.tituloDaPagina = "Setores desativados";
     }
 
     this.spinner.show();

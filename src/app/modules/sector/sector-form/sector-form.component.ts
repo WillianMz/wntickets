@@ -1,11 +1,11 @@
-import { SetorRequest } from './../../../models/sector/setorRequest.model';
-import { NotificationService } from './../../../services/notification.service';
-import { SetorResponse } from './../../../models/sector/setorResponse.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ErroServidor } from 'src/app/models/erroServidor';
 import { SectorService } from 'src/app/services/sector.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { SetorRequest } from './../../../models/sector/setorRequest.model';
+import { SetorResponse } from './../../../models/sector/setorResponse.model';
+import { NotificationService } from './../../../services/notification.service';
 
 @Component({
   selector: 'app-sector-form',
@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SectorFormComponent implements OnInit {
 
   @Input() sectorID: number;
-  tituloPagina: string = 'Detalhes do laboratório';
+  tituloPagina: string = 'Setor';
   setor: SetorResponse;
   sectorForm: FormGroup;
   message: string;

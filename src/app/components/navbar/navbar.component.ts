@@ -1,10 +1,10 @@
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 import { PerfilResponse } from './../../models/pessoa/perfilResponse.model';
-import { PessoaService } from './../../services/pessoa.service';
 import { Usuario } from './../../models/user/usuario.model';
 import { LoginService } from './../../services/login.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
+import { PessoaService } from './../../services/pessoa.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.titlePage = "SUPORTE TI";
+    this.titlePage = "wntickets";
     this.configurarNavBar();
     this.exibirMenus();
   }
@@ -56,7 +56,7 @@ export class NavbarComponent implements OnInit {
   private exibirMenus(){
     this.modulos = [
       { titulo: 'Home', url: '/home', icone: 'bi bi-house', visivel: this.verificarPermissao(['Usuario','Suporte','Gerente','Admin'])},
-      { titulo: 'Laboratórios', url: '/labs', icone: 'bi bi-binoculars-fill', visivel: this.verificarPermissao(['Usuario','Suporte','Gerente','Admin']) },
+      { titulo: 'Setores', url: '/labs', icone: 'bi bi-binoculars-fill', visivel: this.verificarPermissao(['Usuario','Suporte','Gerente','Admin']) },
       { titulo: 'Equipamentos', url: '/equipment', icone: 'bi bi-pc-display', visivel: this.verificarPermissao(['Suporte','Gerente','Admin']) },
       { titulo: 'Chamados', url: '/ticket', icone: 'bi bi-ticket-detailed-fill', visivel: this.verificarPermissao(['Suporte','Gerente','Admin']) },
       { titulo: 'Usuários', url: '/users', icone: 'bi bi-people', visivel: this.verificarPermissao(['Admin']) }

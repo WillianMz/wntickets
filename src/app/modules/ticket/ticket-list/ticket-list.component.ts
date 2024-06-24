@@ -1,23 +1,23 @@
-import { PessoaService } from './../../../services/pessoa.service';
-import { CriadorResponse } from '../../../models/pessoa/criadorResponse.model';
-import { OperadorResponse } from './../../../models/ticket/operadorResponse.model';
-import { Usuario } from 'src/app/models/user/usuario.model';
-import { LoginService } from './../../../services/login.service';
-import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
-import { NotificationService } from './../../../services/notification.service';
-import { ErroServidor } from './../../../models/erroServidor';
-import { Component, OnInit, TemplateRef, ViewChild, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { Usuario } from 'src/app/models/user/usuario.model';
 import { TicketService } from 'src/app/services/ticket.service';
+import { CriadorResponse } from '../../../models/pessoa/criadorResponse.model';
+import { ErroServidor } from './../../../models/erroServidor';
+import { ChamadoResponse } from './../../../models/ticket/chamadoResponse.model';
+import { OperadorResponse } from './../../../models/ticket/operadorResponse.model';
+import { LoginService } from './../../../services/login.service';
+import { NotificationService } from './../../../services/notification.service';
+import { PessoaService } from './../../../services/pessoa.service';
 
-import {ConfirmationService} from 'primeng/api';
-import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FiltroTicket } from './filtoTicket';
-import { SectorService } from 'src/app/services/sector.service';
-import { SetorResponse } from 'src/app/models/sector/setorResponse.model';
+import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { VerificarPermissoes } from 'src/app/functions/verificarPermissoes';
+import { SetorResponse } from 'src/app/models/sector/setorResponse.model';
+import { SectorService } from 'src/app/services/sector.service';
+import { FiltroTicket } from './filtoTicket';
 
 @Component({
   selector: 'app-ticket-list',
@@ -163,9 +163,9 @@ export class TicketListComponent implements OnInit, OnDestroy {
       { key: 'id', title: 'Código' },
       { key: 'assunto', title: 'Assunto' },
       { key: 'status', title: 'Status' },
-      { key: 'dataAbertura', title: 'Aberto em' },
-      { key: 'criador.nome', title: 'Criado por' },
-      { key: 'setor.nome', title: 'Laboratório' },
+      { key: 'dataAbertura', title: 'Dt.Abertura' },
+      { key: 'criador.nome', title: 'Autor' },
+      { key: 'setor.nome', title: 'Setor' },
       { key: 'action', title: 'Opções', cellTemplate: this.actionTpl, searchEnabled: false }
     ];
   }

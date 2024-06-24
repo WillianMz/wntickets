@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //api: 'http://suporte.williansistemas.kinghost.net/api'
-  api: 'https://localhost:5001/api'
+  api: 'http://suporte.williansistemas.kinghost.net/api'
+  //api: 'https://localhost:5001/api'
 };
 
 /*

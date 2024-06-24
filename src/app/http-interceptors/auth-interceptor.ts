@@ -1,9 +1,9 @@
-import { LoginService } from 'src/app/services/login.service';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable, throwError } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { LoginService } from 'src/app/services/login.service';
 
 
 @Injectable()
