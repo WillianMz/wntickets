@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.titlePage = "wntickets";
+    this.titlePage = "wn suporte";
     this.configurarNavBar();
     this.exibirMenus();
   }
